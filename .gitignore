@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+=======
+# Linux
+*~
+*.o
+
+# Windows VS2010
+*.opensdf
+*.suo
+*.user
+/ipch/*
+/Debug/*
+>>>>>>> 0b093ba88884ba75d4c8f76d26426d9c942be0c1
