@@ -5,20 +5,19 @@
 #
 
 EXECUTABLE = lwrace
-SRC_DIR = src
 SOURCES = main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = gcc
 CFLAGS = -c
 
-all : lwrace
+all : $(EXECUTABLE)
 
-lwrace : $(OBJECTS)
-	$(CC) -o $(EXECUTABLE) $(OBJECTS)
+$(EXECUTABLE) : $(OBJECTS)
+	cd src; $(CC) -o ../$(EXECUTABLE) $(OBJECTS)
 
 $(OBJECTS) :
-	$(CC) $(CFLAGS) $(SRC_DIR)/$(SOURCES)
+	cd src; $(CC) $(CFLAGS) $(SOURCES)
 
 clean :
-	rm -rf $(SRC_DIR)/*.o lwrace
+	rm -rf src/*.o lwrace
 
