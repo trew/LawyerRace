@@ -5,19 +5,27 @@
 #
 
 EXECUTABLE = lwrace
-SOURCES = main.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-CC = gcc
-CFLAGS = -c
+
+SRC_DIR = src
+FILES = Game.cpp main.cpp 
+
+SOURCES = $(foreach $(FILES), $(SRC_DIR), $(wildcard $(SRC_DIR)/*.cpp))
+OBJECTS = $(FILES:.cpp=.o)
+
+CC = g++
+CFLAGS = -Wall -Wextra -pedantic -g $(shell sdl-config --cflags)
+
+LIBS = $(shell sdl-config --libs) -lstdc++
 
 all : $(EXECUTABLE)
 
 $(EXECUTABLE) : $(OBJECTS)
-	cd src; $(CC) -o ../$(EXECUTABLE) $(OBJECTS)
+	$(CC) $(LIBS) $^ -o $@
 
-$(OBJECTS) :
-	cd src; $(CC) $(CFLAGS) $(SOURCES)
+$(OBJECTS) : $(SOURCES)
+	$(CC) $(CFLAGS) -c $^
 
 clean :
-	rm -rf src/*.o lwrace
+	rm -rf *.o lwrace
+
 
