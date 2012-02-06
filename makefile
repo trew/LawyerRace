@@ -29,6 +29,5 @@ $(OBJECTS) : $(SOURCES)
 	$(CC) $(CXXFLAGS) -c $^
 
 clean :
-	rm -rf *.o lwrace
-
+	rm -rf *.o $(EXECUTABLE)
 
