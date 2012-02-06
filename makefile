@@ -4,6 +4,7 @@
 # Compiler: G++
 #
 
+
 EXECUTABLE = lwrace
 
 SRC_DIR = src
@@ -13,9 +14,11 @@ SOURCES = $(foreach $(FILES), $(SRC_DIR), $(wildcard $(SRC_DIR)/*.cpp))
 OBJECTS = $(FILES:.cpp=.o)
 
 CC = g++
-CFLAGS = -Wall -Wextra -pedantic -g $(shell sdl-config --cflags)
+SDLFLAGS = -I$(shell pwd)/include/SDL/linux
+CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS)
 
-LIBS = $(shell sdl-config --libs) -lstdc++
+SDLLIBS = -L$(shell pwd)/libs/linux -lSDL -lpthread
+LIBS = $(SDLLIBS) -lstdc++
 
 all : $(EXECUTABLE)
 
@@ -23,7 +26,7 @@ $(EXECUTABLE) : $(OBJECTS)
 	$(CC) $(LIBS) $^ -o $@
 
 $(OBJECTS) : $(SOURCES)
-	$(CC) $(CFLAGS) -c $^
+	$(CC) $(CXXFLAGS) -c $^
 
 clean :
 	rm -rf *.o lwrace

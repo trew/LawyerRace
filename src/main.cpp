@@ -3,7 +3,7 @@
 *
 */
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include <ctime>
 #include "Game.h"
 //#include "init_static.h"
