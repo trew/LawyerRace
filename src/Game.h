@@ -2,7 +2,7 @@
 #define _GAME_H_
 
 #include <SDL.h>
-//#include "GameState.h"
+#include "GameState.h"
 //#include "MenuState.h"
 
 class Game {
@@ -17,12 +17,12 @@ public:
 	bool Init();					///< Starts up SDL and other dependencies
 	void Cleanup();					///< Deletes instances and shut down
 
-/*	void setState(GameState* _newState);	///< To be used with StateControl. Sets nextState and
-	GameState* gameState;					///< Pointer to the initialized GameState
-	GameState* menuState;					///< Pointer to the initialized MenuState
+	void setState(AbstractState* _newState);	///< To be used with StateControl. Sets nextState and
+	AbstractState* gameState;					///< Pointer to the initialized GameState
+//	AbstractState* menuState;					///< Pointer to the initialized MenuState
 private:
-	static GameState* nextState;			///< Holds next state (we want to be able to change the state at any point, but a state must run it's full loop until it can switch)
-	static GameState* currentState;*/		///< Holds the current state
+	static AbstractState* nextState;			///< Holds next state (we want to be able to change the state at any point, but a state must run it's full loop until it can switch)
+	static AbstractState* currentState;		///< Holds the current state
 
 };
 

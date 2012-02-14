@@ -8,7 +8,7 @@
 #include "Game.h"
 #include <iostream>
 
-//#include "init_static.h"
+#include "init_static.h"
 
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned int>(time(NULL)));
@@ -18,10 +18,14 @@ int main(int argc, char* argv[]) {
     {
         newGame.Execute();
     } 
-    catch 
+	catch (int i) //TODO: Exceptions
     {
         std::cerr << "Something went terribly wrong." << std::endl;
     }
+	catch (char* c)
+	{
+		std::cerr << c << std::endl;
+	}
 	return 0;
 }
 
