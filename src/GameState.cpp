@@ -160,7 +160,7 @@ void GameState::Update() {
 
 	FPS::FPSControl.Update();
 	char Buffer[255];
-	sprintf_s(Buffer, "%s%s%d", WINDOW_TEXT, "    ", FPS::FPSControl.GetFPS());
+	//sprintf_s(Buffer, "%s%s%d", WINDOW_TEXT, "    ", FPS::FPSControl.GetFPS());
 	SDL_WM_SetCaption(Buffer, Buffer);
 }
 
@@ -289,7 +289,7 @@ void GameState::checkForCollision() {
 
 void GameState::createDollar() {
 	std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
-	while (Dollar::s_dollarList.size() < unsigned int(Player::alivePlayers)) {
+	while (Dollar::s_dollarList.size() < unsigned(Player::alivePlayers)) {
 		Dollar* newDollar = new Dollar(D_SRC, 0, 0);
 		int newDollar_xPos = 0;
 		int newDollar_yPos = 0;

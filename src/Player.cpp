@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <iostream>
+#include <sstream>
 
 std::list<Player*> Player::s_playerList;
 int Player::numOfPlayers = 0;
@@ -156,10 +157,15 @@ void Player::update() {
 
 void Player::updateScore() {
 	char buffer[128];
+    std::stringstream ss;
 	if (dead) {
-		sprintf_s(buffer, sizeof(buffer), "%s%d%s%d%s", "Player ", playerNum, ": ", m_score, " DEAD!");
+        ss << "Player " << playerNum << ": " << m_score << "DEAD!";
+        ss >> buffer;
+		//sprintf_s(buffer, sizeof(buffer), "%s%d%s%d%s", "Player ", playerNum, ": ", m_score, " DEAD!");
 	} else {
-		sprintf_s(buffer, sizeof(buffer), "%s%d%s%d", "Player ", playerNum, ": ", m_score);
+	    ss << "Player " << playerNum << ": " << m_score;
+        ss >> buffer;
+		//sprintf_s(buffer, sizeof(buffer), "%s%d%s%d", "Player ", playerNum, ": ", m_score);
 	}
 	score_text->updateText(buffer);
 

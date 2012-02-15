@@ -25,7 +25,10 @@ Text::Text(const int _number, const int _fontSize, const int _xPos, const int _y
 	m_color.b = b;
 
 	char text[8];
-	sprintf_s(text, "%d", _number);
+    std::stringstream ss;
+    ss << _number;
+    ss >> text;
+	//snprintf(text, "%d", _number);
 
 	m_surf = TTF_RenderText_Blended(standard_font[_fontSize], text, m_color);
 	m_height = m_surf->h;
@@ -65,7 +68,10 @@ void Text::draw(SDL_Surface* _destSurf) {
 
 void Text::updateText(const int _number) {
 	char text[8];
-	sprintf_s(text, "%d", _number);
+    std::stringstream ss;
+    ss << _number;
+    ss >> text;
+	//sprintf_s(text, "%d", _number);
 	updateText(text);
 }
 
