@@ -6,7 +6,7 @@
 namespace config
 {
 
-#ifdef LWPATH
+#ifdef LWPATH 
 const std::string path = LWPATH;
 #else
 const std::string path = ".";

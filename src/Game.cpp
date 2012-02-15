@@ -26,6 +26,7 @@ bool Game::Init()
 {
 	std::string row;
 	std::ifstream infile;
+	std::cout << config::path + "/settings.ini" << std::endl;
 	infile.open( (config::path + "/settings.ini").c_str() );
 	if(infile) {
 		while(!infile.eof()) 
