@@ -8,7 +8,7 @@
 class Rock: public Entity {
 public:
 	Rock();
-	Rock(const char* _fileName, const int _xPos, const int _yPos, const int _rockType);
+	Rock(const std::string _fileName, const int _xPos, const int _yPos, const int _rockType);
 	virtual ~Rock();
 
 	void draw(SDL_Surface* _destSurf);

@@ -138,8 +138,8 @@ void GameState::Update() {
 			//ALL PLAYERS DIED!
 			currentInGameState = GameOver;
 			Text::s_textList.push_back(new Text("Press key to exit to menu", 48, 0, 0, 255, 255, 255));
-			Text::s_textList.back()->centerHorizontal(0, W_WIDTH);
-			Text::s_textList.back()->bottomAlign(W_HEIGHT, 20);
+			Text::s_textList.back()->centerHorizontal(0,config::W_WIDTH);
+			Text::s_textList.back()->bottomAlign(config::W_HEIGHT, 20);
 
 			temp_delay = 1000;
 		}
@@ -147,8 +147,8 @@ void GameState::Update() {
 	else if (currentInGameState == CountDown) {
 		if(countDown_compareTime < SDL_GetTicks()) {
 			text_countDown->updateText(countDown);
-			text_countDown->centerHorizontal(0, W_WIDTH);
-			text_countDown->centerVertical(0, W_HEIGHT / 2);
+			text_countDown->centerHorizontal(0,config::W_WIDTH);
+			text_countDown->centerVertical(0,config::W_HEIGHT / 2);
 			countDown_compareTime += 1000;
 			countDown--;
 			if (countDown < 0) {
@@ -160,7 +160,7 @@ void GameState::Update() {
 
 	FPS::FPSControl.Update();
 	char Buffer[255];
-	//sprintf_s(Buffer, "%s%s%d", WINDOW_TEXT, "    ", FPS::FPSControl.GetFPS());
+	//sprintf_s(Buffer, "%s%s%d",config::WINDOW_TEXT, "    ", FPS::FPSControl.GetFPS());
 	SDL_WM_SetCaption(Buffer, Buffer);
 }
 
@@ -290,14 +290,14 @@ void GameState::checkForCollision() {
 void GameState::createDollar() {
 	std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
 	while (Dollar::s_dollarList.size() < unsigned(Player::alivePlayers)) {
-		Dollar* newDollar = new Dollar(D_SRC, 0, 0);
+		Dollar* newDollar = new Dollar(config::D_SRC, 0, 0);
 		int newDollar_xPos = 0;
 		int newDollar_yPos = 0;
 		bool valid = false;
 		while(!valid) {	//Loop until valid pos is found
 			valid = true;
-			newDollar_xPos = rand() % (W_WIDTH - newDollar->getWidth())   ;
-			newDollar_yPos = rand() % (W_HEIGHT - newDollar->getHeight()) ;
+			newDollar_xPos = rand() % (config::W_WIDTH - newDollar->getWidth())   ;
+			newDollar_yPos = rand() % (config::W_HEIGHT - newDollar->getHeight()) ;
 
 			while(it_player != Player::s_playerList.end()) {
 				if(Entity::collides((*it_player), newDollar)) {
@@ -319,7 +319,7 @@ void GameState::createEnemy() {
 * Example: 1 Player with 10 points       -> ( 10 / 5 = -- 2 Enemies --
 * Example: 2 Players with 9 and 15 points ->( 15 / 5 = -- 3 Enemies --
 */
-	if(Enemy::s_enemyList.size() >= static_cast<unsigned int>(MAX_ENEMIES)) return;
+	if(Enemy::s_enemyList.size() >= static_cast<unsigned int>(config::MAX_ENEMIES)) return;
 
 	unsigned int highestCurrentScore = getHighestCurrentScore();
 
@@ -328,22 +328,22 @@ void GameState::createEnemy() {
 		int e_yPos;
 		//Create enemy out of screen. Randomize up/down, left/right
 		if ((rand() % 2) == 1) {
-			e_xPos = -E_WIDTH;
-			e_yPos = -E_HEIGHT;
+			e_xPos = -config::E_WIDTH;
+			e_yPos = -config::E_HEIGHT;
 		} else {
-			e_xPos = W_WIDTH+1;
-			e_yPos = W_HEIGHT+1;
+			e_xPos = config::W_WIDTH+1;
+			e_yPos = config::W_HEIGHT+1;
 		}
 
 		//Randomize x and y-position.
 		if ((rand() % 2) == 1)  {
-			e_xPos = (rand() % (W_WIDTH - E_WIDTH));
+			e_xPos = (rand() % (config::W_WIDTH - config::E_WIDTH));
 		} else {
-			e_yPos = (rand() % (W_HEIGHT - E_HEIGHT));
+			e_yPos = (rand() % (config::W_HEIGHT - config::E_HEIGHT));
 		}
 
 		//Finally, create new enemy
-		Enemy::s_enemyList.push_back(new Enemy(E_SRC, e_xPos, e_yPos));
+		Enemy::s_enemyList.push_back(new Enemy(config::E_SRC, e_xPos, e_yPos));
 	}
 
 }
@@ -368,26 +368,26 @@ void GameState::createRock() {
 		}
 	}
 
-	int highestCurrentScore = getHighestCurrentScore() - ((ENEMIES_BEFORE_ROCK -1) * 5);
+	int highestCurrentScore = getHighestCurrentScore() - ((config::ENEMIES_BEFORE_ROCK -1) * 5);
 	if(highestCurrentScore < 0) highestCurrentScore = 0;
 	int max_amount_of_rocks = highestCurrentScore / 5;
-	if (max_amount_of_rocks > MAX_ROCKS) max_amount_of_rocks = MAX_ROCKS;
+	if (max_amount_of_rocks > config::MAX_ROCKS) max_amount_of_rocks = config::MAX_ROCKS;
 
 	while ( int(Rock::s_rockList.size()) < max_amount_of_rocks) {
-		int r_yPos = -MAX_R_HEIGHT;
+		int r_yPos = -config::MAX_R_HEIGHT;
 		
 		int rockType = (rand() % 10 +1);
 		if (rockType >= 7 && rockType <= 9) {
-			int r_xPos = (rand() % (W_WIDTH - R_2_WIDTH));
-			Rock::s_rockList.push_back(new Rock(R_2_SRC, r_xPos, r_yPos, 2));
+			int r_xPos = (rand() % (config::W_WIDTH - config::R_2_WIDTH));
+			Rock::s_rockList.push_back(new Rock(config::R_2_SRC, r_xPos, r_yPos, 2));
 		}
 		else if(rockType == 10) {
-			int r_xPos = (rand() % (W_WIDTH - R_3_WIDTH));
-			Rock::s_rockList.push_back(new Rock(R_3_SRC, r_xPos, r_yPos, 3));
+			int r_xPos = (rand() % (config::W_WIDTH - config::R_3_WIDTH));
+			Rock::s_rockList.push_back(new Rock(config::R_3_SRC, r_xPos, r_yPos, 3));
 		}
 		else {
-			int r_xPos = (rand() % (W_WIDTH - R_1_WIDTH));
-			Rock::s_rockList.push_back(new Rock(R_1_SRC, r_xPos, r_yPos, 1));
+			int r_xPos = (rand() % (config::W_WIDTH - config::R_1_WIDTH));
+			Rock::s_rockList.push_back(new Rock(config::R_1_SRC, r_xPos, r_yPos, 1));
 		}
 	}
 }

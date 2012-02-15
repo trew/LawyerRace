@@ -9,8 +9,8 @@ class Enemy: public Entity {
 	
 public:
 	Enemy();
-	Enemy(const char* _fileName);
-	Enemy(const char* _fileName, const int _xPos, const int _yPos);
+	Enemy(const std::string _fileName);
+	Enemy(const std::string _fileName, const int _xPos, const int _yPos);
 	virtual ~Enemy();
 
 	virtual void draw(SDL_Surface* _destSurf);

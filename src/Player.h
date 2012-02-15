@@ -8,12 +8,13 @@
 #include "Text.h"
 #include "KeySet.h"
 
+#include <string>
 
 class Player: public Entity {
 public:
 	Player();
-	Player(const char* _fileName, KeySet _keySet);
-	Player(const char* _fileName, const int _xPos, const int _yPos , KeySet _keySet);
+	Player(const std::string _fileName, KeySet _keySet);
+	Player(const std::string _fileName, const int _xPos, const int _yPos , KeySet _keySet);
 	virtual ~Player();
 	virtual void draw(SDL_Surface* _destSurf);
 	void handleEvent(SDL_Event& ev);

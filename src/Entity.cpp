@@ -7,12 +7,12 @@ Entity::Entity() {
 	s_entityList.push_back(this);
 }
 
-Entity::Entity(const char* _fileName)
+Entity::Entity(const std::string _fileName)
 : Sprite(_fileName)
 {
 	s_entityList.push_back(this);
 }
-Entity::Entity(const char* _fileName, const int _xPos, const int _yPos)
+Entity::Entity(const std::string _fileName, const int _xPos, const int _yPos)
 : Sprite(_fileName, _xPos, _yPos)
 {
 	s_entityList.push_back(this);

@@ -5,17 +5,19 @@
 #include <SDL_image.h>
 
 #include <list>
+#include <string>
+
 class Sprite {
 public:
 	Sprite();
-	Sprite(const char* _fileName);
-	Sprite(const char* _fileName, const int _xPos, const int _yPos);
+	Sprite(const std::string _fileName);
+	Sprite(const std::string _fileName, const int _xPos, const int _yPos);
 	virtual ~Sprite();
 
 	virtual void draw(SDL_Surface* _destSurf)=0;
 
-	SDL_Surface* loadImage(const char* _fileName, const int _xPos, const int _yPos);
-	SDL_Surface* loadImage(const char* _fileName);
+	SDL_Surface* loadImage(const std::string _fileName, const int _xPos, const int _yPos);
+	SDL_Surface* loadImage(const std::string _fileName);
 
 	void setVisibility(bool newVisibility);
 	int getWidth() const;

@@ -16,7 +16,7 @@ OBJECTS = $(FILES:.cpp=.o)
 
 CC = g++
 SDLFLAGS = -I$(shell pwd)/include/SDL/linux
-CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS) -DLWPATH=\"YOYO\"
+CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS) -DLWPATH=\"$(shell pwd)\"
 
 SDLLIBS = -L$(shell pwd)/libs/linux -lSDL -lpthread -lSDL_ttf -lSDL_image -lSDL_gfx
 LIBS = $(SDLLIBS) -lstdc++

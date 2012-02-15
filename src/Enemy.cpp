@@ -7,9 +7,9 @@ Enemy::Enemy()
 : m_direction(DOWN),
 currentTarget(NULL)
 {
-	m_vel = E_VELOCITY;
-	m_height = E_HEIGHT;
-	m_width = E_WIDTH;
+	m_vel = config::E_VELOCITY;
+	m_height = config::E_HEIGHT;
+	m_width = config::E_WIDTH;
 	moving = true;
 	m_movingX = true; m_movingY = true;
 	if(s_enemyList.size() > 0) {
@@ -19,14 +19,14 @@ currentTarget(NULL)
 	m_diagonalSensitivity = (rand() % 6 +3);
 }
 
-Enemy::Enemy(const char* _fileName) 
+Enemy::Enemy(const std::string _fileName) 
 : Entity(_fileName),
   m_direction(DOWN),
   currentTarget(NULL)
 {
-	m_vel = E_VELOCITY;
-	m_height = E_HEIGHT;
-	m_width = E_WIDTH;
+	m_vel = config::E_VELOCITY;
+	m_height = config::E_HEIGHT;
+	m_width = config::E_WIDTH;
 	moving = false;
 	m_movingX = true; m_movingY = true;
 	if(s_enemyList.size() > 0) {
@@ -36,14 +36,14 @@ Enemy::Enemy(const char* _fileName)
 	m_diagonalSensitivity = (rand() % 6 +3);
 }
 
-Enemy::Enemy(const char* _fileName, const int _xPos, const int _yPos) 
+Enemy::Enemy(const std::string _fileName, const int _xPos, const int _yPos) 
 : Entity(_fileName, _xPos, _yPos),
   m_direction(DOWN),
   currentTarget(NULL)
 {
-	m_vel = E_VELOCITY;
-	m_height = E_HEIGHT;
-	m_width = E_WIDTH;
+	m_vel = config::E_VELOCITY;
+	m_height = config::E_HEIGHT;
+	m_width = config::E_WIDTH;
 	moving = false;
 	m_movingX = true; m_movingY = true;
 	if(s_enemyList.size() > 0) {
@@ -126,14 +126,14 @@ void Enemy::updateMovement() {
 	bool tmp_movingX = m_movingX;
 
 	if(  tmp_movingY && 
-	   ((m_yPos < targetYCompare - (W_HEIGHT / m_diagonalSensitivity)) || 
-		(m_yPos > targetYCompare + (W_HEIGHT / m_diagonalSensitivity)) 
+	   ((m_yPos < targetYCompare - (config::W_HEIGHT / m_diagonalSensitivity)) || 
+		(m_yPos > targetYCompare + (config::W_HEIGHT / m_diagonalSensitivity)) 
 		)) 
 		tmp_movingX = true;
 
 	if ( tmp_movingX && 
-	   ((m_xPos < targetXCompare - (W_WIDTH / m_diagonalSensitivity)) || 
-		(m_xPos > targetXCompare + (W_WIDTH / m_diagonalSensitivity)) 
+	   ((m_xPos < targetXCompare - (config::W_WIDTH / m_diagonalSensitivity)) || 
+		(m_xPos > targetXCompare + (config::W_WIDTH / m_diagonalSensitivity)) 
 		)) 
 		tmp_movingY = true;
 
@@ -144,8 +144,8 @@ void Enemy::updateMovement() {
 	if(tmp_movingY) {
 		if ( m_yPos < targetYCompare ) {
 			m_yPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
-			if (m_yPos + m_height > W_HEIGHT) 
-				m_yPos = static_cast<float>(W_HEIGHT - m_height); //Prevent from going out of screen
+			if (m_yPos + m_height > config::W_HEIGHT) 
+				m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
 			if (m_yPos > targetYCompare) m_yPos = float(targetYCompare);
 			if (tmp_movingX == false) {
 				m_direction = DOWN;
@@ -165,8 +165,8 @@ void Enemy::updateMovement() {
 	if(tmp_movingX) { 
 		if (m_xPos < targetXCompare) {
 			m_xPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
-			if (m_xPos + m_width > W_WIDTH) 
-				m_xPos = static_cast<float>(W_WIDTH - m_width); 
+			if (m_xPos + m_width > config::W_WIDTH) 
+				m_xPos = static_cast<float>(config::W_WIDTH - m_width); 
 			if (m_xPos > targetXCompare) {
 				m_xPos = float(targetXCompare);
 			}

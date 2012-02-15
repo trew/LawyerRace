@@ -4,12 +4,13 @@
 #include "Sprite.h"
 #include "config.h"
 #include <ctime>
+#include <string>
 
 class Entity: public Sprite {
 public:
 	Entity();
-	Entity(const char* _fileName);
-	Entity(const char* _fileName, const int _xPos, const int _yPos);
+	Entity(const std::string _fileName);
+	Entity(const std::string _fileName, const int _xPos, const int _yPos);
 	virtual ~Entity();
 
 	virtual void draw(SDL_Surface* _destSurf);

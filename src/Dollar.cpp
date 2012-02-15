@@ -7,11 +7,11 @@ Dollar::Dollar()
 {
 }
 
-Dollar::Dollar(const char* _fileName) 
+Dollar::Dollar(const std::string _fileName) 
 	: Entity(_fileName)
 {
 }
-Dollar::Dollar(const char* _fileName, int _xPos, int _yPos)
+Dollar::Dollar(const std::string _fileName, int _xPos, int _yPos)
 	: Entity(_fileName, _xPos, _yPos)
 {
 }

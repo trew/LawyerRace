@@ -13,9 +13,9 @@ Player::Player()
   dead(false)
 {
 	moving = false;
-	m_vel = P_VELOCITY;
-	m_width = P_WIDTH;
-	m_height = P_HEIGHT;
+	m_vel = config::P_VELOCITY;
+	m_width = config::P_WIDTH;
+	m_height = config::P_HEIGHT;
 	
 	currentPlayerNum++;
 	alivePlayers++;
@@ -28,16 +28,16 @@ Player::Player()
 	updateScore();
 }
 
-Player::Player(const char* _fileName, KeySet _keySet)
+Player::Player(const std::string _fileName, KeySet _keySet)
 : Entity(_fileName),
   m_direction(DOWN),
   m_score(0),
   dead(false)
 {
 	moving = false;
-	m_vel = P_VELOCITY;
-	m_width = P_WIDTH;
-	m_height = P_HEIGHT;
+	m_vel = config::P_VELOCITY;
+	m_width = config::P_WIDTH;
+	m_height = config::P_HEIGHT;
 
 	currentPlayerNum++;
 	alivePlayers++;
@@ -51,16 +51,16 @@ Player::Player(const char* _fileName, KeySet _keySet)
 	m_keySet = _keySet;
 }
 
-Player::Player(const char* _fileName, const int _xPos, const int _yPos, KeySet _keySet)
+Player::Player(const std::string _fileName, const int _xPos, const int _yPos, KeySet _keySet)
 : Entity(_fileName, _xPos, _yPos),
   m_direction(DOWN),
   m_score(0),
   dead(false)
 {
 	moving = false;
-	m_vel = P_VELOCITY;
-	m_width = P_WIDTH;
-	m_height = P_HEIGHT;
+	m_vel = config::P_VELOCITY;
+	m_width = config::P_WIDTH;
+	m_height = config::P_HEIGHT;
 
 	currentPlayerNum++;
 	alivePlayers++;
@@ -141,7 +141,7 @@ void Player::update() {
 	}
 	else if (m_direction == DOWN) {
 		m_yPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
-		if (m_yPos + m_height > W_HEIGHT) m_yPos = static_cast<float>(W_HEIGHT - m_height); //Prevent from going out of screen
+		if (m_yPos + m_height > config::W_HEIGHT) m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
 	}
 
 	else if (m_direction == LEFT) {
@@ -150,7 +150,7 @@ void Player::update() {
 	}
 	else if (m_direction == RIGHT) {
 		m_xPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
-		if (m_xPos + m_width > W_WIDTH) m_xPos = static_cast<float>(W_WIDTH - m_width); //Prevent from going out of screen
+		if (m_xPos + m_width > config::W_WIDTH) m_xPos = static_cast<float>(config::W_WIDTH - m_width); //Prevent from going out of screen
 	}
 
 }
@@ -171,25 +171,25 @@ void Player::updateScore() {
 
 	//Position text correctly
 	if (numOfPlayers == 4) {
-		float newXPos = static_cast<float>((W_WIDTH / 4) * (playerNum-1) + 20);
+		float newXPos = static_cast<float>((config::W_WIDTH / 4) * (playerNum-1) + 20);
 		score_text->setXPos(newXPos);
 	}
 	else if (numOfPlayers == 3) {
 		if (playerNum == 1) 
 			score_text->leftAlign(0, 10);
 		else if (playerNum == 2) 
-			score_text->centerHorizontal(0, W_WIDTH);
+			score_text->centerHorizontal(0, config::W_WIDTH);
 		else if (playerNum == 3) 
-			score_text->rightAlign(W_WIDTH, 10);
+			score_text->rightAlign(config::W_WIDTH, 10);
 	}
 	else if (numOfPlayers == 2) {
 		if (playerNum == 1)
 			score_text->leftAlign(0, 10);
 		else if (playerNum == 2) 
-			score_text->rightAlign(W_WIDTH, 10);
+			score_text->rightAlign(config::W_WIDTH, 10);
 	} 
 	else if (numOfPlayers == 1) {
-		score_text->centerHorizontal(0, W_WIDTH);
+		score_text->centerHorizontal(0, config::W_WIDTH);
 	}
 }
 

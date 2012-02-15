@@ -2,7 +2,6 @@
 #define _CONFIG_H_
 
 #include <string>
-#include <iostream>
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
 enum Direction {
@@ -20,11 +19,14 @@ enum Direction {
 #define MAX(a, b) ((a > b) ? a : b)
 #define MIN(a, b) ((a < b) ? a : b)
 
-extern std::string path;
+namespace config
+{
+
+extern const std::string path;
 
 extern int DIFFICULTY;
 
-extern const char* const WINDOW_TEXT;
+extern const std::string WINDOW_TEXT;
 
 extern int W_WIDTH;	///<Window Width
 extern int W_HEIGHT;	///<Window Height
@@ -33,30 +35,30 @@ extern const int W_BPP;		///<Window Depth
 
 extern const int P_WIDTH;		///<Size of Player sprite width
 extern const int P_HEIGHT;	///<Size of Player sprite height
-extern const char* const P1_SRC;
-extern const char* const P2_SRC;
-extern const char* const P3_SRC;
-extern const char* const P4_SRC;
+extern const std::string P1_SRC;
+extern const std::string P2_SRC;
+extern const std::string P3_SRC;
+extern const std::string P4_SRC;
 
 extern const int E_WIDTH;		///<Size of Enemy sprite width
 extern const int E_HEIGHT;	///<Size of Enemy sprite height
-extern const char* const E_SRC;
+extern const std::string E_SRC;
 
 extern const int D_WIDTH;		///<Size of Dollar sprite width
 extern const int D_HEIGHT;	///<Size of Dollar sprite height
-extern const char* const D_SRC;
+extern const std::string D_SRC;
 
 extern const int MAX_R_WIDTH;
 extern const int MAX_R_HEIGHT;
 extern const int R_1_WIDTH;
 extern const int R_1_HEIGHT;
-extern const char* const R_1_SRC;
+extern const std::string R_1_SRC;
 extern const int R_2_WIDTH;
 extern const int R_2_HEIGHT;
-extern const char* const R_2_SRC;
+extern const std::string R_2_SRC;
 extern const int R_3_WIDTH;
 extern const int R_3_HEIGHT;
-extern const char* const R_3_SRC;
+extern const std::string R_3_SRC;
 
 extern int MAX_ENEMIES;
 extern int ENEMIES_BEFORE_ROCK;
@@ -74,4 +76,5 @@ extern float R_1_VELOCITY;		///< Rock velocity
 extern float R_2_VELOCITY;	///< Rock velocity
 extern float R_3_VELOCITY;		///< Rock velocity
 
+}
 #endif

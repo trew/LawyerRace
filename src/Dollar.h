@@ -6,8 +6,8 @@
 class Dollar: public Entity {
 public:
 	Dollar();
-	Dollar(const char* _fileName);
-	Dollar(const char* _fileName, int _xPos, int _yPos);
+	Dollar(const std::string _fileName);
+	Dollar(const std::string _fileName, int _xPos, int _yPos);
 	virtual ~Dollar();
 
 	void draw(SDL_Surface* _destSurf);

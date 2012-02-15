@@ -1,4 +1,6 @@
 #include "Sprite.h"
+#include <string>
+#include <iostream>
 
 std::list<Sprite*> Sprite::s_spriteList;
 
@@ -9,16 +11,17 @@ Sprite::Sprite() {
 	m_visible = true;
 }
 
-Sprite::Sprite(const char* _fileName) {
+Sprite::Sprite(const std::string _fileName) {
 /// Load image into Sprite with x,y = 0,0
-	if ( (m_surf = loadImage(_fileName)) == NULL) throw _fileName; //TODO: Errorhandling if m_Surf is NULL!
+	if ( (m_surf = loadImage(_fileName)) == NULL) throw std::string("Couldn't load file: \"") + _fileName + "\""; //TODO: Errorhandling if m_Surf is NULL!
 	s_spriteList.push_back(this);
 	m_visible = true;
 }
 
-Sprite::Sprite(const char* _fileName, const int _xPos, const int _yPos) {
+Sprite::Sprite(const std::string _fileName, const int _xPos, const int _yPos) {
 /// Load image into Sprite with provided X- and Y-pos.
-	if ( (m_surf = loadImage(_fileName, _xPos, _yPos)) == NULL) throw _fileName;
+    std::cout << "Loading \"" << _fileName << "\"..." << std::endl;
+	if ( (m_surf = loadImage(_fileName, _xPos, _yPos)) == NULL) throw std::string("Couldn't load file: \"") + _fileName + "\"";
 	s_spriteList.push_back(this);
 	m_visible = true;
 }
@@ -29,12 +32,12 @@ Sprite::~Sprite() {
 	m_surf = NULL;
 }
 
-SDL_Surface* Sprite::loadImage(const char* _fileName, const int _xPos, const int _yPos) {
+SDL_Surface* Sprite::loadImage(const std::string _fileName, const int _xPos, const int _yPos) {
 /// Load image using IMG_Load and set values to the sprites Rect. Returns NULL if image couldn't be loaded.
 	SDL_Surface* tmpSurf;
 	SDL_Surface* returnSurf = NULL;
 	
-	if ((tmpSurf = IMG_Load(_fileName)) == NULL) return NULL;
+	if ((tmpSurf = IMG_Load(_fileName.c_str())) == NULL) return NULL;
 
 	returnSurf = SDL_DisplayFormatAlpha(tmpSurf);
 
@@ -46,7 +49,7 @@ SDL_Surface* Sprite::loadImage(const char* _fileName, const int _xPos, const int
 	return returnSurf;
 }
 
-SDL_Surface* Sprite::loadImage(const char* _fileName) {
+SDL_Surface* Sprite::loadImage(const std::string _fileName) {
 /// Calls loadImage(const char* _fileName, const int _xPos, const int _yPos) 
 	return loadImage(_fileName, 0, 0);
 }

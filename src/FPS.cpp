@@ -19,7 +19,7 @@ void FPS::Update() {
 		numFrames = frames;
 		frames = 0;
 	}
-	speedFactor = ((SDL_GetTicks() - lastTime) / 1000.0f) * SPEED_FACTOR;
+	speedFactor = ((SDL_GetTicks() - lastTime) / 1000.0f) * config::SPEED_FACTOR;
 	lastTime = SDL_GetTicks();
 	frames++;
 }
