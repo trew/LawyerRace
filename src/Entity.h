@@ -2,7 +2,7 @@
 #define _ENTITY_H_
 
 #include "Sprite.h"
-#include "static.h"
+#include "config.h"
 #include <ctime>
 
 class Entity: public Sprite {

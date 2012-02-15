@@ -7,11 +7,12 @@
 #include <ctime>
 #include "Game.h"
 #include <iostream>
-
+#include "config.h"
 
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned int>(time(NULL)));
 
+    std::cout << path << std::endl;
 	Game newGame;
     try 
     {

@@ -1,7 +1,14 @@
-#ifndef _INIT_STATIC_H_
-#define _INIT_STATIC_H_
+#ifndef _INIT_CONFIG_H_
+#define _INIT_CONFIG_H_
 
-#include "static.h"
+#include "config.h"
+#include <iostream>
+
+#ifdef LWPATH
+std::string path = LWPATH;
+#else
+std::string path = "";
+#endif
 
 int DIFFICULTY = 2;
 

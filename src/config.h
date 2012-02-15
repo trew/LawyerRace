@@ -1,5 +1,8 @@
-#ifndef _STATIC_H_
-#define _STATIC_H_
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
+
+#include <string>
+#include <iostream>
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
 enum Direction {
@@ -16,6 +19,8 @@ enum Direction {
 
 #define MAX(a, b) ((a > b) ? a : b)
 #define MIN(a, b) ((a < b) ? a : b)
+
+extern std::string path;
 
 extern int DIFFICULTY;
 

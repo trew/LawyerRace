@@ -2,7 +2,7 @@
 #define _ROCK_H_
 
 #include "Entity.h"
-#include "static.h"
+#include "config.h"
 #include "FPS.h"
 
 class Rock: public Entity {

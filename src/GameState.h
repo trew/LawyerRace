@@ -5,7 +5,7 @@
 
 #include <SDL.h>
 
-#include "static.h"
+#include "config.h"
 #include "Sprite.h"
 #include "Player.h"
 #include "Enemy.h"

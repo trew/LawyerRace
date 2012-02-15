@@ -1,7 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "static.h"
+#include "config.h"
 #include "Entity.h"
 #include "Enemy.h"
 #include "FPS.h"
