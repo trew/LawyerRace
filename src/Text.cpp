@@ -24,13 +24,9 @@ Text::Text(const int _number, const int _fontSize, const int _xPos, const int _y
 	m_color.g = g;
 	m_color.b = b;
 
-	char text[8];
-    std::stringstream ss;
-    ss << _number;
-    ss >> text;
-	//snprintf(text, "%d", _number);
+	std::string text = numberToText(_number);
 
-	m_surf = TTF_RenderText_Blended(standard_font[_fontSize], text, m_color);
+	m_surf = TTF_RenderText_Blended(standard_font[_fontSize], text.c_str(), m_color);
 	m_height = m_surf->h;
 	m_width = m_surf->w;
 }
@@ -67,16 +63,12 @@ void Text::draw(SDL_Surface* _destSurf) {
 }
 
 void Text::updateText(const int _number) {
-	char text[8];
-    std::stringstream ss;
-    ss << _number;
-    ss >> text;
-	//sprintf_s(text, "%d", _number);
+	std::string text = numberToText(_number);
 	updateText(text);
 }
 
-void Text::updateText(const char* _newText) {
-	m_surf = TTF_RenderText_Blended(standard_font[m_fontSize], _newText, m_color);
+void Text::updateText(const std::string _newText) {
+	m_surf = TTF_RenderText_Blended(standard_font[m_fontSize], _newText.c_str(), m_color);
 	m_height = m_surf->h;
 	m_width = m_surf->w;
 }
@@ -89,8 +81,16 @@ void Text::setYPos(const float _yPos) {
 	m_yPos = _yPos;
 }
 
+const std::string Text::numberToText(int _number)
+{
+    std::stringstream ss;
+    ss << _number;
+	return ss.str();
+}
+
 void Text::setColor(int r, int g, int b) {
 	m_color.r = r;
 	m_color.g = g;
 	m_color.b = b;
 }
+

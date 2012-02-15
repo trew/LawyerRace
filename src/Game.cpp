@@ -78,11 +78,12 @@ bool Game::Init()
 		}
 		infile.close();
 	} else {
-		//NOTE: Throwing ints is very temporary.
-		throw -1;
+		//Throwing regular strings is very temporary
+		throw "Couldn't load settings";
 	}
 	
 	if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 ) return false;
+
 	SDL_WM_SetCaption(config::WINDOW_TEXT.c_str(), config::WINDOW_TEXT.c_str());
 
 	if ( (mainScreen = SDL_SetVideoMode(config::W_WIDTH, config::W_HEIGHT, config::W_BPP, SDL_DOUBLEBUF | SDL_HWSURFACE)) == NULL ) return false;

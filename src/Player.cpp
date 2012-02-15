@@ -156,18 +156,13 @@ void Player::update() {
 }
 
 void Player::updateScore() {
-	char buffer[128];
     std::stringstream ss;
 	if (dead) {
         ss << "Player " << playerNum << ": " << m_score << "DEAD!";
-        ss >> buffer;
-		//sprintf_s(buffer, sizeof(buffer), "%s%d%s%d%s", "Player ", playerNum, ": ", m_score, " DEAD!");
 	} else {
 	    ss << "Player " << playerNum << ": " << m_score;
-        ss >> buffer;
-		//sprintf_s(buffer, sizeof(buffer), "%s%d%s%d", "Player ", playerNum, ": ", m_score);
 	}
-	score_text->updateText(buffer);
+	score_text->updateText(ss.str());
 
 	//Position text correctly
 	if (numOfPlayers == 4) {

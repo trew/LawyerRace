@@ -14,11 +14,11 @@ public:
 
 	void draw(SDL_Surface* _destSurf);
 	void updateText(const int _number);
-	void updateText(const char* _newText);
+	void updateText(const std::string _newText);
 	void setXPos(const float _xPos);
 	void setYPos(const float _yPos);
 
-	const char* numberToText(int _number);
+	const std::string numberToText(int _number);
 
 	void setColor(int r, int g, int b);
 

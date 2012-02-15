@@ -1,5 +1,5 @@
 #include "GameState.h"
-#include <iostream>
+#include <sstream>
 
 GameState::GameState() {
 ///Constructor
@@ -159,9 +159,9 @@ void GameState::Update() {
 	}
 
 	FPS::FPSControl.Update();
-	char Buffer[255];
-	//sprintf_s(Buffer, "%s%s%d",config::WINDOW_TEXT, "    ", FPS::FPSControl.GetFPS());
-	SDL_WM_SetCaption(Buffer, Buffer);
+	std::stringstream ss;
+	ss << config::WINDOW_TEXT << "    " << FPS::FPSControl.GetFPS();
+	SDL_WM_SetCaption(ss.str().c_str(), ss.str().c_str());
 }
 
 
