@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include <string>
 #include <iostream>
+#include "Log.h"
 
 std::list<Sprite*> Sprite::s_spriteList;
 
@@ -13,14 +14,14 @@ Sprite::Sprite() {
 
 Sprite::Sprite(const std::string _fileName) {
 /// Load image into Sprite with x,y = 0,0
-	if ( (m_surf = loadImage(_fileName)) == NULL) throw std::string("Couldn't load file: \"") + _fileName + "\""; //TODO: Errorhandling if m_Surf is NULL!
+	if ( (m_surf = loadImage(_fileName)) == NULL) LOG_DEBUG("Couldn't load file: \"" + _fileName + "\""); //TODO: Errorhandling if m_Surf is NULL!
 	s_spriteList.push_back(this);
 	m_visible = true;
 }
 
 Sprite::Sprite(const std::string _fileName, const int _xPos, const int _yPos) {
 /// Load image into Sprite with provided X- and Y-pos.
-	if ( (m_surf = loadImage(_fileName, _xPos, _yPos)) == NULL) throw std::string("Couldn't load file: \"") + _fileName + "\"";
+	if ( (m_surf = loadImage(_fileName, _xPos, _yPos)) == NULL) LOG_DEBUG("Couldn't load file: \"" + _fileName + "\"");
 	s_spriteList.push_back(this);
 	m_visible = true;
 }

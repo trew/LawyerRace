@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include "Log.h"
 
 Game Game::StateControl;
 AbstractState* Game::currentState;
@@ -26,6 +27,7 @@ bool Game::Init()
 {
 	std::string row;
 	std::ifstream infile;
+    LOG_DEBUG("Opening " + config::path + "/settings.ini...");
 	infile.open( (config::path + "/settings.ini").c_str() );
 	if(infile) {
 		while(!infile.eof()) 
@@ -78,6 +80,7 @@ bool Game::Init()
 		infile.close();
 	} else {
 		//Throwing regular strings is very temporary
+        LOG_DEBUG("Couldn't load settings");
 		throw "Couldn't load settings";
 	}
 	

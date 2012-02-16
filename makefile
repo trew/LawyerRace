@@ -15,11 +15,11 @@ SOURCES = $(foreach $(FILES), $(SRC_DIR), $(wildcard $(SRC_DIR)/*.cpp))
 OBJECTS = $(FILES:.cpp=.o)
 
 CC = g++
-SDLFLAGS = -I$(shell pwd)/include/SDL/linux
+SDLFLAGS = $(shell sdl-config --cflags)
 CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS) -DLWPATH=\"$(shell pwd)\"
 
-SDLLIBS = -L$(shell pwd)/libs/linux -lSDL -lpthread -lSDL_ttf -lSDL_image -lSDL_gfx
-LIBS = $(SDLLIBS) -lstdc++
+SDLLIBS = $(shell sdl-config --libs) -lSDL_ttf -lSDL_image -lSDL_gfx
+LIBS = $(SDLLIBS)    # -lstdc++
 
 all : $(EXECUTABLE)
 

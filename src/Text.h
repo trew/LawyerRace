@@ -9,7 +9,7 @@ class Text: public Sprite {
 public:
 	Text();
 	Text(const int _number, const int _fontSize, const int _xPos, const int _yPos, int r, int g, int b);
-	Text(const char* _text, const int _fontSize, const int _xPos, const int _yPos, int r, int g, int b);
+	Text(std::string _text, const int _fontSize, const int _xPos, const int _yPos, int r, int g, int b);
 	virtual ~Text();
 
 	void draw(SDL_Surface* _destSurf);

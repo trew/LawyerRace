@@ -13,8 +13,6 @@
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned int>(time(NULL)));
 
-    LOG_DEBUG("Test Log");
-
 	Game newGame;
     try 
     {

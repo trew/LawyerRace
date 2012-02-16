@@ -159,9 +159,11 @@ void GameState::Update() {
 	}
 
 	FPS::FPSControl.Update();
+#ifdef WIN32
 	std::stringstream ss;
 	ss << config::WINDOW_TEXT << "    " << FPS::FPSControl.GetFPS();
 	SDL_WM_SetCaption(ss.str().c_str(), ss.str().c_str());
+#endif
 }
 
 
