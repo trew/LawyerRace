@@ -1,5 +1,7 @@
 #include "Enemy.h"
 #include <iostream>
+#include <sstream>
+#include "Log.h"
 
 std::list<Enemy*> Enemy::s_enemyList;
 
@@ -121,10 +123,13 @@ void Enemy::updateMovement() {
 	int targetYCompare = int(currentTarget->getYPos()) - ((m_height - currentTarget->getHeight()) / 2);
 	int targetXCompare = int(currentTarget->getXPos()) - ((m_width - currentTarget->getWidth()) / 2);
 
-	//Move vertical
 	bool tmp_movingY = m_movingY;
 	bool tmp_movingX = m_movingX;
 
+	float delta_x = 0.0;
+	float delta_y = 0.0;
+
+	//Move vertical
 	if(  tmp_movingY && 
 	   ((m_yPos < targetYCompare - (config::W_HEIGHT / m_diagonalSensitivity)) || 
 		(m_yPos > targetYCompare + (config::W_HEIGHT / m_diagonalSensitivity)) 
@@ -140,21 +145,29 @@ void Enemy::updateMovement() {
 	if(tmp_movingY && (m_yPos == targetYCompare)) tmp_movingX = true;
 	if(tmp_movingX && (m_xPos == targetXCompare)) tmp_movingY = true;
 
-
 	if(tmp_movingY) {
 		if ( m_yPos < targetYCompare ) {
-			m_yPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
-			if (m_yPos + m_height > config::W_HEIGHT) 
+			delta_y += (FPS::FPSControl.GetSpeedFactor() * m_vel);
+			if ( (m_yPos + delta_y) + m_height > config::W_HEIGHT) {
 				m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
-			if (m_yPos > targetYCompare) m_yPos = float(targetYCompare);
+				delta_y = 0.0;
+			}
+			if ( (m_yPos + delta_y) > targetYCompare) { 
+				m_yPos = float(targetYCompare);
+				delta_y = 0.0;
+			}
 			if (tmp_movingX == false) {
 				m_direction = DOWN;
 			}
 		} else if ( m_yPos > targetYCompare) {
-			m_yPos -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
-			if (m_yPos < 0) m_yPos = 0; 
-			if (m_yPos < targetYCompare) {
+			delta_y -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
+			if ( (m_yPos + delta_y) < 0) {
+				m_yPos = 0; 
+				delta_y = 0.0;
+			}
+			if ( (m_yPos + delta_y) < targetYCompare) {
 				m_yPos = float(targetYCompare);
+				delta_y = 0.0;
 			}
 			if( tmp_movingX == false ) {
 				m_direction = UP;
@@ -164,31 +177,69 @@ void Enemy::updateMovement() {
 	//Move horizontal
 	if(tmp_movingX) { 
 		if (m_xPos < targetXCompare) {
-			m_xPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
-			if (m_xPos + m_width > config::W_WIDTH) 
+			delta_x += (FPS::FPSControl.GetSpeedFactor() * m_vel);
+			if ( (m_xPos + delta_x) + m_width > config::W_WIDTH) {
 				m_xPos = static_cast<float>(config::W_WIDTH - m_width); 
-			if (m_xPos > targetXCompare) {
+				delta_x = 0.0;
+			}
+			if ( (m_xPos + delta_x) > targetXCompare) {
 				m_xPos = float(targetXCompare);
+				delta_x = 0.0;
 			}
 			if( tmp_movingY == false ) {
 				m_direction = RIGHT;
 			}
 
 		} else if (m_xPos > targetXCompare) {
-			m_xPos -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
-			if (m_xPos < 0) m_xPos = 0; 
-			if (m_xPos < targetXCompare) {
+			delta_x -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
+			if ( (m_xPos + delta_x) < 0) {
+				m_xPos = 0; 
+				delta_x = 0.0;
+			}
+			if ( (m_xPos + delta_x) < targetXCompare) {
 				m_xPos = float(targetXCompare);
+				delta_x = 0.0;
 			}
 			if( tmp_movingY == false ) {
 				m_direction = LEFT;
 			}
 		}
 	}
+
+	// Update the calculated position
+	if (delta_x != 0.0 && delta_y != 0.0) {
+		/* Going to explain the multiplier value here
+		/*                      |
+		 *                    / |
+		 *   sqrt(2*2 + 3*3)/   |
+		 *                /     | 3
+		 *              /       |
+		 *            / - - - - |
+		 *                 2
+		 * And the value I want is ((2+3)/2) / sqrt(2*2 + 3*3)
+		 * which is :                 2.5    / sqrt(13)
+		 *                            2.5    / 3.605551275463989    = 0.69~
+		 * However in our case we can assume the enemy always moves with equal speed in both X and Y,
+		 * because FPS::FPSControl.GetSpeedFactor() doesn't change between the modifications of delta_x and delta_y.
+		 * The formula would look like  (x / sqrt( 2(x*x) )
+		 * ... which is 0.7071067811865475. 
+ 		 */
+		
+		/*
+		float d = abs(delta_x);
+		float multiplier = d / sqrt(2*(d*d));
+		*/
+		float multiplier = 0.7071068f; //fast-forward to answer, skipping calculation
+		delta_x *= multiplier;
+		delta_y *= multiplier;
+	}
+
+	m_xPos += delta_x;
+	m_yPos += delta_y;
 }
 
 void Enemy::updateTarget() {
-///Sets target depending on distance. Measures from Enemys center to Players center
+///Sets target depending on distance. Measures from Enemys center to Players center. Doesn't target non-moving players.
 
 	std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
 	float shortestDistance = 0;
