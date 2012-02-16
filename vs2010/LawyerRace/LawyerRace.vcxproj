@@ -21,6 +21,7 @@
     <ClCompile Include="..\..\src\GameState.cpp" />
     <ClCompile Include="..\..\src\GameState_Init.cpp" />
     <ClCompile Include="..\..\src\Image.cpp" />
+    <ClCompile Include="..\..\src\Log.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Rock.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="..\..\src\GameState.h" />
     <ClInclude Include="..\..\src\Image.h" />
     <ClInclude Include="..\..\src\KeySet.h" />
+    <ClInclude Include="..\..\src\Log.h" />
     <ClInclude Include="..\..\src\Player.h" />
     <ClInclude Include="..\..\src\Rock.h" />
     <ClInclude Include="..\..\src\Sprite.h" />

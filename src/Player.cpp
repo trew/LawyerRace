@@ -158,7 +158,7 @@ void Player::update() {
 void Player::updateScore() {
     std::stringstream ss;
 	if (dead) {
-        ss << "Player " << playerNum << ": " << m_score << "DEAD!";
+        ss << "Player " << playerNum << ": " << m_score << " DEAD!";
 	} else {
 	    ss << "Player " << playerNum << ": " << m_score;
 	}

@@ -4,14 +4,17 @@
 bool GameState::Init() {
 ///Initialize all
 	
-	Player::numOfPlayers = 2; //TEMPORARY SOLUTION UNTIL MENUSTATES IS IMPLEMENTED.
+	Player::numOfPlayers = 1; //TEMPORARY SOLUTION UNTIL MENUSTATES IS IMPLEMENTED.
 
 	mainScreen = Game::mainScreen;
 
 	LOG_DEBUG("Loading fonts...");
-    if((Text::standard_font[12] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 12)) == NULL) exit(-2); //TODO:: ErrorHandling!
-	if((Text::standard_font[48] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 48)) == NULL) exit(-2);
-	if((Text::standard_font[72] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 72)) == NULL) exit(-2);
+    if((Text::standard_font[12] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 12)) == NULL) 
+		LOG_DEBUG("Loading \"" + config::path + "/font/VeraMono.ttf\" failed."); 
+	if((Text::standard_font[48] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 48)) == NULL)
+		LOG_DEBUG("Loading \"" + config::path + "/font/VeraMono.ttf\" failed."); 
+	if((Text::standard_font[72] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 72)) == NULL)
+		LOG_DEBUG("Loading \"" + config::path + "/font/VeraMono.ttf\" failed."); 
 
 	SetupKeySets();
 
