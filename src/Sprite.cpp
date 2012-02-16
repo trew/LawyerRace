@@ -20,7 +20,6 @@ Sprite::Sprite(const std::string _fileName) {
 
 Sprite::Sprite(const std::string _fileName, const int _xPos, const int _yPos) {
 /// Load image into Sprite with provided X- and Y-pos.
-    std::cout << "Loading \"" << _fileName << "\"..." << std::endl;
 	if ( (m_surf = loadImage(_fileName, _xPos, _yPos)) == NULL) throw std::string("Couldn't load file: \"") + _fileName + "\"";
 	s_spriteList.push_back(this);
 	m_visible = true;
