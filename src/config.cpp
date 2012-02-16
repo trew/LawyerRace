@@ -58,7 +58,7 @@ int MAX_ROCKS = 10;
 */
 float SPEED_FACTOR = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;		
 const float P_VELOCITY = 1.0f;		///< Player velocity
-float E_VELOCITY = 1.0f;		///< Enemy velocity
+float E_VELOCITY = 0.4f;		///< Enemy velocity
 float R_1_VELOCITY = 1.0f;		///< Rock velocity
 float R_2_VELOCITY = 0.75f;	///< Rock velocity
 float R_3_VELOCITY = 0.5f;		///< Rock velocity

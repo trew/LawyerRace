@@ -52,7 +52,7 @@ bool Game::Init()
 					config::MAX_ENEMIES = 4;
 					config::ENEMIES_BEFORE_ROCK = 4;
 					config::MAX_ROCKS = 10;
-					config::E_VELOCITY = 0.4f;
+					config::E_VELOCITY = 0.43f;
 					config::R_1_VELOCITY = 0.9f;
 					config::R_2_VELOCITY = 0.70f;
 					config::R_3_VELOCITY = 0.4f;
@@ -61,7 +61,7 @@ bool Game::Init()
 					config::MAX_ENEMIES = 5;
 					config::ENEMIES_BEFORE_ROCK = 3;
 					config::MAX_ROCKS = 10;
-					config::E_VELOCITY = 0.5f;
+					config::E_VELOCITY = 0.53f;
 					config::R_1_VELOCITY = 1.0f;
 					config::R_2_VELOCITY = 0.75f;
 					config::R_3_VELOCITY = 0.5f;
@@ -70,7 +70,7 @@ bool Game::Init()
 					config::MAX_ENEMIES = 8;
 					config::ENEMIES_BEFORE_ROCK = 2;
 					config::MAX_ROCKS = 20;
-					config::E_VELOCITY = 0.6f;
+					config::E_VELOCITY = 0.65f;
 					config::R_1_VELOCITY = 1.15f;
 					config::R_2_VELOCITY = 0.85f;
 					config::R_3_VELOCITY = 0.70f;
