@@ -9,3 +9,33 @@ are falling all around him while mr O is struggling to escape
 wild lawyers and to collect money enough to set him free.
 Play the game to find out if mr O will make it!!
 -----------------------------------
+
+
+Compilation instructions
+------------------------
+Linux:
+
+- Required runtime libraries
+ - SDL
+ - SDL_image
+ - SDL_ttf
+ - SDL_gfx
+
+On debian distributions use:
+sudo apt-get install sdl sdl_image sdl_ttf sdl_gfx
+On arch:
+sudo pacman -S sdl sdl_image sdl_ttf sdl_gfx
+
+Windows / Visual Studio 2010:
+
+  1. Open up the solution ( /vs2010/vs2010.sln )
+  2. Compile using Release version
+  3. Move all .dll-files from /lib/win32/SDL to /vs2010/Release/
+  4. Run the game from /vs2010/Release/
+
+
+Windows / Mingw 
+  NOT TESTED
+
+Mac OS
+  NOT TESTED
