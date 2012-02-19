@@ -33,7 +33,6 @@ public:
 
 public:
 	bool Init();
-	void SetupKeySets();
 
 	void Cleanup();
 
@@ -55,7 +54,6 @@ public:
 private:
 	bool GameRunning;
 	Player* m_player[4];
-	KeySet m_keySet[4];
 
 	int countDown;
 	unsigned int countDown_compareTime;

@@ -4,7 +4,7 @@
 bool GameState::Init() {
 ///Initialize all
 	
-	Player::numOfPlayers = 2; //TEMPORARY SOLUTION UNTIL MENUSTATES IS IMPLEMENTED.
+	config::NUM_OF_PLAYERS = 1; //TEMPORARY SOLUTION UNTIL MENUSTATES IS IMPLEMENTED.
 	
 	mainScreen = Game::mainScreen;
 
@@ -16,26 +16,27 @@ bool GameState::Init() {
 	if((Text::standard_font[72] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 72)) == NULL)
 		LOG_DEBUG("Loading \"" + config::path + "/font/VeraMono.ttf\" failed."); 
 
-	SetupKeySets();
+	LOG_DEBUG("Loading keysets...");
+	config::loadKeySets();
 
     LOG_DEBUG("Loading players...");	
-	for (int i = 0; i < Player::numOfPlayers; i++)
+	for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
 	{
-	    if (!(m_player[i] = new Player(config::P_SRC[i], 0, 0, m_keySet[i]))) return false;
+	    if (!(m_player[i] = new Player(config::P_SRC[i], 0, 0, config::KEYSET[i]))) return false;
 		m_player[i]->centerVertical(0, config::W_HEIGHT);
 		Player::s_playerList.push_back(m_player[i]);
 	}
 
-	if(Player::numOfPlayers == 1) {
+	if(config::NUM_OF_PLAYERS == 1) {
 		m_player[0]->centerHorizontal(0, config::W_WIDTH);
-	} else if(Player::numOfPlayers == 2) {
+	} else if(config::NUM_OF_PLAYERS == 2) {
 		m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 3)));
 		m_player[1]->centerHorizontal((m_player[1]->getWidth() * 3), config::W_WIDTH);
-	} else if(Player::numOfPlayers == 3) {
+	} else if(config::NUM_OF_PLAYERS == 3) {
 		m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 6)));
 		m_player[1]->centerHorizontal(0, config::W_WIDTH);
 		m_player[2]->centerHorizontal((m_player[2]->getWidth() * 6), config::W_WIDTH);
-	} else if(Player::numOfPlayers == 4) {
+	} else if(config::NUM_OF_PLAYERS == 4) {
 		m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 9)));
 		m_player[1]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 3)));
 		m_player[2]->centerHorizontal((m_player[1]->getWidth() * 3), config::W_WIDTH);
@@ -53,7 +54,7 @@ bool GameState::Init() {
 	return true;
 }
 
-void GameState::SetupKeySets() {
+/*void GameState::SetupKeySets() {
 	//Player 1
 	m_keySet[0].K_DOWN = SDLK_DOWN;
 	m_keySet[0].K_UP = SDLK_UP;
@@ -83,4 +84,4 @@ void GameState::SetupKeySets() {
 		m_keySet[0].K_STOP = SDLK_SPACE;
 	}
 
-}
+}*/

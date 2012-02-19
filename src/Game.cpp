@@ -54,6 +54,7 @@ bool Game::Init()
 						cfg.max_enemies = 4;
 						cfg.enemies_before_rock = 4;
 						cfg.max_rocks = 10;
+						cfg.p_velocity = 1.0f;
 						cfg.e_velocity = 0.43f;
 						cfg.r_velocity[0] = 0.9f;
 						cfg.r_velocity[1] = 0.70f;
@@ -63,6 +64,7 @@ bool Game::Init()
 						cfg.max_enemies = 5;
 						cfg.enemies_before_rock = 3;
 						cfg.max_rocks = 10;
+						cfg.p_velocity = 1.0f;
 						cfg.e_velocity = 0.53f;
 						cfg.r_velocity[0] = 1.0f;
 						cfg.r_velocity[1] = 0.75f;
@@ -72,6 +74,7 @@ bool Game::Init()
 						cfg.max_enemies = 8;
 						cfg.enemies_before_rock = 2;
 						cfg.max_rocks = 20;
+						cfg.p_velocity = 1.0f;
 						cfg.e_velocity = 0.65f;
 						cfg.r_velocity[0] = 1.15f;
 						cfg.r_velocity[1] = 0.85f;

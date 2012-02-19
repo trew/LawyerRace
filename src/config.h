@@ -3,6 +3,7 @@
 
 #include <string>
 #include "GameConfig.h"
+#include "KeySet.h"
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
 enum Direction {
@@ -31,6 +32,9 @@ extern int W_WIDTH;	///<Window Width
 extern int W_HEIGHT;	///<Window Height
 
 extern const int W_BPP;		///<Window Depth
+
+extern const int MAXNUM_OF_PLAYERS; ///< Maximum amount of players that the game supports
+extern int NUM_OF_PLAYERS;
 
 extern const int P_WIDTH;		///<Size of Player sprite width
 extern const int P_HEIGHT;	///<Size of Player sprite height
@@ -68,5 +72,9 @@ extern float SPEED_FACTOR;
 extern float P_VELOCITY;		///< Player velocity
 extern float E_VELOCITY;		///< Enemy velocity
 extern float R_VELOCITY[3];		///< Rock velocities
+
+extern KeySet KEYSET[4];
+
+void loadKeySets();
 }
 #endif

@@ -1,4 +1,5 @@
 #include "Rock.h"
+#include "Log.h"
 
 std::list<Rock*> Rock::s_rockList;
 
@@ -9,20 +10,13 @@ Rock::Rock(const std::string _fileName, const int _xPos, const int _yPos, const 
 : Entity(_fileName, _xPos, _yPos),
 m_expired(false)
 {
-	m_vel = config::R_VELOCITY[0];
-	m_height = config::R_HEIGHT[0];
-	m_width = config::R_WIDTH[0];
+	if (_rockType < 0 || _rockType > 2) {
+		LOG_ERROR("Tried to create rock of unsupported type.");
+	}
 
-	if (_rockType == 2) {
-		m_vel = config::R_VELOCITY[1];
-		m_height = config::R_HEIGHT[1];
-		m_width = config::R_WIDTH[1];
-	}
-	else if (_rockType == 3) {
-		m_vel = config::R_VELOCITY[2];
-		m_height = config::R_HEIGHT[2];
-		m_width = config::R_WIDTH[2];
-	}
+	m_vel = config::R_VELOCITY[_rockType-1];
+	m_height = config::R_HEIGHT[_rockType-1];
+	m_width = config::R_WIDTH[_rockType];
 }
 
 Rock::~Rock() {

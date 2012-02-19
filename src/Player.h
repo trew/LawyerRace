@@ -16,6 +16,9 @@ public:
 	Player(const std::string _fileName, KeySet _keySet);
 	Player(const std::string _fileName, const int _xPos, const int _yPos , KeySet _keySet);
 	virtual ~Player();
+
+	void loadKeySet(const KeySet &set);
+
 	virtual void draw(SDL_Surface* _destSurf);
 	void handleEvent(SDL_Event& ev);
 
@@ -34,6 +37,7 @@ public:
 	float getXPos();
 	float getYPos();
 	int getScore() const;
+
 private:
 	Direction m_direction;
 	int m_score;
@@ -45,7 +49,6 @@ private:
 
 public:
 	static std::list<Player*> s_playerList;
-	static int numOfPlayers;
 	static int alivePlayers;
 	static int currentPlayerNum;
 };

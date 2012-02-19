@@ -3,7 +3,6 @@
 #include <sstream>
 
 std::list<Player*> Player::s_playerList;
-int Player::numOfPlayers = 0;
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
@@ -48,7 +47,7 @@ Player::Player(const std::string _fileName, KeySet _keySet)
 	else if(playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0 , 230, 0);
 	else if(playerNum == 4) score_text = new Text(" ", 12, 0, 0,230,230, 0);
 	updateScore();
-	m_keySet = _keySet;
+	loadKeySet(_keySet);
 }
 
 Player::Player(const std::string _fileName, const int _xPos, const int _yPos, KeySet _keySet)
@@ -71,12 +70,15 @@ Player::Player(const std::string _fileName, const int _xPos, const int _yPos, Ke
 	else if(playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0 , 230, 0);
 	else if(playerNum == 4) score_text = new Text(" ", 12, 0, 0,230,230, 0);
 	updateScore();
-	m_keySet = _keySet;
-
+	loadKeySet(_keySet);
 }
 
 Player::~Player() {
-	numOfPlayers--;
+}
+
+void Player::loadKeySet(const KeySet &set)
+{
+	m_keySet = set;
 }
 
 void Player::draw(SDL_Surface* _destSurf) {
@@ -165,11 +167,11 @@ void Player::updateScore() {
 	score_text->updateText(ss.str());
 
 	//Position text correctly
-	if (numOfPlayers == 4) {
+	if (config::NUM_OF_PLAYERS == 4) {
 		float newXPos = static_cast<float>((config::W_WIDTH / 4) * (playerNum-1) + 20);
 		score_text->setXPos(newXPos);
 	}
-	else if (numOfPlayers == 3) {
+	else if (config::NUM_OF_PLAYERS == 3) {
 		if (playerNum == 1) 
 			score_text->leftAlign(0, 10);
 		else if (playerNum == 2) 
@@ -177,13 +179,13 @@ void Player::updateScore() {
 		else if (playerNum == 3) 
 			score_text->rightAlign(config::W_WIDTH, 10);
 	}
-	else if (numOfPlayers == 2) {
+	else if (config::NUM_OF_PLAYERS == 2) {
 		if (playerNum == 1)
 			score_text->leftAlign(0, 10);
 		else if (playerNum == 2) 
 			score_text->rightAlign(config::W_WIDTH, 10);
 	} 
-	else if (numOfPlayers == 1) {
+	else if (config::NUM_OF_PLAYERS == 1) {
 		score_text->centerHorizontal(0, config::W_WIDTH);
 	}
 }
