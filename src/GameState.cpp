@@ -4,10 +4,10 @@
 GameState::GameState() {
 ///Constructor
 	GameRunning = true;
-	m_player_1 = NULL;
-	m_player_2 = NULL;
-	m_player_3 = NULL;
-	m_player_4 = NULL;
+	m_player[0] = NULL;
+	m_player[1] = NULL;
+	m_player[2] = NULL;
+	m_player[3] = NULL;
 	temp_delay = 0;
 }
 
@@ -380,16 +380,16 @@ void GameState::createRock() {
 		
 		int rockType = (rand() % 10 +1);
 		if (rockType >= 7 && rockType <= 9) {
-			int r_xPos = (rand() % (config::W_WIDTH - config::R_2_WIDTH));
-			Rock::s_rockList.push_back(new Rock(config::R_2_SRC, r_xPos, r_yPos, 2));
+			int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[1]));
+			Rock::s_rockList.push_back(new Rock(config::R_SRC[1], r_xPos, r_yPos, 2));
 		}
 		else if(rockType == 10) {
-			int r_xPos = (rand() % (config::W_WIDTH - config::R_3_WIDTH));
-			Rock::s_rockList.push_back(new Rock(config::R_3_SRC, r_xPos, r_yPos, 3));
+			int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));
+			Rock::s_rockList.push_back(new Rock(config::R_SRC[2], r_xPos, r_yPos, 3));
 		}
 		else {
-			int r_xPos = (rand() % (config::W_WIDTH - config::R_1_WIDTH));
-			Rock::s_rockList.push_back(new Rock(config::R_1_SRC, r_xPos, r_yPos, 1));
+			int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[0]));
+			Rock::s_rockList.push_back(new Rock(config::R_SRC[0], r_xPos, r_yPos, 1));
 		}
 	}
 }

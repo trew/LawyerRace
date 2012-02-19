@@ -4,8 +4,8 @@
 bool GameState::Init() {
 ///Initialize all
 	
-	Player::numOfPlayers = 1; //TEMPORARY SOLUTION UNTIL MENUSTATES IS IMPLEMENTED.
-
+	Player::numOfPlayers = 2; //TEMPORARY SOLUTION UNTIL MENUSTATES IS IMPLEMENTED.
+	
 	mainScreen = Game::mainScreen;
 
 	LOG_DEBUG("Loading fonts...");
@@ -19,43 +19,27 @@ bool GameState::Init() {
 	SetupKeySets();
 
     LOG_DEBUG("Loading players...");	
-    if (!(m_player_1 = new Player(config::P1_SRC, 0, 0, m_p1_keySet))) return false;
-	m_player_1->centerVertical(0, config::W_HEIGHT);
-	if(Player::numOfPlayers > 1) {
-		if (!(m_player_2 = new Player(config::P2_SRC, 0, 0, m_p2_keySet))) return false;
-		m_player_2->centerVertical(0, config::W_HEIGHT);
+	for (int i = 0; i < Player::numOfPlayers; i++)
+	{
+	    if (!(m_player[i] = new Player(config::P_SRC[i], 0, 0, m_keySet[i]))) return false;
+		m_player[i]->centerVertical(0, config::W_HEIGHT);
+		Player::s_playerList.push_back(m_player[i]);
 	}
-	if(Player::numOfPlayers > 2) {
-		if (!(m_player_3 = new Player(config::P3_SRC, 0, 0, m_p3_keySet))) return false;
-		m_player_3->centerVertical(0, config::W_HEIGHT);
-	}
-	if(Player::numOfPlayers > 3) {
-		if (!(m_player_4 = new Player(config::P4_SRC, 0, 0, m_p4_keySet))) return false;
-		m_player_4->centerVertical(0, config::W_HEIGHT);
-	}
-	
-	Player::s_playerList.push_back(m_player_1);
-	if(Player::numOfPlayers > 1)
-		Player::s_playerList.push_back(m_player_2);
-	if(Player::numOfPlayers > 2)
-		Player::s_playerList.push_back(m_player_3);
-	if(Player::numOfPlayers > 3)
-		Player::s_playerList.push_back(m_player_4);
-	
+
 	if(Player::numOfPlayers == 1) {
-		m_player_1->centerHorizontal(0, config::W_WIDTH);
+		m_player[0]->centerHorizontal(0, config::W_WIDTH);
 	} else if(Player::numOfPlayers == 2) {
-		m_player_1->centerHorizontal(0, (config::W_WIDTH - (m_player_1->getWidth() * 3)));
-		m_player_2->centerHorizontal((m_player_2->getWidth() * 3), config::W_WIDTH);
+		m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 3)));
+		m_player[1]->centerHorizontal((m_player[1]->getWidth() * 3), config::W_WIDTH);
 	} else if(Player::numOfPlayers == 3) {
-		m_player_1->centerHorizontal(0, (config::W_WIDTH - (m_player_1->getWidth() * 6)));
-		m_player_2->centerHorizontal(0, config::W_WIDTH);
-		m_player_3->centerHorizontal((m_player_3->getWidth() * 6), config::W_WIDTH);
+		m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 6)));
+		m_player[1]->centerHorizontal(0, config::W_WIDTH);
+		m_player[2]->centerHorizontal((m_player[2]->getWidth() * 6), config::W_WIDTH);
 	} else if(Player::numOfPlayers == 4) {
-		m_player_1->centerHorizontal(0, (config::W_WIDTH - (m_player_1->getWidth() * 9)));
-		m_player_2->centerHorizontal(0, (config::W_WIDTH - (m_player_1->getWidth() * 3)));
-		m_player_3->centerHorizontal((m_player_2->getWidth() * 3), config::W_WIDTH);
-		m_player_4->centerHorizontal((m_player_3->getWidth() * 9), config::W_WIDTH);
+		m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 9)));
+		m_player[1]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 3)));
+		m_player[2]->centerHorizontal((m_player[1]->getWidth() * 3), config::W_WIDTH);
+		m_player[3]->centerHorizontal((m_player[2]->getWidth() * 9), config::W_WIDTH);
 	}
 
 	countDown = 3;
@@ -71,32 +55,32 @@ bool GameState::Init() {
 
 void GameState::SetupKeySets() {
 	//Player 1
-	m_p1_keySet.K_DOWN = SDLK_DOWN;
-	m_p1_keySet.K_UP = SDLK_UP;
-	m_p1_keySet.K_LEFT = SDLK_LEFT;
-	m_p1_keySet.K_RIGHT = SDLK_RIGHT;
-	m_p1_keySet.K_STOP = SDLK_RCTRL;
+	m_keySet[0].K_DOWN = SDLK_DOWN;
+	m_keySet[0].K_UP = SDLK_UP;
+	m_keySet[0].K_LEFT = SDLK_LEFT;
+	m_keySet[0].K_RIGHT = SDLK_RIGHT;
+	m_keySet[0].K_STOP = SDLK_RCTRL;
 	//Player 2
-	m_p2_keySet.K_DOWN = SDLK_s;
-	m_p2_keySet.K_UP = SDLK_w;
-	m_p2_keySet.K_LEFT = SDLK_a;
-	m_p2_keySet.K_RIGHT = SDLK_d;
-	m_p2_keySet.K_STOP = SDLK_LCTRL;
+	m_keySet[1].K_DOWN = SDLK_s;
+	m_keySet[1].K_UP = SDLK_w;
+	m_keySet[1].K_LEFT = SDLK_a;
+	m_keySet[1].K_RIGHT = SDLK_d;
+	m_keySet[1].K_STOP = SDLK_LCTRL;
 	//Player 3
-	m_p3_keySet.K_DOWN = SDLK_k;
-	m_p3_keySet.K_UP = SDLK_i;
-	m_p3_keySet.K_LEFT = SDLK_j;
-	m_p3_keySet.K_RIGHT = SDLK_l;
-	m_p3_keySet.K_STOP = SDLK_SPACE;
+	m_keySet[2].K_DOWN = SDLK_k;
+	m_keySet[2].K_UP = SDLK_i;
+	m_keySet[2].K_LEFT = SDLK_j;
+	m_keySet[2].K_RIGHT = SDLK_l;
+	m_keySet[2].K_STOP = SDLK_SPACE;
 	//Player 4
-	m_p4_keySet.K_DOWN = SDLK_KP5;
-	m_p4_keySet.K_UP = SDLK_KP8;
-	m_p4_keySet.K_LEFT = SDLK_KP4;
-	m_p4_keySet.K_RIGHT = SDLK_KP6;
-	m_p4_keySet.K_STOP = SDLK_KP0;
+	m_keySet[3].K_DOWN = SDLK_KP5;
+	m_keySet[3].K_UP = SDLK_KP8;
+	m_keySet[3].K_LEFT = SDLK_KP4;
+	m_keySet[3].K_RIGHT = SDLK_KP6;
+	m_keySet[3].K_STOP = SDLK_KP0;
 
 	if (Player::numOfPlayers == 1) {
-		m_p1_keySet.K_STOP = SDLK_SPACE;
+		m_keySet[0].K_STOP = SDLK_SPACE;
 	}
 
 }

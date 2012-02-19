@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include "Log.h"
+#include "GameConfig.h"
 
 Game Game::StateControl;
 AbstractState* Game::currentState;
@@ -47,33 +48,37 @@ bool Game::Init()
 					} 
 			} else if(row.size() > 0 && row.find("difficulty") == 0) 
 			{
+					GameConfig cfg;
 					if(row.find("1") == (row.find("=") +1)) {
-					config::DIFFICULTY = 1;
-					config::MAX_ENEMIES = 4;
-					config::ENEMIES_BEFORE_ROCK = 4;
-					config::MAX_ROCKS = 10;
-					config::E_VELOCITY = 0.43f;
-					config::R_1_VELOCITY = 0.9f;
-					config::R_2_VELOCITY = 0.70f;
-					config::R_3_VELOCITY = 0.4f;
+						cfg.difficulty = 1;
+						cfg.max_enemies = 4;
+						cfg.enemies_before_rock = 4;
+						cfg.max_rocks = 10;
+						cfg.e_velocity = 0.43f;
+						cfg.r_velocity[0] = 0.9f;
+						cfg.r_velocity[1] = 0.70f;
+						cfg.r_velocity[2] = 0.4f;
 					} else if(row.find("2") == (row.find("=") +1)) {
-					config::DIFFICULTY = 2;
-					config::MAX_ENEMIES = 5;
-					config::ENEMIES_BEFORE_ROCK = 3;
-					config::MAX_ROCKS = 10;
-					config::E_VELOCITY = 0.53f;
-					config::R_1_VELOCITY = 1.0f;
-					config::R_2_VELOCITY = 0.75f;
-					config::R_3_VELOCITY = 0.5f;
+						cfg.difficulty = 2;
+						cfg.max_enemies = 5;
+						cfg.enemies_before_rock = 3;
+						cfg.max_rocks = 10;
+						cfg.e_velocity = 0.53f;
+						cfg.r_velocity[0] = 1.0f;
+						cfg.r_velocity[1] = 0.75f;
+						cfg.r_velocity[2] = 0.5f;
 					} else if(row.find("3") == (row.find("=") +1)) {
-					config::DIFFICULTY = 3;
-					config::MAX_ENEMIES = 8;
-					config::ENEMIES_BEFORE_ROCK = 2;
-					config::MAX_ROCKS = 20;
-					config::E_VELOCITY = 0.65f;
-					config::R_1_VELOCITY = 1.15f;
-					config::R_2_VELOCITY = 0.85f;
-					config::R_3_VELOCITY = 0.70f;
+						cfg.difficulty = 3;
+						cfg.max_enemies = 8;
+						cfg.enemies_before_rock = 2;
+						cfg.max_rocks = 20;
+						cfg.e_velocity = 0.65f;
+						cfg.r_velocity[0] = 1.15f;
+						cfg.r_velocity[1] = 0.85f;
+						cfg.r_velocity[2] = 0.7f;
+					}
+					if (cfg.difficulty > 0) {
+						config::loadConfig(cfg);
 					}
 			}
 		}

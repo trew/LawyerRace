@@ -18,7 +18,6 @@
     <ClCompile Include="..\..\src\Entity.cpp" />
     <ClCompile Include="..\..\src\FPS.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
-    <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameState.cpp" />
     <ClCompile Include="..\..\src\GameState_Init.cpp" />
     <ClCompile Include="..\..\src\Image.cpp" />

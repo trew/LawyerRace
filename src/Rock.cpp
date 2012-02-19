@@ -9,19 +9,19 @@ Rock::Rock(const std::string _fileName, const int _xPos, const int _yPos, const 
 : Entity(_fileName, _xPos, _yPos),
 m_expired(false)
 {
-	m_vel = config::R_1_VELOCITY;
-	m_height = config::R_1_HEIGHT;
-	m_width = config::R_1_WIDTH;
+	m_vel = config::R_VELOCITY[0];
+	m_height = config::R_HEIGHT[0];
+	m_width = config::R_WIDTH[0];
 
 	if (_rockType == 2) {
-		m_vel = config::R_2_VELOCITY;
-		m_height = config::R_2_HEIGHT;
-		m_width = config::R_2_WIDTH;
+		m_vel = config::R_VELOCITY[1];
+		m_height = config::R_HEIGHT[1];
+		m_width = config::R_WIDTH[1];
 	}
 	else if (_rockType == 3) {
-		m_vel = config::R_3_VELOCITY;
-		m_height = config::R_3_HEIGHT;
-		m_width = config::R_3_WIDTH;
+		m_vel = config::R_VELOCITY[2];
+		m_height = config::R_HEIGHT[2];
+		m_width = config::R_WIDTH[2];
 	}
 }
 

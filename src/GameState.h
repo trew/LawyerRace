@@ -54,17 +54,8 @@ public:
 	std::list<Player*> getWinners();
 private:
 	bool GameRunning;
-	Player* m_player_1;
-	KeySet m_p1_keySet;
-	
-	Player* m_player_2;
-	KeySet m_p2_keySet;
-	
-	Player* m_player_3;
-	KeySet m_p3_keySet;
-	
-	Player* m_player_4;
-	KeySet m_p4_keySet;
+	Player* m_player[4];
+	KeySet m_keySet[4];
 
 	int countDown;
 	unsigned int countDown_compareTime;

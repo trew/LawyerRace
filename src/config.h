@@ -34,10 +34,7 @@ extern const int W_BPP;		///<Window Depth
 
 extern const int P_WIDTH;		///<Size of Player sprite width
 extern const int P_HEIGHT;	///<Size of Player sprite height
-extern const std::string P1_SRC;
-extern const std::string P2_SRC;
-extern const std::string P3_SRC;
-extern const std::string P4_SRC;
+extern const std::string P_SRC[4];
 
 extern const int E_WIDTH;		///<Size of Enemy sprite width
 extern const int E_HEIGHT;	///<Size of Enemy sprite height
@@ -49,15 +46,9 @@ extern const std::string D_SRC;
 
 extern const int MAX_R_WIDTH;
 extern const int MAX_R_HEIGHT;
-extern const int R_1_WIDTH;
-extern const int R_1_HEIGHT;
-extern const std::string R_1_SRC;
-extern const int R_2_WIDTH;
-extern const int R_2_HEIGHT;
-extern const std::string R_2_SRC;
-extern const int R_3_WIDTH;
-extern const int R_3_HEIGHT;
-extern const std::string R_3_SRC;
+extern const int R_WIDTH[3];
+extern const int R_HEIGHT[3];
+extern const std::string R_SRC[3];
 
 void loadConfig(const GameConfig &cfg); //load custom config
 
@@ -76,10 +67,6 @@ extern int MAX_ROCKS;
 extern float SPEED_FACTOR;		
 extern float P_VELOCITY;		///< Player velocity
 extern float E_VELOCITY;		///< Enemy velocity
-extern float R_1_VELOCITY;		///< Rock velocity
-extern float R_2_VELOCITY;	///< Rock velocity
-extern float R_3_VELOCITY;		///< Rock velocity
-
-extern float R_VELOCITY[3];
+extern float R_VELOCITY[3];		///< Rock velocities
 }
 #endif
