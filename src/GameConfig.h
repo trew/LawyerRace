@@ -2,25 +2,28 @@
 #define _GAMECONFIG_H_
 
 #include "config.h"
+#include <string>
 
 class GameConfig
 {
 public:
-	GameConfig():
-		difficulty(0),
+	GameConfig() { GameConfig(""); }
+	GameConfig(std::string _name):
 		max_enemies(0),
 		enemies_before_rock(0),
 		max_rocks(0),
 		p_velocity(0.0f),
 		e_velocity(0.0f)
 		{
+			name = _name;
 			r_velocity[0] = 0.0f;
 			r_velocity[1] = 0.0f;
 			r_velocity[2] = 0.0f;
 		}
 	virtual ~GameConfig() {}
 
-	int difficulty;
+	std::string name;
+
 	int max_enemies;
 	int enemies_before_rock;
 	int max_rocks;

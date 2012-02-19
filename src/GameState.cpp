@@ -13,7 +13,6 @@ GameState::GameState() {
 
 GameState::~GameState() {
 ///Destructor
-	
 }
 
 int GameState::Execute() {
@@ -73,7 +72,6 @@ void GameState::Cleanup() {
 	Sprite::s_spriteList.clear();
 	Dollar::s_dollarList.clear();
 	Text::s_textList.clear();
-
 }
 /* END RUN ONCE FUNCTIONS */
 

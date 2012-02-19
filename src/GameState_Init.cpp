@@ -53,35 +53,3 @@ bool GameState::Init() {
 	countDown_compareTime = SDL_GetTicks();
 	return true;
 }
-
-/*void GameState::SetupKeySets() {
-	//Player 1
-	m_keySet[0].K_DOWN = SDLK_DOWN;
-	m_keySet[0].K_UP = SDLK_UP;
-	m_keySet[0].K_LEFT = SDLK_LEFT;
-	m_keySet[0].K_RIGHT = SDLK_RIGHT;
-	m_keySet[0].K_STOP = SDLK_RCTRL;
-	//Player 2
-	m_keySet[1].K_DOWN = SDLK_s;
-	m_keySet[1].K_UP = SDLK_w;
-	m_keySet[1].K_LEFT = SDLK_a;
-	m_keySet[1].K_RIGHT = SDLK_d;
-	m_keySet[1].K_STOP = SDLK_LCTRL;
-	//Player 3
-	m_keySet[2].K_DOWN = SDLK_k;
-	m_keySet[2].K_UP = SDLK_i;
-	m_keySet[2].K_LEFT = SDLK_j;
-	m_keySet[2].K_RIGHT = SDLK_l;
-	m_keySet[2].K_STOP = SDLK_SPACE;
-	//Player 4
-	m_keySet[3].K_DOWN = SDLK_KP5;
-	m_keySet[3].K_UP = SDLK_KP8;
-	m_keySet[3].K_LEFT = SDLK_KP4;
-	m_keySet[3].K_RIGHT = SDLK_KP6;
-	m_keySet[3].K_STOP = SDLK_KP0;
-
-	if (Player::numOfPlayers == 1) {
-		m_keySet[0].K_STOP = SDLK_SPACE;
-	}
-
-}*/

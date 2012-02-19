@@ -54,10 +54,10 @@ extern const int R_WIDTH[3];
 extern const int R_HEIGHT[3];
 extern const std::string R_SRC[3];
 
-void loadConfig(const GameConfig &cfg); //load custom config
+extern KeySet KEYSET[4];
 
-//Temporary Variables to keep the majority of the code working while I'm testing this out.
-extern int DIFFICULTY;
+void loadKeySets();  //load all keysets
+void loadConfig(const GameConfig &cfg); //load custom config
 
 extern int MAX_ENEMIES;
 extern int ENEMIES_BEFORE_ROCK;
@@ -73,8 +73,5 @@ extern float P_VELOCITY;		///< Player velocity
 extern float E_VELOCITY;		///< Enemy velocity
 extern float R_VELOCITY[3];		///< Rock velocities
 
-extern KeySet KEYSET[4];
-
-void loadKeySets();
 }
 #endif

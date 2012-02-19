@@ -50,7 +50,7 @@ bool Game::Init()
 			{
 					GameConfig cfg;
 					if(row.find("1") == (row.find("=") +1)) {
-						cfg.difficulty = 1;
+						cfg.name = "Easy";
 						cfg.max_enemies = 4;
 						cfg.enemies_before_rock = 4;
 						cfg.max_rocks = 10;
@@ -60,7 +60,7 @@ bool Game::Init()
 						cfg.r_velocity[1] = 0.70f;
 						cfg.r_velocity[2] = 0.4f;
 					} else if(row.find("2") == (row.find("=") +1)) {
-						cfg.difficulty = 2;
+						cfg.name = "Medium";
 						cfg.max_enemies = 5;
 						cfg.enemies_before_rock = 3;
 						cfg.max_rocks = 10;
@@ -70,7 +70,7 @@ bool Game::Init()
 						cfg.r_velocity[1] = 0.75f;
 						cfg.r_velocity[2] = 0.5f;
 					} else if(row.find("3") == (row.find("=") +1)) {
-						cfg.difficulty = 3;
+						cfg.name = "Hard";
 						cfg.max_enemies = 8;
 						cfg.enemies_before_rock = 2;
 						cfg.max_rocks = 20;
@@ -80,16 +80,15 @@ bool Game::Init()
 						cfg.r_velocity[1] = 0.85f;
 						cfg.r_velocity[2] = 0.7f;
 					}
-					if (cfg.difficulty > 0) {
+					if (cfg.name != "") {
 						config::loadConfig(cfg);
-					}
+					} // else standard values in config.cpp is used.
 			}
 		}
 		infile.close();
 	} else {
-		//Throwing regular strings is very temporary
-        LOG_DEBUG("Couldn't load settings");
-		throw "Couldn't load settings";
+        LOG_ERROR("Couldn't load settings");
+		return false;
 	}
 	
 	if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 ) return false;
@@ -100,7 +99,6 @@ bool Game::Init()
 	
 	TTF_Init();
 
-		
 	return true;
 }
 
@@ -119,7 +117,6 @@ int Game::Execute()
 	{
 		currentState->Execute();
 	}
-
 
 	Cleanup();
 	return 0;

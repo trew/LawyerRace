@@ -127,7 +127,6 @@ void Player::handleEvent(SDL_Event& ev) {
 		} 
 		else if (ev.key.keysym.sym == m_keySet.K_STOP) {
 			toggleMovement();
-			//TODO: Stop movement for enemies
 		}
 	}
 }
