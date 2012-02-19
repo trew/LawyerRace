@@ -2,9 +2,11 @@
 #define _INIT_CONFIG_H_
 
 #include "config.h"
+#include "GameConfig.h"
 
 namespace config
 {
+
 
 #ifdef LWPATH 
 const std::string path = LWPATH;
@@ -57,11 +59,59 @@ int MAX_ROCKS = 10;
 * Tweaks also allows the entities default speed to be 1.0.
 */
 float SPEED_FACTOR = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;		
-const float P_VELOCITY = 1.0f;		///< Player velocity
+float P_VELOCITY = 1.0f;		///< Player velocity
 float E_VELOCITY = 0.4f;		///< Enemy velocity
 float R_1_VELOCITY = 1.0f;		///< Rock velocity
 float R_2_VELOCITY = 0.75f;	///< Rock velocity
 float R_3_VELOCITY = 0.5f;		///< Rock velocity
 
+float R_VELOCITY[3];
+
+void loadConfig(const GameConfig &cfg)
+{
+	MAX_ENEMIES         = cfg.max_enemies;
+	ENEMIES_BEFORE_ROCK = cfg.enemies_before_rock;
+	MAX_ROCKS           = cfg.max_rocks;
+	SPEED_FACTOR        = cfg.speed_factor;
+	P_VELOCITY			= cfg.p_velocity;
+	E_VELOCITY			= cfg.e_velocity;
+	R_VELOCITY[0]		= cfg.r_velocity[0];
+	R_VELOCITY[1]		= cfg.r_velocity[1];
+	R_VELOCITY[2]		= cfg.r_velocity[2];
 }
+/*
+Easy.difficulty = 1;
+Easy.max_enemies = 5;
+Easy.enemies_before_rock = 3;
+Easy.max_rocks = 10;
+Easy.speed_factor = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;
+Easy.p_velocity = 1.0f;
+Easy.e_velocity = 0.4f;
+Easy.r_velocity[0] = 1.0f;
+Easy.r_velocity[1] = 0.75f;
+Easy.r_velocity[2] = 0.5f;
+
+Medium.difficulty = 2;
+Medium.max_enemies = 5;
+Medium.enemies_before_rock = 3;
+Medium.max_rocks = 10;
+Medium.speed_factor = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;
+Medium.p_velocity = 1.0f;
+Medium.e_velocity = 0.4f;
+Medium.r_velocity[0] = 1.0f;
+Medium.r_velocity[1] = 0.75f;
+Medium.r_velocity[2] = 0.5f;
+
+Hard.difficulty = 3;
+Hard.max_enemies = 5;
+Hard.enemies_before_rock = 3;
+Hard.max_rocks = 10;
+Hard.speed_factor = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;
+Hard.p_velocity = 1.0f;
+Hard.e_velocity = 0.4f;
+Hard.r_velocity[0] = 1.0f;
+Hard.r_velocity[1] = 0.75f;
+Hard.r_velocity[2] = 0.5f;
+*/
+} //namespace config
 #endif

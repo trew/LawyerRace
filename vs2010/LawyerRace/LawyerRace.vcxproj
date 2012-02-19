@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\src\Entity.cpp" />
     <ClCompile Include="..\..\src\FPS.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
+    <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameState.cpp" />
     <ClCompile Include="..\..\src\GameState_Init.cpp" />
     <ClCompile Include="..\..\src\Image.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="..\..\src\Entity.h" />
     <ClInclude Include="..\..\src\FPS.h" />
     <ClInclude Include="..\..\src\Game.h" />
+    <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\GameState.h" />
     <ClInclude Include="..\..\src\Image.h" />
     <ClInclude Include="..\..\src\KeySet.h" />

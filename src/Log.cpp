@@ -5,6 +5,7 @@
 namespace lg {
 
 Logger Logger::log_debug;
+Logger Logger::log_error;
 
 static std::ostream* output_stream = NULL;
 

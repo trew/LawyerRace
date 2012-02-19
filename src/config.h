@@ -2,6 +2,7 @@
 #define _CONFIG_H_
 
 #include <string>
+#include "GameConfig.h"
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
 enum Direction {
@@ -23,8 +24,6 @@ namespace config
 {
 
 extern const std::string path;
-
-extern int DIFFICULTY;
 
 extern const std::string WINDOW_TEXT;
 
@@ -60,6 +59,11 @@ extern const int R_3_WIDTH;
 extern const int R_3_HEIGHT;
 extern const std::string R_3_SRC;
 
+void loadConfig(const GameConfig &cfg); //load custom config
+
+//Temporary Variables to keep the majority of the code working while I'm testing this out.
+extern int DIFFICULTY;
+
 extern int MAX_ENEMIES;
 extern int ENEMIES_BEFORE_ROCK;
 extern int MAX_ROCKS;
@@ -70,11 +74,12 @@ extern int MAX_ROCKS;
 * Tweaks also allows the entities default speed to be 1.0.
 */
 extern float SPEED_FACTOR;		
-extern const float P_VELOCITY;		///< Player velocity
+extern float P_VELOCITY;		///< Player velocity
 extern float E_VELOCITY;		///< Enemy velocity
 extern float R_1_VELOCITY;		///< Rock velocity
 extern float R_2_VELOCITY;	///< Rock velocity
 extern float R_3_VELOCITY;		///< Rock velocity
 
+extern float R_VELOCITY[3];
 }
 #endif

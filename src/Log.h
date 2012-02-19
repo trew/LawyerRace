@@ -11,6 +11,7 @@ std::string get_timestamp(const time_t& t, const std::string& format="%Y-%m-%d %
 class Logger {
 public:
     static Logger log_debug;
+	static Logger log_error;
 
     std::ostream& operator()(std::string msg);
     void set_ostream(std::ostream* os);
@@ -22,5 +23,6 @@ private:
 } //namespace lg
 
 #define LOG_DEBUG(a) lg::Logger::log_debug(a)
+#define LOG_ERROR(a) lg::Logger::log_error(a)
 
 #endif

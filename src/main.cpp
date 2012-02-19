@@ -18,10 +18,6 @@ int main(int argc, char* argv[]) {
     {
         newGame.Execute();
     } 
-	catch (int i) //TODO: Exceptions
-    {
-        std::cerr << "Something went terribly wrong." << std::endl;
-    }
 	catch (const char* c)
 	{
 		std::cerr << "Error: " << c << std::endl;
