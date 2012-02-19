@@ -10,13 +10,14 @@ Rock::Rock(const std::string _fileName, const int _xPos, const int _yPos, const 
 : Entity(_fileName, _xPos, _yPos),
 m_expired(false)
 {
-	if (_rockType < 0 || _rockType > 2) {
+	if (_rockType < 0 || _rockType > 3) {
 		LOG_ERROR("Tried to create rock of unsupported type.");
+        return;
 	}
 
 	m_vel = config::R_VELOCITY[_rockType-1];
 	m_height = config::R_HEIGHT[_rockType-1];
-	m_width = config::R_WIDTH[_rockType];
+	m_width = config::R_WIDTH[_rockType-1];
 }
 
 Rock::~Rock() {
