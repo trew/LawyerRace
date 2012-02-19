@@ -1,7 +1,6 @@
 #ifndef _GAMECONFIG_H_
 #define _GAMECONFIG_H_
 
-#include "config.h"
 #include <string>
 
 class GameConfig
