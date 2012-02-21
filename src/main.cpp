@@ -9,10 +9,58 @@
 #include <iostream>
 #include "config.h"
 #include "Log.h"
+#include <boost/program_options.hpp>
+
+namespace po = boost::program_options;
+
+void parse_command_line(int argc, char* argv[]) {
+/*
+Allowed options:
+  -h [ --help ]              produce help message
+  -p [ --path ] arg          use this folder as base path
+  -f [ --settings-file ] arg use this config file(using path)
+
+
+*/
+    try {
+        po::options_description desc("Allowed options");
+        desc.add_options()
+            ("help,h", "produce help message")
+            ("path,p", po::value<std::string>(), "use this folder as base path")
+            ("settings-file,f", po::value<std::string>(), "use this config file");
+
+        po::variables_map vm;
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::notify(vm);
+
+        if (vm.count("help")) {
+            std::cout << desc << std::endl;
+            return;
+        }
+
+        if (vm.count("path")) {
+            std::cout << "Running from: \"" << vm["path"].as<std::string>() << "\"" << std::endl;
+        } else {
+            std::cout << "Running from \"" << config::path << "\"" << std::endl;
+        }
+        
+        if (vm.count("settings-file")) {
+            std::cout << "Using \"" << vm["settings-file"].as<std::string>() << "\" as configuration file." << std::endl;
+        }
+
+    } catch (std::exception& e) {
+        std::cerr << "error: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "unknown exception" << std::endl;
+    }
+    
+}
 
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned int>(time(NULL)));
 
+    parse_command_line(argc, argv);
+    return 0;
 	Game newGame;
     try 
     {

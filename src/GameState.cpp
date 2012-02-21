@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include <sstream>
+#include <iostream>
 
 GameState::GameState() {
 ///Constructor
@@ -97,6 +98,13 @@ void GameState::OnEvent(SDL_Event* ev) {
 		}
 	} else if (currentInGameState == GameOver) {
 		if (ev->type == SDL_KEYDOWN) {
+            std::list<Player*>::iterator it_player = Player::s_playerList.begin();
+            int c = 1;
+            while(it_player != Player::s_playerList.end()) {
+                std::cout << "Player " << c << ": " <<  (*it_player)->getScore() << std::endl;
+                it_player++; c++;
+            }
+//            std::cerr << "Player 1: " << m_player[0]->getScore() << " - " << m_player[1]->getScore() << " :Player 2" << std::endl; 
 			GameRunning = false;
 			Game::StateControl.setState(NULL);
 		}

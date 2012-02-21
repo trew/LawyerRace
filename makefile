@@ -19,7 +19,7 @@ SDLFLAGS = $(shell sdl-config --cflags)
 CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS) -DLWPATH=\"$(shell pwd)\"
 
 SDLLIBS = $(shell sdl-config --libs) -lSDL_ttf -lSDL_image -lSDL_gfx
-LIBS = $(SDLLIBS)    # -lstdc++
+LIBS = $(SDLLIBS) -lboost_program_options   # -lstdc++
 
 all : $(EXECUTABLE)
 
