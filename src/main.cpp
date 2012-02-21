@@ -32,7 +32,7 @@ bool parse_config_file(std::string _file) {
 			("system.resolution_width",  po::value<int>()->        default_value(1024), "")
 			("system.resolution_height", po::value<int>()->        default_value(768), "");
 		po::variables_map vm;
-		std::ifstream is(_file);
+		std::ifstream is(_file.c_str());
 		po::store(po::parse_config_file(is, desc), vm);
         po::notify(vm);
 
