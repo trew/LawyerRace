@@ -5,7 +5,7 @@ max_enemies=4
 enemies_before_rock=4
 max_rocks=10
 [velocity]
-gamespeed=2.0
+gamespeed=1.0
 player=1.0
 enemy=0.43
 [velocity.rocks]
