@@ -24,10 +24,11 @@ enum Direction {
 namespace config
 {
 
+std::string validateConfigFile(std::string _file);
 std::string validatePath(std::string _path);
 
 extern std::string path;
-extern std::string settings_file;
+extern std::string config_file;
 
 extern const std::string WINDOW_TEXT;
 
@@ -74,6 +75,7 @@ extern int MAX_ROCKS;
 * Tweaks also allows the entities default speed to be 1.0.
 */
 extern float SPEED_FACTOR;		
+extern float GAME_SPEED;
 extern float P_VELOCITY;		///< Player velocity
 extern float E_VELOCITY;		///< Enemy velocity
 extern float R_VELOCITY[3];		///< Rock velocities

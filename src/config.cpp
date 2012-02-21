@@ -11,9 +11,20 @@
 namespace config
 {
 
+std::string validateConfigFile(std::string _file)
+{
+    if (file_exists(config::path + _file))
+    {
+        LOG_DEBUG(std::string("Using config: ") + _file);
+    } else {
+		LOG_ERROR (std::string("Using config: \"") + _file + "\". Instead using \"" + config::config_file + "\".");
+    }
+    return _file;
+}
+
 std::string validatePath(std::string _path) {
     std::string path;
-    if (file_exists(_path + "/" + settings_file))
+    if (file_exists(_path))
     {
         path = _path;
         LOG_DEBUG(std::string("Using path: ") + path);
@@ -25,7 +36,7 @@ std::string validatePath(std::string _path) {
 }
 
 std::string path = ""; // reloaded during command line parsing
-std::string settings_file = "/settings.ini"; //standard
+std::string config_file = "/cfg/ez"; //standard
 
 const std::string WINDOW_TEXT = "Lawyer Race";
 int W_WIDTH = 1024;	///<Window Width
@@ -66,7 +77,8 @@ int MAX_ROCKS = 10;
 * Based on width of screen, because I think it should take the same amount of time to travel from side to side regardless of screensize.
 * Tweaks also allows the entities default speed to be 1.0.
 */
-float SPEED_FACTOR = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;		
+float SPEED_FACTOR = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;	
+float GAME_SPEED = 1.0f;		///< Gamespeed, configurable in config file
 float P_VELOCITY = 1.0f;		///< Player velocity
 float E_VELOCITY = 0.4f;		///< Enemy velocity
 

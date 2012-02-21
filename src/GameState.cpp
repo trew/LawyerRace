@@ -391,11 +391,11 @@ void GameState::createRock() {
 		}
 		else if(rockType == 10) {
 			int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));
-			Rock::s_rockList.push_back(new Rock(config::R_SRC[2], r_xPos, r_yPos, 3));
+			Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[2], r_xPos, r_yPos, 3));
 		}
 		else {
 			int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[0]));
-			Rock::s_rockList.push_back(new Rock(config::R_SRC[0], r_xPos, r_yPos, 1));
+			Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[0], r_xPos, r_yPos, 1));
 		}
 	}
 }

@@ -1,0 +1,18 @@
+#Configuration file for Lawyer Race
+#Difficulty: Custom
+
+name=custom
+max_enemies=5           
+enemies_before_rock=3   # how many enemies need to spawn before the first rock starts to fall
+max_rocks=10            
+[velocity]
+gamespeed=1.0           
+player=1.0              
+enemy=0.53              
+[velocity.rocks]
+small=1.0
+medium=0.75
+large=0.5
+[system]
+resolution_width=1024   # if this is other than 640x480, 800x600 or 1024x768, I don't know
+resolution_height=768   # what might happen.

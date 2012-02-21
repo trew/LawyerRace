@@ -1,12 +1,17 @@
-;Possible Resolutions:
-;1024x768 (default)
-;800x600 
-;640x480
-;
-;CAUTION - All other than 1024x768 is not optimized. Sprites will remain same sizes, 
-;only game window will be smaller.
-resolution=1024x768
-
-;Possible difficulties:
-;1-3   Easy - Normal - Hard
-difficulty=1
+#Configuration file for Lawyer Race
+#Difficulty: Medium
+name=medium
+max_enemies=5
+enemies_before_rock=3
+max_rocks=10
+[velocity]
+gamespeed=1.0
+player=1.0
+enemy=0.53
+[velocity.rocks]
+small=1.0
+medium=0.75
+large=0.5
+[system]
+resolution_width=1024
+resolution_height=768
