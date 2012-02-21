@@ -4,8 +4,6 @@
 bool GameState::Init() {
 ///Initialize all
 	
-	config::NUM_OF_PLAYERS = 1; //TEMPORARY SOLUTION UNTIL MENUSTATES IS IMPLEMENTED.
-	
 	mainScreen = Game::mainScreen;
 
 	LOG_DEBUG("Loading fonts...");
@@ -22,7 +20,7 @@ bool GameState::Init() {
     LOG_DEBUG("Loading players...");	
 	for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
 	{
-	    if (!(m_player[i] = new Player(config::P_SRC[i], 0, 0, config::KEYSET[i]))) return false;
+	    if (!(m_player[i] = new Player(config::path + config::P_SRC[i], 0, 0, config::KEYSET[i]))) return false;
 		m_player[i]->centerVertical(0, config::W_HEIGHT);
 		Player::s_playerList.push_back(m_player[i]);
 	}

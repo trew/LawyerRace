@@ -298,7 +298,7 @@ void GameState::checkForCollision() {
 void GameState::createDollar() {
 	std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
 	while (Dollar::s_dollarList.size() < unsigned(Player::alivePlayers)) {
-		Dollar* newDollar = new Dollar(config::D_SRC, 0, 0);
+		Dollar* newDollar = new Dollar(config::path + config::D_SRC, 0, 0);
 		int newDollar_xPos = 0;
 		int newDollar_yPos = 0;
 		bool valid = false;
@@ -351,7 +351,7 @@ void GameState::createEnemy() {
 		}
 
 		//Finally, create new enemy
-		Enemy::s_enemyList.push_back(new Enemy(config::E_SRC, e_xPos, e_yPos));
+		Enemy::s_enemyList.push_back(new Enemy(config::path + config::E_SRC, e_xPos, e_yPos));
 	}
 
 }

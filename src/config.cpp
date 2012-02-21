@@ -38,23 +38,23 @@ int NUM_OF_PLAYERS = 0;
 
 const int P_WIDTH = 30;		///<Size of Player sprite width
 const int P_HEIGHT = 30;	///<Size of Player sprite height
-const std::string P_SRC[4] = {path + "/img/player1x30.png", path + "/img/player2x30.png",
-								path + "/img/player3x30.png", path + "/img/player4x30.png" };
+const std::string P_SRC[4] = {"/img/player1x30.png", "/img/player2x30.png",
+								"/img/player3x30.png", "/img/player4x30.png" };
 
 const int E_WIDTH = 30;		///<Size of Enemy sprite width
 const int E_HEIGHT = 30;	///<Size of Enemy sprite height
-const std::string E_SRC = path + "/img/enemyx30.png";
+const std::string E_SRC = "/img/enemyx30.png";
 
 const int D_WIDTH = 30;		///<Size of Dollar sprite width
 const int D_HEIGHT = 15;	///<Size of Dollar sprite height
-const std::string D_SRC = path + "/img/dollar.png";
+const std::string D_SRC = "/img/dollar.png";
 
 const int MAX_R_WIDTH = 58;
 const int MAX_R_HEIGHT = 49;
 
 const int R_WIDTH[3] = {17, 26, 58};
 const int R_HEIGHT[3] = {14, 25, 49};
-const std::string R_SRC[3] = {path + "/img/stone1-17x14.png", path +"/img/stone2-26x25.png", path + "/img/stone3-58x49.png"};
+const std::string R_SRC[3] = {"/img/stone1-17x14.png", "/img/stone2-26x25.png", "/img/stone3-58x49.png"};
 	
 bool PLAYER_STOP_ENABLED = true;
 int MAX_ENEMIES = 5;

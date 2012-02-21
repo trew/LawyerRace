@@ -14,14 +14,14 @@
 
 namespace po = boost::program_options;
 
-void parse_command_line(int argc, char* argv[]) {
+bool parse_command_line(int argc, char* argv[]) {
 /*
 Allowed options:
   -h [ --help ]              produce help message
   -p [ --path ] arg          use this folder as base path
   -f [ --settings-file ] arg use this config file(using path)
   --disable-stop             disallows players to stop
-
+  --players arg              sets number of players
 */
     try {
         po::options_description desc("Allowed options");
@@ -29,7 +29,8 @@ Allowed options:
             ("help,h", "produce help message")
             ("path,p", po::value<std::string>(), "use this folder as base path")
             ("settings-file,f", po::value<std::string>(), "use this config file")
-            ("disable-stop", "disallows players to stop");
+            ("disable-stop", "disallows players to stop")
+            ("players,n", po::value<int>()->default_value(1), "sets number of players");
 
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -40,10 +41,18 @@ Allowed options:
             config::PLAYER_STOP_ENABLED = false;
             LOG_DEBUG("Disabling player stop ");
         }
-
+        
+        if (vm.count("players")) {
+            if (vm["players"].as<int>() < 5 && vm["players"].as<int>() > 0) {
+                config::NUM_OF_PLAYERS = vm["players"].as<int>();
+            } else {
+                LOG_ERROR("Wrong number of players");
+                config::NUM_OF_PLAYERS = 1;
+            }
+        }
         if (vm.count("help")) {
             std::cout << desc << std::endl;
-            return;
+            return false;
         }
 
         if (vm.count("settings-file")) {
@@ -62,16 +71,17 @@ Allowed options:
     } catch (...) {
         std::cerr << "unknown exception" << std::endl;
     }
-    
+    return true; 
 }
 
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned int>(time(NULL)));
 
     config::path = get_exe_dir();
-    parse_command_line(argc, argv);
-    return 0;
-	Game newGame;
+    if(!parse_command_line(argc, argv))
+        return 0;
+	
+    Game newGame;
     try 
     {
         newGame.Execute();
