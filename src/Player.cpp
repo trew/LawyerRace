@@ -126,7 +126,8 @@ void Player::handleEvent(SDL_Event& ev) {
 			setDirection(DOWN);
 		} 
 		else if (ev.key.keysym.sym == m_keySet.K_STOP) {
-			toggleMovement();
+			if (config::PLAYER_STOP_ENABLED)
+                toggleMovement();
 		}
 	}
 }

@@ -62,6 +62,8 @@ extern KeySet KEYSET[4];
 void loadKeySets();  //load all keysets
 void loadConfig(const GameConfig &cfg); //load custom config
 
+extern bool PLAYER_STOP_ENABLED;
+
 extern int MAX_ENEMIES;
 extern int ENEMIES_BEFORE_ROCK;
 extern int MAX_ROCKS;

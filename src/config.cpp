@@ -56,7 +56,7 @@ const int R_WIDTH[3] = {17, 26, 58};
 const int R_HEIGHT[3] = {14, 25, 49};
 const std::string R_SRC[3] = {path + "/img/stone1-17x14.png", path +"/img/stone2-26x25.png", path + "/img/stone3-58x49.png"};
 	
-int DIFFICULTY = 2;
+bool PLAYER_STOP_ENABLED = true;
 int MAX_ENEMIES = 5;
 int ENEMIES_BEFORE_ROCK = 3;
 int MAX_ROCKS = 10;

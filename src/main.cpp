@@ -20,7 +20,7 @@ Allowed options:
   -h [ --help ]              produce help message
   -p [ --path ] arg          use this folder as base path
   -f [ --settings-file ] arg use this config file(using path)
-
+  --disable-stop             disallows players to stop
 
 */
     try {
@@ -28,11 +28,18 @@ Allowed options:
         desc.add_options()
             ("help,h", "produce help message")
             ("path,p", po::value<std::string>(), "use this folder as base path")
-            ("settings-file,f", po::value<std::string>(), "use this config file");
+            ("settings-file,f", po::value<std::string>(), "use this config file")
+            ("disable-stop", "disallows players to stop");
 
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
         po::notify(vm);
+
+        if (vm.count("disable-stop"))
+        {
+            config::PLAYER_STOP_ENABLED = false;
+            LOG_DEBUG("Disabling player stop ");
+        }
 
         if (vm.count("help")) {
             std::cout << desc << std::endl;
