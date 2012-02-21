@@ -14,7 +14,11 @@
 std::string get_cwd()
 {
     char buf[1024];
+#ifdef _WIN32
     const char* const res = _getcwd(buf,sizeof(buf));
+#else
+    const char* const res = getcwd(buf,sizeof(buf));
+#endif
     if(res != NULL) {
         std::string str(res);
 
