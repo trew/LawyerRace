@@ -3,8 +3,8 @@
 #include <sys/stat.h>
 
 #ifdef _WIN32
-#include "filesystem_win32.ii"
-#include <cctype>
+#include <direct.h>
+#include <algorithm>
 #else /* !_WIN32 */
 #include <unistd.h>
 #include <dirent.h>
@@ -14,7 +14,7 @@
 std::string get_cwd()
 {
     char buf[1024];
-    const char* const res = getcwd(buf,sizeof(buf));
+    const char* const res = _getcwd(buf,sizeof(buf));
     if(res != NULL) {
         std::string str(res);
 
