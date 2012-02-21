@@ -1,3 +1,4 @@
-1. Enable entities to exit the screen and enter on the other side. (Similar to pacman)
-2. Add timer for brake(disable unlimited brake time)
-3. Enable use of configfiles that use the same syntax as boost::program_options.
+1. Fix how to provide boost and unixem libraries for both windows and linux.
+2. Enable entities to exit the screen and enter on the other side. (Similar to pacman)
+3. Add timer for brake(disable unlimited brake time)
+4. Enable use of configfiles that use the same syntax as boost::program_options.
