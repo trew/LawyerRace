@@ -19,6 +19,7 @@ static std::ostream& output()
 
 std::string get_timestamp(const time_t& t, const std::string& format) {
     char buf[100] = {0};
+#pragma warning (disable : 4996) //disable warning for localtime()
     tm* lt = localtime(&t);
     if (lt) {
         strftime(buf, 100, format.c_str(), lt);
