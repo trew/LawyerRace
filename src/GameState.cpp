@@ -387,7 +387,7 @@ void GameState::createRock() {
 		int rockType = (rand() % 10 +1);
 		if (rockType >= 7 && rockType <= 9) {
 			int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[1]));
-			Rock::s_rockList.push_back(new Rock(config::R_SRC[1], r_xPos, r_yPos, 2));
+			Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[1], r_xPos, r_yPos, 2));
 		}
 		else if(rockType == 10) {
 			int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));

@@ -25,7 +25,7 @@ std::string validatePath(std::string _path) {
 }
 
 std::string path = ""; // reloaded during command line parsing
-std::string settings_file = "settings.ini"; //standard
+std::string settings_file = "/settings.ini"; //standard
 
 const std::string WINDOW_TEXT = "Lawyer Race";
 int W_WIDTH = 1024;	///<Window Width
