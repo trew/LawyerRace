@@ -86,7 +86,6 @@ Allowed options:
 
 		if (vm.count("settings-file")) {
             config::config_file = config::validateConfigFile(vm["settings-file"].as<std::string>());
-            std::cout << "Using \"" << vm["settings-file"].as<std::string>() << "\" as configuration file." << std::endl;
         } 
 		
 		parse_config_file(config::path + config::config_file);
