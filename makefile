@@ -8,7 +8,7 @@
 EXECUTABLE = lwrace
 
 SRC_DIR = src
-FILES = Log.cpp config.cpp Button.cpp Dollar.cpp Enemy.cpp Entity.cpp FPS.cpp Game.cpp GameState.cpp GameState_Init.cpp Image.cpp main.cpp Player.cpp Rock.cpp \
+FILES = Filesystem.cpp Log.cpp config.cpp Button.cpp Dollar.cpp Enemy.cpp Entity.cpp FPS.cpp Game.cpp GameState.cpp GameState_Init.cpp Image.cpp main.cpp Player.cpp Rock.cpp \
         Sprite.cpp Text.cpp
 
 SOURCES = $(foreach $(FILES), $(SRC_DIR), $(wildcard $(SRC_DIR)/*.cpp))
@@ -16,7 +16,7 @@ OBJECTS = $(FILES:.cpp=.o)
 
 CC = g++
 SDLFLAGS = $(shell sdl-config --cflags)
-CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS) -DLWPATH=\"$(shell pwd)\"
+CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS)
 
 SDLLIBS = $(shell sdl-config --libs) -lSDL_ttf -lSDL_image -lSDL_gfx
 LIBS = $(SDLLIBS) -lboost_program_options   # -lstdc++

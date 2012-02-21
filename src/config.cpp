@@ -4,16 +4,28 @@
 #include "config.h"
 #include "GameConfig.h"
 #include "KeySet.h"
+#include "Filesystem.hpp"
+#include <iostream>
+#include "Log.h"
 
 namespace config
 {
 
+std::string validatePath(std::string _path) {
+    std::string path;
+    if (file_exists(_path + "/" + settings_file))
+    {
+        path = _path;
+        LOG_DEBUG(std::string("Using path: ") + path);
+    } else {
+        path = get_cwd();
+        LOG_ERROR (std::string("Loading Path.") + "\"" + _path + "\". Using \"" + path + "\".");
+    }
+    return path;
+}
 
-#ifdef LWPATH 
-const std::string path = LWPATH;
-#else
-const std::string path = ".";
-#endif
+std::string path = ""; // reloaded during command line parsing
+std::string settings_file = "settings.ini"; //standard
 
 const std::string WINDOW_TEXT = "Lawyer Race";
 int W_WIDTH = 1024;	///<Window Width

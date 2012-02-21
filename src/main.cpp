@@ -10,6 +10,7 @@
 #include "config.h"
 #include "Log.h"
 #include <boost/program_options.hpp>
+#include "Filesystem.hpp"
 
 namespace po = boost::program_options;
 
@@ -38,16 +39,17 @@ Allowed options:
             return;
         }
 
-        if (vm.count("path")) {
-            std::cout << "Running from: \"" << vm["path"].as<std::string>() << "\"" << std::endl;
-        } else {
-            std::cout << "Running from \"" << config::path << "\"" << std::endl;
-        }
-        
         if (vm.count("settings-file")) {
+            config::settings_file = vm["settings-file"].as<std::string>();
             std::cout << "Using \"" << vm["settings-file"].as<std::string>() << "\" as configuration file." << std::endl;
         }
 
+        if (vm.count("path")) {
+            config::path = config::validatePath(vm["path"].as<std::string>());
+        } else {
+            config::path = config::validatePath(get_exe_dir());
+        }
+        
     } catch (std::exception& e) {
         std::cerr << "error: " << e.what() << std::endl;
     } catch (...) {
@@ -59,6 +61,7 @@ Allowed options:
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned int>(time(NULL)));
 
+    config::path = get_exe_dir();
     parse_command_line(argc, argv);
     return 0;
 	Game newGame;

@@ -24,7 +24,10 @@ enum Direction {
 namespace config
 {
 
-extern const std::string path;
+std::string validatePath(std::string _path);
+
+extern std::string path;
+extern std::string settings_file;
 
 extern const std::string WINDOW_TEXT;
 

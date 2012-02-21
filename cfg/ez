@@ -1,0 +1,12 @@
+;Possible Resolutions:
+;1024x768 (default)
+;800x600 
+;640x480
+;
+;CAUTION - All other than 1024x768 is not optimized. Sprites will remain same sizes, 
+;only game window will be smaller.
+resolution=1024x768
+
+;Possible difficulties:
+;1-3   Easy - Normal - Hard
+difficulty=1
