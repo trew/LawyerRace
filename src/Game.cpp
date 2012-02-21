@@ -28,8 +28,8 @@ bool Game::Init()
 {
 	std::string row;
 	std::ifstream infile;
-    LOG_DEBUG("Opening " + config::path + "/settings.ini...");
-	infile.open( (config::path + "/settings.ini").c_str() );
+    LOG_DEBUG("Opening " + config::path + config::settings_file + "...");
+	infile.open( (config::path + config::settings_file).c_str() );
 	if(infile) {
 		while(!infile.eof()) 
 		{
