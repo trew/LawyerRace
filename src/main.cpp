@@ -18,11 +18,11 @@ bool parse_command_line(int argc, char* argv[]) {
 /*
 Allowed options:
   -h [ --help ]              produce help message
+  -n [ --players ] arg       sets number of players
   -p [ --path ] arg          use this folder as base path
   -f [ --settings-file ] arg use this config file(using path)
   --disable-stop             disallows players to stop
   --old-diagonalspeed		 use the old diagonal speed. (instead of modifying by 0.7~)
-  --players arg              sets number of players
 */
 
 	LOG_DEBUG("---PARSING COMMAND LINE!---");

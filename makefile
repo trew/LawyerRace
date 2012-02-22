@@ -8,8 +8,8 @@
 EXECUTABLE = lwrace
 
 SRC_DIR = src
-FILES = Filesystem.cpp Log.cpp config.cpp Button.cpp Dollar.cpp Enemy.cpp Entity.cpp FPS.cpp Game.cpp GameState.cpp GameState_Init.cpp Image.cpp main.cpp Player.cpp Rock.cpp \
-        Sprite.cpp Text.cpp
+FILES = KeySet.cpp Filesystem.cpp Log.cpp config.cpp Button.cpp Dollar.cpp Enemy.cpp Entity.cpp FPS.cpp Game.cpp \
+        GameState.cpp GameState_Init.cpp Image.cpp main.cpp Player.cpp Rock.cpp Sprite.cpp Text.cpp
 
 SOURCES = $(foreach $(FILES), $(SRC_DIR), $(wildcard $(SRC_DIR)/*.cpp))
 OBJECTS = $(FILES:.cpp=.o)
