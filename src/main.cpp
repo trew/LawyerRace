@@ -33,6 +33,7 @@ Allowed options:
             ("players,n", po::value<int>()->default_value(1), "sets number of players")
 			("path,p", po::value<std::string>(), "use this folder as base path")
             ("settings-file,f", po::value<std::string>(), "use this config file")
+			("keyset-file,k", po::value<std::string>(), "use keysets from this file")
 			("disable-stop", "disallows players to stop")
 			("old-diagonalspeed", "use the old diagonal speed. (instead of modifying by 0.7~)")
             ;
@@ -54,7 +55,18 @@ Allowed options:
 		/* Then parse that file */
 		config::parseConfigFile(config::path + config::config_file);
 		
-		
+		if (vm.count("keyset-file")) {
+			if (file_exists(config::path + vm["keyset-file"].as<std::string>())) {
+				config::keyset_file = vm["keyset-file"].as<std::string>();
+			} else {
+				std::cerr << "Error loading " << vm["keyset-file"].as<std::string>() << std::endl;
+			}
+		}
+		LOG_DEBUG(std::string("Using keysets from") + config::keyset_file);
+
+		LOG_DEBUG("Loading keysets...");
+		KeySet::LoadKeysetFromFile(config::KEYSET, config::keyset_file);
+
 
 		/* Continue and override any variables that were provided in command line; they are more important than the config file */
 		if (vm.count("disable-stop"))

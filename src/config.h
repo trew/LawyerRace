@@ -61,8 +61,6 @@ extern const std::string R_SRC[3];
 
 extern KeySet KEYSET[4];
 
-void loadKeySets();  //load all keysets
-
 extern bool PLAYER_STOP_ENABLED;
 extern bool OLD_DIAGONAL_SPEED;
 

@@ -66,6 +66,7 @@ std::string validateConfigFile(std::string _file)
         LOG_DEBUG(std::string("Using config: ") + _file);
     } else {
 		LOG_ERROR (std::string("Error finding config: \"") + _file + "\". Instead using \"" + config::config_file + "\".");
+		return config::config_file;
     }
     return _file;
 }
@@ -137,12 +138,6 @@ float E_VELOCITY = 0.4f;		///< Enemy velocity
 float R_VELOCITY[3] = {1.0f, 0.75f, 0.5f}; //Rock velocities
 
 KeySet KEYSET[4];
-
-void loadKeySets()
-{
-	//when loading keysets from KeySet.cpp is done...
-	KeySet::LoadKeysetFromFile(KEYSET, path + keyset_file);
-}
 
 } //namespace config
 #endif
