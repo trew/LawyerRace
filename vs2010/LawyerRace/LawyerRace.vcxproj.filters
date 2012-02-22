@@ -116,9 +116,6 @@
     <ClInclude Include="..\..\src\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GameConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Filesystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

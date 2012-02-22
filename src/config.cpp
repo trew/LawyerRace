@@ -2,14 +2,60 @@
 #define _INIT_CONFIG_H_
 
 #include "config.h"
-#include "GameConfig.h"
 #include "KeySet.h"
 #include "Filesystem.hpp"
 #include <iostream>
+#include <fstream>
+#include <boost/program_options.hpp>
 #include "Log.h"
+
+namespace po = boost::program_options;
 
 namespace config
 {
+
+bool parseConfigFile(std::string _file) {
+	try {
+        po::options_description desc("Allowed options");
+		desc.add_options()
+			("name",                     po::value<std::string>()->default_value("noname"), "")
+			("max_enemies",              po::value<int>()->        default_value(4), "")
+			("enemies_before_rock",      po::value<int>()->        default_value(4), "")
+			("max_rocks",                po::value<int>()->        default_value(10), "")
+			("velocity.gamespeed",       po::value<float>()->      default_value(1.0f), "")
+			("velocity.player",          po::value<float>()->      default_value(1.0f), "")
+			("velocity.enemy",           po::value<float>()->      default_value(0.43f), "")
+			("velocity.rocks.small",     po::value<float>()->      default_value(0.9f), "")
+			("velocity.rocks.medium",    po::value<float>()->      default_value(0.7f), "")
+			("velocity.rocks.large",     po::value<float>()->      default_value(0.4f), "")
+			("system.resolution_width",  po::value<int>()->        default_value(1024), "")
+			("system.resolution_height", po::value<int>()->        default_value(768), "");
+		po::variables_map vm;
+		std::ifstream is(_file.c_str());
+		po::store(po::parse_config_file(is, desc), vm);
+        po::notify(vm);
+
+		config::MAX_ENEMIES         = vm["max_enemies"].as<int>();
+		config::ENEMIES_BEFORE_ROCK = vm["enemies_before_rock"].as<int>();
+		config::MAX_ROCKS           = vm["max_rocks"].as<int>();
+		config::GAME_SPEED		    = vm["velocity.gamespeed"].as<float>();
+		config::P_VELOCITY			= vm["velocity.player"].as<float>();
+		config::E_VELOCITY			= vm["velocity.enemy"].as<float>();
+		config::R_VELOCITY[0]		= vm["velocity.rocks.small"].as<float>();
+		config::R_VELOCITY[1]		= vm["velocity.rocks.medium"].as<float>();
+		config::R_VELOCITY[2]		= vm["velocity.rocks.large"].as<float>();
+		config::W_WIDTH				= vm["system.resolution_width"].as<int>();
+		config::W_HEIGHT			= vm["system.resolution_height"].as<int>();
+
+	} catch (boost::program_options::error &e) {
+        std::cerr << "error parsing config file: \"" << _file << "\". Error: " << e.what() << std::endl;
+		return false;
+    } catch (...) {
+        std::cerr << "unknown exception" << std::endl;
+		return false;
+    }
+	return true;
+}
 
 std::string validateConfigFile(std::string _file)
 {
@@ -85,18 +131,6 @@ float E_VELOCITY = 0.4f;		///< Enemy velocity
 float R_VELOCITY[3] = {1.0f, 0.75f, 0.5f}; //Rock velocities
 
 KeySet KEYSET[4];
-
-void loadConfig(const GameConfig &cfg)
-{
-	MAX_ENEMIES         = cfg.max_enemies;
-	ENEMIES_BEFORE_ROCK = cfg.enemies_before_rock;
-	MAX_ROCKS           = cfg.max_rocks;
-	P_VELOCITY			= cfg.p_velocity;
-	E_VELOCITY			= cfg.e_velocity;
-	R_VELOCITY[0]		= cfg.r_velocity[0];
-	R_VELOCITY[1]		= cfg.r_velocity[1];
-	R_VELOCITY[2]		= cfg.r_velocity[2];
-}
 
 void loadKeySets()
 {

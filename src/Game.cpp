@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include "Log.h"
-#include "GameConfig.h"
 
 Game Game::StateControl;
 AbstractState* Game::currentState;

@@ -35,7 +35,6 @@
     <ClInclude Include="..\..\src\Filesystem.hpp" />
     <ClInclude Include="..\..\src\FPS.h" />
     <ClInclude Include="..\..\src\Game.h" />
-    <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\GameState.h" />
     <ClInclude Include="..\..\src\Image.h" />
     <ClInclude Include="..\..\src\KeySet.h" />

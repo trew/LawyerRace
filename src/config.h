@@ -2,7 +2,6 @@
 #define _CONFIG_H_
 
 #include <string>
-#include "GameConfig.h"
 #include "KeySet.h"
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
@@ -24,6 +23,7 @@ enum Direction {
 namespace config
 {
 
+bool parseConfigFile(std::string _file);
 std::string validateConfigFile(std::string _file);
 std::string validatePath(std::string _path);
 
@@ -61,7 +61,6 @@ extern const std::string R_SRC[3];
 extern KeySet KEYSET[4];
 
 void loadKeySets();  //load all keysets
-void loadConfig(const GameConfig &cfg); //load custom config
 
 extern bool PLAYER_STOP_ENABLED;
 
