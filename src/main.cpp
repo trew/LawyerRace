@@ -30,11 +30,12 @@ Allowed options:
         po::options_description desc("Allowed options");
         desc.add_options()
             ("help,h", "produce help message")
-            ("path,p", po::value<std::string>(), "use this folder as base path")
+            ("players,n", po::value<int>()->default_value(1), "sets number of players")
+			("path,p", po::value<std::string>(), "use this folder as base path")
             ("settings-file,f", po::value<std::string>(), "use this config file")
 			("disable-stop", "disallows players to stop")
 			("old-diagonalspeed", "use the old diagonal speed. (instead of modifying by 0.7~)")
-            ("players,n", po::value<int>()->default_value(1), "sets number of players");
+            ;
 
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
