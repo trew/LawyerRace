@@ -14,5 +14,5 @@ small=1.0
 medium=0.75
 large=0.5
 [system]
-resolution_width=900   # if this is other than 640x480, 800x600 or 1024x768, I don't know
-resolution_height=600   # what might happen.
+resolution_width=1024   # if this is other than 640x480, 800x600 or 1024x768, I don't know
+resolution_height=768   # what might happen.

@@ -21,15 +21,19 @@ Allowed options:
   -p [ --path ] arg          use this folder as base path
   -f [ --settings-file ] arg use this config file(using path)
   --disable-stop             disallows players to stop
+  --old-diagonalspeed		 use the old diagonal speed. (instead of modifying by 0.7~)
   --players arg              sets number of players
 */
+
+	LOG_DEBUG("---PARSING COMMAND LINE!---");
     try {
         po::options_description desc("Allowed options");
         desc.add_options()
             ("help,h", "produce help message")
             ("path,p", po::value<std::string>(), "use this folder as base path")
             ("settings-file,f", po::value<std::string>(), "use this config file")
-			("disable-stop",po::value<bool>()->default_value(false), "disallows players to stop")
+			("disable-stop", "disallows players to stop")
+			("old-diagonalspeed", "use the old diagonal speed. (instead of modifying by 0.7~)")
             ("players,n", po::value<int>()->default_value(1), "sets number of players");
 
         po::variables_map vm;
@@ -52,15 +56,21 @@ Allowed options:
 		/* Continue and override any variables that were provided in command line; they are more important than the config file */
 		if (vm.count("disable-stop"))
         {
-			if ( vm["disable-stop"].as<bool>()) {
-				config::PLAYER_STOP_ENABLED = false;
-				LOG_DEBUG("Disabling player stop ");
-			}
+			config::PLAYER_STOP_ENABLED = false;
+			LOG_DEBUG("CMDLINE: Disabling player stop ");
         }
         
+		if (vm.count("old-diagonalspeed")) {
+			config::OLD_DIAGONAL_SPEED = true;
+			LOG_DEBUG("CMDLINE: Enforcing old diagonal speed...");
+		}
+
         if (vm.count("players")) {
             if (vm["players"].as<int>() < 5 && vm["players"].as<int>() > 0) {
                 config::NUM_OF_PLAYERS = vm["players"].as<int>();
+				std::stringstream ss; 
+				ss << "CMDLINE: Setting number of players to: " << config::NUM_OF_PLAYERS;
+				LOG_DEBUG(ss.str());
             } else {
                 LOG_ERROR("Wrong number of players");
                 config::NUM_OF_PLAYERS = 1;
@@ -77,6 +87,7 @@ Allowed options:
     } catch (...) {
         std::cerr << "unknown exception" << std::endl;
     }
+	LOG_DEBUG("---COMMANDLINE PARSING DONE!---");
     return true; 
 }
 

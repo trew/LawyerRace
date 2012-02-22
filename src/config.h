@@ -63,6 +63,7 @@ extern KeySet KEYSET[4];
 void loadKeySets();  //load all keysets
 
 extern bool PLAYER_STOP_ENABLED;
+extern bool OLD_DIAGONAL_SPEED;
 
 extern int MAX_ENEMIES;
 extern int ENEMIES_BEFORE_ROCK;

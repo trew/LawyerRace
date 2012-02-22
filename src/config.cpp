@@ -15,6 +15,7 @@ namespace config
 {
 
 bool parseConfigFile(std::string _file) {
+	LOG_DEBUG("---PARSING CONFIG---");
 	try {
         po::options_description desc("Allowed options");
 		desc.add_options()
@@ -54,6 +55,7 @@ bool parseConfigFile(std::string _file) {
         std::cerr << "unknown exception" << std::endl;
 		return false;
     }
+	LOG_DEBUG("---PARSING CONFIG DONE!---");
 	return true;
 }
 
@@ -63,7 +65,7 @@ std::string validateConfigFile(std::string _file)
     {
         LOG_DEBUG(std::string("Using config: ") + _file);
     } else {
-		LOG_ERROR (std::string("Using config: \"") + _file + "\". Instead using \"" + config::config_file + "\".");
+		LOG_ERROR (std::string("Error finding config: \"") + _file + "\". Instead using \"" + config::config_file + "\".");
     }
     return _file;
 }
@@ -114,6 +116,7 @@ const int R_HEIGHT[3] = {14, 25, 49};
 const std::string R_SRC[3] = {"/img/stone1-17x14.png", "/img/stone2-26x25.png", "/img/stone3-58x49.png"};
 	
 bool PLAYER_STOP_ENABLED = true;
+bool OLD_DIAGONAL_SPEED = false; //see enemy movement phase in Enemy.cpp
 int MAX_ENEMIES = 5;
 int ENEMIES_BEFORE_ROCK = 3;
 int MAX_ROCKS = 10;

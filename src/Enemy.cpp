@@ -207,7 +207,7 @@ void Enemy::updateMovement() {
 	}
 
 	// Update the calculated position
-	if (delta_x != 0.0 && delta_y != 0.0) {
+	if (delta_x != 0.0 && delta_y != 0.0 && !config::OLD_DIAGONAL_SPEED) {
 		/* Going to explain the multiplier value here
 		/*                      |
 		 *                    / |
