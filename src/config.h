@@ -29,6 +29,7 @@ std::string validatePath(std::string _path);
 
 extern std::string path;
 extern std::string config_file;
+extern std::string keyset_file;
 
 extern const std::string WINDOW_TEXT;
 

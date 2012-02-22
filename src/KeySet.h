@@ -2,6 +2,8 @@
 #define _KEYSET_H_
 
 #include <SDL.h>
+#include <string>
+#include <map>
 
 class KeySet {
 public:
@@ -14,11 +16,22 @@ public:
 		K_STOP = STOP;
 	}
 public:
+	/*!
+	 *	Parses a file using boost::program_options.
+	 */
+	static bool LoadKeysetFromFile(KeySet* _ks, std::string _file); 
+
 	SDLKey K_UP;
 	SDLKey K_DOWN;
 	SDLKey K_LEFT;
 	SDLKey K_RIGHT;
 	SDLKey K_STOP;
+
+private:
+	static bool keymap_setup;
+	static void setKey(SDLKey& key, std::string _referencekey, std::string _keyname);
+	static void SetupKeymap();
+	static std::map<std::string, SDLKey> __keymap;
 };
 
 #endif

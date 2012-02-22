@@ -87,6 +87,7 @@ std::string validatePath(std::string _path) {
 
 std::string path = ""; // reloaded during command line parsing
 std::string config_file = "cfg/ez"; //standard
+std::string keyset_file = "cfg/keysets"; //standard
 
 const std::string WINDOW_TEXT = "Lawyer Race";
 int W_WIDTH = 1024;	///<Window Width
@@ -139,34 +140,8 @@ KeySet KEYSET[4];
 
 void loadKeySets()
 {
-	//Player 1
-	KEYSET[0].K_DOWN  = SDLK_DOWN;
-	KEYSET[0].K_UP    = SDLK_UP;
-	KEYSET[0].K_LEFT  = SDLK_LEFT;
-	KEYSET[0].K_RIGHT = SDLK_RIGHT;
-	KEYSET[0].K_STOP  = SDLK_RCTRL;
-	//Player 2
-	KEYSET[1].K_DOWN  = SDLK_s;
-	KEYSET[1].K_UP    = SDLK_w;
-	KEYSET[1].K_LEFT  = SDLK_a;
-	KEYSET[1].K_RIGHT = SDLK_d;
-	KEYSET[1].K_STOP  = SDLK_LCTRL;
-	//Player 3
-	KEYSET[2].K_DOWN  = SDLK_k;
-	KEYSET[2].K_UP    = SDLK_i;
-	KEYSET[2].K_LEFT  = SDLK_j;
-	KEYSET[2].K_RIGHT = SDLK_l;
-	KEYSET[2].K_STOP  = SDLK_SPACE;
-	//Player 4
-	KEYSET[3].K_DOWN  = SDLK_KP5;
-	KEYSET[3].K_UP    = SDLK_KP8;
-	KEYSET[3].K_LEFT  = SDLK_KP4;
-	KEYSET[3].K_RIGHT = SDLK_KP6;
-	KEYSET[3].K_STOP  = SDLK_KP0;
-
-	if (NUM_OF_PLAYERS == 1) {
-		KEYSET[0].K_STOP = SDLK_SPACE;
-	}
+	//when loading keysets from KeySet.cpp is done...
+	KeySet::LoadKeysetFromFile(KEYSET, path + keyset_file);
 }
 
 } //namespace config

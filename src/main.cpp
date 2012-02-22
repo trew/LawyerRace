@@ -54,6 +54,8 @@ Allowed options:
 		/* Then parse that file */
 		config::parseConfigFile(config::path + config::config_file);
 		
+		
+
 		/* Continue and override any variables that were provided in command line; they are more important than the config file */
 		if (vm.count("disable-stop"))
         {
