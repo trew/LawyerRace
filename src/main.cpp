@@ -48,10 +48,12 @@ bool parse_config_file(std::string _file) {
 		config::W_WIDTH				= vm["system.resolution_width"].as<int>();
 		config::W_HEIGHT			= vm["system.resolution_height"].as<int>();
 
-    } catch (std::exception& e) {
-        std::cerr << "error: " << e.what() << std::endl;
+	} catch (boost::program_options::error &e) {
+        std::cerr << "error parsing config file: \"" << _file << "\". Error: " << e.what() << std::endl;
+		return false;
     } catch (...) {
         std::cerr << "unknown exception" << std::endl;
+		return false;
     }
 	return true;
 }
