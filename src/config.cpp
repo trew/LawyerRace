@@ -80,7 +80,7 @@ std::string validatePath(std::string _path) {
         path = get_cwd();
         LOG_ERROR (std::string("Loading Path.") + "\"" + _path + "\". Using \"" + path + "\".");
     }
-	if (path.back() != '/')
+	if (*path.rbegin() != '/')
 		path.append("/");
     return path;
 }
