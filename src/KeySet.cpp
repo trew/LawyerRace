@@ -125,7 +125,7 @@ bool KeySet::LoadKeysetFromFile(KeySet* _ks, std::string _file)
 			("player1.4.left",  po::value<std::string>(), "")
 			("player1.4.stop",  po::value<std::string>(), "");
 		po::variables_map vm;
-		std::ifstream is(config::path + _file.c_str());
+		std::ifstream is((config::path + _file).c_str());
 		po::store(po::parse_config_file(is, desc), vm);
         po::notify(vm);
 
