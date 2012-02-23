@@ -18,7 +18,7 @@ CC = g++
 SDLFLAGS = $(shell sdl-config --cflags)
 CXXFLAGS = -Wall -Wextra -pedantic -g $(SDLFLAGS)
 
-SDLLIBS = $(shell sdl-config --libs) -lSDL_ttf -lSDL_image -lSDL_gfx
+SDLLIBS = $(shell sdl-config --libs) -lSDL_ttf -lSDL_image
 LIBS = $(SDLLIBS) -lboost_program_options   # -lstdc++
 
 all : $(EXECUTABLE)

@@ -19,23 +19,24 @@ Linux:
  - SDL
  - SDL_image
  - SDL_ttf
- - SDL_gfx
+ - Boost::Program_options
 
 On debian distributions use:
-sudo apt-get install sdl sdl_image sdl_ttf sdl_gfx
+sudo apt-get install sdl sdl_image sdl_ttf boost
 On arch:
-sudo pacman -S sdl sdl_image sdl_ttf sdl_gfx
+sudo pacman -S sdl sdl_image sdl_ttf boost
 
 Windows / Visual Studio 2010:
 
   1. Open up the solution ( /vs2010/vs2010.sln )
-  2. Compile using Release version
-  3. Move all .dll-files from /lib/win32/SDL to /vs2010/Release/
-  4. Run the game from /vs2010/Release/
+  2. Compile 
+  3. Move all .dll-files from /lib/win32/SDL to /vs2010/Debug/
+  4. Run the game from /vs2010/Debug/
+  5. Create a link and append "-p ../.." in the end to specify path where Lawyer Race should run from.
 
 
 Windows / Mingw 
   NOT TESTED
 
-Mac OS
+Mac OS X
   NOT TESTED
