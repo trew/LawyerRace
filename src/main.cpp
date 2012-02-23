@@ -42,6 +42,11 @@ Allowed options:
         po::store(po::parse_command_line(argc, argv, desc), vm);
 		po::notify(vm);
 
+        if (vm.count("help")) {
+            std::cout << desc << std::endl;
+            return false;
+        }
+
 		/* First load path and config file */
         if (vm.count("path")) {
             config::path = config::validatePath(vm["path"].as<std::string>());
@@ -63,9 +68,6 @@ Allowed options:
 			}
 		}
 		LOG_DEBUG(std::string("Using keysets from") + config::keyset_file);
-
-		LOG_DEBUG("Loading keysets...");
-		KeySet::LoadKeysetFromFile(config::KEYSET, config::keyset_file);
 
 
 		/* Continue and override any variables that were provided in command line; they are more important than the config file */
@@ -91,11 +93,9 @@ Allowed options:
                 config::NUM_OF_PLAYERS = 1;
             }
         }
-        if (vm.count("help")) {
-            std::cout << desc << std::endl;
-            return false;
-        }
 
+		LOG_DEBUG("Loading keysets...");
+		KeySet::LoadKeysetFromFile(config::KEYSET, config::keyset_file);
 
     } catch (std::exception& e) {
         std::cerr << "error: " << e.what() << std::endl;
