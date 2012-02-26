@@ -19,12 +19,22 @@ Linux:
  - SDL
  - SDL_image
  - SDL_ttf
- - Boost::Program_options
+ - Boost
 
 On debian distributions use:
 sudo apt-get install sdl sdl_image sdl_ttf boost
 On arch:
 sudo pacman -S sdl sdl_image sdl_ttf boost
+
+Linux
+  1. Run this script to create the configuration script
+      $ ./autogen.sh
+  2. To compile:
+      $ ./configure && make
+  3. To install:
+      $ make install
+  4. To run:
+      $ ./lwrace
 
 Windows / Visual Studio 2010:
 
