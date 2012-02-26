@@ -7,5 +7,7 @@ bin_PROGRAMS = lwrace
 lwrace_SOURCES = Button.cpp config.cpp Dollar.cpp Enemy.cpp Entity.cpp Filesystem.cpp FPS.cpp Game.cpp GameState.cpp GameState_Init.cpp \
 				 Image.cpp KeySet.cpp Log.cpp main.cpp Player.cpp Rock.cpp Sprite.cpp Text.cpp
 
-
+lwrace_CPPFLAGS = $(BOOST_CPPFLAGS)
+lwrace_LDFLAGS = $(BOOST_PROGRAM_OPTIONS_LDFLAGS)
+lwrace_LIBS = $(BOOST_PROGRAM_OPTIONS_LIBS)
 

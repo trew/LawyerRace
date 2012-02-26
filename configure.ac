@@ -3,20 +3,17 @@
 
 AC_PREREQ([2.68])
 AC_INIT([Lawyer Race], [0.0.001])
-AM_INIT_AUTOMAKE(1.10 no-define)
+AC_CONFIG_AUX_DIR([m4])
 AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([m4])
-
-# Output directory
-output = `pwd`
-AC_SUBST(output)
+AM_INIT_AUTOMAKE(1.10 no-define)
 
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
+BOOST_REQUIRE
 AC_CHECK_LIB([SDL], [exit])
 AC_CHECK_LIB([SDL_image], [exit])
 AC_CHECK_LIB([SDL_ttf], [exit])
