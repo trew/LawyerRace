@@ -8,11 +8,17 @@ AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
+# Output directory
+$output_dir = `pwd`
+
+AC_SUBST(output_dir)
+
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
+AC_CHECK_LIB([SDL], [exit])
 AC_CHECK_LIB([SDL_image], [exit])
 AC_CHECK_LIB([SDL_ttf], [exit])
 AC_CHECK_LIB([boost_program_options], [exit])
