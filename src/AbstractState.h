@@ -1,7 +1,7 @@
 #ifndef _ABSTRACTSTATE_H_
 #define _ABSTRACTSTATE_H_
 
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 class AbstractState {
 public:

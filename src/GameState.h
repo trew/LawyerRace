@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 #include "config.h"
 #include "Sprite.h"

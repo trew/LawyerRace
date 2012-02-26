@@ -3,7 +3,7 @@
 *
 */
 
-#include <SDL.h>
+#include <SDL/SDL.h>
 #include <ctime>
 #include "Game.h"
 #include <iostream>
