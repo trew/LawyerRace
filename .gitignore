@@ -23,7 +23,6 @@ config.log
 config.status
 configure
 libtool
-m4/
 src/.deps/
 src/Makefile
 src/Makefile.in

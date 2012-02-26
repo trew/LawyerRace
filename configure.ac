@@ -5,6 +5,7 @@ AC_PREREQ([2.68])
 AC_INIT([Lawyer Race], [0.0.001])
 AC_CONFIG_AUX_DIR([m4])
 AC_CONFIG_SRCDIR([src])
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE(1.10 no-define)
 
