@@ -1,8 +1,8 @@
-#include "KeySet.h"
-#include "Gameconfig.h"
+#include "KeySet.hpp"
+#include "Gameconfig.hpp"
 #include <boost/program_options.hpp>
+#include "Log.hpp"
 #include <fstream>
-#include "Log.h"
 
 std::map<std::string, SDLKey> KeySet::__keymap;
 bool KeySet::keymap_setup = false;

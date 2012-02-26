@@ -1,7 +1,7 @@
 #ifndef _DOLLAR_H_
 #define _DOLLAR_H_
 
-#include "Entity.h"
+#include "Entity.hpp"
 
 class Dollar: public Entity {
 public:

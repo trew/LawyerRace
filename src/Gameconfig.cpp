@@ -1,13 +1,10 @@
-#ifndef _INIT_CONFIG_H_
-#define _INIT_CONFIG_H_
-
-#include "Gameconfig.h"
-#include "KeySet.h"
+#include "Gameconfig.hpp"
+#include "KeySet.hpp"
 #include "Filesystem.hpp"
 #include <iostream>
 #include <fstream>
 #include <boost/program_options.hpp>
-#include "Log.h"
+#include "Log.hpp"
 
 namespace po = boost::program_options;
 
@@ -140,4 +137,3 @@ float R_VELOCITY[3] = {1.0f, 0.75f, 0.5f}; //Rock velocities
 KeySet KEYSET[4];
 
 } //namespace config
-#endif

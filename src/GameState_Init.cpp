@@ -1,5 +1,5 @@
-#include "GameState.h"
-#include "Log.h"
+#include "GameState.hpp"
+#include "Log.hpp"
 
 bool GameState::Init() {
     ///Initialize all

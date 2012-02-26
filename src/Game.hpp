@@ -2,8 +2,8 @@
 #define _GAME_H_
 
 #include <SDL/SDL.h>
-#include "GameState.h"
-//#include "MenuState.h"
+#include "GameState.hpp"
+//#include "MenuState.hpp"
 
 class Game {
 public:

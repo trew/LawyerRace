@@ -1,7 +1,7 @@
-#include "Sprite.h"
+#include "Sprite.hpp"
 #include <string>
 #include <iostream>
-#include "Log.h"
+#include "Log.hpp"
 
 std::list<Sprite*> Sprite::s_spriteList;
 

@@ -1,5 +1,5 @@
-#include "Rock.h"
-#include "Log.h"
+#include "Rock.hpp"
+#include "Log.hpp"
 
 std::list<Rock*> Rock::s_rockList;
 

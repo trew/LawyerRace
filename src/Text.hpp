@@ -2,7 +2,7 @@
 #define _TEXT_H_
 
 #include <map>
-#include "Sprite.h"
+#include "Sprite.hpp"
 #include <SDL/SDL_ttf.h>
 
 class Text: public Sprite {

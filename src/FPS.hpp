@@ -2,7 +2,7 @@
 #define _FPS_H_
 
 #include <SDL/SDL.h>
-#include "Gameconfig.h"
+#include "Gameconfig.hpp"
 
 class FPS {
 public:

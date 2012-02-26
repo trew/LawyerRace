@@ -1,12 +1,12 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "Gameconfig.h"
-#include "Entity.h"
-#include "Enemy.h"
-#include "FPS.h"
-#include "Text.h"
-#include "KeySet.h"
+#include "Gameconfig.hpp"
+#include "Entity.hpp"
+#include "Enemy.hpp"
+#include "FPS.hpp"
+#include "Text.hpp"
+#include "KeySet.hpp"
 
 #include <string>
 

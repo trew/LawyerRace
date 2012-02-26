@@ -1,7 +1,7 @@
-#include "Text.h"
+#include "Text.hpp"
 #include <iostream>
 #include <sstream>
-#include "Log.h"
+#include "Log.hpp"
 
 std::map<int, TTF_Font*> Text::standard_font;
 std::list<Text*> Text::s_textList;

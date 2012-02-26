@@ -1,8 +1,8 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-#include "Sprite.h"
-#include "Gameconfig.h"
+#include "Sprite.hpp"
+#include "Gameconfig.hpp"
 #include <ctime>
 #include <string>
 

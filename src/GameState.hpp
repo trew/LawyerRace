@@ -5,17 +5,17 @@
 
 #include <SDL/SDL.h>
 
-#include "Gameconfig.h"
-#include "Sprite.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Dollar.h"
-#include "Rock.h"
-#include "Text.h"
-#include "FPS.h"
+#include "Gameconfig.hpp"
+#include "Sprite.hpp"
+#include "Player.hpp"
+#include "Enemy.hpp"
+#include "Dollar.hpp"
+#include "Rock.hpp"
+#include "Text.hpp"
+#include "FPS.hpp"
 
-#include "AbstractState.h"
-#include "Game.h"
+#include "AbstractState.hpp"
+#include "Game.hpp"
 
 enum InGameState {
 	Play = 0,

@@ -1,4 +1,4 @@
-#include "Dollar.h"
+#include "Dollar.hpp"
 
 std::list<Dollar*> Dollar::s_dollarList;
 

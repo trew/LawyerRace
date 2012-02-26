@@ -1,7 +1,7 @@
 #ifndef _IMAGE_H_
 #define _IMAGE_H_
 
-#include "Sprite.h"
+#include "Sprite.hpp"
 
 class Image: public Sprite {
 public:

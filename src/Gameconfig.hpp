@@ -2,7 +2,7 @@
 #define _CONFIG_H_
 
 #include <string>
-#include "KeySet.h"
+#include "KeySet.hpp"
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
 enum Direction {

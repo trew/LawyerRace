@@ -4,13 +4,14 @@
 */
 
 #include <SDL/SDL.h>
-#include <ctime>
-#include "Game.h"
-#include <iostream>
-#include "Gameconfig.h"
-#include "Log.h"
+#include "Game.hpp"
+#include "Gameconfig.hpp"
+#include "Log.hpp"
 #include <boost/program_options.hpp>
 #include "Filesystem.hpp"
+
+#include <ctime>
+#include <iostream>
 
 namespace po = boost::program_options;
 

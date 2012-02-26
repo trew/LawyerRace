@@ -1,9 +1,9 @@
 #ifndef _ROCK_H_
 #define _ROCK_H_
 
-#include "Entity.h"
-#include "Gameconfig.h"
-#include "FPS.h"
+#include "Entity.hpp"
+#include "Gameconfig.hpp"
+#include "FPS.hpp"
 
 class Rock: public Entity {
 public:

@@ -1,4 +1,4 @@
-#include "Entity.h"
+#include "Entity.hpp"
 #include <iostream>
 
 std::list<Entity*> Entity::s_entityList;
