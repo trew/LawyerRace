@@ -4,14 +4,13 @@
 AC_PREREQ([2.68])
 AC_INIT([Lawyer Race], [0.0.001])
 AM_INIT_AUTOMAKE(1.10 no-define)
-AC_CONFIG_SRCDIR([src/main.cpp])
+AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
 # Output directory
-$output_dir = `pwd`
-
-AC_SUBST(output_dir)
+output = `pwd`
+AC_SUBST(output)
 
 # Checks for programs.
 AC_PROG_CXX
