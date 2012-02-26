@@ -11,18 +11,20 @@ std::string get_timestamp(const time_t& t, const std::string& format="%Y-%m-%d %
 class Logger {
 public:
     static Logger log_debug;
-	static Logger log_error;
+    static Logger log_error;
 
-    std::ostream& operator()(std::string msg);
+    std::ostream& operator()();
     void set_ostream(std::ostream* os);
 private:
-    Logger();
+    Logger():m_name("-unknown-") {} //this shouldn't happen
+    Logger(std::string name);
     ~Logger();
+    std::string m_name;
 };
 
 } //namespace lg
 
-#define LOG_DEBUG(a) lg::Logger::log_debug(a)
-#define LOG_ERROR(a) lg::Logger::log_error(a)
+#define LOG_DEBUG lg::Logger::log_debug()
+#define LOG_ERROR lg::Logger::log_error()
 
 #endif

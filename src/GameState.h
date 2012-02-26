@@ -5,7 +5,7 @@
 
 #include <SDL/SDL.h>
 
-#include "config.h"
+#include "Gameconfig.h"
 #include "Sprite.h"
 #include "Player.h"
 #include "Enemy.h"

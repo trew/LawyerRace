@@ -1,18 +1,13 @@
 #include "Game.h"
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <string>
-#include "Log.h"
 
 Game Game::StateControl;
 AbstractState* Game::currentState;
 SDL_Surface* Game::mainScreen;
 
-Game::Game() 
+Game::Game()
 {
-	gameState = new GameState;
-	currentState = gameState;
+    gameState = new GameState();
+    currentState = gameState;
 }
 
 Game::~Game()
@@ -20,39 +15,39 @@ Game::~Game()
 }
 
 void Game::setState(AbstractState* _newState) {
-	currentState = _newState;
+    currentState = _newState;
 }
 
 bool Game::Init()
 {
-	if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 ) return false;
+    if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 ) return false;
 
-	SDL_WM_SetCaption(config::WINDOW_TEXT.c_str(), config::WINDOW_TEXT.c_str());
+    SDL_WM_SetCaption(config::WINDOW_TEXT.c_str(), config::WINDOW_TEXT.c_str());
 
-	if ( (mainScreen = SDL_SetVideoMode(config::W_WIDTH, config::W_HEIGHT, config::W_BPP, SDL_DOUBLEBUF | SDL_HWSURFACE)) == NULL ) return false;
-	
-	TTF_Init();
+    if ( (mainScreen = SDL_SetVideoMode(config::W_WIDTH, config::W_HEIGHT, config::W_BPP, SDL_DOUBLEBUF | SDL_HWSURFACE)) == NULL ) return false;
 
-	return true;
+    TTF_Init();
+
+    return true;
 }
 
 void Game::Cleanup()
 {
-	SDL_FreeSurface(mainScreen);
-	TTF_Quit();
-	SDL_Quit();
+    SDL_FreeSurface(mainScreen);
+    TTF_Quit();
+    SDL_Quit();
 }
 
 int Game::Execute()
 {
-	if (!Init()) return -1;
+    if (!Init()) return -1;
 
-	while(currentState != NULL) 
-	{
-		currentState->Execute();
-	}
+    while(currentState != NULL) 
+    {
+        currentState->Execute();
+    }
 
-	Cleanup();
-	return 0;
+    Cleanup();
+    return 0;
 }
 

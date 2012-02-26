@@ -1,11 +1,10 @@
 #include "Log.h"
 #include <ctime>
 
-
 namespace lg {
 
-Logger Logger::log_debug;
-Logger Logger::log_error;
+Logger Logger::log_debug("DEBUG");
+Logger Logger::log_error("ERROR");
 
 static std::ostream* output_stream = NULL;
 
@@ -27,7 +26,7 @@ std::string get_timestamp(const time_t& t, const std::string& format) {
     return buf;
 }
 
-Logger::Logger() 
+Logger::Logger(std::string name): m_name(name) 
 {
 }
 
@@ -36,10 +35,10 @@ void Logger::set_ostream(std::ostream* os)
     output_stream = os;
 }
 
-std::ostream& Logger::operator()(std::string msg)
+std::ostream& Logger::operator()()
 {
     std::ostream& stream = output();
-    stream << get_timestamp(time(NULL)) << ": " << msg << std::endl;
+    stream << m_name << " - " << get_timestamp(time(NULL)) << ": ";
     return stream;
 }
 

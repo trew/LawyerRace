@@ -5,12 +5,12 @@
 
 class AbstractState {
 public:
-	AbstractState() {}
-	virtual ~AbstractState() {}
+    AbstractState() {}
+    virtual ~AbstractState() {}
 
-	virtual bool Init()=0;
-	virtual int Execute()=0;
-	virtual void Cleanup()=0;
+    virtual bool Init()=0;
+    virtual int Execute()=0;
+    virtual void Cleanup()=0;
 
 };
 

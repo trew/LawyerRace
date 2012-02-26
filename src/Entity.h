@@ -2,7 +2,7 @@
 #define _ENTITY_H_
 
 #include "Sprite.h"
-#include "config.h"
+#include "Gameconfig.h"
 #include <ctime>
 #include <string>
 
