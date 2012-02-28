@@ -15,6 +15,9 @@ AC_PROG_LIBTOOL
 # Checks for libraries.
 BOOST_REQUIRE
 BOOST_PROGRAM_OPTIONS
+SDL_VERSION=1.2.15
+AM_PATH_SDL($SDL_VERSION, :, AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
+
 AC_CHECK_LIB([SDL], [exit])
 AC_CHECK_LIB([SDL_image], [exit])
 AC_CHECK_LIB([SDL_ttf], [exit])
