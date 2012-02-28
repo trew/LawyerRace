@@ -5,7 +5,7 @@ DIE=0
 SRCDIR=`dirname $0`
 BUILDDIR=`pwd`
 srcfile=src/main.cpp
-package=Lawyer Race
+package='Lawyer Race'
 
 debug ()
 # print out a debug message if DEBUG is a defined variable
