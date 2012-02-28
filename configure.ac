@@ -14,6 +14,7 @@ AC_PROG_LIBTOOL
 
 # Checks for libraries.
 BOOST_REQUIRE
+BOOST_PROGRAM_OPTIONS
 AC_CHECK_LIB([SDL], [exit])
 AC_CHECK_LIB([SDL_image], [exit])
 AC_CHECK_LIB([SDL_ttf], [exit])
