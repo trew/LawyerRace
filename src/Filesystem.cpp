@@ -46,7 +46,7 @@ std::string get_cwd()
 #endif
 
         return str;
-    } else {
+    } else { // res == NULL
         return "";
     }
 }

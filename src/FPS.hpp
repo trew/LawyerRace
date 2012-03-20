@@ -17,6 +17,8 @@
 */
 
 
+/* FPS control */
+
 #ifndef _FPS_H_
 #define _FPS_H_
 
@@ -25,24 +27,49 @@
 
 class FPS {
 public:
-	FPS();
-	virtual ~FPS();
+
+    /**
+     *  Constructor
+     */
+    FPS();
+
+
+    /**
+     *  Destructor
+     */
+    virtual ~FPS();
+
+
+    /**
+     *  Update function. Must be called every frame to update correct FPS.
+     */
+    void Update();
+
+
+    /**
+     *  Retrieves the current FPS.
+     *
+     *  @return Current FPS
+     */
+    int GetFPS();
+
+
+    /**
+     *  Calculates speed factor which is a modifier to make the game FPS-independent.
+     *
+     *  @return The current speed factor
+     */
+    float GetSpeedFactor();
 
 public:
-	static FPS FPSControl;
+    static FPS FPSControl;
 
 private:
-	unsigned int oldTime;
-	unsigned int lastTime;
-	float speedFactor;
-	unsigned int numFrames;
-	unsigned int frames;
-
-public:
-	void Update();
-	int GetFPS();
-	float GetSpeedFactor();
-
+    unsigned int oldTime;
+    unsigned int lastTime;
+    float speedFactor;
+    unsigned int numFrames;
+    unsigned int frames;
 };
 
 #endif

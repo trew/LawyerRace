@@ -17,6 +17,8 @@
 */
 
 
+/* The game class */
+
 #ifndef _GAME_H_
 #define _GAME_H_
 
@@ -26,17 +28,61 @@
 
 class Game {
 public:
-    Game();                         ///< Constructor
-    virtual ~Game();                ///< Destructor
-    static Game StateControl;       ///< Singleton instance for state management
-    static SDL_Surface* mainScreen; ///< the one and only main screen surface
 
-    virtual int Execute();          ///< Starts the game
+    /**
+     *  Constructor
+     */
+    Game();
 
-    bool Init();                    ///< Starts up SDL and other dependencies
-    void Cleanup();                 ///< Deletes instances and shut down
 
-    void setState(AbstractState* _newState);    ///< To be used with StateControl. Sets nextState and
+    /**
+     *  Destructor
+     */
+    virtual ~Game();
+
+
+    /**
+     *  Singleton instance for state management
+     */
+    static Game StateControl;
+
+
+    /**
+     *  The one and only main screen surface
+     */
+    static SDL_Surface* mainScreen;
+
+
+    /**
+     *  The main execution function. This basicly starts the game.
+     *
+     *  @return Error code. 0 if nothing went wrong.
+     */
+    virtual int Execute();
+
+
+    /**
+     *  Starts up SDL and other dependencies
+     *
+     *  @return True if successful, False otherwise.
+     */
+    bool Init();
+
+
+    /**
+     *  Deletes instances and shut down
+     */
+    void Cleanup();
+
+
+    /**
+     *  To be used with StateControl. Sets next state.
+     *
+     *  @param _newState Pointer to the next state
+     */
+    void setState(AbstractState* _newState);
+
+
     AbstractState* gameState;                   ///< Pointer to the initialized GameState
 //  AbstractState* menuState;                   ///< Pointer to the initialized MenuState
 private:

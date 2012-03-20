@@ -17,6 +17,8 @@
 */
 
 
+/* Enemy entity */
+
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
@@ -25,33 +27,104 @@
 
 class Player;
 class Enemy: public Entity {
-	
+
 public:
-	Enemy();
-	Enemy(const std::string _fileName);
-	Enemy(const std::string _fileName, const int _xPos, const int _yPos);
-	virtual ~Enemy();
+    /**
+     *  Constructor
+     */
+    Enemy();
 
-	virtual void draw(SDL_Surface* _destSurf);
-	void handleEvent(SDL_Event& ev);
 
-	void update();
-	void updateMovement();
-	void updateTarget();
-	void updateDirection(Player* player);
-	void startMovement();
-	void stopMovement();
-	void toggleMovement();
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image of the enemy
+     */
+    Enemy(const std::string _fileName);
+
+
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image of the enemy
+     *  @param _xPos     X-position of the enemy in pixels
+     *  @param _yPos     Y-position of the enemy in pixels
+     */
+    Enemy(const std::string _fileName, const int _xPos, const int _yPos);
+
+
+    /**
+     *  Destructor
+     */
+    virtual ~Enemy();
+
+    /**
+     *  Drawing function
+     *
+     *  @param _destSurf Surface to which the enemy is drawn
+     */
+    virtual void draw(SDL_Surface* _destSurf);
+
+
+    /**
+     *  Event handling function
+     *
+     *  @param ev Struct containing the information about the event
+     */
+    void handleEvent(SDL_Event& ev);
+
+
+    /**
+     *  Update function
+     *   - Called each frame
+     */
+    void update();
+
+
+    /**
+     *  Updates movement
+     */
+    void updateMovement();
+
+
+    /**
+     *  Update the enemys target
+     */
+    void updateTarget();
+
+
+    /**
+     *  Update the direction to face current target
+     */
+    void updateDirection();
+
+
+    /**
+     *  Sets the enemy to be moving
+     */
+    void startMovement();
+
+
+    /**
+     *  Sets the enemy to stop moving
+     */
+    void stopMovement();
+
+
+    /**
+     *  Toggle movement for the enemy
+     */
+    void toggleMovement();
 
 private:
-	Direction m_direction;
-	Player* currentTarget;
-	bool m_movingX;
-	bool m_movingY;
-	int m_diagonalSensitivity;
+    Direction m_direction;
+    Player* currentTarget;
+    bool m_movingX;
+    bool m_movingY;
+    int m_diagonalSensitivity;
 
 public:
-	static std::list<Enemy*> s_enemyList;
+    static std::list<Enemy*> s_enemyList;
 };
 
 #endif

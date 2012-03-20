@@ -17,6 +17,8 @@
 */
 
 
+/* Rock entity */
+
 #ifndef _ROCK_H_
 #define _ROCK_H_
 
@@ -26,20 +28,61 @@
 
 class Rock: public Entity {
 public:
-	Rock();
-	Rock(const std::string _fileName, const int _xPos, const int _yPos, const int _rockType);
-	virtual ~Rock();
 
-	void draw(SDL_Surface* _destSurf);
-	void update();
+    /**
+     *  Constructor
+     */
+    Rock();
 
-	bool isExpired() const;
-	void expire();
+
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image of the rock.
+     *  @param _xPos     X-position in pixels.
+     *  @param _yPos     Y-position in pixels.
+     *  @param _rockType Type of rock created.
+     */
+    Rock(const std::string _fileName, const int _xPos, const int _yPos, const int _rockType);
+
+
+    /**
+     *  Destructor
+     */
+    virtual ~Rock();
+
+
+    /**
+     *  Drawing method.
+     *
+     *  @param _destSurf Surface which the rock will be drawn to.
+     */
+    void draw(SDL_Surface* _destSurf);
+
+
+    /**
+     *  Update. Called every frame to update the status of the rock.
+     */
+    void update();
+
+
+    /**
+     *  Checks if this rock has expired.
+     *
+     *  @return True if the rock is expired, False otherwise.
+     */
+    bool isExpired() const;
+
+
+    /**
+     *  Sets the rock to be expired. This is triggered when the rock has fallen out of screen.
+     */
+    void expire();
 
 private:
-	bool m_expired;
+    bool m_expired;
 public:
-	static std::list<Rock*> s_rockList;
+    static std::list<Rock*> s_rockList;
 };
 
 #endif

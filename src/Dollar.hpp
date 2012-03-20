@@ -17,6 +17,8 @@
 */
 
 
+/* Dollar object */
+
 #ifndef _DOLLAR_H_
 #define _DOLLAR_H_
 
@@ -24,24 +26,74 @@
 
 class Dollar: public Entity {
 public:
-	Dollar();
-	Dollar(const std::string _fileName);
-	Dollar(const std::string _fileName, int _xPos, int _yPos);
-	virtual ~Dollar();
 
-	void draw(SDL_Surface* _destSurf);
-	void handleEvent(SDL_Event& ev);
+    /**
+     *  Basic constructor
+     */
+    Dollar();
 
-	void setXPos(const float _xPos);
-	void setYPos(const float _yPos);
 
-public:
-	static std::list<Dollar*> s_dollarList;
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to image of dollar
+     */
+    Dollar(const std::string _fileName);
+
+
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to image of dollar
+     *  @param _xPos     X-position for dollar in pixels
+     *  @param _yPos     Y-position for dollar in pixels
+     */
+    Dollar(const std::string _fileName, int _xPos, int _yPos);
+
+
+    /**
+     *  Destructor
+     */
+    virtual ~Dollar();
+
+
+    /**
+     *  Drawing function
+     *
+     *  @param _destSurf Surface to which the dollar is drawn
+     */
+    void draw(SDL_Surface* _destSurf);
+
+
+    /**
+     *  Event handling function
+     *
+     *  @param ev Struct containing information about the polled event.
+     */
+    void handleEvent(SDL_Event& ev);
+
+
+    /**
+     *  Sets X position
+     *
+     *  @param _xPos X-position
+     */
+    void setXPos(const float _xPos);
+
+
+    /**
+     *  Sets Y position
+     *
+     *  @param _yPos Y-position
+     */
+    void setYPos(const float _yPos);
+
+    static std::list<Dollar*> s_dollarList;
 
 private:
-	Uint32 startTime;
-	int durationTime;
-	bool expired;
+    Uint32 startTime;
+    int durationTime;
+    bool expired;
 };
 
 #endif

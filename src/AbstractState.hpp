@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+/* Abstract state in the game */
+
 #ifndef _ABSTRACTSTATE_H_
 #define _ABSTRACTSTATE_H_
 
@@ -23,13 +26,35 @@
 
 class AbstractState {
 public:
+
+    /**
+     *  Basic constructor
+     */
     AbstractState() {}
+
+
+    /**
+     *  Basic destructor
+     */
     virtual ~AbstractState() {}
 
-    virtual bool Init()=0;
-    virtual int Execute()=0;
-    virtual void Cleanup()=0;
 
+    /**
+     *  Function to be run when the state is first initialized.
+     */
+    virtual bool Init()=0;
+
+
+    /**
+     *  Function to be run when state is executed. Usually contains the game loop.
+     */
+    virtual int Execute()=0;
+
+
+    /**
+     *  Function to be run before the state is destroyed.
+     */
+    virtual void Cleanup()=0;
 };
 
 #endif

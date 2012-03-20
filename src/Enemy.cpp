@@ -308,13 +308,14 @@ void Enemy::updateTarget() {
     }
 }
 
-void Enemy::updateDirection(Player* _player) {
+void Enemy::updateDirection() {
 ///Update direction of enemy. Used to determine which sprite to draw.
-    if(_player == NULL) return;
+
+    if (currentTarget == NULL) return;
 
     //Get target X,Y so we can ignore sprite sizes
-    int targetYCompare = int(_player->getYPos()) - ((m_height - _player->getHeight()) / 2);
-    int targetXCompare = int(_player->getXPos()) - ((m_width - _player->getWidth()) / 2);
+    int targetYCompare = int(currentTarget->getYPos()) - ((m_height - currentTarget->getHeight()) / 2);
+    int targetXCompare = int(currentTarget->getXPos()) - ((m_width - currentTarget->getWidth()) / 2);
 
     if( (m_xPos < targetXCompare) ) {
         if (m_yPos < targetYCompare) {

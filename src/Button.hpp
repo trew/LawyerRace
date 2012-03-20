@@ -17,6 +17,9 @@
 */
 
 
+/* Button component in the UI */
+
+
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
 
@@ -24,19 +27,60 @@
 
 class Button: public Sprite {
 public:
-	Button();
-	Button(const char* _fileName, const int _xPos, const int _yPos);
-	virtual ~Button();
 
-	void draw(SDL_Surface* _destSurf);
+    /**
+     *  Basic constructor
+     *
+     */
+    Button();
 
-	void select();
-	void deselect();
 
-	bool isSelected() const;
+    /**
+     *  Constructor
+     *
+     * @param _fileName The full path to the image of the button
+     * @param _xPos     X-position in pixels
+     * @param _yPos     Y-position in pixels
+     */
+    Button(const char* _fileName, const int _xPos, const int _yPos);
+
+
+    /**
+     *  Basic destructor
+     *
+     */
+    virtual ~Button();
+
+
+    /**
+     *  Drawing function
+     *
+     *  @param _destSurf Surface which the button will be drawn to
+     */
+    void draw(SDL_Surface* _destSurf);
+
+
+    /**
+     *  Action which selects the button
+     */
+    void select();
+
+
+    /**
+     *  Action that deselects the button
+     */
+    void deselect();
+
+
+    /**
+     *  Check whether the button is selected or not.
+     *
+     *  @return True if the button is selected, False if not.
+     */
+    bool isSelected() const;
 
 private:
-	bool selected;
+    bool selected;
 };
 
 #endif

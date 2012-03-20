@@ -17,6 +17,8 @@
 */
 
 
+/* Basic image */
+
 #ifndef _IMAGE_H_
 #define _IMAGE_H_
 
@@ -24,12 +26,35 @@
 
 class Image: public Sprite {
 public:
-	Image();
-	Image(const char* _fileName, const int _xPos, const int _yPos);
-	virtual ~Image();
 
-	void draw(SDL_Surface* _destSurf);
+    /**
+     *  Constructor
+     */
+    Image();
 
+
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image.
+     *  @param _xPos     X-position of the image.
+     *  @param _yPos     Y-position of the image.
+     */
+    Image(const char* _fileName, const int _xPos, const int _yPos);
+
+
+    /**
+     *  Destructor
+     */
+    virtual ~Image();
+
+
+    /**
+     *  Draws the image to a destination surface.
+     *
+     *  @param _destSurf The surface to which we draw the image.
+     */
+    void draw(SDL_Surface* _destSurf);
 };
 
 #endif

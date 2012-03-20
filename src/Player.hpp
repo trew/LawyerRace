@@ -17,6 +17,8 @@
 */
 
 
+/* Player entity */
+
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
@@ -31,45 +33,164 @@
 
 class Player: public Entity {
 public:
-	Player();
-	Player(const std::string _fileName, KeySet _keySet);
-	Player(const std::string _fileName, const int _xPos, const int _yPos , KeySet _keySet);
-	virtual ~Player();
 
-	void loadKeySet(const KeySet &set);
+    /**
+     *  Constructor
+     */
+    Player();
 
-	virtual void draw(SDL_Surface* _destSurf);
-	void handleEvent(SDL_Event& ev);
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image of the player.
+     *  @param _keySet   A KeySet instance which holds the key settings for the player.
+     */
+    Player(const std::string _fileName, KeySet _keySet);
 
-	void update();
-	void setDirection(Direction);
-	void updateScore();
-	void incScore(int _score);
-	void kill();
 
-	bool isMoving() const;
-	bool isDead() const;
-	void startMovement();
-	void stopMovement();
-	void toggleMovement();
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image of the player.
+     *  @param _xPos     X-position in pixels.
+     *  @param _yPos     Y-position in pixels.
+     *  @param _keySet   A KeySet instance which holds the key settings for the player.
+     */
+    Player(const std::string _fileName, const int _xPos, const int _yPos , KeySet _keySet);
 
-	float getXPos();
-	float getYPos();
-	int getScore() const;
+
+    /**
+     *  Destructor
+     */
+    virtual ~Player();
+
+
+    /**
+     *  Loads a keyset to the player
+     *
+     *  @param set The KeySet instance from which we load keydata.
+     */
+    void loadKeySet(const KeySet &set);
+
+
+    /**
+     *  Draws the player to a surface.
+     *
+     *  @param _destSurf Surface the player will be drawn to.
+     */
+    virtual void draw(SDL_Surface* _destSurf);
+
+
+    /**
+     *  Event handler.
+     *
+     *  @param ev Struct with information about the polled event.
+     */
+    void handleEvent(SDL_Event& ev);
+
+
+    /**
+     *  Update function. Called every frame.
+     */
+    void update();
+
+
+    /**
+     *  Sets the direction of the player to be facing UP, DOWN, LEFT or RIGHT.
+     *
+     *  @param Enum Direction.
+     */
+    void setDirection(Direction);
+
+
+    /**
+     *  Updates the score text and positions it on the screen.
+     */
+    void updateScore();
+
+
+    /**
+     *  Increases the score of a player.
+     */
+    void incScore(int _score);
+
+
+    /**
+     *  Action function that kills the player.
+     */
+    void kill();
+
+
+    /**
+     *  Checks if the player is moving
+     *
+     *  @return True if player is moving, False otherwise.
+     */
+    bool isMoving() const;
+
+
+    /**
+     *  Checks if the player is dead.
+     *
+     *  @return True if player is dead, False otherwise.
+     */
+    bool isDead() const;
+
+
+    /**
+     *  Action function that starts movement for the player.
+     */
+    void startMovement();
+
+
+    /**
+     *  Action function that stops movement for the player.
+     */
+    void stopMovement();
+
+
+    /**
+     *  Action function that toggles movement for the player.
+     */
+    void toggleMovement();
+
+
+    /**
+     *  Retrieve the current X position.
+     *
+     *  @return The current X position.
+     */
+    float getXPos();
+
+
+    /**
+     *  Retrieve the current Y position.
+     *
+     *  @return The current Y position.
+     */
+    float getYPos();
+
+
+    /**
+     *  Retrieve the players current score.
+     *
+     *  @return The players score.
+     */
+    int getScore() const;
 
 private:
-	Direction m_direction;
-	int m_score;
-	Text* score_text;
-	bool dead;
-	int playerNum;
+    Direction m_direction;
+    int m_score;
+    Text* score_text;
+    bool dead;
+    int playerNum;
 
-	KeySet m_keySet;
+    KeySet m_keySet;
 
 public:
-	static std::list<Player*> s_playerList;
-	static int alivePlayers;
-	static int currentPlayerNum;
+    static std::list<Player*> s_playerList;
+    static int alivePlayers;
+    static int currentPlayerNum;
 };
 
 #endif

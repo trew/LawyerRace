@@ -17,6 +17,8 @@
 */
 
 
+/* The game state */
+
 #ifndef _GAMESTATE_H_
 #define _GAMESTATE_H_
 
@@ -37,51 +39,147 @@
 #include "Game.hpp"
 
 enum InGameState {
-	Play = 0,
-	CountDown,
-	Paused,
-	GameOver
+    Play = 0,
+    CountDown,
+    Paused,
+    GameOver
 };
 
 class GameState: public AbstractState {
 public:
-	GameState();
-	virtual ~GameState();
-	int Execute();
-	SDL_Surface* mainScreen;
+
+
+    /**
+     *  Constructor
+     */
+    GameState();
+
+
+    /**
+     *  Destructor
+     */
+    virtual ~GameState();
+
+
+    /**
+     *  Function that executes the state.
+     *
+     *  @return Error code. 0 if all is normal.
+     */
+    int Execute();
+
+    SDL_Surface* mainScreen;
 
 public:
-	bool Init();
 
-	void Cleanup();
+    /* STATE FUNCTIONS */
 
-	void Update();
-	void OnEvent(SDL_Event*);
-	void Render();
+    /**
+     *  Initializes the state.
+     *
+     *  @return True if successful, False otherwise.
+     */
+    bool Init();
 
-public:
-	void checkForCollision();
-	void createDollar();
-	void createEnemy();
-	void createRock();
 
-	bool isGameOver();
-	int getHighestCurrentScore();
+    /**
+     *  Cleans up the state before it can be destroyed.
+     */
+    void Cleanup();
 
-	void RenderResult();
-	std::list<Player*> getWinners();
+
+    /**
+     *  Update. Called each frame.
+     */
+    void Update();
+
+
+    /**
+     *  Event handler.
+     *
+     *  @param Struct with information about the polled event.
+     */
+    void OnEvent(SDL_Event*);
+
+
+    /**
+     *  Render function. Draws everything to the main screen.
+     */
+    void Render();
+
+    /* !STATE FUNCTIONS */
+
+    /* SUPPORTIVE FUNCTIONS */
+
+    /**
+     *  Checks if player collides with an enemy or dollars
+     *  (powerups is not yet implemented.) 
+     *
+     *  Takes action accordingly.
+     */
+    void checkForCollision();
+
+
+    /**
+     *  Creates a dollar and places it randomly on the screen.
+     */
+    void createDollar();
+
+
+    /**
+     *  Creates a new enemy and places it randomly outside of the screen.
+     */
+    void createEnemy();
+
+
+    /**
+     *  Creates a new falling rock. It's places at the top, outside of the screen
+     */
+    void createRock();
+
+
+    /**
+     *  Checks if all players are dead.
+     *
+     *  @return True if all players are dead, False otherwise.
+     */
+    bool isGameOver();
+
+
+    /**
+     *  Checks the score of all players and retrieves the highest of them.
+     *
+     *  @return The highest score out of all the players.
+     */
+    int getHighestCurrentScore();
+
+
+    /**
+     *  Render the result screen.
+     *  FIXME
+     *  This function is only started.
+     */
+    void RenderResult();
+
+
+    /**
+     *  Gets a list of all players which has the highest score.
+     *
+     *  @return a list of player pointers which all has the highest score.
+     */
+    std::list<Player*> getWinners();
+
+
 private:
-	bool GameRunning;
-	Player* m_player[4];
+    bool GameRunning;
+    Player* m_player[4];
 
-	int countDown;
-	unsigned int countDown_compareTime;
-	InGameState currentInGameState;
-	Text* text_countDown;
+    int countDown;
+    unsigned int countDown_compareTime;
+    InGameState currentInGameState;
+    Text* text_countDown;
 
-	int temp_delay;
-
-
+    int temp_delay;
 };
 
 #endif

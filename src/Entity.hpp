@@ -17,6 +17,8 @@
 */
 
 
+/* Base entity class */
+
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
@@ -27,22 +29,68 @@
 
 class Entity: public Sprite {
 public:
-	Entity();
-	Entity(const std::string _fileName);
-	Entity(const std::string _fileName, const int _xPos, const int _yPos);
-	virtual ~Entity();
 
-	virtual void draw(SDL_Surface* _destSurf);
+    /**
+     *  Constructor
+     */
+    Entity();
 
-	virtual void handleEvent(SDL_Event& ev);
 
-	static bool collides(Entity* _entityA, Entity* _entityB);
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image of the entity
+     */
+    Entity(const std::string _fileName);
+
+
+    /**
+     *  Constructor
+     *
+     *  @param _fileName Full path to the image of the entity
+     *  @param _xPos     X-position of the entity in pixels
+     *  @param _yPos     Y-position of the entity in pixels
+     */
+    Entity(const std::string _fileName, const int _xPos, const int _yPos);
+
+
+    /**
+     *  Destructor
+     */
+    virtual ~Entity();
+
+
+    /**
+     *  Drawing function
+     *
+     *  @param _destSurf Surface to which the entity will be drawn
+     */
+    virtual void draw(SDL_Surface* _destSurf);
+
+
+    /**
+     *  Event handling function
+     *
+     *  @param ev Struct containing the information about the event
+     */
+    virtual void handleEvent(SDL_Event& ev);
+
+
+    /**
+     *  Checks for collision between 2 entities
+     *
+     *  @param _entityA The first entity
+     *  @param _entityB The second entity
+     *  @return True if the entities intersect, False otherwise
+     */
+    static bool collides(Entity* _entityA, Entity* _entityB);
+
 protected:
-	float m_vel;
-	bool moving;
+    float m_vel;
+    bool moving;
 
 public:
-	static std::list<Entity*> s_entityList;
+    static std::list<Entity*> s_entityList;
 };
 
 #endif
