@@ -65,7 +65,7 @@ Allowed options:
         if (vm.count("path")) {
             config::path = config::validatePath(vm["path"].as<std::string>());
         } else {
-            config::path = config::validatePath(get_exe_dir());
+            config::path = config::validatePath(filesys::get_exe_dir());
         }
 
         if (vm.count("settings-file")) {
@@ -75,7 +75,7 @@ Allowed options:
         config::parseConfigFile(config::path + config::config_file);
 
         if (vm.count("keyset-file")) {
-            if (file_exists(config::path + vm["keyset-file"].as<std::string>())) {
+            if (filesys::file_exists(config::path + vm["keyset-file"].as<std::string>())) {
                 config::keyset_file = vm["keyset-file"].as<std::string>();
             } else {
                 LOG_ERROR << "Error loading " << vm["keyset-file"].as<std::string>() << "\n";
@@ -121,7 +121,7 @@ Allowed options:
 int main(int argc, char* argv[]) {
     srand(static_cast<unsigned int>(time(NULL)));
 
-    config::path = get_exe_dir();
+    config::path = filesys::get_exe_dir();
     if(!parse_command_line(argc, argv))
         return 0;
 

@@ -128,7 +128,7 @@ void Enemy::update() {
     if (currentTarget == NULL) return;
 
     //Determine direction of enemy so correct sprite is drawn.
-    updateDirection(currentTarget);
+    updateDirection();
 
     //Movement phase
     updateMovement();

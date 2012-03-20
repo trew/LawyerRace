@@ -77,7 +77,7 @@ bool parseConfigFile(std::string _file) {
 
 std::string validateConfigFile(std::string _file)
 {
-    if (file_exists(config::path + _file))
+    if (filesys::file_exists(config::path + _file))
     {
         LOG_DEBUG << "Using config: " << _file << "\n";
     } else {
@@ -89,12 +89,12 @@ std::string validateConfigFile(std::string _file)
 
 std::string validatePath(std::string _path) {
     std::string path;
-    if (file_exists(_path))
+    if (filesys::file_exists(_path))
     {
         path = _path;
         LOG_DEBUG << "Using path: " << path << "\n";
     } else {
-        path = get_cwd();
+        path = filesys::get_cwd();
         LOG_ERROR << "Loading Path. \"" << _path << "\". Using \"" << path << "\".\n";
     }
     if (*path.rbegin() != '/')
