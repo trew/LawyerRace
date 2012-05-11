@@ -127,13 +127,20 @@ public:
 
 
     /**
-     *  Creates a new enemy and places it randomly outside of the screen.
+     * Creates new enemies
+     * Amount of enemies in game is HighestCurrentScore / 5.
+     * Example: 1 Player with 10 points       -> ( 10 / 5 = -- 2 Enemies --
+     * Example: 2 Players with 9 and 15 points ->( 15 / 5 = -- 3 Enemies --
      */
     void createEnemy();
 
 
     /**
-     *  Creates a new falling rock. It's places at the top, outside of the screen
+     * Creates and removes rocks
+     * Amount of rocks in game is                 (HighestCurrentScore - (3 * 5)) / 5 +1
+     * Example: 1 Player with 10 points        -> ( 10 - (3 * 5) / 5 +1 = 0 rocks
+     * Example: 2 Players with 9 and 15 points -> ( 15 - (3 * 5) / 5 +1 = 1 rocks
+     * Example: 1 Player with 25 points        -> ( 25 - (3 * 5) / 5 +1 = 3 rocks
      */
     void createRock();
 

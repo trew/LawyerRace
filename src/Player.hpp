@@ -91,6 +91,7 @@ public:
 
     /**
      *  Update function. Called every frame.
+     *  Moves player according to direction and speed.
      */
     void update();
 

@@ -88,7 +88,8 @@ public:
 
 
     /**
-     *  Update the enemys target
+     * Sets target depending on distance. Measures from Enemys center to Players center. 
+     * Doesn't target non-moving players.
      */
     void updateTarget();
 

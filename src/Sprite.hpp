@@ -75,6 +75,7 @@ public:
      *  @param _fileName Full path to the image.
      *  @param _xPos     X-position of the sprite.
      *  @param _yPos     Y-position of the sprite.
+     *  @return SDL_Surface* with new image. NULL if image couldn't be loaded.
      */
     SDL_Surface* loadImage(const std::string _fileName, const int _xPos, const int _yPos);
 
@@ -83,6 +84,7 @@ public:
      *  Loads an image as a SDL_Surface*. X and Y is set to 0,0.
      *
      *  @param _fileName Full path to the image
+     *  @return SDL_Surface* with new image. NULL if image couldn't be loaded.
      */
     SDL_Surface* loadImage(const std::string _fileName);
 
