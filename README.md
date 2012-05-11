@@ -25,6 +25,9 @@ On debian distributions use:
 sudo apt-get install sdl sdl_image sdl_ttf boost
 On arch:
 sudo pacman -S sdl sdl_image sdl_ttf boost
+On fedora:
+sudo yum install SDL SDL-devel SDL_image SDL_image-devel SDL_ttf SDL_ttf-devel
+sudo yum install boost boost-devel
 
 Linux
   1. Run this script to create the configuration script
