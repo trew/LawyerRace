@@ -257,8 +257,6 @@ void Enemy::updateMovement() {
 }
 
 void Enemy::updateTarget() {
-///Sets target depending on distance. Measures from Enemys center to Players center. Doesn't target non-moving players.
-
     std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
     float shortestDistance = 0;
     float currentDistance = 0;
@@ -309,7 +307,6 @@ void Enemy::updateTarget() {
 }
 
 void Enemy::updateDirection() {
-///Update direction of enemy. Used to determine which sprite to draw.
 
     if (currentTarget == NULL) return;
 

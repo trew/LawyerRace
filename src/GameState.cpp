@@ -22,7 +22,6 @@
 #include <iostream>
 
 GameState::GameState() {
-///Constructor
     GameRunning = true;
     m_player[0] = NULL;
     m_player[1] = NULL;
@@ -32,11 +31,9 @@ GameState::GameState() {
 }
 
 GameState::~GameState() {
-///Destructor
 }
 
 int GameState::Execute() {
-///Runs when game starts.
     //Initialize all
     if(!Init()) return -1;
 
@@ -66,7 +63,6 @@ int GameState::Execute() {
 /* RUN ONCE FUNCTIONS */
 
 void GameState::Cleanup() {
-///Cleanup memory and prepare new game
     GameRunning = true;
 
     std::map<int, TTF_Font*>::iterator it_font = Text::standard_font.begin();
@@ -99,7 +95,6 @@ void GameState::Cleanup() {
 
 /* GAMELOOP FUNCTIONS*/
 void GameState::OnEvent(SDL_Event* ev) {
-///Handle input events
     if (ev->type == SDL_QUIT ) {
         GameRunning = false;
         Game::StateControl.setState(NULL);
@@ -130,8 +125,6 @@ void GameState::OnEvent(SDL_Event* ev) {
 }
 
 void GameState::Update() {
-    ///Update game objects
-
     if(currentInGameState == Play) {
         std::list<Player*>::iterator it_player = Player::s_playerList.begin();
         while(it_player != Player::s_playerList.end()) {
@@ -192,7 +185,6 @@ void GameState::Update() {
 
 
 void GameState::Render() {
-/// Draw all Sprites to screen
     SDL_FillRect(mainScreen, NULL, 0);  //Reset screen
 
     std::list<Dollar*>::const_iterator it_dollar = Dollar::s_dollarList.begin();
@@ -238,7 +230,6 @@ void GameState::Render() {
 /* SUPPORTIVE FUNCTIONS */
 
 void GameState::checkForCollision() {
-///Checks if player collides with enemy, (powerup or dollar not yet implemented) 
     std::list<Player*>::iterator it_player = Player::s_playerList.begin();
     std::list<Enemy*>::iterator it_enemy;
 //  std::list<Powerup*>::iterator it_powerup;
@@ -340,11 +331,6 @@ void GameState::createDollar() {
 }
 
 void GameState::createEnemy() {
-/*! Creates new enemies
-* Amount of enemies in game is HighestCurrentScore / 5.
-* Example: 1 Player with 10 points       -> ( 10 / 5 = -- 2 Enemies --
-* Example: 2 Players with 9 and 15 points ->( 15 / 5 = -- 3 Enemies --
-*/
     if(Enemy::s_enemyList.size() >= static_cast<unsigned int>(config::MAX_ENEMIES)) return;
 
     unsigned int highestCurrentScore = getHighestCurrentScore();
@@ -375,12 +361,6 @@ void GameState::createEnemy() {
 }
 
 void GameState::createRock() {
-/*! Creates and removes rocks
-* Amount of rocks in game is                 (HighestCurrentScore - (3 * 5)) / 5 +1
-* Example: 1 Player with 10 points        -> ( 10 - (3 * 5) / 5 +1 = 0 rocks
-* Example: 2 Players with 9 and 15 points -> ( 15 - (3 * 5) / 5 +1 = 1 rocks
-* Example: 1 Player with 25 points        -> ( 25 - (3 * 5) / 5 +1 = 3 rocks
-*/
     //Remove expired rocks
     std::list<Rock*>::iterator it_rock = Rock::s_rockList.begin();
     while(it_rock != Rock::s_rockList.end()) {

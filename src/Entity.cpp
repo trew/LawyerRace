@@ -66,8 +66,6 @@ void Entity::handleEvent(SDL_Event& ev) {
 //Static functions
 
 bool Entity::collides(Entity* _entityA, Entity* _entityB) {
-///True if entities rects intersects.
-
     //topA < bottomB
     //topB < bottomA
     //rightA < leftB

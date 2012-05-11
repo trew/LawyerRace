@@ -25,14 +25,12 @@
 std::list<Sprite*> Sprite::s_spriteList;
 
 Sprite::Sprite() {
-/// Load default values of Sprite
     m_surf = NULL;
     s_spriteList.push_back(this);
     m_visible = true;
 }
 
 Sprite::Sprite(const std::string _fileName) {
-/// Load image into Sprite with x,y = 0,0
     if ( (m_surf = loadImage(_fileName)) == NULL) 
         LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n"; //TODO: Errorhandling if m_Surf is NULL!
     s_spriteList.push_back(this);
@@ -40,7 +38,6 @@ Sprite::Sprite(const std::string _fileName) {
 }
 
 Sprite::Sprite(const std::string _fileName, const int _xPos, const int _yPos) {
-/// Load image into Sprite with provided X- and Y-pos.
     if ( (m_surf = loadImage(_fileName, _xPos, _yPos)) == NULL)
         LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n";
     s_spriteList.push_back(this);
@@ -48,13 +45,11 @@ Sprite::Sprite(const std::string _fileName, const int _xPos, const int _yPos) {
 }
 
 Sprite::~Sprite() {
-/// Destructor. Sets Surface to NULL
     SDL_FreeSurface(m_surf);
     m_surf = NULL;
 }
 
 SDL_Surface* Sprite::loadImage(const std::string _fileName, const int _xPos, const int _yPos) {
-/// Load image using IMG_Load and set values to the sprites Rect. Returns NULL if image couldn't be loaded.
     SDL_Surface* tmpSurf;
     SDL_Surface* returnSurf = NULL;
 
@@ -71,7 +66,6 @@ SDL_Surface* Sprite::loadImage(const std::string _fileName, const int _xPos, con
 }
 
 SDL_Surface* Sprite::loadImage(const std::string _fileName) {
-/// Calls loadImage(const char* _fileName, const int _xPos, const int _yPos) 
     return loadImage(_fileName, 0, 0);
 }
 

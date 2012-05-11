@@ -101,8 +101,6 @@ void Player::loadKeySet(const KeySet &set)
 }
 
 void Player::draw(SDL_Surface* _destSurf) {
-///Draw Player to screen
-
     if(!m_visible) return;
 
     SDL_Rect destRect;
@@ -153,7 +151,6 @@ void Player::handleEvent(SDL_Event& ev) {
 
 
 void Player::update() {
-///Moves player according to direction and speed 
     if (!moving || dead) return;    //Return if no movement
 
     else if (m_direction == UP) {
@@ -253,6 +250,5 @@ int Player::getScore() const {
 
 
 void Player::setDirection(Direction newDir) {
-///Set direction of player
     m_direction = newDir;
 }
