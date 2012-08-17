@@ -2,17 +2,17 @@
 #Difficulty: Custom
 
 name=custom
-max_enemies=10           
+max_enemies=10
 enemies_before_rock=5   # how many enemies need to spawn before the first rock starts to fall
-max_rocks=10            
+max_rocks=10
 [velocity]
-gamespeed=3.0           
-player=1.0              
-enemy=0.43              
+gamespeed=1.0
+player=1.0
+enemy=0.43
 [velocity.rocks]
 small=1.0
 medium=0.75
 large=0.5
 [system]
-resolution_width=1024   # if this is other than 640x480, 800x600 or 1024x768, I don't know
-resolution_height=768   # what might happen.
+resolution_width=800   # if this is other than 640x480, 800x600 or 1024x768, I don't know
+resolution_height=600   # what might happen.
