@@ -73,7 +73,7 @@ void GameEngine::PushState(AbstractState* state)
 {
 	// pause current state
 	if (!states.empty()) {
-		//states.back()->Pause();
+		states.back()->Pause();
 	}
 
 	// store and init the new state
@@ -91,7 +91,7 @@ void GameEngine::PopState()
 
 	// resume previous state
 	if (!states.empty()) {
-		//states.back()->Resume();
+		states.back()->Resume();
 	}
 }
 void GameEngine::Cleanup()
