@@ -125,9 +125,6 @@
     <ClInclude Include="..\..\src\Enemy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LuaBridge\detail\dump.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LuaBridge\detail\CFunctions.h">
       <Filter>LuaBridge</Filter>
     </ClInclude>
@@ -178,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GameEngine.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\dump.h">
+      <Filter>LuaBridge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
