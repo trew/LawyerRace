@@ -46,8 +46,9 @@ Text::Text(const int _number, const int _fontSize, const int _xPos, const int _y
 
     std::string text = numberToText(_number);
 
-    m_surf = TTF_RenderText_Blended(standard_font[_fontSize], text.c_str(), m_color);
-    m_height = m_surf->h;
+	if ((m_surf = TTF_RenderText_Blended(standard_font[_fontSize], text.c_str(), m_color)) == NULL)
+		LOG_ERROR << "Couldn't render text \"" << text << "\".\n"; //TODO: ERRORHANDLING
+	m_height = m_surf->h;
     m_width = m_surf->w;
 }
 

@@ -23,14 +23,15 @@
 bool GameState::Init() {
     ///Initialize all
 
-    mainScreen = Game::mainScreen;
+    window = GameEngine::window;
+	screenSurface = GameEngine::screenSurface;
 
     LOG_DEBUG << "Loading fonts...\n";
-    if((Text::standard_font[12] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 12)) == NULL) 
+    if((Text::standard_font[12] = TTF_OpenFont( (config::path + "font/VeraMono.ttf").c_str(), 12)) == NULL) 
         LOG_ERROR << "Loading \"" << config::path << "font/VeraMono.ttf\" failed.\n";
-    if((Text::standard_font[48] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 48)) == NULL)
+    if((Text::standard_font[48] = TTF_OpenFont( (config::path + "font/VeraMono.ttf").c_str(), 48)) == NULL)
         LOG_ERROR << "Loading \"" << config::path << "font/VeraMono.ttf\" failed.\n";
-    if((Text::standard_font[72] = TTF_OpenFont( (config::path + "/font/VeraMono.ttf").c_str(), 72)) == NULL)
+    if((Text::standard_font[72] = TTF_OpenFont( (config::path + "font/VeraMono.ttf").c_str(), 72)) == NULL)
         LOG_ERROR << "Loading \"" << config::path << "font/VeraMono.ttf\" failed.\n";
 
     LOG_DEBUG << "Loading players...\n";

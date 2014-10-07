@@ -24,7 +24,7 @@
 
 #include <map>
 #include "Sprite.hpp"
-#include <SDL/SDL_ttf.h>
+#include <SDL_ttf.h>
 
 class Text: public Sprite {
 public:

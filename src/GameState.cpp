@@ -22,49 +22,19 @@
 #include <iostream>
 
 GameState::GameState() {
-    GameRunning = true;
     m_player[0] = NULL;
     m_player[1] = NULL;
     m_player[2] = NULL;
     m_player[3] = NULL;
-    temp_delay = 0;
 }
 
 GameState::~GameState() {
-}
-
-int GameState::Execute() {
-    //Initialize all
-    if(!Init()) return -1;
-
-    SDL_Event ev;
-
-    //Game loop
-    while(GameRunning) {
-        while(SDL_PollEvent(&ev)) {
-            OnEvent(&ev);
-        }
-        Update();
-        Render();
-
-        if (FPS::FPSControl.GetFPS() > 200) SDL_Delay(3); //Tiny delay if computer is giving high fps. No need for super high fps.
-        if (temp_delay > 0) {
-            SDL_Delay(temp_delay);
-            temp_delay = 0;
-        }
-    }
-
-    //Cleanup memory and shut down
-    Cleanup();
-    return 0;
 }
 
 
 /* RUN ONCE FUNCTIONS */
 
 void GameState::Cleanup() {
-    GameRunning = true;
-
     std::map<int, TTF_Font*>::iterator it_font = Text::standard_font.begin();
     while(it_font != Text::standard_font.end()) {
         TTF_CloseFont((*it_font).second);
@@ -94,32 +64,31 @@ void GameState::Cleanup() {
 
 
 /* GAMELOOP FUNCTIONS*/
-void GameState::OnEvent(SDL_Event* ev) {
-    if (ev->type == SDL_QUIT ) {
-        GameRunning = false;
-        Game::StateControl.setState(NULL);
+void GameState::HandleEvent(SDL_Event &ev) {
+    if (ev.type == SDL_QUIT ) {
+		GameEngine::Instance->Exit();
+		return;
     }
 
     if(currentInGameState == Play) {
-        if (ev->type == SDL_KEYDOWN) {
+        if (ev.type == SDL_KEYDOWN) {
             //Handle movement input
             //TODO: Also set speed to max available speed
             std::list<Player*>::iterator it_player = Player::s_playerList.begin();
             while(it_player != Player::s_playerList.end()) {
-                (*it_player)->handleEvent(*ev);
+                (*it_player)->handleEvent(ev);
                 it_player++;
             }
         }
     } else if (currentInGameState == GameOver) {
-        if (ev->type == SDL_KEYDOWN) {
+        if (ev.type == SDL_KEYDOWN) {
             std::list<Player*>::iterator it_player = Player::s_playerList.begin();
             int c = 1;
             while(it_player != Player::s_playerList.end()) {
                 std::cout << "Player " << c << ": " <<  (*it_player)->getScore() << std::endl;
                 it_player++; c++;
             }
-            GameRunning = false;
-            Game::StateControl.setState(NULL);
+			GameEngine::Instance->Exit();
         }
     }
 }
@@ -157,8 +126,6 @@ void GameState::Update() {
             Text::s_textList.push_back(new Text("Press key to exit to menu", 48, 0, 0, 255, 255, 255));
             Text::s_textList.back()->centerHorizontal(0,config::W_WIDTH);
             Text::s_textList.back()->bottomAlign(config::W_HEIGHT, 20);
-
-            temp_delay = 1000;
         }
     }
     else if (currentInGameState == CountDown) {
@@ -179,41 +146,41 @@ void GameState::Update() {
 #ifdef WIN32
     std::stringstream ss;
     ss << config::WINDOW_TEXT << "    " << FPS::FPSControl.GetFPS();
-    SDL_WM_SetCaption(ss.str().c_str(), ss.str().c_str());
+	SDL_SetWindowTitle(window, ss.str().c_str());
 #endif
 }
 
 
 void GameState::Render() {
-    SDL_FillRect(mainScreen, NULL, 0);  //Reset screen
+	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
 
     std::list<Dollar*>::const_iterator it_dollar = Dollar::s_dollarList.begin();
     while(it_dollar != Dollar::s_dollarList.end()) {
-        (*it_dollar)->draw(mainScreen);
+        (*it_dollar)->draw(screenSurface);
         it_dollar++;
     }
 
     std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
     while(it_player != Player::s_playerList.end()) {
-        (*it_player)->draw(mainScreen);
+		(*it_player)->draw(screenSurface);
         it_player++;
     }
 
     std::list<Enemy*>::const_iterator it_enemy = Enemy::s_enemyList.begin();
     while(it_enemy != Enemy::s_enemyList.end()) {
-        (*it_enemy)->draw(mainScreen);
+		(*it_enemy)->draw(screenSurface);
         it_enemy++;
     }
 
     std::list<Rock*>::const_iterator it_rock = Rock::s_rockList.begin();
     while(it_rock != Rock::s_rockList.end()) {
-        (*it_rock)->draw(mainScreen);
+		(*it_rock)->draw(screenSurface);
         it_rock++;
     }
 
     std::list<Text*>::const_iterator it_text = Text::s_textList.begin();
     while(it_text != Text::s_textList.end()) {
-        (*it_text)->draw(mainScreen);
+		(*it_text)->draw(screenSurface);
         it_text++;
     }
 
@@ -221,7 +188,7 @@ void GameState::Render() {
         //Render gameover screen here
     }
 
-    SDL_Flip(mainScreen);
+	SDL_UpdateWindowSurface(window);
 }
 /* END GAMELOOP FUNCTIONS */
 

@@ -13,12 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="LuaBridge">
+      <UniqueIdentifier>{c8ff9fdd-8980-4cdc-9119-9516ef9d3d75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GameState_Init.cpp">
@@ -69,6 +69,9 @@
     <ClCompile Include="..\..\src\Gameconfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Entity.hpp">
@@ -78,9 +81,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FPS.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Gameconfig.hpp">
@@ -120,6 +120,60 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Enemy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\dump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\CFunctions.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\ClassInfo.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\Constructor.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\FuncTraits.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\Iterator.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\LuaException.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\LuaHelpers.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\LuaRef.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\Namespace.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\RefCountedObject.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\RefCountedPtr.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\TypeList.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\TypeTraits.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\Userdata.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\LuaBridge.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaBridge\detail\Stack.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

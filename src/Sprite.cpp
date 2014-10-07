@@ -55,13 +55,13 @@ SDL_Surface* Sprite::loadImage(const std::string _fileName, const int _xPos, con
 
     if ((tmpSurf = IMG_Load(_fileName.c_str())) == NULL) return NULL;
 
-    returnSurf = SDL_DisplayFormatAlpha(tmpSurf);
+    //returnSurf = SDL_DisplayFormatAlpha(tmpSurf);
+	returnSurf = tmpSurf;
 
     m_xPos = static_cast<float>(_xPos);
     m_yPos = static_cast<float>(_yPos);
     m_height = returnSurf->h;
     m_width = returnSurf->w;
-    SDL_FreeSurface(tmpSurf);
     return returnSurf;
 }
 

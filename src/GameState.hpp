@@ -24,7 +24,7 @@
 
 #include <list>
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 #include "Gameconfig.hpp"
 #include "Sprite.hpp"
@@ -36,7 +36,7 @@
 #include "FPS.hpp"
 
 #include "AbstractState.hpp"
-#include "Game.hpp"
+#include "GameEngine.hpp"
 
 enum InGameState {
     Play = 0,
@@ -60,15 +60,8 @@ public:
      */
     virtual ~GameState();
 
-
-    /**
-     *  Function that executes the state.
-     *
-     *  @return Error code. 0 if all is normal.
-     */
-    int Execute();
-
-    SDL_Surface* mainScreen;
+    SDL_Window* window;
+	SDL_Surface* screenSurface;
 
 public:
 
@@ -99,7 +92,7 @@ public:
      *
      *  @param Struct with information about the polled event.
      */
-    void OnEvent(SDL_Event*);
+    void HandleEvent(SDL_Event &ev);
 
 
     /**
@@ -178,15 +171,12 @@ public:
 
 
 private:
-    bool GameRunning;
     Player* m_player[4];
 
     int countDown;
     unsigned int countDown_compareTime;
     InGameState currentInGameState;
     Text* text_countDown;
-
-    int temp_delay;
 };
 
 #endif

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -13,7 +13,7 @@
     <ClCompile Include="..\..\src\Entity.cpp" />
     <ClCompile Include="..\..\src\Filesystem.cpp" />
     <ClCompile Include="..\..\src\FPS.cpp" />
-    <ClCompile Include="..\..\src\Game.cpp" />
+    <ClCompile Include="..\..\src\GameEngine.cpp" />
     <ClCompile Include="..\..\src\Gameconfig.cpp" />
     <ClCompile Include="..\..\src\GameState.cpp" />
     <ClCompile Include="..\..\src\GameState_Init.cpp" />
@@ -34,12 +34,29 @@
     <ClInclude Include="..\..\src\Entity.hpp" />
     <ClInclude Include="..\..\src\Filesystem.hpp" />
     <ClInclude Include="..\..\src\FPS.hpp" />
-    <ClInclude Include="..\..\src\Game.hpp" />
+    <ClInclude Include="..\..\src\GameEngine.hpp" />
     <ClInclude Include="..\..\src\Gameconfig.hpp" />
     <ClInclude Include="..\..\src\GameState.hpp" />
     <ClInclude Include="..\..\src\Image.hpp" />
     <ClInclude Include="..\..\src\KeySet.hpp" />
     <ClInclude Include="..\..\src\Log.hpp" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\CFunctions.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\ClassInfo.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\Constructor.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\dump.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\FuncTraits.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\Iterator.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\LuaException.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\LuaHelpers.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\LuaRef.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\Namespace.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\Stack.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\TypeList.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\TypeTraits.h" />
+    <ClInclude Include="..\..\src\LuaBridge\detail\Userdata.h" />
+    <ClInclude Include="..\..\src\LuaBridge\LuaBridge.h" />
+    <ClInclude Include="..\..\src\LuaBridge\RefCountedObject.h" />
+    <ClInclude Include="..\..\src\LuaBridge\RefCountedPtr.h" />
     <ClInclude Include="..\..\src\Player.hpp" />
     <ClInclude Include="..\..\src\Rock.hpp" />
     <ClInclude Include="..\..\src\Sprite.hpp" />
@@ -55,6 +72,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -75,13 +93,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LUA_PATH)\include;$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\lib\win32\boost;$(ProjectDir)..\..\lib\win32\SDL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LUA_PATH);$(SDL2_PATH)\lib\x86;$(SDL2_TTF_PATH)\lib\x86;$(SDL2_IMAGE_PATH)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <CustomBuildStep>

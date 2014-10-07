@@ -22,16 +22,10 @@
 #ifndef _ABSTRACTSTATE_H_
 #define _ABSTRACTSTATE_H_
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 class AbstractState {
 public:
-
-    /**
-     *  Basic constructor
-     */
-    AbstractState() {}
-
 
     /**
      *  Basic destructor
@@ -45,16 +39,20 @@ public:
     virtual bool Init()=0;
 
 
-    /**
-     *  Function to be run when state is executed. Usually contains the game loop.
-     */
-    virtual int Execute()=0;
+	/**
+	*  Function to be run before the state is destroyed.
+	*/
+	virtual void Cleanup() = 0;
+	
+	//virtual void Pause() = 0;
+	//virtual void Resume() = 0;
 
+	virtual void HandleEvent(SDL_Event &ev) = 0;
+	virtual void Update() = 0;
+	virtual void Render() = 0;
 
-    /**
-     *  Function to be run before the state is destroyed.
-     */
-    virtual void Cleanup()=0;
+protected:
+	AbstractState() {}
 };
 
 #endif

@@ -17,59 +17,42 @@
 */
 
 
-/* FPS control */
+/* A keyset class */
 
-#ifndef _FPS_H_
-#define _FPS_H_
+#ifndef _KEYSET_H_
+#define _KEYSET_H_
 
-#include <SDL.h>
-#include "Gameconfig.hpp"
+#include <SDL/SDL.h>
+#include <string>
+#include <map>
 
-class FPS {
+class KeySet {
 public:
-
-    /**
-     *  Constructor
-     */
-    FPS();
-
-
-    /**
-     *  Destructor
-     */
-    virtual ~FPS();
-
-
-    /**
-     *  Update function. Must be called every frame to update correct FPS.
-     */
-    void Update();
-
-
-    /**
-     *  Retrieves the current FPS.
-     *
-     *  @return Current FPS
-     */
-    int GetFPS();
-
-
-    /**
-     *  Calculates speed factor which is a modifier to make the game FPS-independent.
-     *
-     *  @return The current speed factor
-     */
-    float GetSpeedFactor();
-
+    KeySet() {}
+    KeySet(SDLKey UP, SDLKey DOWN, SDLKey LEFT, SDLKey RIGHT, SDLKey STOP) {
+        K_UP = UP;
+        K_DOWN = DOWN;
+        K_LEFT = LEFT;
+        K_RIGHT = RIGHT;
+        K_STOP = STOP;
+    }
 public:
-    static FPS FPSControl;
+    /*!
+     *  Parses a file using boost::program_options.
+     */
+    static bool LoadKeysetFromFile(KeySet* _ks, std::string _file); 
+
+    SDLKey K_UP;
+    SDLKey K_DOWN;
+    SDLKey K_LEFT;
+    SDLKey K_RIGHT;
+    SDLKey K_STOP;
 
 private:
-    unsigned int oldTime;
-    unsigned int lastTime;
-    float speedFactor;
-    unsigned int numFrames;
-    unsigned int frames;
+    static bool keymap_setup;
+    static void setKey(SDLKey& key, std::string _referencekey, std::string _keyname);
+    static void SetupKeymap();
+    static std::map<std::string, SDLKey> __keymap;
 };
 
 #endif

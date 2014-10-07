@@ -22,8 +22,8 @@
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include <list>
 #include <string>
@@ -66,7 +66,7 @@ public:
      *
      *  @param _destSurf Surface which the sprite will be drawn to.
      */
-    virtual void draw(SDL_Surface* _destSurf)=0;
+	virtual void draw(SDL_Surface* _destSurf) = 0;
 
 
     /**

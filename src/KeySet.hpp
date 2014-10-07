@@ -22,14 +22,14 @@
 #ifndef _KEYSET_H_
 #define _KEYSET_H_
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include <string>
 #include <map>
 
 class KeySet {
 public:
     KeySet() {}
-    KeySet(SDLKey UP, SDLKey DOWN, SDLKey LEFT, SDLKey RIGHT, SDLKey STOP) {
+	KeySet(SDL_Keycode UP, SDL_Keycode DOWN, SDL_Keycode LEFT, SDL_Keycode RIGHT, SDL_Keycode STOP) {
         K_UP = UP;
         K_DOWN = DOWN;
         K_LEFT = LEFT;
@@ -41,18 +41,19 @@ public:
      *  Parses a file using boost::program_options.
      */
     static bool LoadKeysetFromFile(KeySet* _ks, std::string _file); 
+	static bool LoadKeysetFromLuaFile(KeySet* _ks, std::string _file);
 
-    SDLKey K_UP;
-    SDLKey K_DOWN;
-    SDLKey K_LEFT;
-    SDLKey K_RIGHT;
-    SDLKey K_STOP;
+	SDL_Keycode K_UP;
+	SDL_Keycode K_DOWN;
+	SDL_Keycode K_LEFT;
+	SDL_Keycode K_RIGHT;
+	SDL_Keycode K_STOP;
 
 private:
     static bool keymap_setup;
-    static void setKey(SDLKey& key, std::string _referencekey, std::string _keyname);
+	static void setKey(SDL_Keycode& key, std::string _referencekey, std::string _keyname);
     static void SetupKeymap();
-    static std::map<std::string, SDLKey> __keymap;
+	static std::map<std::string, SDL_Keycode> __keymap;
 };
 
 #endif

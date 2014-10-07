@@ -22,55 +22,52 @@
 #include "Filesystem.hpp"
 #include <iostream>
 #include <fstream>
-#include <boost/program_options.hpp>
 #include "Log.hpp"
-
-namespace po = boost::program_options;
 
 namespace config
 {
 
     bool parseConfigFile(std::string _file) {
-        LOG_DEBUG << "---PARSING CONFIG---\n";
-        try {
-            po::options_description desc("Allowed options");
-            desc.add_options()
-                ("name",                     po::value<std::string>()->default_value("noname"), "")
-                ("max_enemies",              po::value<int>()->        default_value(4), "")
-                ("enemies_before_rock",      po::value<int>()->        default_value(4), "")
-                ("max_rocks",                po::value<int>()->        default_value(10), "")
-                ("velocity.gamespeed",       po::value<float>()->      default_value(1.0f), "")
-                ("velocity.player",          po::value<float>()->      default_value(1.0f), "")
-                ("velocity.enemy",           po::value<float>()->      default_value(0.43f), "")
-                ("velocity.rocks.small",     po::value<float>()->      default_value(0.9f), "")
-                ("velocity.rocks.medium",    po::value<float>()->      default_value(0.7f), "")
-                ("velocity.rocks.large",     po::value<float>()->      default_value(0.4f), "")
-                ("system.resolution_width",  po::value<int>()->        default_value(1024), "")
-                ("system.resolution_height", po::value<int>()->        default_value(768), "");
-            po::variables_map vm;
-            std::ifstream is(_file.c_str());
-            po::store(po::parse_config_file(is, desc), vm);
-            po::notify(vm);
-
-            config::MAX_ENEMIES         = vm["max_enemies"].as<int>();
-            config::ENEMIES_BEFORE_ROCK = vm["enemies_before_rock"].as<int>();
-            config::MAX_ROCKS           = vm["max_rocks"].as<int>();
-            config::GAME_SPEED          = vm["velocity.gamespeed"].as<float>();
-            config::P_VELOCITY          = vm["velocity.player"].as<float>();
-            config::E_VELOCITY          = vm["velocity.enemy"].as<float>();
-            config::R_VELOCITY[0]       = vm["velocity.rocks.small"].as<float>();
-            config::R_VELOCITY[1]       = vm["velocity.rocks.medium"].as<float>();
-            config::R_VELOCITY[2]       = vm["velocity.rocks.large"].as<float>();
-            config::W_WIDTH             = vm["system.resolution_width"].as<int>();
-            config::W_HEIGHT            = vm["system.resolution_height"].as<int>();
-
-        } catch (boost::program_options::error &e) {
-            std::cerr << "error parsing config file: \"" << _file << "\". Error: " << e.what() << std::endl;
-            return false;
-        } catch (...) {
-            std::cerr << "unknown exception" << std::endl;
-            return false;
-        }
+//        LOG_DEBUG << "---PARSING CONFIG---\n";
+//        try {
+//            po::options_description desc("Allowed options");
+//            desc.add_options()
+//                ("name",                     po::value<std::string>()->default_value("noname"), "")
+//                ("max_enemies",              po::value<int>()->        default_value(4), "")
+//                ("enemies_before_rock",      po::value<int>()->        default_value(4), "")
+//                ("max_rocks",                po::value<int>()->        default_value(10), "")
+//                ("velocity.gamespeed",       po::value<float>()->      default_value(1.0f), "")
+//                ("velocity.player",          po::value<float>()->      default_value(1.0f), "")
+//                ("velocity.enemy",           po::value<float>()->      default_value(0.43f), "")
+//                ("velocity.rocks.small",     po::value<float>()->      default_value(0.9f), "")
+//                ("velocity.rocks.medium",    po::value<float>()->      default_value(0.7f), "")
+//                ("velocity.rocks.large",     po::value<float>()->      default_value(0.4f), "")
+//                ("system.resolution_width",  po::value<int>()->        default_value(1024), "")
+//                ("system.resolution_height", po::value<int>()->        default_value(768), "");
+//            po::variables_map vm;
+//            std::ifstream is(_file.c_str());
+//            po::store(po::parse_config_file(is, desc), vm);
+//            po::notify(vm);
+//
+//            config::MAX_ENEMIES         = vm["max_enemies"].as<int>();
+//            config::ENEMIES_BEFORE_ROCK = vm["enemies_before_rock"].as<int>();
+//            config::MAX_ROCKS           = vm["max_rocks"].as<int>();
+//            config::GAME_SPEED          = vm["velocity.gamespeed"].as<float>();
+//            config::P_VELOCITY          = vm["velocity.player"].as<float>();
+//            config::E_VELOCITY          = vm["velocity.enemy"].as<float>();
+//            config::R_VELOCITY[0]       = vm["velocity.rocks.small"].as<float>();
+//            config::R_VELOCITY[1]       = vm["velocity.rocks.medium"].as<float>();
+//            config::R_VELOCITY[2]       = vm["velocity.rocks.large"].as<float>();
+//            config::W_WIDTH             = vm["system.resolution_width"].as<int>();
+//            config::W_HEIGHT            = vm["system.resolution_height"].as<int>();
+//
+//        } catch (boost::program_options::error &e) {
+//            std::cerr << "error parsing config file: \"" << _file << "\". Error: " << e.what() << std::endl;
+//            return false;
+//        } catch (...) {
+//            std::cerr << "unknown exception" << std::endl;
+//            return false;
+//        }
         LOG_DEBUG << "---PARSING CONFIG DONE!---\n";
         return true;
     }
@@ -113,7 +110,7 @@ namespace config
     const int W_BPP = 32;       ///<Window Depth
 
     const int MAXNUM_OF_PLAYERS = 4; ///< Maximum amount of players that the game supports
-    int NUM_OF_PLAYERS = 0;
+    int NUM_OF_PLAYERS = 1;
 
     const int P_WIDTH = 30;     ///<Size of Player sprite width
     const int P_HEIGHT = 30;    ///<Size of Player sprite height
