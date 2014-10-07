@@ -21,7 +21,7 @@
 #include <sstream>
 #include <iostream>
 
-GameState::GameState() {
+GameState::GameState(GameEngine* engine) : AbstractState(engine) {
     m_player[0] = NULL;
     m_player[1] = NULL;
     m_player[2] = NULL;
@@ -65,11 +65,6 @@ void GameState::Cleanup() {
 
 /* GAMELOOP FUNCTIONS*/
 void GameState::HandleEvent(SDL_Event &ev) {
-    if (ev.type == SDL_QUIT ) {
-		GameEngine::Instance->Exit();
-		return;
-    }
-
     if(currentInGameState == Play) {
         if (ev.type == SDL_KEYDOWN) {
             //Handle movement input
@@ -88,7 +83,7 @@ void GameState::HandleEvent(SDL_Event &ev) {
                 std::cout << "Player " << c << ": " <<  (*it_player)->getScore() << std::endl;
                 it_player++; c++;
             }
-			GameEngine::Instance->Exit();
+			GetEngine()->Exit();
         }
     }
 }
@@ -192,6 +187,12 @@ void GameState::Render() {
 }
 /* END GAMELOOP FUNCTIONS */
 
+
+void GameState::Pause() {
+}
+
+void GameState::Resume() {
+}
 
 
 /* SUPPORTIVE FUNCTIONS */

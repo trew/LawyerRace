@@ -52,7 +52,7 @@ public:
     /**
      *  Constructor
      */
-    GameState();
+    GameState(GameEngine*);
 
 
     /**
@@ -99,6 +99,10 @@ public:
      *  Render function. Draws everything to the main screen.
      */
     void Render();
+
+	void Pause();
+
+	void Resume();
 
     /* !STATE FUNCTIONS */
 

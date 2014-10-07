@@ -19,17 +19,12 @@
 
 #include "GameEngine.hpp"
 
-GameEngine* GameEngine::Instance = NULL;
 SDL_Window* GameEngine::window;
 SDL_Surface* GameEngine::screenSurface;
 lua_State* GameEngine::LuaState = NULL;
 
 GameEngine::GameEngine()
 {
-	SDL_assert(!Instance);
-
-	Instance = this;
-    gameState = new GameState();
 	LuaState = luaL_newstate();
 	luaL_openlibs(LuaState);
 	m_running = false;
@@ -118,7 +113,7 @@ void GameEngine::Run() {
 
 	if (!Init()) return;
 
-	GameState* gameState = new GameState();
+	GameState* gameState = new GameState(this);
 	ChangeState(gameState);
 		
 	while (m_running)
@@ -127,6 +122,11 @@ void GameEngine::Run() {
 		while (m_running) {
 			AbstractState* currentState = states.back();
 			while (SDL_PollEvent(&ev)) {
+				if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)) {
+					Exit();
+					break;
+				}
+
 				currentState->HandleEvent(ev);
 			}
 			if (!m_running) break; // If any event handling made the game exit

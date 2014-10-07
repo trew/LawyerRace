@@ -24,13 +24,15 @@
 
 #include <SDL.h>
 
+class GameEngine;
+
 class AbstractState {
 public:
 
     /**
      *  Basic destructor
      */
-    virtual ~AbstractState() {}
+	virtual ~AbstractState();
 
 
     /**
@@ -44,15 +46,20 @@ public:
 	*/
 	virtual void Cleanup() = 0;
 	
-	//virtual void Pause() = 0;
-	//virtual void Resume() = 0;
+	virtual void Pause();
+	virtual void Resume();
 
 	virtual void HandleEvent(SDL_Event &ev) = 0;
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 
+	GameEngine* GetEngine();
 protected:
-	AbstractState() {}
+	AbstractState(GameEngine* engine);
+
+private:
+	GameEngine* m_engine;
+
 };
 
 #endif

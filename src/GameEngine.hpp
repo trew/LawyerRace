@@ -64,8 +64,6 @@ public:
     static SDL_Window* window;
 	static SDL_Surface* screenSurface;
 
-	static GameEngine* Instance;
-
     /**
      *  Starts up SDL and other dependencies
      *
@@ -86,7 +84,7 @@ public:
 	void Run();
 	void Exit();
 
-    AbstractState* gameState;                   ///< Pointer to the initialized GameState
+//    AbstractState* gameState;                   ///< Pointer to the initialized GameState
 //  AbstractState* menuState;                   ///< Pointer to the initialized MenuState
 private:
 	std::vector<AbstractState*> states;
