@@ -9,7 +9,7 @@ lwrace
 *.opensdf
 *.suo
 *.user
-/ipch/*
-/Debug/
-/Release/
+ipch/
+Debug/
+Release/
 *.sdf
