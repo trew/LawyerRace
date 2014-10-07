@@ -78,7 +78,7 @@ public:
      *
      *  @param _destSurf Surface the player will be drawn to.
      */
-    virtual void draw(SDL_Surface* _destSurf);
+    virtual void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**
@@ -93,7 +93,7 @@ public:
      *  Update function. Called every frame.
      *  Moves player according to direction and speed.
      */
-    void update();
+    void update(float timeStep);
 
 
     /**

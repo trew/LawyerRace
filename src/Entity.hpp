@@ -65,7 +65,7 @@ public:
      *
      *  @param _destSurf Surface to which the entity will be drawn
      */
-    virtual void draw(SDL_Surface* _destSurf);
+    virtual void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**

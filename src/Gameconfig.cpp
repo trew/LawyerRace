@@ -134,22 +134,17 @@ namespace config
 
     bool PLAYER_STOP_ENABLED = true;
     bool OLD_DIAGONAL_SPEED = false; //see enemy movement phase in Enemy.cpp
-    int MAX_ENEMIES = 5;
+    int MAX_ENEMIES = 0;
     int ENEMIES_BEFORE_ROCK = 3;
     int MAX_ROCKS = 10;
 
-    /**
-    * SPEED_FACTOR is used in FPS.cpp to control speed of the game.
-    * Based on width of screen, because I think it should take the same amount of time to travel from side to side regardless of screensize.
-    * Tweaks also allows the entities default speed to be 1.0.
-    */
-    float SPEED_FACTOR = (static_cast<float>(W_WIDTH) / 4.0f) * 1.0f;
-    float GAME_SPEED = 1.0f;        ///< Gamespeed, configurable in config file
-    float P_VELOCITY = 1.0f;        ///< Player velocity
-    float E_VELOCITY = 0.4f;        ///< Enemy velocity
+	float GAME_SPEED = 1.0f;        ///< Gamespeed, configurable in config file
+    float P_VELOCITY = 500.0f;        ///< Player velocity
+    float E_VELOCITY = 100.0f;        ///< Enemy velocity
 
-    float R_VELOCITY[3] = {1.0f, 0.75f, 0.5f}; //Rock velocities
+	float R_VELOCITY[3] = { 250.f, 187.f, 125.f }; //Rock velocities
 
     KeySet KEYSET[4];
 
+	bool ENABLE_LERP = true;
 } //namespace config

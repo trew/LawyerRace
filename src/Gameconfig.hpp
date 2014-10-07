@@ -87,16 +87,11 @@ namespace config
     extern int ENEMIES_BEFORE_ROCK;
     extern int MAX_ROCKS;
 
-    /*!
-    * SPEED_FACTOR is used in FPS.cpp to control speed of the game.
-    * Based on width of screen, because I think it should take the same amount of time to travel from side to side regardless of screensize.
-    * Tweaks also allows the entities default speed to be 1.0.
-    */
-    extern float SPEED_FACTOR;
     extern float GAME_SPEED;
     extern float P_VELOCITY;        ///< Player velocity
     extern float E_VELOCITY;        ///< Enemy velocity
     extern float R_VELOCITY[3];     ///< Rock velocities
 
+	extern bool ENABLE_LERP;
 }
 #endif

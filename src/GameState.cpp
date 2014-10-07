@@ -88,24 +88,24 @@ void GameState::HandleEvent(SDL_Event &ev) {
     }
 }
 
-void GameState::Update() {
+void GameState::Update(float timeStep) {
     if(currentInGameState == Play) {
         std::list<Player*>::iterator it_player = Player::s_playerList.begin();
         while(it_player != Player::s_playerList.end()) {
             if(!(*it_player)->isDead())
-                (*it_player)->update();
+                (*it_player)->update(timeStep);
             it_player++;
         }
 
         std::list<Rock*>::iterator it_rock = Rock::s_rockList.begin();
         while(it_rock != Rock::s_rockList.end()) {
-            (*it_rock)->update();
+            (*it_rock)->update(timeStep);
             it_rock++;
         }
 
         std::list<Enemy*>::iterator it_enemy = Enemy::s_enemyList.begin();
         while(it_enemy != Enemy::s_enemyList.end()) {
-            (*it_enemy)->update();
+            (*it_enemy)->update(timeStep);
             it_enemy++;
         }
 
@@ -137,7 +137,6 @@ void GameState::Update() {
         }
     }
 
-    FPS::FPSControl.Update();
 #ifdef WIN32
     std::stringstream ss;
     ss << config::WINDOW_TEXT << "    " << FPS::FPSControl.GetFPS();
@@ -146,36 +145,36 @@ void GameState::Update() {
 }
 
 
-void GameState::Render() {
+void GameState::Render(float timeAlpha) {
 	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
 
     std::list<Dollar*>::const_iterator it_dollar = Dollar::s_dollarList.begin();
     while(it_dollar != Dollar::s_dollarList.end()) {
-        (*it_dollar)->draw(screenSurface);
+		(*it_dollar)->draw(screenSurface, timeAlpha);
         it_dollar++;
     }
 
     std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
     while(it_player != Player::s_playerList.end()) {
-		(*it_player)->draw(screenSurface);
+		(*it_player)->draw(screenSurface, timeAlpha);
         it_player++;
     }
 
     std::list<Enemy*>::const_iterator it_enemy = Enemy::s_enemyList.begin();
     while(it_enemy != Enemy::s_enemyList.end()) {
-		(*it_enemy)->draw(screenSurface);
+		(*it_enemy)->draw(screenSurface, timeAlpha);
         it_enemy++;
     }
 
     std::list<Rock*>::const_iterator it_rock = Rock::s_rockList.begin();
     while(it_rock != Rock::s_rockList.end()) {
-		(*it_rock)->draw(screenSurface);
+		(*it_rock)->draw(screenSurface, timeAlpha);
         it_rock++;
     }
 
     std::list<Text*>::const_iterator it_text = Text::s_textList.begin();
     while(it_text != Text::s_textList.end()) {
-		(*it_text)->draw(screenSurface);
+		(*it_text)->draw(screenSurface, timeAlpha);
         it_text++;
     }
 

@@ -33,7 +33,7 @@ selected(false)
 Button::~Button() {
 }
 
-void Button::draw(SDL_Surface* _destSurf) {
+void Button::draw(SDL_Surface* _destSurf, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;

@@ -42,12 +42,28 @@ m_expired(false)
 Rock::~Rock() {
 }
 
-void Rock::draw(SDL_Surface* _destSurf) {
-    Entity::draw(_destSurf);
+void Rock::draw(SDL_Surface* _destSurf, float timeAlpha) {
+	if (!m_visible) return;
+
+	SDL_Rect destRect;
+	destRect.x = static_cast<int>(m_xPos);
+	destRect.y = static_cast<int>(lerp(m_prevY, m_yPos, timeAlpha));
+	destRect.h = m_height;
+	destRect.w = m_width;
+
+	SDL_Rect srcRect;
+	srcRect.x = 0;
+	srcRect.y = 0;
+	srcRect.h = m_height;
+	srcRect.w = m_width;
+
+	SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
 }
 
-void Rock::update() {
-    m_yPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
+void Rock::update(float timeStep) {
+	m_prevY = m_yPos;
+
+	m_yPos += (m_vel * timeStep);
     if (m_yPos > config::W_HEIGHT) m_expired = true;
 }
 

@@ -54,7 +54,7 @@ public:
      *
      *  @param _destSurf The surface to which we draw the image.
      */
-    void draw(SDL_Surface* _destSurf);
+    void draw(SDL_Surface* _destSurf, float timeAlpha);
 };
 
 #endif

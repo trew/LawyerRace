@@ -57,13 +57,13 @@ public:
      *
      *  @param _destSurf Surface which the rock will be drawn to.
      */
-    void draw(SDL_Surface* _destSurf);
+    void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**
      *  Update. Called every frame to update the status of the rock.
      */
-    void update();
+    void update(float timeStep);
 
 
     /**

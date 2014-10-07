@@ -30,7 +30,7 @@ Image::Image(const char* _fileName, const int _xPos, const int _yPos)
 Image::~Image() {
 }
 
-void Image::draw(SDL_Surface* _destSurf) {
+void Image::draw(SDL_Surface* _destSurf, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;

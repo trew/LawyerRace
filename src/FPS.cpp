@@ -24,7 +24,6 @@ FPS FPS::FPSControl;
 FPS::FPS() {
     oldTime = 0;
     lastTime = 0;
-    speedFactor = 0;
     frames = 0;
     numFrames = 0;
 }
@@ -38,15 +37,11 @@ void FPS::Update() {
         numFrames = frames;
         frames = 0;
     }
-    speedFactor = ((SDL_GetTicks() - lastTime) / 1000.0f) * config::SPEED_FACTOR * config::GAME_SPEED;
+//    speedFactor = ((SDL_GetTicks() - lastTime) / 1000.0f) * config::SPEED_FACTOR * config::GAME_SPEED;
     lastTime = SDL_GetTicks();
     frames++;
 }
 
 int FPS::GetFPS() {
     return numFrames;
-}
-
-float FPS::GetSpeedFactor() {
-    return speedFactor;
 }

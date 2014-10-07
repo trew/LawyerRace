@@ -66,7 +66,7 @@ public:
      *
      *  @param _destSurf Surface which the sprite will be drawn to.
      */
-	virtual void draw(SDL_Surface* _destSurf) = 0;
+	virtual void draw(SDL_Surface* _destSurf, float timeAlpha) = 0;
 
 
     /**
@@ -182,10 +182,15 @@ public:
      */
     float getYPos() const;
 
+
+	float lerp(float prev, float current, float alpha);
+
 protected:
     SDL_Surface* m_surf;
     float m_xPos;
     float m_yPos;
+	float m_prevX;
+	float m_prevY;
     int m_width;
     int m_height;
     bool m_visible;

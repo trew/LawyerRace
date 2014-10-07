@@ -50,8 +50,8 @@ public:
 	virtual void Resume();
 
 	virtual void HandleEvent(SDL_Event &ev) = 0;
-	virtual void Update() = 0;
-	virtual void Render() = 0;
+	virtual void Update(float timeStep) = 0;
+	virtual void Render(float timeAlpha) = 0;
 
 	GameEngine* GetEngine();
 protected:

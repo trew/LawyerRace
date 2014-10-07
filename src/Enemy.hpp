@@ -63,7 +63,7 @@ public:
      *
      *  @param _destSurf Surface to which the enemy is drawn
      */
-    virtual void draw(SDL_Surface* _destSurf);
+    virtual void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**
@@ -78,13 +78,13 @@ public:
      *  Update function
      *   - Called each frame
      */
-    void update();
+    void update(float timeStep);
 
 
     /**
      *  Updates movement
      */
-    void updateMovement();
+    void updateMovement(float timeStep);
 
 
     /**

@@ -76,12 +76,12 @@ Enemy::Enemy(const std::string _fileName, const int _xPos, const int _yPos)
 Enemy::~Enemy() {
 }
 
-void Enemy::draw(SDL_Surface* _destSurf) {
+void Enemy::draw(SDL_Surface* _destSurf, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;
-    destRect.x = static_cast<int>(m_xPos);
-    destRect.y = static_cast<int>(m_yPos);
+    destRect.x = static_cast<int>(lerp(m_prevX, m_xPos, timeAlpha));
+    destRect.y = static_cast<int>(lerp(m_prevY, m_yPos, timeAlpha));
     destRect.h = m_height;
     destRect.w = m_width;
 
@@ -109,8 +109,11 @@ void Enemy::toggleMovement() {
 }
 
 
-void Enemy::update() {
-    std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
+void Enemy::update(float timeStep) {
+	m_prevX = m_xPos;
+	m_prevY = m_yPos;
+
+	std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
     while (it_player != Player::s_playerList.end()) {
         if ((*it_player)->isMoving() && !(*it_player)->isDead()) {
             moving = true;
@@ -131,11 +134,11 @@ void Enemy::update() {
     updateDirection();
 
     //Movement phase
-    updateMovement();
+    updateMovement(timeStep);
 
 }
 
-void Enemy::updateMovement() {
+void Enemy::updateMovement(float timeStep) {
 
     //Get target X,Y so we can ignore sprite sizes
     int targetYCompare = int(currentTarget->getYPos()) - ((m_height - currentTarget->getHeight()) / 2);
@@ -165,7 +168,7 @@ void Enemy::updateMovement() {
 
     if(tmp_movingY) {
         if ( m_yPos < targetYCompare ) {
-            delta_y += (FPS::FPSControl.GetSpeedFactor() * m_vel);
+            delta_y += (m_vel * timeStep);
             if ( (m_yPos + delta_y) + m_height > config::W_HEIGHT) {
                 m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
                 delta_y = 0.0;
@@ -178,7 +181,7 @@ void Enemy::updateMovement() {
                 m_direction = DOWN;
             }
         } else if ( m_yPos > targetYCompare) {
-            delta_y -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
+            delta_y -= (m_vel * timeStep);
             if ( (m_yPos + delta_y) < 0) {
                 m_yPos = 0;
                 delta_y = 0.0;
@@ -195,7 +198,7 @@ void Enemy::updateMovement() {
     //Move horizontal
     if(tmp_movingX) {
         if (m_xPos < targetXCompare) {
-            delta_x += (FPS::FPSControl.GetSpeedFactor() * m_vel);
+            delta_x += (m_vel * timeStep);
             if ( (m_xPos + delta_x) + m_width > config::W_WIDTH) {
                 m_xPos = static_cast<float>(config::W_WIDTH - m_width);
                 delta_x = 0.0;
@@ -209,7 +212,7 @@ void Enemy::updateMovement() {
             }
 
         } else if (m_xPos > targetXCompare) {
-            delta_x -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
+            delta_x -= (m_vel * timeStep);
             if ( (m_xPos + delta_x) < 0) {
                 m_xPos = 0;
                 delta_x = 0.0;

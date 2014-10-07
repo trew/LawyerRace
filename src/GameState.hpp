@@ -84,7 +84,7 @@ public:
     /**
      *  Update. Called each frame.
      */
-    void Update();
+    void Update(float timeStep);
 
 
     /**
@@ -98,7 +98,7 @@ public:
     /**
      *  Render function. Draws everything to the main screen.
      */
-    void Render();
+    void Render(float timeAlpha);
 
 	void Pause();
 

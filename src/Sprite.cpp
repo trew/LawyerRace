@@ -21,6 +21,7 @@
 #include <string>
 #include <iostream>
 #include "Log.hpp"
+#include "Gameconfig.hpp"
 
 std::list<Sprite*> Sprite::s_spriteList;
 
@@ -60,6 +61,8 @@ SDL_Surface* Sprite::loadImage(const std::string _fileName, const int _xPos, con
 
     m_xPos = static_cast<float>(_xPos);
     m_yPos = static_cast<float>(_yPos);
+	m_prevX = m_xPos;
+	m_prevY = m_yPos;
     m_height = returnSurf->h;
     m_width = returnSurf->w;
     return returnSurf;
@@ -82,27 +85,27 @@ int Sprite::getHeight() const {
 }
 
 void Sprite::centerHorizontal(const int _leftBorder, const int _rightBorder) {
-    m_xPos = (float)(((_rightBorder - _leftBorder) / 2) - (m_width / 2) + (_leftBorder));
+	m_prevX = m_xPos = (float)(((_rightBorder - _leftBorder) / 2) - (m_width / 2) + (_leftBorder));
 }
 
 void Sprite::centerVertical(const int _topBorder, const int _bottomBorder) {
-    m_yPos = (float)(((_bottomBorder - _topBorder) / 2) - (m_height / 2) + (_topBorder));
+	m_prevY = m_yPos = (float)(((_bottomBorder - _topBorder) / 2) - (m_height / 2) + (_topBorder));
 }
 
 void Sprite::leftAlign(const int _leftBorder, const int _leftMargin) {
-    m_xPos = (float)(_leftMargin + _leftBorder);
+	m_prevX = m_xPos = (float)(_leftMargin + _leftBorder);
 }
 
 void Sprite::rightAlign(const int _rightBorder, const int _rightMargin) {
-    m_xPos = (float)(_rightBorder - _rightMargin - m_width);
+	m_prevX = m_xPos = (float)(_rightBorder - _rightMargin - m_width);
 }
 
 void Sprite::topAlign(const int _topBorder, const int _topMargin) {
-    m_yPos = (float)(_topMargin + _topBorder);
+	m_prevY = m_yPos = (float)(_topMargin + _topBorder);
 }
 
 void Sprite::bottomAlign(const int _bottomBorder, const int _bottomMargin) {
-    m_yPos = (float)(_bottomBorder - _bottomMargin - m_height);
+	m_prevY = m_yPos = (float)(_bottomBorder - _bottomMargin - m_height);
 }
 
 float Sprite::getXPos() const {
@@ -111,4 +114,10 @@ float Sprite::getXPos() const {
 
 float Sprite::getYPos() const {
     return m_yPos;
+}
+
+float Sprite::lerp(float start, float end, float alpha) {
+	if (config::ENABLE_LERP)
+		return start + (end - start) * alpha;
+	return end;
 }

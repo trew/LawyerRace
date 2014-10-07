@@ -72,7 +72,7 @@ public:
      *
      *  @param _destSurf Surface which the text will be drawn to.
      */
-    void draw(SDL_Surface* _destSurf);
+    void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**

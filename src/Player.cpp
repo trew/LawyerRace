@@ -100,12 +100,12 @@ void Player::loadKeySet(const KeySet &set)
     m_keySet = set;
 }
 
-void Player::draw(SDL_Surface* _destSurf) {
+void Player::draw(SDL_Surface* _destSurf, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;
-    destRect.x = static_cast<int>(m_xPos);
-    destRect.y = static_cast<int>(m_yPos);
+    destRect.x = static_cast<int>(lerp(m_prevX, m_xPos, timeAlpha));
+	destRect.y = static_cast<int>(lerp(m_prevY, m_yPos, timeAlpha));
     destRect.h = m_height;
     destRect.w = m_width;
 
@@ -120,7 +120,7 @@ void Player::draw(SDL_Surface* _destSurf) {
 
     SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
 
-    score_text->draw(_destSurf);
+    score_text->draw(_destSurf, timeAlpha);
 }
 
 void Player::handleEvent(SDL_Event& ev) {
@@ -150,24 +150,27 @@ void Player::handleEvent(SDL_Event& ev) {
 }
 
 
-void Player::update() {
+void Player::update(float timeStep) {
     if (!moving || dead) return;    //Return if no movement
 
-    else if (m_direction == UP) {
-        m_yPos -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
+	m_prevX = m_xPos;
+	m_prevY = m_yPos;
+
+	if (m_direction == UP) {
+        m_yPos -= (m_vel * timeStep);
         if (m_yPos < 0) m_yPos = 0; //Prevent from going out of screen
     }
     else if (m_direction == DOWN) {
-        m_yPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
+        m_yPos += (m_vel * timeStep);
         if (m_yPos + m_height > config::W_HEIGHT) m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
     }
 
     else if (m_direction == LEFT) {
-        m_xPos -= (FPS::FPSControl.GetSpeedFactor() * m_vel);
+        m_xPos -= (m_vel * timeStep);
         if (m_xPos < 0) m_xPos = 0; //Prevent from going out of screen
     }
     else if (m_direction == RIGHT) {
-        m_xPos += (FPS::FPSControl.GetSpeedFactor() * m_vel);
+        m_xPos += (m_vel * timeStep);
         if (m_xPos + m_width > config::W_WIDTH) m_xPos = static_cast<float>(config::W_WIDTH - m_width); //Prevent from going out of screen
     }
 

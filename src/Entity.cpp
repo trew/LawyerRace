@@ -41,7 +41,7 @@ Entity::~Entity() {
     s_entityList.remove(this);
 }
 
-void Entity::draw(SDL_Surface* _destSurf) {
+void Entity::draw(SDL_Surface* _destSurf, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;

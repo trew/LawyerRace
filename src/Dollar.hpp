@@ -62,7 +62,7 @@ public:
      *
      *  @param _destSurf Surface to which the dollar is drawn
      */
-    void draw(SDL_Surface* _destSurf);
+    void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**

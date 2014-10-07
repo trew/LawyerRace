@@ -38,7 +38,7 @@ Dollar::Dollar(const std::string _fileName, int _xPos, int _yPos)
 Dollar::~Dollar() {
 }
 
-void Dollar::draw(SDL_Surface* _destSurf) {
+void Dollar::draw(SDL_Surface* _destSurf, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;

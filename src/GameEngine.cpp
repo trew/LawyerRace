@@ -18,6 +18,7 @@
 
 
 #include "GameEngine.hpp"
+#include "Log.hpp"
 
 SDL_Window* GameEngine::window;
 SDL_Surface* GameEngine::screenSurface;
@@ -116,23 +117,44 @@ void GameEngine::Run() {
 	GameState* gameState = new GameState(this);
 	ChangeState(gameState);
 		
+	float accumulator = 0;
+	float timeStep = 1 / 10.f;
 	SDL_Event ev;
+
+	long lastTime = SDL_GetTicks();
 	while (m_running) {
+		float deltaTime = (SDL_GetTicks() - lastTime) / 1000.f;
+		lastTime = SDL_GetTicks();
+		accumulator += deltaTime * config::GAME_SPEED;
+
 		AbstractState* currentState = states.back();
 		while (SDL_PollEvent(&ev)) {
 			if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)) {
 				Exit();
 				break;
 			}
+			if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_k)
+				config::ENABLE_LERP = !config::ENABLE_LERP;
 
 			currentState->HandleEvent(ev);
 		}
 		if (!m_running) break; // If any event handling made the game exit
 
-		currentState->Update();
-		currentState->Render();
+		int loops = 0;
+		while (accumulator > timeStep) {
+			currentState->Update(timeStep);
+			accumulator -= timeStep;
+			loops++;
+		}
+		LOG_DEBUG << loops << std::endl;
 
-		if (FPS::FPSControl.GetFPS() > 200) SDL_Delay(3); //Tiny delay if computer is giving high fps. No need for super high fps.
+		float alpha = accumulator / timeStep;
+
+		currentState->Render(alpha);
+
+		FPS::FPSControl.Update();
+
+//		if (FPS::FPSControl.GetFPS() > 200) SDL_Delay(3); //Tiny delay if computer is giving high fps. No need for super high fps.
 	}
 
 	Cleanup();

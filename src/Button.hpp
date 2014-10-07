@@ -57,7 +57,7 @@ public:
      *
      *  @param _destSurf Surface which the button will be drawn to
      */
-    void draw(SDL_Surface* _destSurf);
+    void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**
