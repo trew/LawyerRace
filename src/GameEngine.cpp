@@ -116,26 +116,23 @@ void GameEngine::Run() {
 	GameState* gameState = new GameState(this);
 	ChangeState(gameState);
 		
-	while (m_running)
-	{
-		SDL_Event ev;
-		while (m_running) {
-			AbstractState* currentState = states.back();
-			while (SDL_PollEvent(&ev)) {
-				if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)) {
-					Exit();
-					break;
-				}
-
-				currentState->HandleEvent(ev);
+	SDL_Event ev;
+	while (m_running) {
+		AbstractState* currentState = states.back();
+		while (SDL_PollEvent(&ev)) {
+			if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)) {
+				Exit();
+				break;
 			}
-			if (!m_running) break; // If any event handling made the game exit
 
-			currentState->Update();
-			currentState->Render();
-
-			if (FPS::FPSControl.GetFPS() > 200) SDL_Delay(3); //Tiny delay if computer is giving high fps. No need for super high fps.
+			currentState->HandleEvent(ev);
 		}
+		if (!m_running) break; // If any event handling made the game exit
+
+		currentState->Update();
+		currentState->Render();
+
+		if (FPS::FPSControl.GetFPS() > 200) SDL_Delay(3); //Tiny delay if computer is giving high fps. No need for super high fps.
 	}
 
 	Cleanup();
