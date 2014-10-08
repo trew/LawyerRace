@@ -23,7 +23,7 @@
 #define _PLAYER_H_
 
 #include "Gameconfig.hpp"
-#include "MovingEntity.hpp"
+#include "Entity.hpp"
 #include "Enemy.hpp"
 #include "FPS.hpp"
 #include "Text.hpp"
@@ -31,7 +31,7 @@
 
 #include <string>
 
-class Player: public MovingEntity {
+class Player: public Entity {
 public:
 
     /**
@@ -78,7 +78,7 @@ public:
      *
      *  @param _destSurf Surface the player will be drawn to.
      */
-    virtual void draw(SDL_Surface* _destSurf, float timeAlpha);
+    virtual void render(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**

@@ -23,7 +23,7 @@
 std::list<Rock*> Rock::s_rockList;
 
 Rock::Rock(const std::string _fileName, const float _xPos, const float _yPos, const int _rockType) 
-: MovingEntity(_fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1]),
+: Entity(_fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1]),
 m_expired(false)
 {
     if (_rockType < 1 || _rockType > 3) {
@@ -38,15 +38,7 @@ m_expired(false)
 Rock::~Rock() {
 }
 
-void Rock::draw(SDL_Surface* _destSurf, float timeAlpha) {
-	if (!m_visible) return;
-
-	Sprite::draw(_destSurf, m_xPos, lerp(m_prevY, m_yPos, timeAlpha));
-}
-
 void Rock::update(float timeStep) {
-	m_prevY = m_yPos;
-
 	m_yPos += (getVelocityY() * timeStep);
     if (m_yPos > config::W_HEIGHT) m_expired = true;
 }

@@ -26,7 +26,7 @@ int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
 Player::Player(const std::string _fileName, KeySet _keySet)
-: MovingEntity(_fileName, 0, 0, config::P_VELOCITY, config::P_VELOCITY),
+: Entity(_fileName, 0, 0, config::P_VELOCITY, config::P_VELOCITY),
   m_direction(DOWN),
   m_score(0),
   dead(false)
@@ -47,7 +47,7 @@ Player::Player(const std::string _fileName, KeySet _keySet)
 }
 
 Player::Player(const std::string _fileName, const float _xPos, const float _yPos, KeySet _keySet)
-: MovingEntity(_fileName, _xPos, _yPos, config::P_VELOCITY, config::P_VELOCITY),
+: Entity(_fileName, _xPos, _yPos, config::P_VELOCITY, config::P_VELOCITY),
   m_direction(DOWN),
   m_score(0),
   dead(false)
@@ -75,12 +75,12 @@ void Player::loadKeySet(const KeySet &set)
     m_keySet = set;
 }
 
-void Player::draw(SDL_Surface* _destSurf, float timeAlpha) {
+void Player::render(SDL_Surface* _destSurf, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;
-    destRect.x = static_cast<int>(lerp(m_prevX, m_xPos, timeAlpha));
-	destRect.y = static_cast<int>(lerp(m_prevY, m_yPos, timeAlpha));
+    destRect.x = static_cast<int>(lerp(getPreviousX(), getX(), timeAlpha));
+	destRect.y = static_cast<int>(lerp(getPreviousY(), getY(), timeAlpha));
     destRect.h = (int)m_height;
     destRect.w = (int)m_width;
 
@@ -95,7 +95,7 @@ void Player::draw(SDL_Surface* _destSurf, float timeAlpha) {
 
     SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
 
-    score_text->draw(_destSurf, timeAlpha);
+    score_text->render(_destSurf);
 }
 
 void Player::handleEvent(SDL_Event& ev) {
@@ -128,16 +128,14 @@ void Player::handleEvent(SDL_Event& ev) {
 void Player::update(float timeStep) {
     if (!isMoving() || dead) return;    //Return if no movement
 
-	m_prevX = m_xPos;
-	m_prevY = m_yPos;
-
 	if (m_direction == UP) {
         m_yPos -= (getVelocityY() * timeStep);
         if (m_yPos < 0) m_yPos = 0; //Prevent from going out of screen
     }
     else if (m_direction == DOWN) {
 		m_yPos += (getVelocityY() * timeStep);
-        if (m_yPos + m_height > config::W_HEIGHT) m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
+        if (m_yPos + m_height > config::W_HEIGHT) 
+			m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
     }
 
     else if (m_direction == LEFT) {
@@ -146,7 +144,8 @@ void Player::update(float timeStep) {
     }
     else if (m_direction == RIGHT) {
 		m_xPos += (getVelocityX() * timeStep);
-        if (m_xPos + m_width > config::W_WIDTH) m_xPos = static_cast<float>(config::W_WIDTH - m_width); //Prevent from going out of screen
+        if (m_xPos + m_width > config::W_WIDTH) 
+			m_xPos = static_cast<float>(config::W_WIDTH - m_width); //Prevent from going out of screen
     }
 
 }

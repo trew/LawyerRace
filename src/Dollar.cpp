@@ -21,6 +21,9 @@
 
 std::list<Dollar*> Dollar::s_dollarList;
 
+Dollar::Dollar(const std::string _fileName) : Dollar(_fileName, 0, 0) {
+}
+
 Dollar::Dollar(const std::string _fileName, const float _xPos, const float _yPos)
     : Entity(_fileName, _xPos, _yPos)
 {

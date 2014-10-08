@@ -22,11 +22,11 @@
 #ifndef _ROCK_H_
 #define _ROCK_H_
 
-#include "MovingEntity.hpp"
+#include "Entity.hpp"
 #include "Gameconfig.hpp"
 #include "FPS.hpp"
 
-class Rock: public MovingEntity {
+class Rock: public Entity {
 public:
 
     /**
@@ -44,14 +44,6 @@ public:
      *  Destructor
      */
     virtual ~Rock();
-
-
-    /**
-     *  Drawing method.
-     *
-     *  @param _destSurf Surface which the rock will be drawn to.
-     */
-    void draw(SDL_Surface* _destSurf, float timeAlpha);
 
 
     /**

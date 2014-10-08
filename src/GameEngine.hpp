@@ -69,20 +69,20 @@ public:
      *
      *  @return True if successful, False otherwise.
      */
-    bool Init();
+    bool init();
 
 
     /**
      *  Deletes instances and shut down
      */
-    void Cleanup();
+    void cleanup();
 
-	void ChangeState(AbstractState* state);
-	void PushState(AbstractState* state);
-	void PopState();
+	void changeState(AbstractState* state);
+	void pushState(AbstractState* state);
+	void popState();
 
-	void Run();
-	void Exit();
+	void run();
+	void exit();
 
 //    AbstractState* gameState;                   ///< Pointer to the initialized GameState
 //  AbstractState* menuState;                   ///< Pointer to the initialized MenuState

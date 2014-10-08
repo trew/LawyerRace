@@ -27,6 +27,8 @@
 class Dollar: public Entity {
 public:
 
+	Dollar(const std::string _fileName);
+
     /**
      *  Constructor
      *

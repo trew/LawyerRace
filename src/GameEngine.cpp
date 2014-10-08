@@ -36,7 +36,7 @@ GameEngine::~GameEngine()
 	lua_close(LuaState);
 }
 
-bool GameEngine::Init()
+bool GameEngine::init()
 {
     if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 ) return false;
 
@@ -58,48 +58,48 @@ bool GameEngine::Init()
     return true;
 }
 
-void GameEngine::ChangeState(AbstractState* state) {
+void GameEngine::changeState(AbstractState* state) {
 	// cleanup the current state
 	if (!states.empty()) {
-		states.back()->Cleanup();
+		states.back()->cleanup();
 		states.pop_back();
 	}
 
 	// store and init the new state
 	states.push_back(state);
-	states.back()->Init();
+	states.back()->init();
 }
 
-void GameEngine::PushState(AbstractState* state)
+void GameEngine::pushState(AbstractState* state)
 {
 	// pause current state
 	if (!states.empty()) {
-		states.back()->Pause();
+		states.back()->pause();
 	}
 
 	// store and init the new state
 	states.push_back(state);
-	states.back()->Init();
+	states.back()->init();
 }
 
-void GameEngine::PopState()
+void GameEngine::popState()
 {
 	// cleanup the current state
 	if (!states.empty()) {
-		states.back()->Cleanup();
+		states.back()->cleanup();
 		states.pop_back();
 	}
 
 	// resume previous state
 	if (!states.empty()) {
-		states.back()->Resume();
+		states.back()->resume();
 	}
 }
-void GameEngine::Cleanup()
+void GameEngine::cleanup()
 {
 	for each (AbstractState* state in states)
 	{
-		state->Cleanup();
+		state->cleanup();
 		delete state;
 	}
 	SDL_DestroyWindow(window);
@@ -108,59 +108,62 @@ void GameEngine::Cleanup()
     SDL_Quit();
 }
 
-void GameEngine::Run() {
+void GameEngine::run() {
 	if (m_running) return;
 	m_running = true;
 
-	if (!Init()) return;
+	if (!init()) return;
 
 	GameState* gameState = new GameState(this);
-	ChangeState(gameState);
+	changeState(gameState);
 		
 	float accumulator = 0;
-	float timeStep = 1 / 60.f;
+	float timeStep = 1 / 10.f; //60 updates per second
 	SDL_Event ev;
 
 	long lastTime = SDL_GetTicks();
 	while (m_running) {
 		float deltaTime = (SDL_GetTicks() - lastTime) / 1000.f;
+		// TODO: limit deltaTime to avoid spiral of death
 		lastTime = SDL_GetTicks();
 		accumulator += deltaTime * config::GAME_SPEED;
 
 		AbstractState* currentState = states.back();
 		while (SDL_PollEvent(&ev)) {
 			if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)) {
-				Exit();
+				exit();
 				break;
 			}
 			if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_k)
 				config::ENABLE_LERP = !config::ENABLE_LERP;
 
-			currentState->HandleEvent(ev);
+			currentState->handleEvent(ev);
 		}
 		if (!m_running) break; // If any event handling made the game exit
 
 		int loops = 0;
-		while (accumulator > timeStep && loops < config::MAX_FRAMESKIP) {
-			currentState->Update(timeStep);
+		while (accumulator >= timeStep && loops < config::MAX_FRAMESKIP) {
+			currentState->copyDataForInterpolation();
+			currentState->update(timeStep);
 			accumulator -= timeStep;
 			loops++;
 		}
 
+		// for rendering interpolation
 		float alpha = accumulator / timeStep;
 
-		currentState->Render(alpha);
+		currentState->render(alpha);
 
 		FPS::FPSControl.Update();
 
 //		if (FPS::FPSControl.GetFPS() > 200) SDL_Delay(3); //Tiny delay if computer is giving high fps. No need for super high fps.
 	}
 
-	Cleanup();
+	cleanup();
 
 	return;
 }
 
-void GameEngine::Exit() {
+void GameEngine::exit() {
 	m_running = false;
 }

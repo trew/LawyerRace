@@ -66,10 +66,10 @@ public:
      *
      *  @param _destSurf Surface which the sprite will be drawn to.
      */
-	virtual void draw(SDL_Surface* _destSurf, float x, float y);
+	virtual void render(SDL_Surface* _destSurf, float x, float y);
 
 
-	virtual void draw(SDL_Surface* _destSurf);
+	virtual void render(SDL_Surface* _destSurf);
 
 
     /**
@@ -182,8 +182,6 @@ protected:
     SDL_Surface* m_surf;
     float m_xPos;
     float m_yPos;
-	float m_prevX;
-	float m_prevY;
     float m_width;
     float m_height;
 

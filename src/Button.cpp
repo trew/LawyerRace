@@ -33,8 +33,8 @@ selected(false)
 Button::~Button() {
 }
 
-void Button::draw(SDL_Surface* _destSurf) {
-    if(!m_visible) return;
+void Button::render(SDL_Surface* _destSurf) {
+    if(!isVisible()) return;
 
     SDL_Rect destRect;
     destRect.x = static_cast<int>(m_xPos);

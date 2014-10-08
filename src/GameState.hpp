@@ -72,19 +72,19 @@ public:
      *
      *  @return True if successful, False otherwise.
      */
-    bool Init();
+    bool init();
 
 
     /**
      *  Cleans up the state before it can be destroyed.
      */
-    void Cleanup();
+    void cleanup();
 
-
+	void copyDataForInterpolation();
     /**
      *  Update. Called each frame.
      */
-    void Update(float timeStep);
+    void update(float timeStep);
 
 
     /**
@@ -92,17 +92,17 @@ public:
      *
      *  @param Struct with information about the polled event.
      */
-    void HandleEvent(SDL_Event &ev);
+    void handleEvent(SDL_Event &ev);
 
 
     /**
      *  Render function. Draws everything to the main screen.
      */
-    void Render(float timeAlpha);
+    void render(float timeAlpha);
 
-	void Pause();
+	void pause();
 
-	void Resume();
+	void resume();
 
     /* !STATE FUNCTIONS */
 
@@ -156,14 +156,6 @@ public:
      *  @return The highest score out of all the players.
      */
     int getHighestCurrentScore();
-
-
-    /**
-     *  Render the result screen.
-     *  FIXME
-     *  This function is only started.
-     */
-    void RenderResult();
 
 
     /**

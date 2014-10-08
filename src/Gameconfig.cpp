@@ -110,7 +110,7 @@ namespace config
     const int W_BPP = 32;       ///<Window Depth
 
     const int MAXNUM_OF_PLAYERS = 4; ///< Maximum amount of players that the game supports
-    int NUM_OF_PLAYERS = 1;
+    int NUM_OF_PLAYERS = 2;
 
     const int P_WIDTH = 30;     ///<Size of Player sprite width
     const int P_HEIGHT = 30;    ///<Size of Player sprite height
@@ -134,7 +134,7 @@ namespace config
 
     bool PLAYER_STOP_ENABLED = true;
     bool OLD_DIAGONAL_SPEED = false; //see enemy movement phase in Enemy.cpp
-    int MAX_ENEMIES = 0;
+    int MAX_ENEMIES = 5;
     int ENEMIES_BEFORE_ROCK = 3;
     int MAX_ROCKS = 10;
 

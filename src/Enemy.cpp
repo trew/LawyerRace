@@ -24,7 +24,7 @@
 std::list<Enemy*> Enemy::s_enemyList;
 
 Enemy::Enemy(const std::string _fileName, const float _xPos, const float _yPos) 
-: MovingEntity(_fileName, _xPos, _yPos, config::E_VELOCITY, config::E_VELOCITY),
+: Entity(_fileName, _xPos, _yPos, config::E_VELOCITY, config::E_VELOCITY),
   m_direction(DOWN),
   currentTarget(NULL)
 {
@@ -41,10 +41,26 @@ Enemy::Enemy(const std::string _fileName, const float _xPos, const float _yPos)
 Enemy::~Enemy() {
 }
 
-void Enemy::update(float timeStep) {
-	m_prevX = m_xPos;
-	m_prevY = m_yPos;
+void Enemy::render(SDL_Surface* _destSurf, float timeAlpha) {
+	if (!m_visible) return;
 
+	SDL_Rect destRect;
+	destRect.x = static_cast<int>(lerp(getPreviousX(), getX(), timeAlpha));
+	destRect.y = static_cast<int>(lerp(getPreviousY(), getY(), timeAlpha));
+	destRect.h = (int)m_height;
+	destRect.w = (int)m_width;
+
+	SDL_Rect srcRect;
+	srcRect.x = 0;
+	srcRect.y = (int)m_height * m_direction;
+	srcRect.h = (int)m_height;
+	srcRect.w = (int)m_width;
+
+	SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
+}
+
+
+void Enemy::update(float timeStep) {
 	std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
     while (it_player != Player::s_playerList.end()) {
         if ((*it_player)->isMoving() && !(*it_player)->isDead()) {

@@ -34,11 +34,32 @@ Entity::Entity(const std::string _fileName)
 Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos)
 : Sprite(_fileName, _xPos, _yPos)
 {
+	m_moving = false;
+	m_xVel = 0;
+	m_yVel = 0;
+	m_prevX = m_xPos;
+	m_prevY = m_yPos;
     s_entityList.push_back(this);
+}
+
+Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel) 
+: Sprite(_fileName, _xPos, _yPos)
+{
+	m_moving = false;
+	m_xVel = _xVel;
+	m_yVel = _yVel;
+	m_prevX = m_xPos;
+	m_prevY = m_yPos;
+	s_entityList.push_back(this);
 }
 
 Entity::~Entity() {
     s_entityList.remove(this);
+}
+
+void Entity::copyDataForInterpolation() {
+	m_prevX = m_xPos;
+	m_prevY = m_yPos;
 }
 
 //Static functions
@@ -55,4 +76,55 @@ bool Entity::collides(Entity* _entityA, Entity* _entityB) {
     if ((_entityB->m_yPos + _entityB->m_height < _entityA->m_yPos)) return false;
 
     return true;
+}
+
+void Entity::render(SDL_Surface* _destSurf, float timeAlpha) {
+	if (!isVisible()) return;
+
+	float x = lerp(m_prevX, m_xPos, timeAlpha);
+	float y = lerp(m_prevY, m_yPos, timeAlpha);
+	Sprite::render(_destSurf, x, y);
+}
+
+float Entity::getVelocityX() const {
+	return m_xVel;
+}
+
+float Entity::getVelocityY() const {
+	return m_yVel;
+}
+
+void Entity::setVelocity(const float x, const float y) {
+	m_xVel = x;
+	m_yVel = y;
+}
+
+float Entity::getPreviousX() const {
+	return m_prevX;
+}
+
+float Entity::getPreviousY() const {
+	return m_prevY;
+}
+
+void Entity::setPreviousX(const float x) {
+	m_prevX = x;
+}
+
+void Entity::setPreviousY(const float y) {
+	m_prevY = y;
+}
+
+bool Entity::isMoving() const {
+	return m_moving;
+}
+
+void Entity::setMoving(bool moving) {
+	m_moving = moving;
+}
+
+float Entity::lerp(float start, float end, float alpha) {
+	if (config::ENABLE_LERP)
+		return start + (end - start) * alpha;
+	return end;
 }

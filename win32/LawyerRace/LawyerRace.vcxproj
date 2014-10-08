@@ -25,7 +25,6 @@
     <ClCompile Include="..\..\src\KeySet.cpp" />
     <ClCompile Include="..\..\src\Log.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\MovingEntity.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Rock.cpp" />
     <ClCompile Include="..\..\src\Sprite.cpp" />
@@ -61,7 +60,6 @@
     <ClInclude Include="..\..\src\LuaBridge\LuaBridge.h" />
     <ClInclude Include="..\..\src\LuaBridge\RefCountedObject.h" />
     <ClInclude Include="..\..\src\LuaBridge\RefCountedPtr.h" />
-    <ClInclude Include="..\..\src\MovingEntity.hpp" />
     <ClInclude Include="..\..\src\Player.hpp" />
     <ClInclude Include="..\..\src\Rock.hpp" />
     <ClInclude Include="..\..\src\Sprite.hpp" />

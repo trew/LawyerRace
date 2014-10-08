@@ -22,11 +22,11 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
-#include "MovingEntity.hpp"
+#include "Entity.hpp"
 #include "Player.hpp"
 
 class Player;
-class Enemy: public MovingEntity {
+class Enemy: public Entity {
 
 public:
 
@@ -61,7 +61,7 @@ public:
 
 
 
-
+	void render(SDL_Surface* _destSurf, float alphaTime);
 
     /**
      *  Updates movement

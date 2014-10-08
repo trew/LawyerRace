@@ -6,12 +6,15 @@ AbstractState::AbstractState(GameEngine* engine) : m_engine(engine) {
 AbstractState::~AbstractState() {
 }
 
-GameEngine* AbstractState::GetEngine() {
+GameEngine* AbstractState::getEngine() {
 	return m_engine;
 }
 
-void AbstractState::Pause() {
+void AbstractState::copyDataForInterpolation() {
 }
 
-void AbstractState::Resume() {
+void AbstractState::pause() {
+}
+
+void AbstractState::resume() {
 }

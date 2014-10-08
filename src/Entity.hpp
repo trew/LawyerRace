@@ -53,12 +53,14 @@ public:
      */
     Entity(const std::string _fileName, const float _xPos, const float _yPos);
 
+	Entity(const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel);
 
     /**
      *  Destructor
      */
     virtual ~Entity();
 
+	void copyDataForInterpolation();
 
     /**
      *  Checks for collision between 2 entities
@@ -69,8 +71,31 @@ public:
      */
     static bool collides(Entity* _entityA, Entity* _entityB);
 
-public:
-    static std::list<Entity*> s_entityList;
+	virtual void render(SDL_Surface* dest, float timeAlpha);
+
+	float getVelocityX() const;
+	float getVelocityY() const;
+	void setVelocity(const float x, const float y);
+
+	float getPreviousX() const;
+	float getPreviousY() const;
+
+	void setPreviousX(const float x);
+	void setPreviousY(const float y);
+
+	bool isMoving() const;
+	void setMoving(bool moving);
+
+	float lerp(float start, float end, float alpha);
+
+	static std::list<Entity*> s_entityList;
+private:
+	float m_xVel;
+	float m_yVel;
+	float m_prevX;
+	float m_prevY;
+	bool m_moving;
+
 };
 
 #endif

@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
 
     try
     {
-        engine.Run();
+        engine.run();
     }
     catch (const char* c)
     {

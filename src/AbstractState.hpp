@@ -38,22 +38,23 @@ public:
     /**
      *  Function to be run when the state is first initialized.
      */
-    virtual bool Init()=0;
+    virtual bool init()=0;
 
 
 	/**
 	*  Function to be run before the state is destroyed.
 	*/
-	virtual void Cleanup() = 0;
+	virtual void cleanup() = 0;
 	
-	virtual void Pause();
-	virtual void Resume();
+	virtual void pause();
+	virtual void resume();
 
-	virtual void HandleEvent(SDL_Event &ev) = 0;
-	virtual void Update(float timeStep) = 0;
-	virtual void Render(float timeAlpha) = 0;
+	virtual void handleEvent(SDL_Event &ev) = 0;
+	virtual void copyDataForInterpolation();
+	virtual void update(float timeStep) = 0;
+	virtual void render(float timeAlpha) = 0;
 
-	GameEngine* GetEngine();
+	GameEngine* getEngine();
 protected:
 	AbstractState(GameEngine* engine);
 

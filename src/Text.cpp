@@ -66,12 +66,12 @@ Text::~Text()
 {
 }
 
-void Text::draw(SDL_Surface* _destSurf, float timeAlpha) {
-    if(!m_visible) return;
+void Text::render(SDL_Surface* _destSurf) {
+    if(!isVisible()) return;
 
     SDL_Rect destRect;
-    destRect.x = (Sint16)(m_xPos);
-    destRect.y = (Sint16)(m_yPos);
+    destRect.x = (int)(getX());
+    destRect.y = (int)(getY());
 
     SDL_BlitSurface(m_surf, NULL, _destSurf, &destRect);
 }

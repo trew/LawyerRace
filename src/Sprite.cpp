@@ -27,8 +27,8 @@ std::list<Sprite*> Sprite::s_spriteList;
 
 Sprite::Sprite() {
     m_surf = NULL;
-	m_xPos = m_prevX = 0;
-	m_yPos = m_prevY = 0;
+	m_xPos = 0;
+	m_yPos = 0;
 	m_width = 0;
 	m_height = 0;
 	m_visible = true;
@@ -39,8 +39,8 @@ Sprite::Sprite(const std::string _fileName) {
 	if ((m_surf = IMG_Load(_fileName.c_str())) == NULL)
         LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n"; //TODO: Errorhandling if m_Surf is NULL!
     s_spriteList.push_back(this);
-	m_xPos = m_prevX = 0;
-	m_yPos = m_prevY = 0;
+	m_xPos = 0;
+	m_yPos = 0;
 	m_width = 0;
 	m_height = 0;
 	m_visible = true;
@@ -53,8 +53,6 @@ Sprite::Sprite(const std::string _fileName, const float _xPos, const float _yPos
 
 	m_xPos = _xPos;
 	m_yPos = _yPos;
-	m_prevX = m_xPos;
-	m_prevY = m_yPos;
 	m_visible = true;
 	s_spriteList.push_back(this);
 
@@ -68,7 +66,7 @@ Sprite::~Sprite() {
     m_surf = NULL;
 }
 
-void Sprite::draw(SDL_Surface* _destSurf, float x, float y) {
+void Sprite::render(SDL_Surface* _destSurf, float x, float y) {
 	if (!isVisible()) return;
 
 	SDL_Rect destRect;
@@ -86,9 +84,9 @@ void Sprite::draw(SDL_Surface* _destSurf, float x, float y) {
 	SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
 }
 
-void Sprite::draw(SDL_Surface* _destSurf) {
+void Sprite::render(SDL_Surface* _destSurf) {
 	if (!isVisible()) return;
-	draw(_destSurf, getX(), getY());
+	render(_destSurf, getX(), getY());
 }
 
 void Sprite::setVisible(bool visible) {
@@ -124,25 +122,25 @@ void Sprite::setY(const float y) {
 }
 
 void Sprite::centerHorizontal(const int _leftBorder, const int _rightBorder) {
-	m_prevX = m_xPos = (float)(((_rightBorder - _leftBorder) / 2) - (m_width / 2) + (_leftBorder));
+	m_xPos = (float)(((_rightBorder - _leftBorder) / 2) - (m_width / 2) + (_leftBorder));
 }
 
 void Sprite::centerVertical(const int _topBorder, const int _bottomBorder) {
-	m_prevY = m_yPos = (float)(((_bottomBorder - _topBorder) / 2) - (m_height / 2) + (_topBorder));
+	m_yPos = (float)(((_bottomBorder - _topBorder) / 2) - (m_height / 2) + (_topBorder));
 }
 
 void Sprite::leftAlign(const int _leftBorder, const int _leftMargin) {
-	m_prevX = m_xPos = (float)(_leftMargin + _leftBorder);
+	m_xPos = (float)(_leftMargin + _leftBorder);
 }
 
 void Sprite::rightAlign(const int _rightBorder, const int _rightMargin) {
-	m_prevX = m_xPos = (float)(_rightBorder - _rightMargin - m_width);
+	m_xPos = (float)(_rightBorder - _rightMargin - m_width);
 }
 
 void Sprite::topAlign(const int _topBorder, const int _topMargin) {
-	m_prevY = m_yPos = (float)(_topMargin + _topBorder);
+	m_yPos = (float)(_topMargin + _topBorder);
 }
 
 void Sprite::bottomAlign(const int _bottomBorder, const int _bottomMargin) {
-	m_prevY = m_yPos = (float)(_bottomBorder - _bottomMargin - m_height);
+	m_yPos = (float)(_bottomBorder - _bottomMargin - m_height);
 }

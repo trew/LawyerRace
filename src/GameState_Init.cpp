@@ -20,7 +20,7 @@
 #include "GameState.hpp"
 #include "Log.hpp"
 
-bool GameState::Init() {
+bool GameState::init() {
     ///Initialize all
 
     window = GameEngine::window;

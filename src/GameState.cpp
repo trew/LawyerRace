@@ -34,7 +34,7 @@ GameState::~GameState() {
 
 /* RUN ONCE FUNCTIONS */
 
-void GameState::Cleanup() {
+void GameState::cleanup() {
     std::map<int, TTF_Font*>::iterator it_font = Text::standard_font.begin();
     while(it_font != Text::standard_font.end()) {
         TTF_CloseFont((*it_font).second);
@@ -64,7 +64,7 @@ void GameState::Cleanup() {
 
 
 /* GAMELOOP FUNCTIONS*/
-void GameState::HandleEvent(SDL_Event &ev) {
+void GameState::handleEvent(SDL_Event &ev) {
     if(currentInGameState == Play) {
         if (ev.type == SDL_KEYDOWN) {
             //Handle movement input
@@ -83,12 +83,20 @@ void GameState::HandleEvent(SDL_Event &ev) {
                 std::cout << "Player " << c << ": " <<  (*it_player)->getScore() << std::endl;
                 it_player++; c++;
             }
-			GetEngine()->Exit();
+			getEngine()->exit();
         }
     }
 }
 
-void GameState::Update(float timeStep) {
+void GameState::copyDataForInterpolation() {
+	auto it = Entity::s_entityList.begin();
+	while (it != Entity::s_entityList.end()) {
+		(*it)->copyDataForInterpolation();
+		it++;
+	}
+}
+
+void GameState::update(float timeStep) {
     if(currentInGameState == Play) {
         auto it_player = Player::s_playerList.begin();
         while(it_player != Player::s_playerList.end()) {
@@ -145,36 +153,36 @@ void GameState::Update(float timeStep) {
 }
 
 
-void GameState::Render(float timeAlpha) {
+void GameState::render(float timeAlpha) {
 	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
 
     auto it_dollar = Dollar::s_dollarList.begin();
     while(it_dollar != Dollar::s_dollarList.end()) {
-		(*it_dollar)->draw(screenSurface);
+		(*it_dollar)->render(screenSurface, timeAlpha);
         it_dollar++;
     }
 
     auto it_player = Player::s_playerList.begin();
     while(it_player != Player::s_playerList.end()) {
-		(*it_player)->draw(screenSurface, timeAlpha);
+		(*it_player)->render(screenSurface, timeAlpha);
         it_player++;
     }
 
     auto it_enemy = Enemy::s_enemyList.begin();
     while(it_enemy != Enemy::s_enemyList.end()) {
-		(*it_enemy)->draw(screenSurface, timeAlpha);
+		(*it_enemy)->render(screenSurface, timeAlpha);
         it_enemy++;
     }
 
     auto it_rock = Rock::s_rockList.begin();
     while(it_rock != Rock::s_rockList.end()) {
-		(*it_rock)->draw(screenSurface, timeAlpha);
+		(*it_rock)->render(screenSurface, timeAlpha);
         it_rock++;
     }
 
-    std::list<Text*>::const_iterator it_text = Text::s_textList.begin();
+    auto it_text = Text::s_textList.begin();
     while(it_text != Text::s_textList.end()) {
-		(*it_text)->draw(screenSurface, timeAlpha);
+		(*it_text)->render(screenSurface);
         it_text++;
     }
 
@@ -187,10 +195,10 @@ void GameState::Render(float timeAlpha) {
 /* END GAMELOOP FUNCTIONS */
 
 
-void GameState::Pause() {
+void GameState::pause() {
 }
 
-void GameState::Resume() {
+void GameState::resume() {
 }
 
 
@@ -274,7 +282,7 @@ void GameState::checkForCollision() {
 void GameState::createDollar() {
     auto it_player = Player::s_playerList.begin();
     while (Dollar::s_dollarList.size() < unsigned(Player::alivePlayers)) {
-        Dollar* newDollar = new Dollar(config::path + config::D_SRC, 0, 0);
+        Dollar* newDollar = new Dollar(config::path + config::D_SRC);
         int newDollar_xPos = 0;
         int newDollar_yPos = 0;
         bool valid = false;
@@ -282,6 +290,8 @@ void GameState::createDollar() {
             valid = true;
             newDollar_xPos = rand() % (config::W_WIDTH - (int)newDollar->getWidth())   ;
             newDollar_yPos = rand() % (config::W_HEIGHT - (int)newDollar->getHeight()) ;
+			newDollar->setX(static_cast<float>(newDollar_xPos));
+			newDollar->setY(static_cast<float>(newDollar_yPos));
 
             while(it_player != Player::s_playerList.end()) {
                 if(Entity::collides((*it_player), newDollar)) {
@@ -293,6 +303,7 @@ void GameState::createDollar() {
         }
         newDollar->setX(static_cast<float>(newDollar_xPos));
         newDollar->setY(static_cast<float>(newDollar_yPos));
+		newDollar->copyDataForInterpolation();
         Dollar::s_dollarList.push_back(newDollar);
     }
 }
@@ -351,18 +362,20 @@ void GameState::createRock() {
         int r_yPos = -config::MAX_R_HEIGHT;
 
         int rockType = (rand() % 10 +1);
+		Rock* rock = NULL;
         if (rockType >= 7 && rockType <= 9) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[1]));
-            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[1], (float)r_xPos, (float)r_yPos, 2));
+			rock = new Rock(config::path + config::R_SRC[1], (float)r_xPos, (float)r_yPos, 2);
         }
         else if(rockType == 10) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));
-            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[2], (float)r_xPos, (float)r_yPos, 3));
+            rock = new Rock(config::path + config::R_SRC[2], (float)r_xPos, (float)r_yPos, 3);
         }
         else {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[0]));
-            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[0], (float)r_xPos, (float)r_yPos, 1));
+            rock = new Rock(config::path + config::R_SRC[0], (float)r_xPos, (float)r_yPos, 1);
         }
+		Rock::s_rockList.push_back(rock);
     }
 }
 
@@ -386,10 +399,6 @@ int GameState::getHighestCurrentScore() {
         it_player++;
     }
     return highestCurrentScore;
-}
-
-void GameState::RenderResult() {
-    std::list<Player*> winners = getWinners();
 }
 
 std::list<Player*> GameState::getWinners() {
