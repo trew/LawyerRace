@@ -37,7 +37,7 @@ public:
      *  @param _yPos     Y-position in pixels.
      *  @param _rockType Type of rock created.
      */
-    Rock(const std::string _fileName, const int _xPos, const int _yPos, const int _rockType);
+    Rock(const std::string _fileName, const float _xPos, const float _yPos, const int _rockType);
 
 
     /**

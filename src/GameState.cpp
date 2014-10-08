@@ -322,7 +322,8 @@ void GameState::createEnemy() {
         }
 
         //Finally, create new enemy
-        Enemy::s_enemyList.push_back(new Enemy(config::path + config::E_SRC, e_xPos, e_yPos));
+		Enemy* enemy = new Enemy(config::path + config::E_SRC, (float)e_xPos, (float)e_yPos);
+        Enemy::s_enemyList.push_back(enemy);
     }
 
 }
@@ -352,15 +353,15 @@ void GameState::createRock() {
         int rockType = (rand() % 10 +1);
         if (rockType >= 7 && rockType <= 9) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[1]));
-            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[1], r_xPos, r_yPos, 2));
+            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[1], (float)r_xPos, (float)r_yPos, 2));
         }
         else if(rockType == 10) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));
-            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[2], r_xPos, r_yPos, 3));
+            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[2], (float)r_xPos, (float)r_yPos, 3));
         }
         else {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[0]));
-            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[0], r_xPos, r_yPos, 1));
+            Rock::s_rockList.push_back(new Rock(config::path + config::R_SRC[0], (float)r_xPos, (float)r_yPos, 1));
         }
     }
 }

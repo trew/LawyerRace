@@ -34,7 +34,7 @@ public:
      *  @param _xPos     X-position for dollar in pixels
      *  @param _yPos     Y-position for dollar in pixels
      */
-    Dollar(const std::string _fileName, int _xPos, int _yPos);
+    Dollar(const std::string _fileName, const float _xPos, const float _yPos);
 
 
     /**

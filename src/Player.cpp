@@ -163,7 +163,7 @@ void Player::updateScore() {
     //Position text correctly
     if (config::NUM_OF_PLAYERS == 4) {
         float newXPos = static_cast<float>((config::W_WIDTH / 4) * (playerNum-1) + 20);
-        score_text->setXPos(newXPos);
+        score_text->setX(newXPos);
     }
     else if (config::NUM_OF_PLAYERS == 3) {
         if (playerNum == 1) 

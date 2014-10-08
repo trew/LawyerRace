@@ -87,14 +87,6 @@ void Text::updateText(const std::string _newText) {
     m_width = (float)m_surf->w;
 }
 
-//Position text
-void Text::setXPos(const float _xPos) {
-    m_xPos = _xPos;
-}
-void Text::setYPos(const float _yPos) {
-    m_yPos = _yPos;
-}
-
 const std::string Text::numberToText(int _number)
 {
     std::stringstream ss;

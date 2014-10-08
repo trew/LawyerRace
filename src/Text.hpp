@@ -86,22 +86,6 @@ public:
 
 
     /**
-     *  Position the text on the X axis.
-     *
-     *  @param _xPos X-position
-     */
-    void setXPos(const float _xPos);
-
-
-    /**
-     *  Position the text on the Y axis.
-     *
-     *  @param _yPos Y-position.
-     */
-    void setYPos(const float _yPos);
-
-
-    /**
      *  Converts a number to a string.
      *
      *  @param _number Integer to be converted.

@@ -22,7 +22,7 @@
 
 std::list<Rock*> Rock::s_rockList;
 
-Rock::Rock(const std::string _fileName, const int _xPos, const int _yPos, const int _rockType) 
+Rock::Rock(const std::string _fileName, const float _xPos, const float _yPos, const int _rockType) 
 : MovingEntity(_fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1]),
 m_expired(false)
 {

@@ -176,9 +176,6 @@
     <ClInclude Include="..\..\src\LuaBridge\detail\dump.h">
       <Filter>LuaBridge</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\MovingEntity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

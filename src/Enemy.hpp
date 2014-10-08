@@ -29,28 +29,15 @@ class Player;
 class Enemy: public MovingEntity {
 
 public:
-    /**
-     *  Constructor
-     */
-    Enemy();
 
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to the image of the enemy
-     */
-    Enemy(const std::string _fileName);
-
-
-    /**
+	/**
      *  Constructor
      *
      *  @param _fileName Full path to the image of the enemy
      *  @param _xPos     X-position of the enemy in pixels
      *  @param _yPos     Y-position of the enemy in pixels
      */
-    Enemy(const std::string _fileName, const int _xPos, const int _yPos);
+    Enemy(const std::string _fileName, const float _xPos, const float _yPos);
 
 
     /**
@@ -61,22 +48,6 @@ public:
 	//////////////////////////////////////////////////////
 	///////////////  ENTITY OVERRIDES  ///////////////////
 	//////////////////////////////////////////////////////
-
-	/**
-     *  Drawing function
-     *
-     *  @param _destSurf Surface to which the enemy is drawn
-     */
-    virtual void draw(SDL_Surface* dest, float timeAlpha);
-
-
-    /**
-     *  Event handling function
-     *
-     *  @param ev Struct containing the information about the event
-     */
-    void handleEvent(SDL_Event& ev);
-
 
     /**
      *  Update function

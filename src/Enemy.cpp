@@ -23,28 +23,13 @@
 
 std::list<Enemy*> Enemy::s_enemyList;
 
-Enemy::Enemy(const std::string _fileName) 
-: MovingEntity(_fileName, 0, 0, config::E_VELOCITY, config::E_VELOCITY),
-  m_direction(DOWN),
-  currentTarget(NULL)
-{
-    m_height = config::E_HEIGHT;
-    m_width = config::E_WIDTH;
-    m_movingX = true; m_movingY = true;
-    if(s_enemyList.size() > 0) {
-        if(s_enemyList.size() % 2 == 1) m_movingX = false;
-        else m_movingY = false;
-    }
-    m_diagonalSensitivity = (rand() % 6 +3);
-}
-
-Enemy::Enemy(const std::string _fileName, const int _xPos, const int _yPos) 
+Enemy::Enemy(const std::string _fileName, const float _xPos, const float _yPos) 
 : MovingEntity(_fileName, _xPos, _yPos, config::E_VELOCITY, config::E_VELOCITY),
   m_direction(DOWN),
   currentTarget(NULL)
 {
-    m_height = config::E_HEIGHT;
-    m_width = config::E_WIDTH;
+    m_height = (float)config::E_HEIGHT;
+    m_width = (float)config::E_WIDTH;
     m_movingX = true; m_movingY = true;
     if(s_enemyList.size() > 0) {
         if(s_enemyList.size() % 2 == 1) m_movingX = false;
@@ -55,28 +40,6 @@ Enemy::Enemy(const std::string _fileName, const int _xPos, const int _yPos)
 
 Enemy::~Enemy() {
 }
-
-void Enemy::draw(SDL_Surface* _destSurf, float timeAlpha) {
-    if(!m_visible) return;
-
-    SDL_Rect destRect;
-    destRect.x = static_cast<int>(lerp(m_prevX, m_xPos, timeAlpha));
-    destRect.y = static_cast<int>(lerp(m_prevY, m_yPos, timeAlpha));
-    destRect.h = m_height;
-    destRect.w = m_width;
-
-    SDL_Rect srcRect;
-    srcRect.x = 0;
-    srcRect.y = m_height * m_direction;
-    srcRect.h = m_height;
-    srcRect.w = m_width;
-
-    SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
-}
-
-void Enemy::handleEvent(SDL_Event& ev) {
-}
-
 
 void Enemy::update(float timeStep) {
 	m_prevX = m_xPos;
@@ -110,8 +73,8 @@ void Enemy::update(float timeStep) {
 void Enemy::updateMovement(float timeStep) {
 
     //Get target X,Y so we can ignore sprite sizes
-    int targetYCompare = int(currentTarget->getY()) - ((m_height - currentTarget->getHeight()) / 2);
-    int targetXCompare = int(currentTarget->getX()) - ((m_width - currentTarget->getWidth()) / 2);
+    int targetYCompare = (int)(currentTarget->getY() - ((m_height - currentTarget->getHeight()) / 2.f));
+    int targetXCompare = (int)(currentTarget->getX() - ((m_width - currentTarget->getWidth()) / 2.f));
 
     bool tmp_movingY = m_movingY;
     bool tmp_movingX = m_movingX;
@@ -283,8 +246,8 @@ void Enemy::updateDirection() {
     if (currentTarget == NULL) return;
 
     //Get target X,Y so we can ignore sprite sizes
-    int targetYCompare = int(currentTarget->getY()) - ((m_height - currentTarget->getHeight()) / 2);
-    int targetXCompare = int(currentTarget->getX()) - ((m_width - currentTarget->getWidth()) / 2);
+    int targetYCompare = (int)(currentTarget->getY() - ((m_height - currentTarget->getHeight()) / 2));
+    int targetXCompare = (int)(currentTarget->getX() - ((m_width - currentTarget->getWidth()) / 2));
 
     if( (m_xPos < targetXCompare) ) {
         if (m_yPos < targetYCompare) {
