@@ -93,5 +93,6 @@ namespace config
     extern float R_VELOCITY[3];     ///< Rock velocities
 
 	extern bool ENABLE_LERP;
+	extern int MAX_FRAMESKIP;
 }
 #endif

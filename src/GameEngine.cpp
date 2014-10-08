@@ -141,12 +141,11 @@ void GameEngine::Run() {
 		if (!m_running) break; // If any event handling made the game exit
 
 		int loops = 0;
-		while (accumulator > timeStep) {
+		while (accumulator > timeStep && loops < config::MAX_FRAMESKIP) {
 			currentState->Update(timeStep);
 			accumulator -= timeStep;
 			loops++;
 		}
-		LOG_DEBUG << loops << std::endl;
 
 		float alpha = accumulator / timeStep;
 

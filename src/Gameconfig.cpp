@@ -147,4 +147,5 @@ namespace config
     KeySet KEYSET[4];
 
 	bool ENABLE_LERP = true;
+	int MAX_FRAMESKIP = 10;
 } //namespace config
