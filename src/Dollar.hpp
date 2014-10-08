@@ -28,20 +28,6 @@ class Dollar: public Entity {
 public:
 
     /**
-     *  Basic constructor
-     */
-    Dollar();
-
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to image of dollar
-     */
-    Dollar(const std::string _fileName);
-
-
-    /**
      *  Constructor
      *
      *  @param _fileName Full path to image of dollar
@@ -56,44 +42,7 @@ public:
      */
     virtual ~Dollar();
 
-
-    /**
-     *  Drawing function
-     *
-     *  @param _destSurf Surface to which the dollar is drawn
-     */
-    void draw(SDL_Surface* _destSurf, float timeAlpha);
-
-
-    /**
-     *  Event handling function
-     *
-     *  @param ev Struct containing information about the polled event.
-     */
-    void handleEvent(SDL_Event& ev);
-
-
-    /**
-     *  Sets X position
-     *
-     *  @param _xPos X-position
-     */
-    void setXPos(const float _xPos);
-
-
-    /**
-     *  Sets Y position
-     *
-     *  @param _yPos Y-position
-     */
-    void setYPos(const float _yPos);
-
     static std::list<Dollar*> s_dollarList;
-
-private:
-    Uint32 startTime;
-    int durationTime;
-    bool expired;
 };
 
 #endif

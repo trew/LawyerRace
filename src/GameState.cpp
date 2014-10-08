@@ -69,7 +69,7 @@ void GameState::HandleEvent(SDL_Event &ev) {
         if (ev.type == SDL_KEYDOWN) {
             //Handle movement input
             //TODO: Also set speed to max available speed
-            std::list<Player*>::iterator it_player = Player::s_playerList.begin();
+            auto it_player = Player::s_playerList.begin();
             while(it_player != Player::s_playerList.end()) {
                 (*it_player)->handleEvent(ev);
                 it_player++;
@@ -77,7 +77,7 @@ void GameState::HandleEvent(SDL_Event &ev) {
         }
     } else if (currentInGameState == GameOver) {
         if (ev.type == SDL_KEYDOWN) {
-            std::list<Player*>::iterator it_player = Player::s_playerList.begin();
+            auto it_player = Player::s_playerList.begin();
             int c = 1;
             while(it_player != Player::s_playerList.end()) {
                 std::cout << "Player " << c << ": " <<  (*it_player)->getScore() << std::endl;
@@ -90,20 +90,20 @@ void GameState::HandleEvent(SDL_Event &ev) {
 
 void GameState::Update(float timeStep) {
     if(currentInGameState == Play) {
-        std::list<Player*>::iterator it_player = Player::s_playerList.begin();
+        auto it_player = Player::s_playerList.begin();
         while(it_player != Player::s_playerList.end()) {
             if(!(*it_player)->isDead())
                 (*it_player)->update(timeStep);
             it_player++;
         }
 
-        std::list<Rock*>::iterator it_rock = Rock::s_rockList.begin();
+        auto it_rock = Rock::s_rockList.begin();
         while(it_rock != Rock::s_rockList.end()) {
             (*it_rock)->update(timeStep);
             it_rock++;
         }
 
-        std::list<Enemy*>::iterator it_enemy = Enemy::s_enemyList.begin();
+        auto it_enemy = Enemy::s_enemyList.begin();
         while(it_enemy != Enemy::s_enemyList.end()) {
             (*it_enemy)->update(timeStep);
             it_enemy++;
@@ -148,25 +148,25 @@ void GameState::Update(float timeStep) {
 void GameState::Render(float timeAlpha) {
 	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
 
-    std::list<Dollar*>::const_iterator it_dollar = Dollar::s_dollarList.begin();
+    auto it_dollar = Dollar::s_dollarList.begin();
     while(it_dollar != Dollar::s_dollarList.end()) {
-		(*it_dollar)->draw(screenSurface, timeAlpha);
+		(*it_dollar)->draw(screenSurface);
         it_dollar++;
     }
 
-    std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
+    auto it_player = Player::s_playerList.begin();
     while(it_player != Player::s_playerList.end()) {
 		(*it_player)->draw(screenSurface, timeAlpha);
         it_player++;
     }
 
-    std::list<Enemy*>::const_iterator it_enemy = Enemy::s_enemyList.begin();
+    auto it_enemy = Enemy::s_enemyList.begin();
     while(it_enemy != Enemy::s_enemyList.end()) {
 		(*it_enemy)->draw(screenSurface, timeAlpha);
         it_enemy++;
     }
 
-    std::list<Rock*>::const_iterator it_rock = Rock::s_rockList.begin();
+    auto it_rock = Rock::s_rockList.begin();
     while(it_rock != Rock::s_rockList.end()) {
 		(*it_rock)->draw(screenSurface, timeAlpha);
         it_rock++;
@@ -257,7 +257,7 @@ void GameState::checkForCollision() {
             if(Entity::collides((*it_player), (*it_rock))) {
                 //Player collides with rock
                 tmp_player = (*it_player);
-                (*it_rock)->expire();
+                (*it_rock)->setExpired(true);
             }
             it_rock++;
         }
@@ -272,7 +272,7 @@ void GameState::checkForCollision() {
 }
 
 void GameState::createDollar() {
-    std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
+    auto it_player = Player::s_playerList.begin();
     while (Dollar::s_dollarList.size() < unsigned(Player::alivePlayers)) {
         Dollar* newDollar = new Dollar(config::path + config::D_SRC, 0, 0);
         int newDollar_xPos = 0;
@@ -280,8 +280,8 @@ void GameState::createDollar() {
         bool valid = false;
         while(!valid) { //Loop until valid pos is found
             valid = true;
-            newDollar_xPos = rand() % (config::W_WIDTH - newDollar->getWidth())   ;
-            newDollar_yPos = rand() % (config::W_HEIGHT - newDollar->getHeight()) ;
+            newDollar_xPos = rand() % (config::W_WIDTH - (int)newDollar->getWidth())   ;
+            newDollar_yPos = rand() % (config::W_HEIGHT - (int)newDollar->getHeight()) ;
 
             while(it_player != Player::s_playerList.end()) {
                 if(Entity::collides((*it_player), newDollar)) {
@@ -291,8 +291,8 @@ void GameState::createDollar() {
                 it_player++;
             }
         }
-        newDollar->setXPos(static_cast<float>(newDollar_xPos));
-        newDollar->setYPos(static_cast<float>(newDollar_yPos));
+        newDollar->setX(static_cast<float>(newDollar_xPos));
+        newDollar->setY(static_cast<float>(newDollar_yPos));
         Dollar::s_dollarList.push_back(newDollar);
     }
 }
@@ -329,7 +329,7 @@ void GameState::createEnemy() {
 
 void GameState::createRock() {
     //Remove expired rocks
-    std::list<Rock*>::iterator it_rock = Rock::s_rockList.begin();
+    auto it_rock = Rock::s_rockList.begin();
     while(it_rock != Rock::s_rockList.end()) {
         if((*it_rock)->isExpired()) {
             Sprite::s_spriteList.remove((*it_rock));
@@ -366,7 +366,7 @@ void GameState::createRock() {
 }
 
 bool GameState::isGameOver() {
-    std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
+    auto it_player = Player::s_playerList.begin();
     while(it_player != Player::s_playerList.end()) {
         if( !((*it_player)->isDead()) ) {
             return false;
@@ -378,7 +378,7 @@ bool GameState::isGameOver() {
 
 int GameState::getHighestCurrentScore() {
     int highestCurrentScore = 0;
-    std::list<Player*>::iterator it_player = Player::s_playerList.begin();
+    auto it_player = Player::s_playerList.begin();
     while(it_player != Player::s_playerList.end()) {
         if ((*it_player)->getScore() > highestCurrentScore) 
             highestCurrentScore = (*it_player)->getScore();
@@ -393,7 +393,7 @@ void GameState::RenderResult() {
 
 std::list<Player*> GameState::getWinners() {
     std::list<Player*> returnList;
-    std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
+    auto it_player = Player::s_playerList.begin();
     int highestScore = getHighestCurrentScore();
     while(it_player != Player::s_playerList.end()) {
         if((*it_player)->getScore() == highestScore) {

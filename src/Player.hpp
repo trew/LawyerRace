@@ -23,7 +23,7 @@
 #define _PLAYER_H_
 
 #include "Gameconfig.hpp"
-#include "Entity.hpp"
+#include "MovingEntity.hpp"
 #include "Enemy.hpp"
 #include "FPS.hpp"
 #include "Text.hpp"
@@ -31,7 +31,7 @@
 
 #include <string>
 
-class Player: public Entity {
+class Player: public MovingEntity {
 public:
 
     /**
@@ -56,7 +56,7 @@ public:
      *  @param _yPos     Y-position in pixels.
      *  @param _keySet   A KeySet instance which holds the key settings for the player.
      */
-    Player(const std::string _fileName, const int _xPos, const int _yPos , KeySet _keySet);
+    Player(const std::string _fileName, const float _xPos, const float _yPos , KeySet _keySet);
 
 
     /**
@@ -123,53 +123,11 @@ public:
 
 
     /**
-     *  Checks if the player is moving
-     *
-     *  @return True if player is moving, False otherwise.
-     */
-    bool isMoving() const;
-
-
-    /**
      *  Checks if the player is dead.
      *
      *  @return True if player is dead, False otherwise.
      */
     bool isDead() const;
-
-
-    /**
-     *  Action function that starts movement for the player.
-     */
-    void startMovement();
-
-
-    /**
-     *  Action function that stops movement for the player.
-     */
-    void stopMovement();
-
-
-    /**
-     *  Action function that toggles movement for the player.
-     */
-    void toggleMovement();
-
-
-    /**
-     *  Retrieve the current X position.
-     *
-     *  @return The current X position.
-     */
-    float getXPos();
-
-
-    /**
-     *  Retrieve the current Y position.
-     *
-     *  @return The current Y position.
-     */
-    float getYPos();
 
 
     /**

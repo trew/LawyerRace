@@ -22,18 +22,12 @@
 #ifndef _ROCK_H_
 #define _ROCK_H_
 
-#include "Entity.hpp"
+#include "MovingEntity.hpp"
 #include "Gameconfig.hpp"
 #include "FPS.hpp"
 
-class Rock: public Entity {
+class Rock: public MovingEntity {
 public:
-
-    /**
-     *  Constructor
-     */
-    Rock();
-
 
     /**
      *  Constructor
@@ -73,11 +67,7 @@ public:
      */
     bool isExpired() const;
 
-
-    /**
-     *  Sets the rock to be expired. This is triggered when the rock has fallen out of screen.
-     */
-    void expire();
+    void setExpired(const bool expired);
 
 private:
     bool m_expired;

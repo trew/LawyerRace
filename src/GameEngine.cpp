@@ -118,7 +118,7 @@ void GameEngine::Run() {
 	ChangeState(gameState);
 		
 	float accumulator = 0;
-	float timeStep = 1 / 10.f;
+	float timeStep = 1 / 60.f;
 	SDL_Event ev;
 
 	long lastTime = SDL_GetTicks();

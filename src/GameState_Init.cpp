@@ -45,17 +45,17 @@ bool GameState::Init() {
     if(config::NUM_OF_PLAYERS == 1) {
         m_player[0]->centerHorizontal(0, config::W_WIDTH);
     } else if(config::NUM_OF_PLAYERS == 2) {
-        m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 3)));
-        m_player[1]->centerHorizontal((m_player[1]->getWidth() * 3), config::W_WIDTH);
+        m_player[0]->centerHorizontal(0, (int)(config::W_WIDTH - (m_player[0]->getWidth() * 3)));
+		m_player[1]->centerHorizontal((int)(m_player[1]->getWidth() * 3), config::W_WIDTH);
     } else if(config::NUM_OF_PLAYERS == 3) {
-        m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 6)));
+		m_player[0]->centerHorizontal(0, (int)(config::W_WIDTH - (m_player[0]->getWidth() * 6)));
         m_player[1]->centerHorizontal(0, config::W_WIDTH);
-        m_player[2]->centerHorizontal((m_player[2]->getWidth() * 6), config::W_WIDTH);
+		m_player[2]->centerHorizontal((int)(m_player[2]->getWidth() * 6), config::W_WIDTH);
     } else if(config::NUM_OF_PLAYERS == 4) {
-        m_player[0]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 9)));
-        m_player[1]->centerHorizontal(0, (config::W_WIDTH - (m_player[0]->getWidth() * 3)));
-        m_player[2]->centerHorizontal((m_player[1]->getWidth() * 3), config::W_WIDTH);
-        m_player[3]->centerHorizontal((m_player[2]->getWidth() * 9), config::W_WIDTH);
+		m_player[0]->centerHorizontal(0, (config::W_WIDTH - (int)(m_player[0]->getWidth() * 9)));
+		m_player[1]->centerHorizontal(0, (config::W_WIDTH - (int)(m_player[0]->getWidth() * 3)));
+		m_player[2]->centerHorizontal((int)(m_player[1]->getWidth() * 3), config::W_WIDTH);
+		m_player[3]->centerHorizontal((int)(m_player[2]->getWidth() * 9), config::W_WIDTH);
     }
 
     countDown = 3;

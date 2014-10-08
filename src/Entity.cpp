@@ -31,7 +31,7 @@ Entity::Entity(const std::string _fileName)
 {
     s_entityList.push_back(this);
 }
-Entity::Entity(const std::string _fileName, const int _xPos, const int _yPos)
+Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos)
 : Sprite(_fileName, _xPos, _yPos)
 {
     s_entityList.push_back(this);
@@ -39,28 +39,6 @@ Entity::Entity(const std::string _fileName, const int _xPos, const int _yPos)
 
 Entity::~Entity() {
     s_entityList.remove(this);
-}
-
-void Entity::draw(SDL_Surface* _destSurf, float timeAlpha) {
-    if(!m_visible) return;
-
-    SDL_Rect destRect;
-    destRect.x = static_cast<int>(m_xPos);
-    destRect.y = static_cast<int>(m_yPos);
-    destRect.h = m_height;
-    destRect.w = m_width;
-
-    SDL_Rect srcRect;
-    srcRect.x = 0;
-    srcRect.y = 0;
-    srcRect.h = m_height;
-    srcRect.w = m_width;
-
-    SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
-
-}
-
-void Entity::handleEvent(SDL_Event& ev) {
 }
 
 //Static functions

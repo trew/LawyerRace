@@ -27,22 +27,40 @@ std::list<Sprite*> Sprite::s_spriteList;
 
 Sprite::Sprite() {
     m_surf = NULL;
-    s_spriteList.push_back(this);
-    m_visible = true;
+	m_xPos = m_prevX = 0;
+	m_yPos = m_prevY = 0;
+	m_width = 0;
+	m_height = 0;
+	m_visible = true;
+	s_spriteList.push_back(this);
 }
 
 Sprite::Sprite(const std::string _fileName) {
-    if ( (m_surf = loadImage(_fileName)) == NULL) 
+	if ((m_surf = IMG_Load(_fileName.c_str())) == NULL)
         LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n"; //TODO: Errorhandling if m_Surf is NULL!
     s_spriteList.push_back(this);
-    m_visible = true;
+	m_xPos = m_prevX = 0;
+	m_yPos = m_prevY = 0;
+	m_width = 0;
+	m_height = 0;
+	m_visible = true;
+	s_spriteList.push_back(this);
 }
 
-Sprite::Sprite(const std::string _fileName, const int _xPos, const int _yPos) {
-    if ( (m_surf = loadImage(_fileName, _xPos, _yPos)) == NULL)
+Sprite::Sprite(const std::string _fileName, const float _xPos, const float _yPos) {
+	if ((m_surf = IMG_Load(_fileName.c_str())) == NULL)
         LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n";
-    s_spriteList.push_back(this);
-    m_visible = true;
+
+	m_xPos = _xPos;
+	m_yPos = _yPos;
+	m_prevX = m_xPos;
+	m_prevY = m_yPos;
+	m_visible = true;
+	s_spriteList.push_back(this);
+
+	if (!m_surf) return;
+	m_width = (float)m_surf->w;
+	m_height = (float)m_surf->h;
 }
 
 Sprite::~Sprite() {
@@ -50,38 +68,59 @@ Sprite::~Sprite() {
     m_surf = NULL;
 }
 
-SDL_Surface* Sprite::loadImage(const std::string _fileName, const int _xPos, const int _yPos) {
-    SDL_Surface* tmpSurf;
-    SDL_Surface* returnSurf = NULL;
+void Sprite::draw(SDL_Surface* _destSurf, float x, float y) {
+	if (!isVisible()) return;
 
-    if ((tmpSurf = IMG_Load(_fileName.c_str())) == NULL) return NULL;
+	SDL_Rect destRect;
+	destRect.x = (int)x;
+	destRect.y = (int)y;
+	destRect.h = (int)m_height;
+	destRect.w = (int)m_width;
 
-    //returnSurf = SDL_DisplayFormatAlpha(tmpSurf);
-	returnSurf = tmpSurf;
+	SDL_Rect srcRect;
+	srcRect.x = 0;
+	srcRect.y = 0;
+	srcRect.h = (int)m_height;
+	srcRect.w = (int)m_width;
 
-    m_xPos = static_cast<float>(_xPos);
-    m_yPos = static_cast<float>(_yPos);
-	m_prevX = m_xPos;
-	m_prevY = m_yPos;
-    m_height = returnSurf->h;
-    m_width = returnSurf->w;
-    return returnSurf;
+	SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
 }
 
-SDL_Surface* Sprite::loadImage(const std::string _fileName) {
-    return loadImage(_fileName, 0, 0);
+void Sprite::draw(SDL_Surface* _destSurf) {
+	if (!isVisible()) return;
+	draw(_destSurf, getX(), getY());
 }
 
-void Sprite::setVisibility(bool newVisibility) {
-    m_visible = newVisibility;
+void Sprite::setVisible(bool visible) {
+    m_visible = visible;
 }
 
-int Sprite::getWidth() const {
+bool Sprite::isVisible() const {
+	return m_visible;
+}
+
+float Sprite::getWidth() const {
     return m_width;
 }
 
-int Sprite::getHeight() const {
+float Sprite::getHeight() const {
     return m_width;
+}
+
+float Sprite::getX() const {
+    return m_xPos;
+}
+
+float Sprite::getY() const {
+    return m_yPos;
+}
+
+void Sprite::setX(const float x) {
+	m_xPos = x;
+}
+
+void Sprite::setY(const float y) {
+	m_yPos = y;
 }
 
 void Sprite::centerHorizontal(const int _leftBorder, const int _rightBorder) {
@@ -106,18 +145,4 @@ void Sprite::topAlign(const int _topBorder, const int _topMargin) {
 
 void Sprite::bottomAlign(const int _bottomBorder, const int _bottomMargin) {
 	m_prevY = m_yPos = (float)(_bottomBorder - _bottomMargin - m_height);
-}
-
-float Sprite::getXPos() const {
-    return m_xPos;
-}
-
-float Sprite::getYPos() const {
-    return m_yPos;
-}
-
-float Sprite::lerp(float start, float end, float alpha) {
-	if (config::ENABLE_LERP)
-		return start + (end - start) * alpha;
-	return end;
 }

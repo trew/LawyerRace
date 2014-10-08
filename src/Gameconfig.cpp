@@ -139,7 +139,7 @@ namespace config
     int MAX_ROCKS = 10;
 
 	float GAME_SPEED = 1.0f;        ///< Gamespeed, configurable in config file
-    float P_VELOCITY = 500.0f;        ///< Player velocity
+    float P_VELOCITY = 250.0f;        ///< Player velocity
     float E_VELOCITY = 100.0f;        ///< Enemy velocity
 
 	float R_VELOCITY[3] = { 250.f, 187.f, 125.f }; //Rock velocities

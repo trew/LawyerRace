@@ -51,29 +51,13 @@ public:
      *  @param _xPos     X-position of the entity in pixels
      *  @param _yPos     Y-position of the entity in pixels
      */
-    Entity(const std::string _fileName, const int _xPos, const int _yPos);
+    Entity(const std::string _fileName, const float _xPos, const float _yPos);
 
 
     /**
      *  Destructor
      */
     virtual ~Entity();
-
-
-    /**
-     *  Drawing function
-     *
-     *  @param _destSurf Surface to which the entity will be drawn
-     */
-    virtual void draw(SDL_Surface* _destSurf, float timeAlpha);
-
-
-    /**
-     *  Event handling function
-     *
-     *  @param ev Struct containing the information about the event
-     */
-    virtual void handleEvent(SDL_Event& ev);
 
 
     /**
@@ -84,10 +68,6 @@ public:
      *  @return True if the entities intersect, False otherwise
      */
     static bool collides(Entity* _entityA, Entity* _entityB);
-
-protected:
-    float m_vel;
-    bool moving;
 
 public:
     static std::list<Entity*> s_entityList;

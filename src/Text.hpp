@@ -30,12 +30,6 @@ class Text: public Sprite {
 public:
 
     /**
-     *  Constructor
-     */
-    Text();
-
-
-    /**
      *  Constructor that creates a text object from a number.
      *
      *  @param _number A number which we want to create a text from.
@@ -46,7 +40,7 @@ public:
      *  @param g         Green 0-255 or 0x00 - 0xFF
      *  @param b         Blue  0-255 or 0x00 - 0xFF
      */
-    Text(const int _number, const int _fontSize, const int _xPos, const int _yPos, int r, int g, int b);
+    Text(const int _number, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
     /**
      *  Constructor that creates a text object from a string.
      *
@@ -58,7 +52,7 @@ public:
      *  @param g         Green 0-255 or 0x00 - 0xFF
      *  @param b         Blue  0-255 or 0x00 - 0xFF
      */
-    Text(std::string _text, const int _fontSize, const int _xPos, const int _yPos, int r, int g, int b);
+    Text(std::string _text, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
 
 
     /**

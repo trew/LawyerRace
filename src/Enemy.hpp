@@ -22,11 +22,11 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
-#include "Entity.hpp"
+#include "MovingEntity.hpp"
 #include "Player.hpp"
 
 class Player;
-class Enemy: public Entity {
+class Enemy: public MovingEntity {
 
 public:
     /**
@@ -58,12 +58,16 @@ public:
      */
     virtual ~Enemy();
 
-    /**
+	//////////////////////////////////////////////////////
+	///////////////  ENTITY OVERRIDES  ///////////////////
+	//////////////////////////////////////////////////////
+
+	/**
      *  Drawing function
      *
      *  @param _destSurf Surface to which the enemy is drawn
      */
-    virtual void draw(SDL_Surface* _destSurf, float timeAlpha);
+    virtual void draw(SDL_Surface* dest, float timeAlpha);
 
 
     /**
@@ -79,6 +83,13 @@ public:
      *   - Called each frame
      */
     void update(float timeStep);
+
+	//////////////////////////////////////////////////////
+	//////////////  END ENTITY OVERRIDES  ////////////////
+	//////////////////////////////////////////////////////
+
+
+
 
 
     /**

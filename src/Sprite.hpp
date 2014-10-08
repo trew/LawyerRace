@@ -52,7 +52,7 @@ public:
      *  @param _xPos     X-position of the sprite.
      *  @param _yPos     Y-position of the sprite.
      */
-    Sprite(const std::string _fileName, const int _xPos, const int _yPos);
+    Sprite(const std::string _fileName, const float _xPos, const float _yPos);
 
 
     /**
@@ -66,27 +66,10 @@ public:
      *
      *  @param _destSurf Surface which the sprite will be drawn to.
      */
-	virtual void draw(SDL_Surface* _destSurf, float timeAlpha) = 0;
+	virtual void draw(SDL_Surface* _destSurf, float x, float y);
 
 
-    /**
-     *  Loads an image as a SDL_Surface*
-     *
-     *  @param _fileName Full path to the image.
-     *  @param _xPos     X-position of the sprite.
-     *  @param _yPos     Y-position of the sprite.
-     *  @return SDL_Surface* with new image. NULL if image couldn't be loaded.
-     */
-    SDL_Surface* loadImage(const std::string _fileName, const int _xPos, const int _yPos);
-
-
-    /**
-     *  Loads an image as a SDL_Surface*. X and Y is set to 0,0.
-     *
-     *  @param _fileName Full path to the image
-     *  @return SDL_Surface* with new image. NULL if image couldn't be loaded.
-     */
-    SDL_Surface* loadImage(const std::string _fileName);
+	virtual void draw(SDL_Surface* _destSurf);
 
 
     /**
@@ -94,15 +77,16 @@ public:
      *
      *  @param newVisibility True if visible, False if hidden.
      */
-    void setVisibility(bool newVisibility);
+    void setVisible(bool visible);
 
+	bool isVisible() const;
 
     /**
      *  Width of sprite image.
      *
      *  @return Width of the image.
      */
-    int getWidth() const;
+    float getWidth() const;
 
 
     /**
@@ -110,69 +94,15 @@ public:
      *
      *  @return Height of the image.
      */
-    int getHeight() const;
+    float getHeight() const;
 
 
-    /**
-     *  Position the sprite centered horizontally according to left and right border.
-     *
-     *  @param _leftBorder  Left border
-     *  @param _rightBorder Right border
-     */
-    void centerHorizontal(const int _leftBorder, const int _rightBorder);
-
-
-    /**
-     *  Position the sprite centered vertically according to top and bottom border.
-     *
-     *  @param _topBorder    Top border
-     *  @param _bottomBorder Bottom border
-     */
-    void centerVertical(const int _topBorder, const int _bottomBorder);
-
-
-    /**
-     *  Position the sprite aligned to the left border with a margin.
-     *
-     *  @param _leftBorder  Left border
-     *  @param _margin      Margin from left border
-     */
-    void leftAlign(const int _leftBorder, const int _margin);
-
-
-    /**
-     *  Position the sprite aligned to the right border with a margin.
-     *
-     *  @param _rightBorder  Right border
-     *  @param _margin       Margin from right border
-     */
-    void rightAlign(const int _rightBorder, const int _margin);
-
-
-    /**
-     *  Position the sprite aligned to the top border with a margin.
-     *
-     *  @param _topBorder    Top border
-     *  @param _margin       Margin from top border
-     */
-    void topAlign(const int _topBorder, const int _margin);
-
-
-    /**
-     *  Position the sprite aligned to the bottom border with a margin.
-     *
-     *  @param _bottomBorder Bottom border
-     *  @param _margin       Margin from bottom border
-     */
-    void bottomAlign(const int _bottomBorder, const int _margin);
-
-
-    /**
+	/**
      *  Retrieve the current X-position.
      *
      *  @return Current X-position as a float.
      */
-    float getXPos() const;
+    float getX() const;
 
 
     /**
@@ -180,10 +110,73 @@ public:
      *
      *  @return Current Y-position as a float.
      */
-    float getYPos() const;
+    float getY() const;
+
+	void setX(const float x);
+	void setY(const float y);
+
+	//////////////////////////////////////////////
+	///////////  UTILITY FUNCTIONS  //////////////
+	//////////////////////////////////////////////
+
+	/**
+	*  Position the sprite centered horizontally according to left and right border.
+	*
+	*  @param _leftBorder  Left border
+	*  @param _rightBorder Right border
+	*/
+	void centerHorizontal(const int _leftBorder, const int _rightBorder);
 
 
-	float lerp(float prev, float current, float alpha);
+	/**
+	*  Position the sprite centered vertically according to top and bottom border.
+	*
+	*  @param _topBorder    Top border
+	*  @param _bottomBorder Bottom border
+	*/
+	void centerVertical(const int _topBorder, const int _bottomBorder);
+
+
+	/**
+	*  Position the sprite aligned to the left border with a margin.
+	*
+	*  @param _leftBorder  Left border
+	*  @param _margin      Margin from left border
+	*/
+	void leftAlign(const int _leftBorder, const int _margin);
+
+
+	/**
+	*  Position the sprite aligned to the right border with a margin.
+	*
+	*  @param _rightBorder  Right border
+	*  @param _margin       Margin from right border
+	*/
+	void rightAlign(const int _rightBorder, const int _margin);
+
+
+	/**
+	*  Position the sprite aligned to the top border with a margin.
+	*
+	*  @param _topBorder    Top border
+	*  @param _margin       Margin from top border
+	*/
+	void topAlign(const int _topBorder, const int _margin);
+
+
+	/**
+	*  Position the sprite aligned to the bottom border with a margin.
+	*
+	*  @param _bottomBorder Bottom border
+	*  @param _margin       Margin from bottom border
+	*/
+	void bottomAlign(const int _bottomBorder, const int _margin);
+
+	//////////////////////////////////////////////
+	/////////  END UTILITY FUNCTIONS  ////////////
+	//////////////////////////////////////////////
+
+
 
 protected:
     SDL_Surface* m_surf;
@@ -191,8 +184,9 @@ protected:
     float m_yPos;
 	float m_prevX;
 	float m_prevY;
-    int m_width;
-    int m_height;
+    float m_width;
+    float m_height;
+
     bool m_visible;
 
 public:

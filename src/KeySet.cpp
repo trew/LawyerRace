@@ -106,11 +106,13 @@ bool KeySet::LoadKeysetFromLuaFile(KeySet* _ks, std::string _file) {
 		LOG_ERROR << "Error calling keysets file" << std::endl;
 	}
 
-	luabridge::LuaRef keysets = luabridge::getGlobal(L, "keysets");
+	using namespace luabridge;
+
+	LuaRef keysets = getGlobal(L, "keysets");
 	if (keysets.isNil()) return false;
 
 	//Set keyset for player 1
-	luabridge::LuaRef player1Keysets = keysets["player1"];
+	LuaRef player1Keysets = keysets["player1"];
 	if (player1Keysets.isNil()) return false;
 	setKey(_ks[0].K_DOWN, "player1.down", player1Keysets["down"].cast<std::string>());
 	setKey(_ks[0].K_UP, "player1.up", player1Keysets["up"].cast<std::string>());
@@ -119,7 +121,7 @@ bool KeySet::LoadKeysetFromLuaFile(KeySet* _ks, std::string _file) {
 	setKey(_ks[0].K_STOP, "player1.stop", player1Keysets["stop"].cast<std::string>());
 	if (config::NUM_OF_PLAYERS == 1) {
 		if (!player1Keysets["one"].isNil()) {
-			luabridge::LuaRef ref = player1Keysets["one"];
+			LuaRef ref = player1Keysets["one"];
 			if (!ref.isNil()) {
 				setKey(_ks[0].K_STOP, "player1.stop", ref["stop"].cast<std::string>());
 			}
@@ -127,7 +129,7 @@ bool KeySet::LoadKeysetFromLuaFile(KeySet* _ks, std::string _file) {
 	}
 
 	//Set keyset for player 2
-	luabridge::LuaRef player2Keysets = keysets["player2"];
+	LuaRef player2Keysets = keysets["player2"];
 	if (player2Keysets.isNil()) return false;
 	setKey(_ks[1].K_DOWN, "player2.down", player2Keysets["down"].cast<std::string>());
 	setKey(_ks[1].K_UP, "player2.up", player2Keysets["up"].cast<std::string>());
@@ -135,7 +137,7 @@ bool KeySet::LoadKeysetFromLuaFile(KeySet* _ks, std::string _file) {
 	setKey(_ks[1].K_LEFT, "player2.left", player2Keysets["left"].cast<std::string>());
 	setKey(_ks[1].K_STOP, "player2.stop", player2Keysets["stop"].cast<std::string>());
 	//	//Set keyset for player 3
-	luabridge::LuaRef player3Keysets = keysets["player3"];
+	LuaRef player3Keysets = keysets["player3"];
 	if (player3Keysets.isNil()) return false;
 	setKey(_ks[2].K_DOWN, "player3.down", player3Keysets["down"].cast<std::string>());
 	setKey(_ks[2].K_UP, "player3.up", player3Keysets["up"].cast<std::string>());
@@ -143,7 +145,7 @@ bool KeySet::LoadKeysetFromLuaFile(KeySet* _ks, std::string _file) {
 	setKey(_ks[2].K_LEFT, "player3.left", player3Keysets["left"].cast<std::string>());
 	setKey(_ks[2].K_STOP, "player3.stop", player3Keysets["stop"].cast<std::string>());
 	//	//Set keyset for player 4
-	luabridge::LuaRef player4Keysets = keysets["player4"];
+	LuaRef player4Keysets = keysets["player4"];
 	if (player4Keysets.isNil()) return false;
 	setKey(_ks[3].K_DOWN, "player4.down", player4Keysets["down"].cast<std::string>());
 	setKey(_ks[3].K_UP, "player4.up", player4Keysets["up"].cast<std::string>());
