@@ -52,9 +52,8 @@ bool GameState::init() {
 	LOG_DEBUG << "Loading players...\n";
 	for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
 	{
-		if (!(m_player[i] = new Player(config::path + config::P_SRC[i], 0, 0, config::KEYSET[i]))) return false;
+		m_player[i] = m_entityManager.create<Player>(config::path + config::P_SRC[i], 0.f, 0.f, config::KEYSET[i]);
 		m_player[i]->centerVertical(0, config::W_HEIGHT);
-		Player::s_playerList.push_back(m_player[i]);
 	}
 
 	if (config::NUM_OF_PLAYERS == 1) {
@@ -98,13 +97,17 @@ void GameState::cleanup() {
     std::list<Sprite*>::iterator it_Sprite = Sprite::s_spriteList.begin();
     while(it_Sprite != Sprite::s_spriteList.end()) {
         if ((*it_Sprite) != NULL) {
+			if (dynamic_cast<Player*>(*it_Sprite)) {
+				it_Sprite++;
+				continue;
+			}
             delete (*it_Sprite); (*it_Sprite) = NULL;
         }
         it_Sprite++;
     }
 
     Player::currentPlayerNum = 0;
-    Player::s_playerList.clear();
+	m_entityManager.clear();
     Enemy::s_enemyList.clear();
     Rock::s_rockList.clear();
     Entity::s_entityList.clear();
@@ -122,19 +125,18 @@ void GameState::handleEvent(SDL_Event &ev) {
         if (ev.type == SDL_KEYDOWN) {
             //Handle movement input
             //TODO: Also set speed to max available speed
-            auto it_player = Player::s_playerList.begin();
-            while(it_player != Player::s_playerList.end()) {
-                (*it_player)->handleEvent(ev);
-                it_player++;
-            }
+			for (auto& e : m_entityManager.getAll<Player>()) {
+				Player* p = reinterpret_cast<Player*>(e);
+				p->handleEvent(ev);
+			}
         }
     } else if (currentInGameState == GameOver) {
         if (ev.type == SDL_KEYDOWN) {
-            auto it_player = Player::s_playerList.begin();
             int c = 1;
-            while(it_player != Player::s_playerList.end()) {
-                std::cout << "Player " << c << ": " <<  (*it_player)->getScore() << std::endl;
-                it_player++; c++;
+			for (auto& e : m_entityManager.getAll<Player>()) {
+				Player* p = reinterpret_cast<Player*>(e);
+                std::cout << "Player " << c << ": " <<  p->getScore() << std::endl;
+                c++;
             }
 			getEngine()->exit();
         }
@@ -150,12 +152,13 @@ void GameState::copyDataForInterpolation() {
 }
 
 void GameState::update(float timeStep) {
-    if(currentInGameState == Play) {
-        auto it_player = Player::s_playerList.begin();
-        while(it_player != Player::s_playerList.end()) {
-            if(!(*it_player)->isDead())
-                (*it_player)->update(timeStep);
-            it_player++;
+	m_entityManager.refresh();
+
+	if(currentInGameState == Play) {
+		for (auto& e : m_entityManager.getAll<Player>()) {
+			Player* p = reinterpret_cast<Player*>(e);
+			if (!p->isDead())
+                p->update(timeStep);
         }
 
         auto it_rock = Rock::s_rockList.begin();
@@ -215,10 +218,9 @@ void GameState::render(float timeAlpha) {
         it_dollar++;
     }
 
-    auto it_player = Player::s_playerList.begin();
-    while(it_player != Player::s_playerList.end()) {
-		(*it_player)->render(screenSurface, timeAlpha);
-        it_player++;
+	for (auto& e : m_entityManager.getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+		p->render(screenSurface, timeAlpha);
     }
 
     auto it_enemy = Enemy::s_enemyList.begin();
@@ -258,15 +260,14 @@ void GameState::resume() {
 /* SUPPORTIVE FUNCTIONS */
 
 void GameState::checkForCollision() {
-    std::list<Player*>::iterator it_player = Player::s_playerList.begin();
     std::list<Enemy*>::iterator it_enemy;
 //  std::list<Powerup*>::iterator it_powerup;
     std::list<Dollar*>::iterator it_dollar;
     std::list<Rock*>::iterator it_rock;
 
-    while(it_player != Player::s_playerList.end()) {
-        if ((*it_player)->isDead()) {
-            it_player++;
+	for (auto& e : m_entityManager.getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+        if (p->isDead()) {
             continue;
         }
         //TODO::::!!!
@@ -284,14 +285,14 @@ void GameState::checkForCollision() {
         it_dollar = Dollar::s_dollarList.begin();
         Dollar* tmp_dollar = NULL;
         while(it_dollar != Dollar::s_dollarList.end()) {
-            if(Entity::collides((*it_player), (*it_dollar))) {
+            if(Entity::collides(p, (*it_dollar))) {
                 //Player collides with dollar
                 tmp_dollar = (*it_dollar);
             }
             it_dollar++;
         }
         if (tmp_dollar != NULL) {
-            (*it_player)->incScore(1);
+            p->incScore(1);
             Dollar::s_dollarList.remove(tmp_dollar);
             Sprite::s_spriteList.remove(tmp_dollar);
             delete tmp_dollar; tmp_dollar = NULL;
@@ -301,9 +302,9 @@ void GameState::checkForCollision() {
         it_enemy = Enemy::s_enemyList.begin();
         Player* tmp_player = NULL;
         while(it_enemy != Enemy::s_enemyList.end()) {
-            if(Entity::collides((*it_player), (*it_enemy))) {
+            if(Entity::collides(p, (*it_enemy))) {
                 //Player collides with enemy
-                tmp_player = (*it_player);
+                tmp_player = p;
             }
             it_enemy++;
         }
@@ -315,9 +316,9 @@ void GameState::checkForCollision() {
         it_rock = Rock::s_rockList.begin();
         tmp_player = NULL;
         while(it_rock != Rock::s_rockList.end()) {
-            if(Entity::collides((*it_player), (*it_rock))) {
+            if(Entity::collides(p, (*it_rock))) {
                 //Player collides with rock
-                tmp_player = (*it_player);
+                tmp_player = p;
                 (*it_rock)->setExpired(true);
             }
             it_rock++;
@@ -326,14 +327,11 @@ void GameState::checkForCollision() {
             tmp_player->kill();
 
         }
-
-        it_player++;
     }
 
 }
 
 void GameState::createDollar() {
-    auto it_player = Player::s_playerList.begin();
     while (Dollar::s_dollarList.size() < unsigned(Player::alivePlayers)) {
         Dollar* newDollar = new Dollar(config::path + config::D_SRC);
         int newDollar_xPos = 0;
@@ -346,12 +344,12 @@ void GameState::createDollar() {
 			newDollar->setX(static_cast<float>(newDollar_xPos));
 			newDollar->setY(static_cast<float>(newDollar_yPos));
 
-            while(it_player != Player::s_playerList.end()) {
-                if(Entity::collides((*it_player), newDollar)) {
+			for (auto& e : m_entityManager.getAll<Player>()) {
+				Player* p = reinterpret_cast<Player*>(e);
+				if (Entity::collides(p, newDollar)) {
                     valid = false;
                     break;
                 }
-                it_player++;
             }
         }
         newDollar->setX(static_cast<float>(newDollar_xPos));
@@ -433,36 +431,33 @@ void GameState::createRock() {
 }
 
 bool GameState::isGameOver() {
-    auto it_player = Player::s_playerList.begin();
-    while(it_player != Player::s_playerList.end()) {
-        if( !((*it_player)->isDead()) ) {
+	for (auto& e : m_entityManager.getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+		if (!(p->isDead())) {
             return false;
         }
-        it_player++;
     }
     return true;
 }
 
 int GameState::getHighestCurrentScore() {
     int highestCurrentScore = 0;
-    auto it_player = Player::s_playerList.begin();
-    while(it_player != Player::s_playerList.end()) {
-        if ((*it_player)->getScore() > highestCurrentScore) 
-            highestCurrentScore = (*it_player)->getScore();
-        it_player++;
+	for (auto& e : m_entityManager.getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+		if (p->getScore() > highestCurrentScore)
+            highestCurrentScore = p->getScore();
     }
     return highestCurrentScore;
 }
 
 std::list<Player*> GameState::getWinners() {
     std::list<Player*> returnList;
-    auto it_player = Player::s_playerList.begin();
     int highestScore = getHighestCurrentScore();
-    while(it_player != Player::s_playerList.end()) {
-        if((*it_player)->getScore() == highestScore) {
-            returnList.push_back((*it_player));
+	for (auto& e : m_entityManager.getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+		if (p->getScore() == highestScore) {
+            returnList.push_back(p);
         }
-        it_player++;
     }
     return returnList;
 }

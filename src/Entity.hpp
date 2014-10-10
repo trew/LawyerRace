@@ -26,8 +26,11 @@
 #include "Gameconfig.hpp"
 #include <ctime>
 #include <string>
+#include "EntityManager.h"
 
 class Entity: public Sprite {
+friend class EntityManager;
+
 public:
 
     /**
@@ -89,12 +92,18 @@ public:
 	float lerp(float start, float end, float alpha);
 
 	static std::list<Entity*> s_entityList;
+
+protected:
+	EntityManager* manager;
+
 private:
 	float m_xVel;
 	float m_yVel;
 	float m_prevX;
 	float m_prevY;
 	bool m_moving;
+
+	bool m_destroyed;
 
 };
 

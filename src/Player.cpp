@@ -21,7 +21,6 @@
 #include <iostream>
 #include <sstream>
 
-std::list<Player*> Player::s_playerList;
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 

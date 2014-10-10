@@ -22,18 +22,21 @@
 
 std::list<Entity*> Entity::s_entityList;
 
-Entity::Entity() {
+Entity::Entity() : m_destroyed(false) {
+	manager = EntityManager::Instance;
     s_entityList.push_back(this);
 }
 
 Entity::Entity(const std::string _fileName)
-: Sprite(_fileName)
+	: Sprite(_fileName), m_destroyed(false)
 {
-    s_entityList.push_back(this);
+	manager = EntityManager::Instance;
+	s_entityList.push_back(this);
 }
 Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos)
-: Sprite(_fileName, _xPos, _yPos)
+	: Sprite(_fileName, _xPos, _yPos), m_destroyed(false)
 {
+	manager = EntityManager::Instance;
 	m_moving = false;
 	m_xVel = 0;
 	m_yVel = 0;
@@ -43,8 +46,9 @@ Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos
 }
 
 Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel) 
-: Sprite(_fileName, _xPos, _yPos)
+	: Sprite(_fileName, _xPos, _yPos), m_destroyed(false)
 {
+	manager = EntityManager::Instance;
 	m_moving = false;
 	m_xVel = _xVel;
 	m_yVel = _yVel;

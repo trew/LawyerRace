@@ -38,6 +38,8 @@
 #include "AbstractState.hpp"
 #include "GameEngine.hpp"
 
+#include "EntityManager.h"
+
 enum InGameState {
     Play = 0,
     CountDown,
@@ -167,6 +169,7 @@ public:
 
 
 private:
+	EntityManager m_entityManager;
     Player* m_player[4];
 
     int countDown;

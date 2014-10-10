@@ -147,7 +147,6 @@ private:
     KeySet m_keySet;
 
 public:
-    static std::list<Player*> s_playerList;
     static int alivePlayers;
     static int currentPlayerNum;
 };

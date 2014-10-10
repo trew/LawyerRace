@@ -110,7 +110,7 @@ namespace config
     const int W_BPP = 32;       ///<Window Depth
 
     const int MAXNUM_OF_PLAYERS = 4; ///< Maximum amount of players that the game supports
-    int NUM_OF_PLAYERS = 2;
+    int NUM_OF_PLAYERS = 1;
 
     const int P_WIDTH = 30;     ///<Size of Player sprite width
     const int P_HEIGHT = 30;    ///<Size of Player sprite height

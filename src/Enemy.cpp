@@ -61,15 +61,13 @@ void Enemy::render(SDL_Surface* _destSurf, float timeAlpha) {
 
 
 void Enemy::update(float timeStep) {
-	std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
-    while (it_player != Player::s_playerList.end()) {
-        if ((*it_player)->isMoving() && !(*it_player)->isDead()) {
+	setMoving(false);
+	for (auto& e : manager->getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+        if (p->isMoving() && !p->isDead()) {
 			setMoving(true);
             break;
         }
-        it_player++;
-
-		if (it_player == Player::s_playerList.end()) setMoving(false);
     }
 
     if (!isMoving()) return;
@@ -208,52 +206,51 @@ void Enemy::updateMovement(float timeStep) {
 }
 
 void Enemy::updateTarget() {
-    std::list<Player*>::const_iterator it_player = Player::s_playerList.begin();
     float shortestDistance = 0;
     float currentDistance = 0;
 
     //Set initial target
-    while ( shortestDistance == 0 && (it_player != Player::s_playerList.end()) ) {
-        if (((*it_player)->isMoving()) && (!(*it_player)->isDead())) {
+	for (auto& e : manager->getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+		if ((p->isMoving()) && (!p->isDead())) {
             currentDistance = 0;
-            if((*it_player)->getX() > m_xPos)
-                currentDistance += ((*it_player)->getX() + (*it_player)->getWidth() / 2)  - (m_xPos + m_width / 2);
+            if(p->getX() > m_xPos)
+                currentDistance += (p->getX() + p->getWidth() / 2)  - (m_xPos + m_width / 2);
             else
-                currentDistance += ((m_xPos + m_width / 2)  - ((*it_player)->getX() + (*it_player)->getWidth() / 2));
+                currentDistance += ((m_xPos + m_width / 2)  - (p->getX() + p->getWidth() / 2));
 
-            if ((*it_player)->getY() > m_yPos)
-                currentDistance += ((*it_player)->getY() + (*it_player)->getHeight() / 2) - (m_yPos + m_height / 2);
+            if (p->getY() > m_yPos)
+                currentDistance += (p->getY() + p->getHeight() / 2) - (m_yPos + m_height / 2);
             else
-                currentDistance += ((m_yPos + m_height / 2)  - ((*it_player)->getY() + (*it_player)->getHeight() / 2));
+                currentDistance += ((m_yPos + m_height / 2)  - (p->getY() + p->getHeight() / 2));
 
             shortestDistance = currentDistance;
-            currentTarget = (*it_player);
-            it_player++;
+            currentTarget = p;
             break;
         }
-        it_player++;
+		if (shortestDistance > 0) break;
     }
 
     //Loop through rest of players
-    while (it_player != Player::s_playerList.end()) {
-        if ((*it_player)->isMoving() && !(*it_player)->isDead()) {
+	for (auto& e : manager->getAll<Player>()) {
+		Player* p = reinterpret_cast<Player*>(e);
+		if (p->isMoving() && !p->isDead()) {
             currentDistance = 0;
-            if((*it_player)->getX() > m_xPos)
-                currentDistance += ((*it_player)->getX() + (*it_player)->getWidth() / 2)  - (m_xPos + m_width / 2);
+            if(p->getX() > m_xPos)
+                currentDistance += (p->getX() + p->getWidth() / 2)  - (m_xPos + m_width / 2);
             else
-                currentDistance += ((m_xPos + m_width / 2)  - ((*it_player)->getX() + (*it_player)->getWidth() / 2));
+                currentDistance += ((m_xPos + m_width / 2)  - (p->getX() + p->getWidth() / 2));
 
-            if ((*it_player)->getY() > m_yPos)
-                currentDistance += ((*it_player)->getY() + (*it_player)->getHeight() / 2) - (m_yPos + m_height / 2);
+            if (p->getY() > m_yPos)
+                currentDistance += (p->getY() + p->getHeight() / 2) - (m_yPos + m_height / 2);
             else
-                currentDistance += ((m_yPos + m_height / 2)  - ((*it_player)->getY() + (*it_player)->getHeight() / 2));
+                currentDistance += ((m_yPos + m_height / 2)  - (p->getY() + p->getHeight() / 2));
 
             if (currentDistance < shortestDistance) {
                 shortestDistance = currentDistance;
-                currentTarget = (*it_player);
+                currentTarget = p;
             }
         }
-        it_player++;
     }
 }
 
