@@ -21,7 +21,6 @@
     <ClCompile Include="..\..\src\GameEngine.cpp" />
     <ClCompile Include="..\..\src\Gameconfig.cpp" />
     <ClCompile Include="..\..\src\GameState.cpp" />
-    <ClCompile Include="..\..\src\GameState_Init.cpp" />
     <ClCompile Include="..\..\src\KeySet.cpp" />
     <ClCompile Include="..\..\src\Log.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
