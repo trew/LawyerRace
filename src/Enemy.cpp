@@ -21,8 +21,6 @@
 #include <iostream>
 #include <sstream>
 
-std::list<Enemy*> Enemy::s_enemyList;
-
 Enemy::Enemy(const std::string _fileName, const float _xPos, const float _yPos) 
 : Entity(_fileName, _xPos, _yPos, config::E_VELOCITY, config::E_VELOCITY),
   m_direction(DOWN),
@@ -31,8 +29,10 @@ Enemy::Enemy(const std::string _fileName, const float _xPos, const float _yPos)
     m_height = (float)config::E_HEIGHT;
     m_width = (float)config::E_WIDTH;
     m_movingX = true; m_movingY = true;
-    if(s_enemyList.size() > 0) {
-        if(s_enemyList.size() % 2 == 1) m_movingX = false;
+
+	auto enemyListSize = manager->getAll<Enemy>().size();
+    if(enemyListSize > 0) {
+        if(enemyListSize % 2 == 1) m_movingX = false;
         else m_movingY = false;
     }
     m_diagonalSensitivity = (rand() % 6 +3);

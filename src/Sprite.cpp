@@ -23,8 +23,6 @@
 #include "Log.hpp"
 #include "Gameconfig.hpp"
 
-std::list<Sprite*> Sprite::s_spriteList;
-
 Sprite::Sprite() {
     m_surf = NULL;
 	m_xPos = 0;
@@ -32,19 +30,16 @@ Sprite::Sprite() {
 	m_width = 0;
 	m_height = 0;
 	m_visible = true;
-	s_spriteList.push_back(this);
 }
 
 Sprite::Sprite(const std::string _fileName) {
 	if ((m_surf = IMG_Load(_fileName.c_str())) == NULL)
         LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n"; //TODO: Errorhandling if m_Surf is NULL!
-    s_spriteList.push_back(this);
 	m_xPos = 0;
 	m_yPos = 0;
 	m_width = 0;
 	m_height = 0;
 	m_visible = true;
-	s_spriteList.push_back(this);
 }
 
 Sprite::Sprite(const std::string _fileName, const float _xPos, const float _yPos) {
@@ -54,7 +49,6 @@ Sprite::Sprite(const std::string _fileName, const float _xPos, const float _yPos
 	m_xPos = _xPos;
 	m_yPos = _yPos;
 	m_visible = true;
-	s_spriteList.push_back(this);
 
 	if (!m_surf) return;
 	m_width = (float)m_surf->w;

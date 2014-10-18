@@ -22,7 +22,7 @@
 #include <iostream>
 #include "Log.hpp"
 
-GameState::GameState(GameEngine* engine) : AbstractState(engine) {
+GameState::GameState(GameEngine* engine) : AbstractState(engine), entityManager(EntityManager::Instance()) {
     m_player[0] = NULL;
     m_player[1] = NULL;
     m_player[2] = NULL;
@@ -52,7 +52,7 @@ bool GameState::init() {
 	LOG_DEBUG << "Loading players...\n";
 	for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
 	{
-		m_player[i] = m_entityManager.create<Player>(config::path + config::P_SRC[i], 0.f, 0.f, config::KEYSET[i]);
+		m_player[i] = entityManager->create<Player>(config::path + config::P_SRC[i], 0.f, 0.f, config::KEYSET[i]);
 		m_player[i]->centerVertical(0, config::W_HEIGHT);
 	}
 
@@ -93,26 +93,12 @@ void GameState::cleanup() {
         it_font++;
     }
 
-    //Delete all sprites
-    std::list<Sprite*>::iterator it_Sprite = Sprite::s_spriteList.begin();
-    while(it_Sprite != Sprite::s_spriteList.end()) {
-        if ((*it_Sprite) != NULL) {
-			if (dynamic_cast<Player*>(*it_Sprite)) {
-				it_Sprite++;
-				continue;
-			}
-            delete (*it_Sprite); (*it_Sprite) = NULL;
-        }
-        it_Sprite++;
-    }
+	for (Text* text : Text::s_textList) {
+		delete text;
+	}
 
     Player::currentPlayerNum = 0;
-	m_entityManager.clear();
-    Enemy::s_enemyList.clear();
-    Rock::s_rockList.clear();
-    Entity::s_entityList.clear();
-    Sprite::s_spriteList.clear();
-    Dollar::s_dollarList.clear();
+	entityManager->clear();
     Text::s_textList.clear();
 }
 /* END RUN ONCE FUNCTIONS */
@@ -125,7 +111,7 @@ void GameState::handleEvent(SDL_Event &ev) {
         if (ev.type == SDL_KEYDOWN) {
             //Handle movement input
             //TODO: Also set speed to max available speed
-			for (auto& e : m_entityManager.getAll<Player>()) {
+			for (auto& e : entityManager->getAll<Player>()) {
 				Player* p = reinterpret_cast<Player*>(e);
 				p->handleEvent(ev);
 			}
@@ -133,7 +119,7 @@ void GameState::handleEvent(SDL_Event &ev) {
     } else if (currentInGameState == GameOver) {
         if (ev.type == SDL_KEYDOWN) {
             int c = 1;
-			for (auto& e : m_entityManager.getAll<Player>()) {
+			for (auto& e : entityManager->getAll<Player>()) {
 				Player* p = reinterpret_cast<Player*>(e);
                 std::cout << "Player " << c << ": " <<  p->getScore() << std::endl;
                 c++;
@@ -144,33 +130,29 @@ void GameState::handleEvent(SDL_Event &ev) {
 }
 
 void GameState::copyDataForInterpolation() {
-	auto it = Entity::s_entityList.begin();
-	while (it != Entity::s_entityList.end()) {
-		(*it)->copyDataForInterpolation();
-		it++;
+	for (auto& e : entityManager->getAllEntities()) {
+		e->copyDataForInterpolation();
 	}
 }
 
 void GameState::update(float timeStep) {
-	m_entityManager.refresh();
+	entityManager->refresh();
 
 	if(currentInGameState == Play) {
-		for (auto& e : m_entityManager.getAll<Player>()) {
+		for (auto& e : entityManager->getAll<Player>()) {
 			Player* p = reinterpret_cast<Player*>(e);
 			if (!p->isDead())
                 p->update(timeStep);
         }
 
-        auto it_rock = Rock::s_rockList.begin();
-        while(it_rock != Rock::s_rockList.end()) {
-            (*it_rock)->update(timeStep);
-            it_rock++;
+		for (auto& e : entityManager->getAll<Rock>()) {
+			Rock* r = reinterpret_cast<Rock*>(e);
+			r->update(timeStep);
         }
 
-        auto it_enemy = Enemy::s_enemyList.begin();
-        while(it_enemy != Enemy::s_enemyList.end()) {
-            (*it_enemy)->update(timeStep);
-            it_enemy++;
+		for (auto& e : entityManager->getAll<Enemy>()) {
+			Enemy* en = reinterpret_cast<Enemy*>(e);
+			en->update(timeStep);
         }
 
         checkForCollision();
@@ -210,35 +192,28 @@ void GameState::update(float timeStep) {
 
 
 void GameState::render(float timeAlpha) {
-	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
-
-    auto it_dollar = Dollar::s_dollarList.begin();
-    while(it_dollar != Dollar::s_dollarList.end()) {
-		(*it_dollar)->render(screenSurface, timeAlpha);
-        it_dollar++;
+	for (auto& e : entityManager->getAll<Dollar>()) {
+		Dollar* d = reinterpret_cast<Dollar*>(e);
+		d->render(screenSurface, timeAlpha);
     }
 
-	for (auto& e : m_entityManager.getAll<Player>()) {
+	for (auto& e : entityManager->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
 		p->render(screenSurface, timeAlpha);
     }
 
-    auto it_enemy = Enemy::s_enemyList.begin();
-    while(it_enemy != Enemy::s_enemyList.end()) {
-		(*it_enemy)->render(screenSurface, timeAlpha);
-        it_enemy++;
+	for (auto& e : entityManager->getAll<Enemy>()) {
+		Enemy* en = reinterpret_cast<Enemy*>(e);
+		en->render(screenSurface, timeAlpha);
     }
 
-    auto it_rock = Rock::s_rockList.begin();
-    while(it_rock != Rock::s_rockList.end()) {
-		(*it_rock)->render(screenSurface, timeAlpha);
-        it_rock++;
+	for (auto& e : entityManager->getAll<Rock>()) {
+		Rock* r = reinterpret_cast<Rock*>(e);
+		r->render(screenSurface, timeAlpha);
     }
 
-    auto it_text = Text::s_textList.begin();
-    while(it_text != Text::s_textList.end()) {
-		(*it_text)->render(screenSurface);
-        it_text++;
+	for (Text* text : Text::s_textList) {
+		text->render(screenSurface);
     }
 
     if(currentInGameState == GameOver) {
@@ -260,80 +235,51 @@ void GameState::resume() {
 /* SUPPORTIVE FUNCTIONS */
 
 void GameState::checkForCollision() {
-    std::list<Enemy*>::iterator it_enemy;
-//  std::list<Powerup*>::iterator it_powerup;
-    std::list<Dollar*>::iterator it_dollar;
-    std::list<Rock*>::iterator it_rock;
-
-	for (auto& e : m_entityManager.getAll<Player>()) {
+	for (auto& e : entityManager->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
         if (p->isDead()) {
             continue;
         }
-        //TODO::::!!!
-        /* 
-        it_powerup = Powerup::s_powerupList.begin();
-        while(it_powerup != Powerup::s_powerupList.end()) {
-            if(Entity::collides((*it_powerup), (*it_player))) {
-                //Player collides with powerup
-            }
-            it_powerup++;
-        }
-        */
 
         //Check collision with dollar
-        it_dollar = Dollar::s_dollarList.begin();
-        Dollar* tmp_dollar = NULL;
-        while(it_dollar != Dollar::s_dollarList.end()) {
-            if(Entity::collides(p, (*it_dollar))) {
-                //Player collides with dollar
-                tmp_dollar = (*it_dollar);
-            }
-            it_dollar++;
-        }
-        if (tmp_dollar != NULL) {
-            p->incScore(1);
-            Dollar::s_dollarList.remove(tmp_dollar);
-            Sprite::s_spriteList.remove(tmp_dollar);
-            delete tmp_dollar; tmp_dollar = NULL;
+		for (auto& e : entityManager->getAll<Dollar>()) {
+			Dollar* d = reinterpret_cast<Dollar*>(e);
+			if (Entity::collides(p, d)) {
+				// TODO: check if dollar is scheduled for removal!
+				p->incScore(1);
+				entityManager->remove(d);
+			}
         }
 
         //Check collision with enemy
-        it_enemy = Enemy::s_enemyList.begin();
-        Player* tmp_player = NULL;
-        while(it_enemy != Enemy::s_enemyList.end()) {
-            if(Entity::collides(p, (*it_enemy))) {
+		for (auto& e : entityManager->getAll<Enemy>()) {
+			Enemy* en = reinterpret_cast<Enemy*>(e);
+            if(Entity::collides(p, en)) {
                 //Player collides with enemy
-                tmp_player = p;
+				p->kill();
+				goto continueOuterLoop;
             }
-            it_enemy++;
-        }
-        if(tmp_player != NULL) {
-            tmp_player->kill();
         }
 
-        //Check collision with rocks
-        it_rock = Rock::s_rockList.begin();
-        tmp_player = NULL;
-        while(it_rock != Rock::s_rockList.end()) {
-            if(Entity::collides(p, (*it_rock))) {
-                //Player collides with rock
-                tmp_player = p;
-                (*it_rock)->setExpired(true);
-            }
-            it_rock++;
-        }
-        if(tmp_player != NULL) {
-            tmp_player->kill();
+		//Check collision with rocks
+		for (auto& e : entityManager->getAll<Rock>()) {
+			Rock* r = reinterpret_cast<Rock*>(e);
+			if (Entity::collides(p, r)) {
+				//Player collides with rock
+				entityManager->remove(r);
+				goto continueOuterLoop;
+			}
+		}
 
-        }
+		continueOuterLoop:;
     }
 
 }
 
 void GameState::createDollar() {
-    while (Dollar::s_dollarList.size() < unsigned(Player::alivePlayers)) {
-        Dollar* newDollar = new Dollar(config::path + config::D_SRC);
+	auto& dollarList = entityManager->getAll<Dollar>();
+    while (dollarList.size() < unsigned(Player::alivePlayers)) {
+		Dollar* newDollar = entityManager->create<Dollar>(config::path + config::D_SRC);
         int newDollar_xPos = 0;
         int newDollar_yPos = 0;
         bool valid = false;
@@ -344,7 +290,7 @@ void GameState::createDollar() {
 			newDollar->setX(static_cast<float>(newDollar_xPos));
 			newDollar->setY(static_cast<float>(newDollar_yPos));
 
-			for (auto& e : m_entityManager.getAll<Player>()) {
+			for (auto& e : entityManager->getAll<Player>()) {
 				Player* p = reinterpret_cast<Player*>(e);
 				if (Entity::collides(p, newDollar)) {
                     valid = false;
@@ -355,16 +301,16 @@ void GameState::createDollar() {
         newDollar->setX(static_cast<float>(newDollar_xPos));
         newDollar->setY(static_cast<float>(newDollar_yPos));
 		newDollar->copyDataForInterpolation();
-        Dollar::s_dollarList.push_back(newDollar);
     }
 }
 
 void GameState::createEnemy() {
-    if(Enemy::s_enemyList.size() >= static_cast<unsigned int>(config::MAX_ENEMIES)) return;
+	auto& enemyList = entityManager->getAll<Enemy>();
+    if(enemyList.size() >= static_cast<unsigned int>(config::MAX_ENEMIES)) return;
 
     unsigned int highestCurrentScore = getHighestCurrentScore();
 
-    while( Enemy::s_enemyList.size() < ((highestCurrentScore / 5) +1) ) {
+    while( enemyList.size() < ((highestCurrentScore / 5) +1) ) {
         int e_xPos;
         int e_yPos;
         //Create enemy out of screen. Randomize up/down, left/right
@@ -384,54 +330,40 @@ void GameState::createEnemy() {
         }
 
         //Finally, create new enemy
-		Enemy* enemy = new Enemy(config::path + config::E_SRC, (float)e_xPos, (float)e_yPos);
-        Enemy::s_enemyList.push_back(enemy);
+		entityManager->create<Enemy>(config::path + config::E_SRC, (float)e_xPos, (float)e_yPos);
     }
 
 }
 
 void GameState::createRock() {
-    //Remove expired rocks
-    auto it_rock = Rock::s_rockList.begin();
-    while(it_rock != Rock::s_rockList.end()) {
-        if((*it_rock)->isExpired()) {
-            Sprite::s_spriteList.remove((*it_rock));
-            delete (*it_rock);
-            Rock::s_rockList.erase(it_rock++);
-        }
-        else {
-            it_rock++;
-        }
-    }
-
+	// this function must be called right after entityManager->refresh() is called
     int highestCurrentScore = getHighestCurrentScore() - ((config::ENEMIES_BEFORE_ROCK -1) * 5);
     if(highestCurrentScore < 0) highestCurrentScore = 0;
-    int max_amount_of_rocks = highestCurrentScore / 5;
-    if (max_amount_of_rocks > config::MAX_ROCKS) max_amount_of_rocks = config::MAX_ROCKS;
+    std::size_t max_amount_of_rocks = std::size_t(highestCurrentScore / 5);
+    if (max_amount_of_rocks > std::size_t(config::MAX_ROCKS)) max_amount_of_rocks = std::size_t(config::MAX_ROCKS);
+	auto& rockList = entityManager->getAll<Rock>();
 
-    while ( int(Rock::s_rockList.size()) < max_amount_of_rocks) {
+	while ( rockList.size() < max_amount_of_rocks ) {
         int r_yPos = -config::MAX_R_HEIGHT;
 
         int rockType = (rand() % 10 +1);
-		Rock* rock = NULL;
         if (rockType >= 7 && rockType <= 9) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[1]));
-			rock = new Rock(config::path + config::R_SRC[1], (float)r_xPos, (float)r_yPos, 2);
+			entityManager->create<Rock>(config::path + config::R_SRC[1], (float)r_xPos, (float)r_yPos, 2);
         }
         else if(rockType == 10) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));
-            rock = new Rock(config::path + config::R_SRC[2], (float)r_xPos, (float)r_yPos, 3);
+			entityManager->create<Rock>(config::path + config::R_SRC[2], (float)r_xPos, (float)r_yPos, 3);
         }
         else {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[0]));
-            rock = new Rock(config::path + config::R_SRC[0], (float)r_xPos, (float)r_yPos, 1);
+			entityManager->create<Rock>(config::path + config::R_SRC[0], (float)r_xPos, (float)r_yPos, 1);
         }
-		Rock::s_rockList.push_back(rock);
     }
 }
 
 bool GameState::isGameOver() {
-	for (auto& e : m_entityManager.getAll<Player>()) {
+	for (auto& e : entityManager->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
 		if (!(p->isDead())) {
             return false;
@@ -442,7 +374,7 @@ bool GameState::isGameOver() {
 
 int GameState::getHighestCurrentScore() {
     int highestCurrentScore = 0;
-	for (auto& e : m_entityManager.getAll<Player>()) {
+	for (auto& e : entityManager->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
 		if (p->getScore() > highestCurrentScore)
             highestCurrentScore = p->getScore();
@@ -453,7 +385,7 @@ int GameState::getHighestCurrentScore() {
 std::list<Player*> GameState::getWinners() {
     std::list<Player*> returnList;
     int highestScore = getHighestCurrentScore();
-	for (auto& e : m_entityManager.getAll<Player>()) {
+	for (auto& e : entityManager->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
 		if (p->getScore() == highestScore) {
             returnList.push_back(p);

@@ -169,7 +169,7 @@ public:
 
 
 private:
-	EntityManager m_entityManager;
+	EntityManager* const entityManager;
     Player* m_player[4];
 
     int countDown;

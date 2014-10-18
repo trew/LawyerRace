@@ -52,7 +52,8 @@ bool GameEngine::init()
 	//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
 	//SDL_RenderSetLogicalSize(sdlRenderer, 640, 480);
 
-    TTF_Init();
+
+	TTF_Init();
 	IMG_Init(IMG_INIT_PNG);
 
     return true;
@@ -70,34 +71,9 @@ void GameEngine::changeState(AbstractState* state) {
 	states.back()->init();
 }
 
-void GameEngine::pushState(AbstractState* state)
-{
-	// pause current state
-	if (!states.empty()) {
-		states.back()->pause();
-	}
-
-	// store and init the new state
-	states.push_back(state);
-	states.back()->init();
-}
-
-void GameEngine::popState()
-{
-	// cleanup the current state
-	if (!states.empty()) {
-		states.back()->cleanup();
-		states.pop_back();
-	}
-
-	// resume previous state
-	if (!states.empty()) {
-		states.back()->resume();
-	}
-}
 void GameEngine::cleanup()
 {
-	for each (AbstractState* state in states)
+	for (AbstractState* state : states)
 	{
 		state->cleanup();
 		delete state;
@@ -106,6 +82,7 @@ void GameEngine::cleanup()
     TTF_Quit();
 	IMG_Quit();
     SDL_Quit();
+
 }
 
 void GameEngine::run() {
@@ -116,18 +93,25 @@ void GameEngine::run() {
 
 	GameState* gameState = new GameState(this);
 	changeState(gameState);
-		
-	float accumulator = 0;
-	float timeStep = 1 / 10.f; //60 updates per second
-	SDL_Event ev;
+	
+	// TODO: Move this to config?
+	float timeStep = 1 / 60.f; //60 updates per second
 
+	float accumulator = 0;
+	SDL_Event ev;
 	long lastTime = SDL_GetTicks();
+
 	while (m_running) {
+
 		float deltaTime = (SDL_GetTicks() - lastTime) / 1000.f;
 		// TODO: limit deltaTime to avoid spiral of death
+		
 		lastTime = SDL_GetTicks();
 		accumulator += deltaTime * config::GAME_SPEED;
 
+
+
+		///// EVENT HANDLING /////
 		AbstractState* currentState = states.back();
 		while (SDL_PollEvent(&ev)) {
 			if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)) {
@@ -140,24 +124,40 @@ void GameEngine::run() {
 			currentState->handleEvent(ev);
 		}
 		if (!m_running) break; // If any event handling made the game exit
+		//////////////////////////
 
+
+
+		///// TICKING THE GAME /////
 		int loops = 0;
 		while (accumulator >= timeStep && loops < config::MAX_FRAMESKIP) {
-			currentState->copyDataForInterpolation();
+			
+			// there is no need to copy data for interpolation if another update is happening before the render
+			if (accumulator < timeStep * 2 && loops <= config::MAX_FRAMESKIP)
+				currentState->copyDataForInterpolation();
+
 			currentState->update(timeStep);
 			accumulator -= timeStep;
 			loops++;
 		}
+		////////////////////////////
+
+
+
+		///// RENDERING /////
+		// clear the screen before rendering
+		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
 
 		// for rendering interpolation
 		float alpha = accumulator / timeStep;
 
-		currentState->render(alpha);
-
+		// render all states in reverse order
+		std::for_each(states.rbegin(), states.rend(), [&alpha](AbstractState* state) {
+			state->render(alpha);
+		});
+		/////////////////////
 		FPS::FPSControl.Update();
-
-//		if (FPS::FPSControl.GetFPS() > 200) SDL_Delay(3); //Tiny delay if computer is giving high fps. No need for super high fps.
-	}
+	} // main loop
 
 	cleanup();
 

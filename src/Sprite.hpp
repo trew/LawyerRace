@@ -186,9 +186,6 @@ protected:
     float m_height;
 
     bool m_visible;
-
-public:
-    static std::list<Sprite*> s_spriteList;
 };
 
 #endif

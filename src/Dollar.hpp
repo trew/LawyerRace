@@ -26,7 +26,6 @@
 
 class Dollar: public Entity {
 public:
-
 	Dollar(const std::string _fileName);
 
     /**
@@ -38,13 +37,11 @@ public:
      */
     Dollar(const std::string _fileName, const float _xPos, const float _yPos);
 
-
+public:
     /**
      *  Destructor
      */
     virtual ~Dollar();
-
-    static std::list<Dollar*> s_dollarList;
 };
 
 #endif

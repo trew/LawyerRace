@@ -1,9 +1,15 @@
 #include "EntityManager.h"
 
-EntityManager* EntityManager::Instance;
+EntityManager* const EntityManager::Instance() {
+	static EntityManager instance;
+	return &instance;
+}
 
 EntityManager::EntityManager() {
-	Instance = this;
+}
+
+const std::vector<std::unique_ptr<Entity>>& EntityManager::getAllEntities() {
+	return m_entities;
 }
 
 void EntityManager::refresh() {
@@ -14,15 +20,19 @@ void EntityManager::refresh() {
 		vector.erase(
 			std::remove_if(std::begin(vector), std::end(vector),
 			[](Entity* mPtr){
-			return mPtr->m_destroyed;
+			return mPtr->m_shouldBeRemoved;
 		}),
 			std::end(vector));
 	}
 
 	m_entities.erase(
 		std::remove_if(std::begin(m_entities), std::end(m_entities),
-		[](const std::unique_ptr<Entity>& mUPtr){ return mUPtr->m_destroyed; }),
+		[](const std::unique_ptr<Entity>& mUPtr){ return mUPtr->m_shouldBeRemoved; }),
 		std::end(m_entities));
+}
+
+void EntityManager::remove(Entity* e) {
+	e->m_shouldBeRemoved = true;
 }
 
 void EntityManager::clear() {

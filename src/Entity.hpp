@@ -91,10 +91,8 @@ public:
 
 	float lerp(float start, float end, float alpha);
 
-	static std::list<Entity*> s_entityList;
-
 protected:
-	EntityManager* manager;
+	EntityManager* const manager;
 
 private:
 	float m_xVel;
@@ -103,7 +101,7 @@ private:
 	float m_prevY;
 	bool m_moving;
 
-	bool m_destroyed;
+	bool m_shouldBeRemoved;
 
 };
 

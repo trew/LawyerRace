@@ -20,11 +20,8 @@
 #include "Rock.hpp"
 #include "Log.hpp"
 
-std::list<Rock*> Rock::s_rockList;
-
 Rock::Rock(const std::string _fileName, const float _xPos, const float _yPos, const int _rockType) 
-: Entity(_fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1]),
-m_expired(false)
+: Entity(_fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1])
 {
     if (_rockType < 1 || _rockType > 3) {
         LOG_ERROR << "Tried to create rock of unsupported type.\n";
@@ -40,13 +37,5 @@ Rock::~Rock() {
 
 void Rock::update(float timeStep) {
 	m_yPos += (getVelocityY() * timeStep);
-    if (m_yPos > config::W_HEIGHT) m_expired = true;
-}
-
-bool Rock::isExpired() const {
-    return m_expired;
-}
-
-void Rock::setExpired(const bool expired) {
-    m_expired = expired;
+	if (m_yPos > config::W_HEIGHT) manager->remove(this);
 }

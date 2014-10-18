@@ -11,21 +11,15 @@
 class Entity;
 class EntityManager {
 public:
-	EntityManager();
 
 	template<typename T, typename... TArgs> T* create(TArgs&&... mArgs) {
 		static_assert(std::is_base_of<Entity, T>::value, "T must be base of Entity");
 
-		std::unique_ptr<T> uPtr(std::make_unique<T>(std::forward<TArgs>(mArgs)...));
-		T* ptr(uPtr.get());
+		auto unique_ptr(std::make_unique<T>(std::forward<TArgs>(mArgs)...));
+		T* ptr(unique_ptr.get());
 
-		//m_groupedEntities[typeid(T).hash_code()].push_back(ptr);
-		//m_entities.emplace_back(std::move(uPtr));
-
-//		auto uPtr(std::make_unique<T>(std::forward<TArgs>(mArgs)...));
-//		auto ptr(uPtr.get());
-		m_groupedEntities[typeid(T).hash_code()].emplace_back(ptr);
-		m_entities.emplace_back(std::move(uPtr));
+		m_groupedEntities[typeid(T).hash_code()].push_back(ptr);
+		m_entities.push_back(std::move(unique_ptr));
 
 		return ptr;
 	}
@@ -34,13 +28,19 @@ public:
 		return m_groupedEntities[typeid(T).hash_code()];
 	}
 
+	const std::vector<std::unique_ptr<Entity>>& getAllEntities();
+
+	void remove(Entity* const);
 	void refresh();
 	void clear();
 
-public:
-	static EntityManager* Instance;
+	static EntityManager* const Instance();
 
 private:
+	EntityManager();
+	EntityManager(EntityManager const&);
+	void operator=(EntityManager const&);
+
 	std::vector<std::unique_ptr<Entity>> m_entities;
 	std::map<std::size_t, std::vector<Entity*>> m_groupedEntities;
 };

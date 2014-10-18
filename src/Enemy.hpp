@@ -105,9 +105,6 @@ private:
     bool m_movingX;
     bool m_movingY;
     int m_diagonalSensitivity;
-
-public:
-    static std::list<Enemy*> s_enemyList;
 };
 
 #endif

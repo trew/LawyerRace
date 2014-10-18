@@ -20,45 +20,35 @@
 #include "Entity.hpp"
 #include <iostream>
 
-std::list<Entity*> Entity::s_entityList;
-
-Entity::Entity() : m_destroyed(false) {
-	manager = EntityManager::Instance;
-    s_entityList.push_back(this);
+Entity::Entity() : m_shouldBeRemoved(false), manager(EntityManager::Instance()) {
 }
 
 Entity::Entity(const std::string _fileName)
-	: Sprite(_fileName), m_destroyed(false)
+	: Sprite(_fileName), m_shouldBeRemoved(false), manager(EntityManager::Instance())
 {
-	manager = EntityManager::Instance;
-	s_entityList.push_back(this);
 }
+
 Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos)
-	: Sprite(_fileName, _xPos, _yPos), m_destroyed(false)
+	: Sprite(_fileName, _xPos, _yPos), m_shouldBeRemoved(false), manager(EntityManager::Instance())
 {
-	manager = EntityManager::Instance;
 	m_moving = false;
 	m_xVel = 0;
 	m_yVel = 0;
 	m_prevX = m_xPos;
 	m_prevY = m_yPos;
-    s_entityList.push_back(this);
 }
 
 Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel) 
-	: Sprite(_fileName, _xPos, _yPos), m_destroyed(false)
+	: Sprite(_fileName, _xPos, _yPos), m_shouldBeRemoved(false), manager(EntityManager::Instance())
 {
-	manager = EntityManager::Instance;
 	m_moving = false;
 	m_xVel = _xVel;
 	m_yVel = _yVel;
 	m_prevX = m_xPos;
 	m_prevY = m_yPos;
-	s_entityList.push_back(this);
 }
 
 Entity::~Entity() {
-    s_entityList.remove(this);
 }
 
 void Entity::copyDataForInterpolation() {

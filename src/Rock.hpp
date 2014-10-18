@@ -45,26 +45,7 @@ public:
      */
     virtual ~Rock();
 
-
-    /**
-     *  Update. Called every frame to update the status of the rock.
-     */
     void update(float timeStep);
-
-
-    /**
-     *  Checks if this rock has expired.
-     *
-     *  @return True if the rock is expired, False otherwise.
-     */
-    bool isExpired() const;
-
-    void setExpired(const bool expired);
-
-private:
-    bool m_expired;
-public:
-    static std::list<Rock*> s_rockList;
 };
 
 #endif

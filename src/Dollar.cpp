@@ -19,8 +19,6 @@
 
 #include "Dollar.hpp"
 
-std::list<Dollar*> Dollar::s_dollarList;
-
 Dollar::Dollar(const std::string _fileName) : Dollar(_fileName, 0, 0) {
 }
 
