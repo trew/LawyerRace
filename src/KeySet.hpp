@@ -26,6 +26,10 @@
 #include <string>
 #include <map>
 
+namespace luabridge {
+	class LuaRef;
+}
+
 class KeySet {
 public:
     KeySet() {}
@@ -37,11 +41,7 @@ public:
         K_STOP = STOP;
     }
 public:
-    /*!
-     *  Parses a file using boost::program_options.
-     */
     static bool LoadKeysetFromFile(KeySet* _ks, std::string _file); 
-	static bool LoadKeysetFromLuaFile(KeySet* _ks, std::string _file);
 
 	SDL_Keycode K_UP;
 	SDL_Keycode K_DOWN;
@@ -50,6 +50,7 @@ public:
 	SDL_Keycode K_STOP;
 
 private:
+	static void setKeysForPlayer(int playerNumber, KeySet* _ks, luabridge::LuaRef table);
     static bool keymap_setup;
 	static void setKey(SDL_Keycode& key, std::string _referencekey, std::string _keyname);
     static void SetupKeymap();

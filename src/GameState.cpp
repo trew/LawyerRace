@@ -267,6 +267,7 @@ void GameState::checkForCollision() {
 			if (Entity::collides(p, r)) {
 				//Player collides with rock
 				entityManager->remove(r);
+				p->kill();
 				goto continueOuterLoop;
 			}
 		}

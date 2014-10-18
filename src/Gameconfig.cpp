@@ -24,60 +24,76 @@
 #include <fstream>
 #include "Log.hpp"
 
+#include "GameEngine.hpp"
+
+#include <LuaBridge\LuaBridge.h>
+
 namespace config
 {
-
     bool parseConfigFile(std::string _file) {
-//        LOG_DEBUG << "---PARSING CONFIG---\n";
-//        try {
-//            po::options_description desc("Allowed options");
-//            desc.add_options()
-//                ("name",                     po::value<std::string>()->default_value("noname"), "")
-//                ("max_enemies",              po::value<int>()->        default_value(4), "")
-//                ("enemies_before_rock",      po::value<int>()->        default_value(4), "")
-//                ("max_rocks",                po::value<int>()->        default_value(10), "")
-//                ("velocity.gamespeed",       po::value<float>()->      default_value(1.0f), "")
-//                ("velocity.player",          po::value<float>()->      default_value(1.0f), "")
-//                ("velocity.enemy",           po::value<float>()->      default_value(0.43f), "")
-//                ("velocity.rocks.small",     po::value<float>()->      default_value(0.9f), "")
-//                ("velocity.rocks.medium",    po::value<float>()->      default_value(0.7f), "")
-//                ("velocity.rocks.large",     po::value<float>()->      default_value(0.4f), "")
-//                ("system.resolution_width",  po::value<int>()->        default_value(1024), "")
-//                ("system.resolution_height", po::value<int>()->        default_value(768), "");
-//            po::variables_map vm;
-//            std::ifstream is(_file.c_str());
-//            po::store(po::parse_config_file(is, desc), vm);
-//            po::notify(vm);
-//
-//            config::MAX_ENEMIES         = vm["max_enemies"].as<int>();
-//            config::ENEMIES_BEFORE_ROCK = vm["enemies_before_rock"].as<int>();
-//            config::MAX_ROCKS           = vm["max_rocks"].as<int>();
-//            config::GAME_SPEED          = vm["velocity.gamespeed"].as<float>();
-//            config::P_VELOCITY          = vm["velocity.player"].as<float>();
-//            config::E_VELOCITY          = vm["velocity.enemy"].as<float>();
-//            config::R_VELOCITY[0]       = vm["velocity.rocks.small"].as<float>();
-//            config::R_VELOCITY[1]       = vm["velocity.rocks.medium"].as<float>();
-//            config::R_VELOCITY[2]       = vm["velocity.rocks.large"].as<float>();
-//            config::W_WIDTH             = vm["system.resolution_width"].as<int>();
-//            config::W_HEIGHT            = vm["system.resolution_height"].as<int>();
-//
-//        } catch (boost::program_options::error &e) {
-//            std::cerr << "error parsing config file: \"" << _file << "\". Error: " << e.what() << std::endl;
-//            return false;
-//        } catch (...) {
-//            std::cerr << "unknown exception" << std::endl;
-//            return false;
-//        }
-        LOG_DEBUG << "---PARSING CONFIG DONE!---\n";
+        LOG_DEBUG << "---PARSING CONFIG---\n";
+
+		lua_State* L = GameEngine::LuaState;
+		if (luaL_loadfile(L, _file.c_str())) {
+			LOG_ERROR << "Couldn't read config file " << _file << std::endl;
+			return false;
+		}
+		if (lua_pcall(L, 0, 0, 0)) {
+			LOG_ERROR << "Error calling config file " << _file << std::endl;
+		}
+
+		using namespace luabridge;
+
+		LuaRef config = getGlobal(L, "config");
+		if (config.isTable()) {
+
+			if (config["max_enemies"].isNumber())
+				config::MAX_ENEMIES = config["max_enemies"].cast<int>();
+			if (config["enemies_before_rock"].isNumber())
+				config::ENEMIES_BEFORE_ROCK = config["enemies_before_rock"].cast<int>();
+			if (config["max_rocks"].isNumber())
+				config::MAX_ROCKS = config["max_rocks"].cast<int>();
+
+			LuaRef velocity = config["velocity"];
+			if (velocity.isTable()) {
+				if (velocity["gamespeed"].isNumber())
+					config::GAME_SPEED = velocity["gamespeed"].cast<float>();
+				if (velocity["player"].isNumber())
+					config::P_VELOCITY = velocity["player"].cast<float>();
+				if (velocity["enemy"].isNumber())
+					config::E_VELOCITY = velocity["enemy"].cast<float>();
+
+				LuaRef rocks = velocity["rocks"];
+				if (rocks.isTable()) {
+					if (rocks["small"].isNumber())
+						config::R_VELOCITY[0] = rocks["small"].cast<float>();
+					if (rocks["medium"].isNumber())
+						config::R_VELOCITY[1] = rocks["medium"].cast<float>();
+					if (rocks["large"].isNumber())
+						config::R_VELOCITY[2] = rocks["large"].cast<float>();
+				}
+			}
+
+			LuaRef system = config["system"];
+			if (system.isTable()) {
+				if (system["resolution_width"].isNumber() && system["resolution_height"].isNumber()) {
+					config::W_WIDTH = system["resolution_width"].cast<int>();
+					config::W_HEIGHT = system["resolution_height"].cast<int>();
+				}
+			}
+		}
+		LOG_DEBUG << "---PARSING CONFIG DONE!---\n";
         return true;
     }
 
     std::string validateConfigFile(std::string _file)
     {
-        if (filesys::file_exists(config::path + _file))
-        {
-            LOG_DEBUG << "Using config: " << _file << "\n";
-        } else {
+		if (filesys::file_exists(config::path + _file)) {
+			LOG_DEBUG << "Using config: " << _file << "\n";
+		} else if (filesys::file_exists(config::path + "cfg/" + _file)) {
+			_file = "cfg/" + _file;
+			LOG_DEBUG << "Using config: " << _file << "\n";
+		} else {
             LOG_ERROR << "Error finding config: \"" << _file << "\". Instead using \"" << config::config_file << "\".\n";
             return config::config_file;
         }
@@ -100,8 +116,8 @@ namespace config
     }
 
     std::string path = ""; // reloaded during command line parsing
-    std::string config_file = "cfg/ez"; //standard
-    std::string keyset_file = "cfg/keysets"; //standard
+    std::string config_file = "cfg/ez.lua"; //standard
+    std::string keyset_file = "cfg/keysets.lua"; //standard
 
     const std::string WINDOW_TEXT = "Lawyer Race";
     int W_WIDTH = 1024; ///<Window Width

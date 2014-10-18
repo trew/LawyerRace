@@ -1,6 +1,27 @@
-#Configuration file for Lawyer Race
-#Difficulty: Custom
+-- Configuration file for Lawyer Race
 
+config = {
+  name = 10,
+  max_enemies = "wrong",
+--  enemies_before_rock = 5, missing
+  max_rocks = 10,
+  velocity = 10,
+--[[  velocity = {
+    gamespeed = 1.0,
+	player = 250,
+	enemy = 107.5,]]--
+	rocks = {
+	  small = 250,
+	  medium = 187.5,
+	  large = 125
+--	}
+  },
+  system = {
+    resolution_width = 1024,
+  }
+
+
+--[[
 name=custom
 max_enemies=10
 enemies_before_rock=5   # how many enemies need to spawn before the first rock starts to fall
@@ -16,3 +37,4 @@ large=0.5
 [system]
 resolution_width=800   # if this is other than 640x480, 800x600 or 1024x768, I don't know
 resolution_height=600   # what might happen.
+]]--
