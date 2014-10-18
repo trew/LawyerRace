@@ -72,6 +72,9 @@
     <ClCompile Include="..\..\src\EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Entity.hpp">
@@ -174,6 +177,9 @@
       <Filter>LuaBridge</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\EntityManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

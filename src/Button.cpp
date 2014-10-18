@@ -24,8 +24,8 @@ Button::Button()
 {
 }
 
-Button::Button(const char* _fileName, const float _xPos, const float _yPos)
-: Sprite(_fileName, _xPos, _yPos),
+Button::Button(SDL_Renderer* renderer, const char* _fileName, const float _xPos, const float _yPos)
+: Sprite(renderer, _fileName, _xPos, _yPos),
 selected(false)
 {
 }
@@ -33,7 +33,7 @@ selected(false)
 Button::~Button() {
 }
 
-void Button::render(SDL_Surface* _destSurf) {
+void Button::render(SDL_Renderer* renderer) {
     if(!isVisible()) return;
 
     SDL_Rect destRect;
@@ -52,7 +52,7 @@ void Button::render(SDL_Surface* _destSurf) {
     srcRect.h = (int)(m_height / 2);
     srcRect.w = (int)(m_width);
 
-    SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
+	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
 }
 
 void Button::select() {

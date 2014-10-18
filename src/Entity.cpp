@@ -23,13 +23,13 @@
 Entity::Entity() : m_shouldBeRemoved(false), manager(EntityManager::Instance()) {
 }
 
-Entity::Entity(const std::string _fileName)
-	: Sprite(_fileName), m_shouldBeRemoved(false), manager(EntityManager::Instance())
+Entity::Entity(SDL_Renderer* renderer, const std::string _fileName)
+	: Sprite(renderer, _fileName), m_shouldBeRemoved(false), manager(EntityManager::Instance())
 {
 }
 
-Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos)
-	: Sprite(_fileName, _xPos, _yPos), m_shouldBeRemoved(false), manager(EntityManager::Instance())
+Entity::Entity(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos)
+	: Sprite(renderer, _fileName, _xPos, _yPos), m_shouldBeRemoved(false), manager(EntityManager::Instance())
 {
 	m_moving = false;
 	m_xVel = 0;
@@ -38,8 +38,8 @@ Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos
 	m_prevY = m_yPos;
 }
 
-Entity::Entity(const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel) 
-	: Sprite(_fileName, _xPos, _yPos), m_shouldBeRemoved(false), manager(EntityManager::Instance())
+Entity::Entity(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel)
+	: Sprite(renderer, _fileName, _xPos, _yPos), m_shouldBeRemoved(false), manager(EntityManager::Instance())
 {
 	m_moving = false;
 	m_xVel = _xVel;
@@ -72,12 +72,12 @@ bool Entity::collides(Entity* _entityA, Entity* _entityB) {
     return true;
 }
 
-void Entity::render(SDL_Surface* _destSurf, float timeAlpha) {
+void Entity::render(SDL_Renderer* renderer, float timeAlpha) {
 	if (!isVisible()) return;
 
 	float x = lerp(m_prevX, m_xPos, timeAlpha);
 	float y = lerp(m_prevY, m_yPos, timeAlpha);
-	Sprite::render(_destSurf, x, y);
+	Sprite::render(renderer, x, y);
 }
 
 float Entity::getVelocityX() const {

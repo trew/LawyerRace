@@ -37,7 +37,7 @@ public:
      *  @param _xPos     X-position of the enemy in pixels
      *  @param _yPos     Y-position of the enemy in pixels
      */
-    Enemy(const std::string _fileName, const float _xPos, const float _yPos);
+	Enemy(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos);
 
 
     /**
@@ -61,7 +61,7 @@ public:
 
 
 
-	void render(SDL_Surface* _destSurf, float alphaTime);
+	void render(SDL_Renderer* renderer, float alphaTime);
 
     /**
      *  Updates movement

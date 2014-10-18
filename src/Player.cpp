@@ -24,8 +24,8 @@
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
-Player::Player(const std::string _fileName, KeySet _keySet)
-: Entity(_fileName, 0, 0, config::P_VELOCITY, config::P_VELOCITY),
+Player::Player(SDL_Renderer* renderer, const std::string _fileName, KeySet _keySet)
+: Entity(renderer, _fileName, 0, 0, config::P_VELOCITY, config::P_VELOCITY),
   m_direction(DOWN),
   m_score(0),
   dead(false)
@@ -37,16 +37,16 @@ Player::Player(const std::string _fileName, KeySet _keySet)
     alivePlayers++;
     playerNum = currentPlayerNum;
 
-         if(playerNum == 1) score_text = new Text(" ", 12, 0, 0, 30, 30, 255);
-    else if(playerNum == 2) score_text = new Text(" ", 12, 0, 0,230, 0, 0);
-    else if(playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0 , 230, 0);
-    else if(playerNum == 4) score_text = new Text(" ", 12, 0, 0,230,230, 0);
+	if (playerNum == 1) score_text = new Text(renderer, " ", 12, 0, 0, 30, 30, 255);
+	else if (playerNum == 2) score_text = new Text(renderer, " ", 12, 0, 0, 230, 0, 0);
+	else if (playerNum == 3) score_text = new Text(renderer, " ", 12, 0, 0, 0, 230, 0);
+	else if (playerNum == 4) score_text = new Text(renderer, " ", 12, 0, 0, 230, 230, 0);
     updateScore();
     loadKeySet(_keySet);
 }
 
-Player::Player(const std::string _fileName, const float _xPos, const float _yPos, KeySet _keySet)
-: Entity(_fileName, _xPos, _yPos, config::P_VELOCITY, config::P_VELOCITY),
+Player::Player(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, KeySet _keySet)
+: Entity(renderer, _fileName, _xPos, _yPos, config::P_VELOCITY, config::P_VELOCITY),
   m_direction(DOWN),
   m_score(0),
   dead(false)
@@ -58,10 +58,10 @@ Player::Player(const std::string _fileName, const float _xPos, const float _yPos
     alivePlayers++;
     playerNum = currentPlayerNum;
 
-         if(playerNum == 1) score_text = new Text(" ", 12, 0, 0, 30, 30, 255);
-    else if(playerNum == 2) score_text = new Text(" ", 12, 0, 0,230, 0, 0);
-    else if(playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0 , 230, 0);
-    else if(playerNum == 4) score_text = new Text(" ", 12, 0, 0,230,230, 0);
+    if(playerNum == 1) score_text = new Text(renderer, " ", 12, 0, 0, 30, 30, 255);
+	else if (playerNum == 2) score_text = new Text(renderer, " ", 12, 0, 0, 230, 0, 0);
+	else if (playerNum == 3) score_text = new Text(renderer, " ", 12, 0, 0, 0, 230, 0);
+	else if (playerNum == 4) score_text = new Text(renderer, " ", 12, 0, 0, 230, 230, 0);
     updateScore();
     loadKeySet(_keySet);
 }
@@ -74,7 +74,7 @@ void Player::loadKeySet(const KeySet &set)
     m_keySet = set;
 }
 
-void Player::render(SDL_Surface* _destSurf, float timeAlpha) {
+void Player::render(SDL_Renderer* renderer, float timeAlpha) {
     if(!m_visible) return;
 
     SDL_Rect destRect;
@@ -92,9 +92,9 @@ void Player::render(SDL_Surface* _destSurf, float timeAlpha) {
     srcRect.h = (int)m_height;
     srcRect.w = (int)m_width;
 
-    SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
+	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
 
-    score_text->render(_destSurf);
+    score_text->render(renderer);
 }
 
 void Player::handleEvent(SDL_Event& ev) {

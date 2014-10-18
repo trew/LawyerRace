@@ -21,8 +21,8 @@
 #include <iostream>
 #include <sstream>
 
-Enemy::Enemy(const std::string _fileName, const float _xPos, const float _yPos) 
-: Entity(_fileName, _xPos, _yPos, config::E_VELOCITY, config::E_VELOCITY),
+Enemy::Enemy(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos)
+: Entity(renderer, _fileName, _xPos, _yPos, config::E_VELOCITY, config::E_VELOCITY),
   m_direction(DOWN),
   currentTarget(NULL)
 {
@@ -41,7 +41,7 @@ Enemy::Enemy(const std::string _fileName, const float _xPos, const float _yPos)
 Enemy::~Enemy() {
 }
 
-void Enemy::render(SDL_Surface* _destSurf, float timeAlpha) {
+void Enemy::render(SDL_Renderer* renderer, float timeAlpha) {
 	if (!m_visible) return;
 
 	SDL_Rect destRect;
@@ -56,7 +56,7 @@ void Enemy::render(SDL_Surface* _destSurf, float timeAlpha) {
 	srcRect.h = (int)m_height;
 	srcRect.w = (int)m_width;
 
-	SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
+	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
 }
 
 

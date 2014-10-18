@@ -25,6 +25,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "Texture.h"
+
 #include <list>
 #include <string>
 
@@ -42,7 +44,7 @@ public:
      *
      *  @param _fileName Full path to the image of the sprite.
      */
-    Sprite(const std::string _fileName);
+    Sprite(SDL_Renderer* renderer, const std::string _fileName);
 
 
     /**
@@ -52,7 +54,7 @@ public:
      *  @param _xPos     X-position of the sprite.
      *  @param _yPos     Y-position of the sprite.
      */
-    Sprite(const std::string _fileName, const float _xPos, const float _yPos);
+	Sprite(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos);
 
 
     /**
@@ -66,10 +68,10 @@ public:
      *
      *  @param _destSurf Surface which the sprite will be drawn to.
      */
-	virtual void render(SDL_Surface* _destSurf, float x, float y);
+	virtual void render(SDL_Renderer* renderer, float x, float y);
 
 
-	virtual void render(SDL_Surface* _destSurf);
+	virtual void render(SDL_Renderer* renderer);
 
 
     /**
@@ -179,11 +181,12 @@ public:
 
 
 protected:
-    SDL_Surface* m_surf;
     float m_xPos;
     float m_yPos;
     float m_width;
     float m_height;
+
+	Texture* m_texture;
 
     bool m_visible;
 };

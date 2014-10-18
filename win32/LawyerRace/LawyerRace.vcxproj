@@ -29,6 +29,7 @@
     <ClCompile Include="..\..\src\Rock.cpp" />
     <ClCompile Include="..\..\src\Sprite.cpp" />
     <ClCompile Include="..\..\src\Text.cpp" />
+    <ClCompile Include="..\..\src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\AbstractState.hpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="..\..\src\Rock.hpp" />
     <ClInclude Include="..\..\src\Sprite.hpp" />
     <ClInclude Include="..\..\src\Text.hpp" />
+    <ClInclude Include="..\..\src\Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A839CCB-B9A8-4CAA-ABFD-C9980DC3BB15}</ProjectGuid>

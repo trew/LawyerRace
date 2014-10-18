@@ -39,7 +39,7 @@ bool GameState::init() {
 	///Initialize all
 
 	window = GameEngine::window;
-	screenSurface = GameEngine::screenSurface;
+	renderer = GameEngine::renderer;
 
 	LOG_DEBUG << "Loading fonts...\n";
 	if ((Text::standard_font[12] = TTF_OpenFont((config::path + "font/VeraMono.ttf").c_str(), 12)) == NULL)
@@ -52,7 +52,7 @@ bool GameState::init() {
 	LOG_DEBUG << "Loading players...\n";
 	for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
 	{
-		m_player[i] = entityManager->create<Player>(config::path + config::P_SRC[i], 0.f, 0.f, config::KEYSET[i]);
+		m_player[i] = entityManager->create<Player>(renderer, config::path + config::P_SRC[i], 0.f, 0.f, config::KEYSET[i]);
 		m_player[i]->centerVertical(0, config::W_HEIGHT);
 	}
 
@@ -76,7 +76,7 @@ bool GameState::init() {
 	}
 
 	countDown = 3;
-	text_countDown = new Text(3, 72, 0, 0, 255, 255, 255);
+	text_countDown = new Text(renderer, 3, 72, 0, 0, 255, 255, 255);
 	text_countDown->centerHorizontal(0, config::W_WIDTH);
 	text_countDown->centerVertical(0, config::W_HEIGHT / 2);
 	Text::s_textList.push_back(text_countDown);
@@ -164,7 +164,7 @@ void GameState::update(float timeStep) {
         if(isGameOver() && currentInGameState != GameOver) {
             //ALL PLAYERS DIED!
             currentInGameState = GameOver;
-            Text::s_textList.push_back(new Text("Press key to exit to menu", 48, 0, 0, 255, 255, 255));
+			Text::s_textList.push_back(new Text(renderer, "Press key to exit to menu", 48, 0, 0, 255, 255, 255));
             Text::s_textList.back()->centerHorizontal(0,config::W_WIDTH);
             Text::s_textList.back()->bottomAlign(config::W_HEIGHT, 20);
         }
@@ -194,33 +194,33 @@ void GameState::update(float timeStep) {
 void GameState::render(float timeAlpha) {
 	for (auto& e : entityManager->getAll<Dollar>()) {
 		Dollar* d = reinterpret_cast<Dollar*>(e);
-		d->render(screenSurface, timeAlpha);
+		d->render(renderer, timeAlpha);
     }
 
 	for (auto& e : entityManager->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
-		p->render(screenSurface, timeAlpha);
+		p->render(renderer, timeAlpha);
     }
 
 	for (auto& e : entityManager->getAll<Enemy>()) {
 		Enemy* en = reinterpret_cast<Enemy*>(e);
-		en->render(screenSurface, timeAlpha);
+		en->render(renderer, timeAlpha);
     }
 
 	for (auto& e : entityManager->getAll<Rock>()) {
 		Rock* r = reinterpret_cast<Rock*>(e);
-		r->render(screenSurface, timeAlpha);
+		r->render(renderer, timeAlpha);
     }
 
 	for (Text* text : Text::s_textList) {
-		text->render(screenSurface);
+		text->render(renderer);
     }
 
     if(currentInGameState == GameOver) {
         //Render gameover screen here
     }
 
-	SDL_UpdateWindowSurface(window);
+	SDL_RenderPresent(renderer);
 }
 /* END GAMELOOP FUNCTIONS */
 
@@ -280,7 +280,7 @@ void GameState::checkForCollision() {
 void GameState::createDollar() {
 	auto& dollarList = entityManager->getAll<Dollar>();
     while (dollarList.size() < unsigned(Player::alivePlayers)) {
-		Dollar* newDollar = entityManager->create<Dollar>(config::path + config::D_SRC);
+		Dollar* newDollar = entityManager->create<Dollar>(renderer, config::path + config::D_SRC);
         int newDollar_xPos = 0;
         int newDollar_yPos = 0;
         bool valid = false;
@@ -331,7 +331,7 @@ void GameState::createEnemy() {
         }
 
         //Finally, create new enemy
-		entityManager->create<Enemy>(config::path + config::E_SRC, (float)e_xPos, (float)e_yPos);
+		entityManager->create<Enemy>(renderer, config::path + config::E_SRC, (float)e_xPos, (float)e_yPos);
     }
 
 }
@@ -350,15 +350,15 @@ void GameState::createRock() {
         int rockType = (rand() % 10 +1);
         if (rockType >= 7 && rockType <= 9) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[1]));
-			entityManager->create<Rock>(config::path + config::R_SRC[1], (float)r_xPos, (float)r_yPos, 2);
+			entityManager->create<Rock>(renderer, config::path + config::R_SRC[1], (float)r_xPos, (float)r_yPos, 2);
         }
         else if(rockType == 10) {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));
-			entityManager->create<Rock>(config::path + config::R_SRC[2], (float)r_xPos, (float)r_yPos, 3);
+			entityManager->create<Rock>(renderer, config::path + config::R_SRC[2], (float)r_xPos, (float)r_yPos, 3);
         }
         else {
             int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[0]));
-			entityManager->create<Rock>(config::path + config::R_SRC[0], (float)r_xPos, (float)r_yPos, 1);
+			entityManager->create<Rock>(renderer, config::path + config::R_SRC[0], (float)r_xPos, (float)r_yPos, 1);
         }
     }
 }

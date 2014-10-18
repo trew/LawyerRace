@@ -62,8 +62,7 @@ public:
      *  The one and only main screen surface
      */
     static SDL_Window* window;
-	static SDL_Surface* screenSurface;
-
+	static SDL_Renderer* renderer;
     /**
      *  Starts up SDL and other dependencies
      *

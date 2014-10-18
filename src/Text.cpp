@@ -25,10 +25,11 @@
 std::map<int, TTF_Font*> Text::standard_font;
 std::list<Text*> Text::s_textList;
 
-Text::Text(const int _number, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b)
+Text::Text(SDL_Renderer* renderer, const int _number, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b)
     : m_fontSize(_fontSize)
 {
-    m_visible = true;
+	m_renderer = renderer;
+	m_visible = true;
     m_xPos = static_cast<float>(_xPos);
     m_yPos = static_cast<float>(_yPos);
 
@@ -38,16 +39,25 @@ Text::Text(const int _number, const int _fontSize, const float _xPos, const floa
 
     std::string text = numberToText(_number);
 
-	if ((m_surf = TTF_RenderText_Blended(standard_font[_fontSize], text.c_str(), m_color)) == NULL)
+	SDL_Surface* surface = TTF_RenderText_Blended(standard_font[_fontSize], text.c_str(), m_color);
+	if (surface != NULL) {
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+		if (texture != NULL) {
+			m_texture = new Texture(texture);
+		}
+		SDL_FreeSurface(surface);
+	}
+	if (m_texture == NULL)
 		LOG_ERROR << "Couldn't render text \"" << text << "\".\n"; //TODO: ERRORHANDLING
-	m_height = (float)m_surf->h;
-    m_width = (float)m_surf->w;
+	m_height = (float)m_texture->H();
+    m_width = (float)m_texture->W();
 }
 
 
-Text::Text(std::string _text, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b)
+Text::Text(SDL_Renderer* renderer, std::string _text, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b)
     : m_fontSize(_fontSize)
 {
+	m_renderer = renderer;
     m_visible = true;
     m_xPos = static_cast<float>(_xPos);
     m_yPos = static_cast<float>(_yPos);
@@ -56,24 +66,34 @@ Text::Text(std::string _text, const int _fontSize, const float _xPos, const floa
     m_color.g = g;
     m_color.b = b;
 
-    if ((m_surf = TTF_RenderText_Blended(standard_font[_fontSize], _text.c_str(), m_color)) == NULL)
+	SDL_Surface* surface = TTF_RenderText_Blended(standard_font[_fontSize], _text.c_str(), m_color);
+	if (surface != NULL) {
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+		if (texture != NULL) {
+			m_texture = new Texture(texture);
+		}
+		SDL_FreeSurface(surface);
+	}
+	if (m_texture == NULL)
         LOG_ERROR << "Couldn't render text \"" << _text << "\".\n"; //TODO: ERRORHANDLING
-    m_height = (float)m_surf->h;
-    m_width = (float)m_surf->w;
+    m_height = (float)m_texture->H();
+    m_width = (float)m_texture->W();
 }
 
 Text::~Text()
 {
 }
 
-void Text::render(SDL_Surface* _destSurf) {
+void Text::render(SDL_Renderer* renderer) {
     if(!isVisible()) return;
 
     SDL_Rect destRect;
     destRect.x = (int)(getX());
     destRect.y = (int)(getY());
+	destRect.w = m_texture->W();
+	destRect.h = m_texture->H();
 
-    SDL_BlitSurface(m_surf, NULL, _destSurf, &destRect);
+	SDL_RenderCopy(renderer, m_texture->getTexture(), NULL, &destRect);
 }
 
 void Text::updateText(const int _number) {
@@ -82,9 +102,16 @@ void Text::updateText(const int _number) {
 }
 
 void Text::updateText(const std::string _newText) {
-    m_surf = TTF_RenderText_Blended(standard_font[m_fontSize], _newText.c_str(), m_color);
-    m_height = (float)m_surf->h;
-    m_width = (float)m_surf->w;
+	SDL_Surface* surface = TTF_RenderText_Blended(standard_font[m_fontSize], _newText.c_str(), m_color);
+	if (surface != NULL) {
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+		if (texture != NULL) {
+			m_texture = new Texture(texture);
+		}
+		SDL_FreeSurface(surface);
+	}
+    m_height = (float)m_texture->H();
+    m_width = (float)m_texture->W();
 }
 
 const std::string Text::numberToText(int _number)

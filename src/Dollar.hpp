@@ -26,7 +26,7 @@
 
 class Dollar: public Entity {
 public:
-	Dollar(const std::string _fileName);
+	Dollar(SDL_Renderer* renderer, const std::string _fileName);
 
     /**
      *  Constructor
@@ -35,7 +35,7 @@ public:
      *  @param _xPos     X-position for dollar in pixels
      *  @param _yPos     Y-position for dollar in pixels
      */
-    Dollar(const std::string _fileName, const float _xPos, const float _yPos);
+	Dollar(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos);
 
 public:
     /**

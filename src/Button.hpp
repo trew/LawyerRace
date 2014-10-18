@@ -42,7 +42,7 @@ public:
      * @param _xPos     X-position in pixels
      * @param _yPos     Y-position in pixels
      */
-    Button(const char* _fileName, const float _xPos, const float _yPos);
+	Button(SDL_Renderer* renderer, const char* _fileName, const float _xPos, const float _yPos);
 
 
     /**
@@ -57,7 +57,7 @@ public:
      *
      *  @param _destSurf Surface which the button will be drawn to
      */
-    void render(SDL_Surface* _destSurf);
+	void render(SDL_Renderer* renderer);
 
 
     /**

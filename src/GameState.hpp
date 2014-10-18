@@ -63,7 +63,7 @@ public:
     virtual ~GameState();
 
     SDL_Window* window;
-	SDL_Surface* screenSurface;
+	SDL_Renderer* renderer;
 
 public:
 

@@ -19,11 +19,11 @@
 
 #include "Dollar.hpp"
 
-Dollar::Dollar(const std::string _fileName) : Dollar(_fileName, 0, 0) {
+Dollar::Dollar(SDL_Renderer* renderer, const std::string _fileName) : Dollar(renderer, _fileName, 0, 0) {
 }
 
-Dollar::Dollar(const std::string _fileName, const float _xPos, const float _yPos)
-    : Entity(_fileName, _xPos, _yPos)
+Dollar::Dollar(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos)
+    : Entity(renderer, _fileName, _xPos, _yPos)
 {
 }
 

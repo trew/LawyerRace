@@ -44,7 +44,7 @@ public:
      *
      *  @param _fileName Full path to the image of the entity
      */
-    Entity(const std::string _fileName);
+    Entity(SDL_Renderer* renderer, const std::string _fileName);
 
 
     /**
@@ -54,9 +54,9 @@ public:
      *  @param _xPos     X-position of the entity in pixels
      *  @param _yPos     Y-position of the entity in pixels
      */
-    Entity(const std::string _fileName, const float _xPos, const float _yPos);
+	Entity(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos);
 
-	Entity(const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel);
+	Entity(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel);
 
     /**
      *  Destructor
@@ -74,7 +74,7 @@ public:
      */
     static bool collides(Entity* _entityA, Entity* _entityB);
 
-	virtual void render(SDL_Surface* dest, float timeAlpha);
+	virtual void render(SDL_Renderer* renderer, float timeAlpha);
 
 	float getVelocityX() const;
 	float getVelocityY() const;

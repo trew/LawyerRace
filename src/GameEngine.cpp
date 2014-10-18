@@ -21,7 +21,7 @@
 #include "Log.hpp"
 
 SDL_Window* GameEngine::window;
-SDL_Surface* GameEngine::screenSurface;
+SDL_Renderer* GameEngine::renderer;
 lua_State* GameEngine::LuaState = NULL;
 
 GameEngine::GameEngine()
@@ -45,9 +45,8 @@ bool GameEngine::init()
 		SDL_WINDOWPOS_UNDEFINED,
 		config::W_WIDTH, config::W_HEIGHT,
 		SDL_WINDOW_OPENGL);
-	screenSurface = SDL_GetWindowSurface(window);
 
-	//renderer = SDL_CreateRenderer(window, -1, 0);
+	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
 	//SDL_RenderSetLogicalSize(sdlRenderer, 640, 480);
@@ -146,7 +145,8 @@ void GameEngine::run() {
 
 		///// RENDERING /////
 		// clear the screen before rendering
-		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_RenderClear(renderer);
 
 		// for rendering interpolation
 		float alpha = accumulator / timeStep;

@@ -40,7 +40,7 @@ public:
      *  @param g         Green 0-255 or 0x00 - 0xFF
      *  @param b         Blue  0-255 or 0x00 - 0xFF
      */
-    Text(const int _number, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
+    Text(SDL_Renderer* renderer, const int _number, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
     /**
      *  Constructor that creates a text object from a string.
      *
@@ -52,7 +52,7 @@ public:
      *  @param g         Green 0-255 or 0x00 - 0xFF
      *  @param b         Blue  0-255 or 0x00 - 0xFF
      */
-    Text(std::string _text, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
+	Text(SDL_Renderer* renderer, std::string _text, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
 
 
     /**
@@ -66,7 +66,7 @@ public:
      *
      *  @param _destSurf Surface which the text will be drawn to.
      */
-    void render(SDL_Surface* _destSurf);
+    void render(SDL_Renderer* renderer);
 
 
     /**
@@ -106,6 +106,7 @@ public:
 private:
     SDL_Color m_color;
     int m_fontSize;
+	SDL_Renderer* m_renderer;
 public:
     static std::map<int, TTF_Font*> standard_font;
     static std::list<Text*> s_textList;

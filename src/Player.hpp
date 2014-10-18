@@ -45,7 +45,7 @@ public:
      *  @param _fileName Full path to the image of the player.
      *  @param _keySet   A KeySet instance which holds the key settings for the player.
      */
-    Player(const std::string _fileName, KeySet _keySet);
+	Player(SDL_Renderer* renderer, const std::string _fileName, KeySet _keySet);
 
 
     /**
@@ -56,7 +56,7 @@ public:
      *  @param _yPos     Y-position in pixels.
      *  @param _keySet   A KeySet instance which holds the key settings for the player.
      */
-    Player(const std::string _fileName, const float _xPos, const float _yPos , KeySet _keySet);
+	Player(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, KeySet _keySet);
 
 
     /**
@@ -78,7 +78,7 @@ public:
      *
      *  @param _destSurf Surface the player will be drawn to.
      */
-    virtual void render(SDL_Surface* _destSurf, float timeAlpha);
+	virtual void render(SDL_Renderer* renderer, float timeAlpha);
 
 
     /**

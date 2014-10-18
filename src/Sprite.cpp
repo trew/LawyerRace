@@ -24,7 +24,7 @@
 #include "Gameconfig.hpp"
 
 Sprite::Sprite() {
-    m_surf = NULL;
+    m_texture = NULL;
 	m_xPos = 0;
 	m_yPos = 0;
 	m_width = 0;
@@ -32,8 +32,9 @@ Sprite::Sprite() {
 	m_visible = true;
 }
 
-Sprite::Sprite(const std::string _fileName) {
-	if ((m_surf = IMG_Load(_fileName.c_str())) == NULL)
+Sprite::Sprite(SDL_Renderer* renderer, const std::string _fileName) {
+	m_texture = Texture::createTexture(renderer, _fileName);
+	if (m_texture == NULL)
         LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n"; //TODO: Errorhandling if m_Surf is NULL!
 	m_xPos = 0;
 	m_yPos = 0;
@@ -42,25 +43,25 @@ Sprite::Sprite(const std::string _fileName) {
 	m_visible = true;
 }
 
-Sprite::Sprite(const std::string _fileName, const float _xPos, const float _yPos) {
-	if ((m_surf = IMG_Load(_fileName.c_str())) == NULL)
-        LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n";
+Sprite::Sprite(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos) {
+	m_texture = Texture::createTexture(renderer, _fileName);
+	if (m_texture == NULL)
+		LOG_ERROR << "Couldn't load file: \"" << _fileName << "\"\n";
 
 	m_xPos = _xPos;
 	m_yPos = _yPos;
 	m_visible = true;
 
-	if (!m_surf) return;
-	m_width = (float)m_surf->w;
-	m_height = (float)m_surf->h;
+	if (!m_texture) return;
+	m_width = (float)m_texture->W();
+	m_height = (float)m_texture->H();
 }
 
 Sprite::~Sprite() {
-    SDL_FreeSurface(m_surf);
-    m_surf = NULL;
+	delete m_texture;
 }
 
-void Sprite::render(SDL_Surface* _destSurf, float x, float y) {
+void Sprite::render(SDL_Renderer* renderer, float x, float y) {
 	if (!isVisible()) return;
 
 	SDL_Rect destRect;
@@ -72,15 +73,15 @@ void Sprite::render(SDL_Surface* _destSurf, float x, float y) {
 	SDL_Rect srcRect;
 	srcRect.x = 0;
 	srcRect.y = 0;
-	srcRect.h = (int)m_height;
-	srcRect.w = (int)m_width;
+	srcRect.w = m_texture->W();
+	srcRect.h = m_texture->H();
 
-	SDL_BlitSurface(m_surf, &srcRect, _destSurf, &destRect);
+	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
 }
 
-void Sprite::render(SDL_Surface* _destSurf) {
+void Sprite::render(SDL_Renderer* renderer) {
 	if (!isVisible()) return;
-	render(_destSurf, getX(), getY());
+	render(renderer, getX(), getY());
 }
 
 void Sprite::setVisible(bool visible) {

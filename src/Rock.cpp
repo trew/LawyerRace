@@ -20,8 +20,8 @@
 #include "Rock.hpp"
 #include "Log.hpp"
 
-Rock::Rock(const std::string _fileName, const float _xPos, const float _yPos, const int _rockType) 
-: Entity(_fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1])
+Rock::Rock(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, const int _rockType)
+: Entity(renderer, _fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1])
 {
     if (_rockType < 1 || _rockType > 3) {
         LOG_ERROR << "Tried to create rock of unsupported type.\n";
