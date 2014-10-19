@@ -20,50 +20,43 @@
 #include "Player.hpp"
 #include <iostream>
 #include <sstream>
+#include "PositionHelper.h"
 
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
-Player::Player(SDL_Renderer* renderer, const std::string _fileName, KeySet _keySet)
-: Entity(renderer, _fileName, 0, 0, config::P_VELOCITY, config::P_VELOCITY),
-  m_direction(DOWN),
-  m_score(0),
-  dead(false)
+Player::Player(std::vector<TextureRegion*> _regions, KeySet keySet)
+: Entity(_regions, 0, 0, config::P_WIDTH, config::P_HEIGHT)
 {
-    m_width = (float)config::P_WIDTH;
-    m_height = (float)config::P_HEIGHT;
-
     currentPlayerNum++;
     alivePlayers++;
     playerNum = currentPlayerNum;
 
-	if (playerNum == 1) score_text = new Text(renderer, " ", 12, 0, 0, 30, 30, 255);
-	else if (playerNum == 2) score_text = new Text(renderer, " ", 12, 0, 0, 230, 0, 0);
-	else if (playerNum == 3) score_text = new Text(renderer, " ", 12, 0, 0, 0, 230, 0);
-	else if (playerNum == 4) score_text = new Text(renderer, " ", 12, 0, 0, 230, 230, 0);
+	if (playerNum == 1) score_text = new Text(" ", 12, 0, 0, 30, 30, 255);
+	else if (playerNum == 2) score_text = new Text(" ", 12, 0, 0, 230, 0, 0);
+	else if (playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0, 230, 0);
+	else if (playerNum == 4) score_text = new Text(" ", 12, 0, 0, 230, 230, 0);
     updateScore();
-    loadKeySet(_keySet);
+    loadKeySet(keySet);
+
+	setVelocity(config::P_VELOCITY, config::P_VELOCITY);
 }
 
-Player::Player(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, KeySet _keySet)
-: Entity(renderer, _fileName, _xPos, _yPos, config::P_VELOCITY, config::P_VELOCITY),
-  m_direction(DOWN),
-  m_score(0),
-  dead(false)
+Player::Player(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, KeySet keySet)
+: Entity(regions, x, y, w, h)
 {
-    m_width = (float)config::P_WIDTH;
-    m_height = (float)config::P_HEIGHT;
-
     currentPlayerNum++;
     alivePlayers++;
     playerNum = currentPlayerNum;
 
-    if(playerNum == 1) score_text = new Text(renderer, " ", 12, 0, 0, 30, 30, 255);
-	else if (playerNum == 2) score_text = new Text(renderer, " ", 12, 0, 0, 230, 0, 0);
-	else if (playerNum == 3) score_text = new Text(renderer, " ", 12, 0, 0, 0, 230, 0);
-	else if (playerNum == 4) score_text = new Text(renderer, " ", 12, 0, 0, 230, 230, 0);
+    if(playerNum == 1) score_text = new Text(" ", 12, 0, 0, 30, 30, 255);
+	else if (playerNum == 2) score_text = new Text(" ", 12, 0, 0, 230, 0, 0);
+	else if (playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0, 230, 0);
+	else if (playerNum == 4) score_text = new Text(" ", 12, 0, 0, 230, 230, 0);
     updateScore();
-    loadKeySet(_keySet);
+    loadKeySet(keySet);
+
+	setVelocity(config::P_VELOCITY, config::P_VELOCITY);
 }
 
 Player::~Player() {
@@ -75,25 +68,7 @@ void Player::loadKeySet(const KeySet &set)
 }
 
 void Player::render(SDL_Renderer* renderer, float timeAlpha) {
-    if(!m_visible) return;
-
-    SDL_Rect destRect;
-    destRect.x = static_cast<int>(lerp(getPreviousX(), getX(), timeAlpha));
-	destRect.y = static_cast<int>(lerp(getPreviousY(), getY(), timeAlpha));
-    destRect.h = (int)m_height;
-    destRect.w = (int)m_width;
-
-    SDL_Rect srcRect;
-    srcRect.x = 0;
-    if(dead)
-        srcRect.y = (int)(m_height * 4);
-    else
-        srcRect.y = (int)(m_height * m_direction);
-    srcRect.h = (int)m_height;
-    srcRect.w = (int)m_width;
-
-	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
-
+	Entity::render(renderer, timeAlpha, dead ? 4 : m_direction);
     score_text->render(renderer);
 }
 
@@ -128,23 +103,23 @@ void Player::update(float timeStep) {
     if (!isMoving() || dead) return;    //Return if no movement
 
 	if (m_direction == UP) {
-        m_yPos -= (getVelocityY() * timeStep);
-        if (m_yPos < 0) m_yPos = 0; //Prevent from going out of screen
+        setY(getY() - (getVelocityY() * timeStep));
+        if (getY() < 0) setY(0); //Prevent from going out of screen
     }
     else if (m_direction == DOWN) {
-		m_yPos += (getVelocityY() * timeStep);
-        if (m_yPos + m_height > config::W_HEIGHT) 
-			m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
+		setY(getY() + (getVelocityY() * timeStep));
+        if (getY() + getHeight() > config::W_HEIGHT) 
+			setY(static_cast<float>(config::W_HEIGHT - getHeight())); //Prevent from going out of screen
     }
 
     else if (m_direction == LEFT) {
-		m_xPos -= (getVelocityX() * timeStep);
-        if (m_xPos < 0) m_xPos = 0; //Prevent from going out of screen
+		setX(getX() - (getVelocityX() * timeStep));
+        if (getX() < 0) setX(0); //Prevent from going out of screen
     }
     else if (m_direction == RIGHT) {
-		m_xPos += (getVelocityX() * timeStep);
-        if (m_xPos + m_width > config::W_WIDTH) 
-			m_xPos = static_cast<float>(config::W_WIDTH - m_width); //Prevent from going out of screen
+		setX(getX() + (getVelocityX() * timeStep));
+        if (getX() + getWidth() > config::W_WIDTH) 
+			setX(static_cast<float>(config::W_WIDTH - getWidth())); //Prevent from going out of screen
     }
 
 }
@@ -157,28 +132,28 @@ void Player::updateScore() {
         ss << "Player " << playerNum << ": " << m_score;
     }
     score_text->updateText(ss.str());
-
+	using namespace positionHelper;
     //Position text correctly
     if (config::NUM_OF_PLAYERS == 4) {
         float newXPos = static_cast<float>((config::W_WIDTH / 4) * (playerNum-1) + 20);
         score_text->setX(newXPos);
     }
     else if (config::NUM_OF_PLAYERS == 3) {
-        if (playerNum == 1) 
-            score_text->leftAlign(0, 10);
-        else if (playerNum == 2) 
-            score_text->centerHorizontal(0, config::W_WIDTH);
-        else if (playerNum == 3) 
-            score_text->rightAlign(config::W_WIDTH, 10);
+		if (playerNum == 1)
+			score_text->setX(leftAlign(0, 10));
+		else if (playerNum == 2)
+			score_text->setX(centerHorizontal(0, config::W_WIDTH, score_text->getWidth()));
+		else if (playerNum == 3)
+			score_text->setX(rightAlign(config::W_WIDTH, 10, score_text->getWidth()));
     }
     else if (config::NUM_OF_PLAYERS == 2) {
-        if (playerNum == 1)
-            score_text->leftAlign(0, 10);
-        else if (playerNum == 2) 
-            score_text->rightAlign(config::W_WIDTH, 10);
+		if (playerNum == 1)
+			score_text->setX(leftAlign(0, 10));
+		else if (playerNum == 2)
+			score_text->setX(rightAlign(config::W_WIDTH, 10, score_text->getWidth()));
     } 
     else if (config::NUM_OF_PLAYERS == 1) {
-        score_text->centerHorizontal(0, config::W_WIDTH);
+		score_text->setX(centerHorizontal(0, config::W_WIDTH, score_text->getWidth()));
     }
 }
 

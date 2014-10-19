@@ -23,9 +23,7 @@
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
 
-#include "Sprite.hpp"
-
-class Button: public Sprite {
+class Button {
 public:
 
     /**

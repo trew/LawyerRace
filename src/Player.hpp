@@ -28,35 +28,15 @@
 #include "FPS.hpp"
 #include "Text.hpp"
 #include "KeySet.hpp"
+#include "TextureRegion.h"
 
 #include <string>
 
 class Player: public Entity {
 public:
-
-    /**
-     *  Constructor
-     */
     Player();
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to the image of the player.
-     *  @param _keySet   A KeySet instance which holds the key settings for the player.
-     */
-	Player(SDL_Renderer* renderer, const std::string _fileName, KeySet _keySet);
-
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to the image of the player.
-     *  @param _xPos     X-position in pixels.
-     *  @param _yPos     Y-position in pixels.
-     *  @param _keySet   A KeySet instance which holds the key settings for the player.
-     */
-	Player(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, KeySet _keySet);
+	Player(std::vector<TextureRegion*> regions, KeySet keySet);
+	Player(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, KeySet keySet);
 
 
     /**
@@ -78,7 +58,7 @@ public:
      *
      *  @param _destSurf Surface the player will be drawn to.
      */
-	virtual void render(SDL_Renderer* renderer, float timeAlpha);
+	virtual void render(SDL_Renderer* renderer, float timeAlpha) override;
 
 
     /**
@@ -93,7 +73,7 @@ public:
      *  Update function. Called every frame.
      *  Moves player according to direction and speed.
      */
-    void update(float timeStep);
+    void update(float timeStep) override;
 
 
     /**
@@ -138,11 +118,11 @@ public:
     int getScore() const;
 
 private:
-    Direction m_direction;
-    int m_score;
-    Text* score_text;
-    bool dead;
-    int playerNum;
+	Direction m_direction{ DOWN };
+	int m_score{ 0 };
+	Text* score_text{ NULL };
+	bool dead{ false };
+	int playerNum{ 0 };
 
     KeySet m_keySet;
 

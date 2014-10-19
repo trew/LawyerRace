@@ -21,48 +21,24 @@
 #include <iostream>
 #include <sstream>
 
-Enemy::Enemy(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos)
-: Entity(renderer, _fileName, _xPos, _yPos, config::E_VELOCITY, config::E_VELOCITY),
-  m_direction(DOWN),
-  currentTarget(NULL)
+Enemy::Enemy(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, bool movingX, bool movingY)
+	: Entity(regions, x, y, w, h), m_movingX(movingX), m_movingY(movingY)
 {
-    m_height = (float)config::E_HEIGHT;
-    m_width = (float)config::E_WIDTH;
-    m_movingX = true; m_movingY = true;
-
-	auto enemyListSize = manager->getAll<Enemy>().size();
-    if(enemyListSize > 0) {
-        if(enemyListSize % 2 == 1) m_movingX = false;
-        else m_movingY = false;
-    }
     m_diagonalSensitivity = (rand() % 6 +3);
+	setVelocity(config::E_VELOCITY, config::E_VELOCITY);
 }
 
 Enemy::~Enemy() {
 }
 
 void Enemy::render(SDL_Renderer* renderer, float timeAlpha) {
-	if (!m_visible) return;
-
-	SDL_Rect destRect;
-	destRect.x = static_cast<int>(lerp(getPreviousX(), getX(), timeAlpha));
-	destRect.y = static_cast<int>(lerp(getPreviousY(), getY(), timeAlpha));
-	destRect.h = (int)m_height;
-	destRect.w = (int)m_width;
-
-	SDL_Rect srcRect;
-	srcRect.x = 0;
-	srcRect.y = (int)m_height * m_direction;
-	srcRect.h = (int)m_height;
-	srcRect.w = (int)m_width;
-
-	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
+	Entity::render(renderer, timeAlpha, m_direction);
 }
 
 
 void Enemy::update(float timeStep) {
 	setMoving(false);
-	for (auto& e : manager->getAll<Player>()) {
+	for (auto& e : getManager()->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
         if (p->isMoving() && !p->isDead()) {
 			setMoving(true);
@@ -87,8 +63,8 @@ void Enemy::update(float timeStep) {
 void Enemy::updateMovement(float timeStep) {
 
     //Get target X,Y so we can ignore sprite sizes
-    int targetYCompare = (int)(currentTarget->getY() - ((m_height - currentTarget->getHeight()) / 2.f));
-    int targetXCompare = (int)(currentTarget->getX() - ((m_width - currentTarget->getWidth()) / 2.f));
+    int targetYCompare = (int)(currentTarget->getY() - ((getHeight() - currentTarget->getHeight()) / 2.f));
+    int targetXCompare = (int)(currentTarget->getX() - ((getWidth() - currentTarget->getWidth()) / 2.f));
 
     bool tmp_movingY = m_movingY;
     bool tmp_movingX = m_movingX;
@@ -98,42 +74,42 @@ void Enemy::updateMovement(float timeStep) {
 
     //Move vertical
     if(  tmp_movingY && 
-       ((m_yPos < targetYCompare - (config::W_HEIGHT / m_diagonalSensitivity)) || 
-        (m_yPos > targetYCompare + (config::W_HEIGHT / m_diagonalSensitivity)) 
+       ((getY() < targetYCompare - (config::W_HEIGHT / m_diagonalSensitivity)) || 
+        (getY() > targetYCompare + (config::W_HEIGHT / m_diagonalSensitivity)) 
         )) 
         tmp_movingX = true;
 
     if ( tmp_movingX &&
-       ((m_xPos < targetXCompare - (config::W_WIDTH / m_diagonalSensitivity)) ||
-        (m_xPos > targetXCompare + (config::W_WIDTH / m_diagonalSensitivity))
+       ((getX() < targetXCompare - (config::W_WIDTH / m_diagonalSensitivity)) ||
+        (getX() > targetXCompare + (config::W_WIDTH / m_diagonalSensitivity))
         ))
         tmp_movingY = true;
 
-    if(tmp_movingY && (m_yPos == targetYCompare)) tmp_movingX = true;
-    if(tmp_movingX && (m_xPos == targetXCompare)) tmp_movingY = true;
+    if(tmp_movingY && (getY() == targetYCompare)) tmp_movingX = true;
+    if(tmp_movingX && (getX() == targetXCompare)) tmp_movingY = true;
 
     if(tmp_movingY) {
-        if ( m_yPos < targetYCompare ) {
+        if ( getY() < targetYCompare ) {
             delta_y += (getVelocityY() * timeStep);
-            if ( (m_yPos + delta_y) + m_height > config::W_HEIGHT) {
-                m_yPos = static_cast<float>(config::W_HEIGHT - m_height); //Prevent from going out of screen
+            if ( (getY() + delta_y) + getHeight() > config::W_HEIGHT) {
+                setY(static_cast<float>(config::W_HEIGHT - getHeight())); //Prevent from going out of screen
                 delta_y = 0.0;
             }
-            if ( (m_yPos + delta_y) > targetYCompare) {
-                m_yPos = float(targetYCompare);
+            if ( (getY() + delta_y) > targetYCompare) {
+                setY(float(targetYCompare));
                 delta_y = 0.0;
             }
             if (tmp_movingX == false) {
                 m_direction = DOWN;
             }
-        } else if ( m_yPos > targetYCompare) {
+        } else if ( getY() > targetYCompare) {
             delta_y -= (getVelocityY() * timeStep);
-            if ( (m_yPos + delta_y) < 0) {
-                m_yPos = 0;
+            if ( (getY() + delta_y) < 0) {
+                setY(0);
                 delta_y = 0.0;
             }
-            if ( (m_yPos + delta_y) < targetYCompare) {
-                m_yPos = float(targetYCompare);
+            if ( (getY() + delta_y) < targetYCompare) {
+                setY(float(targetYCompare));
                 delta_y = 0.0;
             }
             if( tmp_movingX == false ) {
@@ -143,28 +119,28 @@ void Enemy::updateMovement(float timeStep) {
     }
     //Move horizontal
     if(tmp_movingX) {
-        if (m_xPos < targetXCompare) {
+        if (getX() < targetXCompare) {
             delta_x += (getVelocityX() * timeStep);
-            if ( (m_xPos + delta_x) + m_width > config::W_WIDTH) {
-                m_xPos = static_cast<float>(config::W_WIDTH - m_width);
+            if ( (getX() + delta_x) + getWidth() > config::W_WIDTH) {
+                setX(static_cast<float>(config::W_WIDTH - getWidth()));
                 delta_x = 0.0;
             }
-            if ( (m_xPos + delta_x) > targetXCompare) {
-                m_xPos = float(targetXCompare);
+            if ( (getX() + delta_x) > targetXCompare) {
+                setX(float(targetXCompare));
                 delta_x = 0.0;
             }
             if( tmp_movingY == false ) {
                 m_direction = RIGHT;
             }
 
-        } else if (m_xPos > targetXCompare) {
+        } else if (getX() > targetXCompare) {
             delta_x -= (getVelocityX() * timeStep);
-            if ( (m_xPos + delta_x) < 0) {
-                m_xPos = 0;
+            if ( (getX() + delta_x) < 0) {
+                setX(0);
                 delta_x = 0.0;
             }
-            if ( (m_xPos + delta_x) < targetXCompare) {
-                m_xPos = float(targetXCompare);
+            if ( (getX() + delta_x) < targetXCompare) {
+                setX(float(targetXCompare));
                 delta_x = 0.0;
             }
             if( tmp_movingY == false ) {
@@ -201,8 +177,8 @@ void Enemy::updateMovement(float timeStep) {
         delta_y *= multiplier;
     }
 
-    m_xPos += delta_x;
-    m_yPos += delta_y;
+    setX(getX() + delta_x);
+    setY(getY() + delta_y);
 }
 
 void Enemy::updateTarget() {
@@ -210,19 +186,19 @@ void Enemy::updateTarget() {
     float currentDistance = 0;
 
     //Set initial target
-	for (auto& e : manager->getAll<Player>()) {
+	for (auto& e : getManager()->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
 		if ((p->isMoving()) && (!p->isDead())) {
             currentDistance = 0;
-            if(p->getX() > m_xPos)
-                currentDistance += (p->getX() + p->getWidth() / 2)  - (m_xPos + m_width / 2);
+            if(p->getX() > getX())
+                currentDistance += (p->getX() + p->getWidth() / 2)  - (getX() + getWidth() / 2);
             else
-                currentDistance += ((m_xPos + m_width / 2)  - (p->getX() + p->getWidth() / 2));
+                currentDistance += ((getX() + getWidth() / 2)  - (p->getX() + p->getWidth() / 2));
 
-            if (p->getY() > m_yPos)
-                currentDistance += (p->getY() + p->getHeight() / 2) - (m_yPos + m_height / 2);
+            if (p->getY() > getY())
+                currentDistance += (p->getY() + p->getHeight() / 2) - (getY() + getHeight() / 2);
             else
-                currentDistance += ((m_yPos + m_height / 2)  - (p->getY() + p->getHeight() / 2));
+                currentDistance += ((getY() + getHeight() / 2)  - (p->getY() + p->getHeight() / 2));
 
             shortestDistance = currentDistance;
             currentTarget = p;
@@ -232,19 +208,19 @@ void Enemy::updateTarget() {
     }
 
     //Loop through rest of players
-	for (auto& e : manager->getAll<Player>()) {
+	for (auto& e : getManager()->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
 		if (p->isMoving() && !p->isDead()) {
             currentDistance = 0;
-            if(p->getX() > m_xPos)
-                currentDistance += (p->getX() + p->getWidth() / 2)  - (m_xPos + m_width / 2);
+            if(p->getX() > getX())
+                currentDistance += (p->getX() + p->getWidth() / 2)  - (getX() + getWidth() / 2);
             else
-                currentDistance += ((m_xPos + m_width / 2)  - (p->getX() + p->getWidth() / 2));
+                currentDistance += ((getX() + getWidth() / 2)  - (p->getX() + p->getWidth() / 2));
 
-            if (p->getY() > m_yPos)
-                currentDistance += (p->getY() + p->getHeight() / 2) - (m_yPos + m_height / 2);
+            if (p->getY() > getY())
+                currentDistance += (p->getY() + p->getHeight() / 2) - (getY() + getHeight() / 2);
             else
-                currentDistance += ((m_yPos + m_height / 2)  - (p->getY() + p->getHeight() / 2));
+                currentDistance += ((getY() + getHeight() / 2)  - (p->getY() + p->getHeight() / 2));
 
             if (currentDistance < shortestDistance) {
                 shortestDistance = currentDistance;
@@ -259,25 +235,25 @@ void Enemy::updateDirection() {
     if (currentTarget == NULL) return;
 
     //Get target X,Y so we can ignore sprite sizes
-    int targetYCompare = (int)(currentTarget->getY() - ((m_height - currentTarget->getHeight()) / 2));
-    int targetXCompare = (int)(currentTarget->getX() - ((m_width - currentTarget->getWidth()) / 2));
+    int targetYCompare = (int)(currentTarget->getY() - ((getHeight() - currentTarget->getHeight()) / 2));
+    int targetXCompare = (int)(currentTarget->getX() - ((getWidth() - currentTarget->getWidth()) / 2));
 
-    if( (m_xPos < targetXCompare) ) {
-        if (m_yPos < targetYCompare) {
+    if( (getX() < targetXCompare) ) {
+        if (getY() < targetYCompare) {
             m_direction = DOWN_RIGHT;
         }
-        else if (m_yPos > targetYCompare) {
+        else if (getY() > targetYCompare) {
             m_direction = UP_RIGHT;
         }
         else {
             m_direction = RIGHT;
         }
     }
-    else if( (m_xPos > targetXCompare) ) {
-        if (m_yPos < targetYCompare) {
+    else if( (getX() > targetXCompare) ) {
+        if (getY() < targetYCompare) {
             m_direction = DOWN_LEFT;
         }
-        else if (m_yPos > targetYCompare) {
+        else if (getY() > targetYCompare) {
             m_direction = UP_LEFT;
         }
         else {
@@ -285,10 +261,10 @@ void Enemy::updateDirection() {
         }
     }
     else {
-        if (m_yPos < targetYCompare) {
+        if (getY() < targetYCompare) {
             m_direction = DOWN;
         }
-        else if (m_yPos > targetYCompare) {
+        else if (getY() > targetYCompare) {
             m_direction = UP;
         }
     }

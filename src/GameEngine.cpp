@@ -48,9 +48,7 @@ bool GameEngine::init()
 
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
-	//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
-	//SDL_RenderSetLogicalSize(sdlRenderer, 640, 480);
-
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
 
 	TTF_Init();
 	IMG_Init(IMG_INIT_PNG);
@@ -81,7 +79,6 @@ void GameEngine::cleanup()
     TTF_Quit();
 	IMG_Quit();
     SDL_Quit();
-
 }
 
 void GameEngine::run() {

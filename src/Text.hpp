@@ -25,88 +25,52 @@
 #include <map>
 #include "Sprite.hpp"
 #include <SDL_ttf.h>
+#include <list>
 
-class Text: public Sprite {
+class Text {
 public:
+	Text(const int number, const int fontSize, const float x, const float y, int r, int g, int b);
+	Text(std::string text, const int fontSize, const float x, const float y, int r, int g, int b);
 
-    /**
-     *  Constructor that creates a text object from a number.
-     *
-     *  @param _number A number which we want to create a text from.
-     *  @param _fontSize Font size of text.
-     *  @param _xPos     X-position of the text.
-     *  @param _yPos     Y-position of the text.
-     *  @param r         Red   0-255 or 0x00 - 0xFF
-     *  @param g         Green 0-255 or 0x00 - 0xFF
-     *  @param b         Blue  0-255 or 0x00 - 0xFF
-     */
-    Text(SDL_Renderer* renderer, const int _number, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
-    /**
-     *  Constructor that creates a text object from a string.
-     *
-     *  @param _text     The string which we want to create a text from.
-     *  @param _fontSize Font size of text.
-     *  @param _xPos     X-position of the text.
-     *  @param _yPos     Y-position of the text.
-     *  @param r         Red   0-255 or 0x00 - 0xFF
-     *  @param g         Green 0-255 or 0x00 - 0xFF
-     *  @param b         Blue  0-255 or 0x00 - 0xFF
-     */
-	Text(SDL_Renderer* renderer, std::string _text, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b);
-
-
-    /**
-     *  Destructor
-     */
     virtual ~Text();
 
-
-    /**
-     *  Drawing method. Draws the text to a destination surface.
-     *
-     *  @param _destSurf Surface which the text will be drawn to.
-     */
     void render(SDL_Renderer* renderer);
 
-
-    /**
-     *  Replace the text with provided number.
-     *
-     *  @param _number Number which will be the new text.
-     */
     void updateText(const int _number);
-
-
-    /**
-     *  Replace the text with provided string.
-     *
-     *  @param _newText The string that will be the new text.
-     */
     void updateText(const std::string _newText);
-
-
-    /**
-     *  Converts a number to a string.
-     *
-     *  @param _number Integer to be converted.
-     *  @return The integer in string format.
-     */
-    const std::string numberToText(int _number);
-
 
     /**
      *  Sets the color of the text.
      *
-     *  @param r Red.   0-255 or 0x00-0xFF
-     *  @param g Green. 0-255 or 0x00-0xFF
-     *  @param b Blue.  0-255 or 0x00-0xFF
+     *  @param r Red.   0-255
+     *  @param g Green. 0-255
+     *  @param b Blue.  0-255
      */
     void setColor(int r, int g, int b);
 
+	float getX() const;
+	float getY() const;
+	void setX(float x);
+	void setY(float y);
+
+	float getWidth() const;
+	float getHeight() const;
+
+	bool isVisible() const;
+	void setVisible(bool visible);
+
 private:
+	float m_x{ 0 };
+	float m_y{ 0 };
+	float m_width{ 0 };
+	float m_height{ 0 };
+
+	bool m_visible{ true };
+
+	Texture* m_texture{ NULL };
     SDL_Color m_color;
-    int m_fontSize;
-	SDL_Renderer* m_renderer;
+	int m_fontSize{ 0 };
+	SDL_Renderer* m_renderer{ NULL };
 public:
     static std::map<int, TTF_Font*> standard_font;
     static std::list<Text*> s_textList;

@@ -34,6 +34,7 @@
 #include "Rock.hpp"
 #include "Text.hpp"
 #include "FPS.hpp"
+#include "TextureAtlas.h"
 
 #include "AbstractState.hpp"
 #include "GameEngine.hpp"
@@ -176,6 +177,8 @@ private:
     unsigned int countDown_compareTime;
     InGameState currentInGameState;
     Text* text_countDown;
+
+	TextureAtlas* atlas{ NULL };
 };
 
 #endif

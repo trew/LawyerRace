@@ -29,20 +29,7 @@ class Player;
 class Enemy: public Entity {
 
 public:
-
-	/**
-     *  Constructor
-     *
-     *  @param _fileName Full path to the image of the enemy
-     *  @param _xPos     X-position of the enemy in pixels
-     *  @param _yPos     Y-position of the enemy in pixels
-     */
-	Enemy(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos);
-
-
-    /**
-     *  Destructor
-     */
+	Enemy(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, bool movingX, bool movingY);
     virtual ~Enemy();
 
 	//////////////////////////////////////////////////////
@@ -100,11 +87,11 @@ public:
     void toggleMovement();
 
 private:
-    Direction m_direction;
-    Player* currentTarget;
-    bool m_movingX;
-    bool m_movingY;
-    int m_diagonalSensitivity;
+	Direction m_direction{ DOWN };
+	Player* currentTarget{ NULL };
+	bool m_movingX{ false };
+	bool m_movingY{ false };
+	int m_diagonalSensitivity{ 0 };
 };
 
 #endif

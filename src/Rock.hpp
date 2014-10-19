@@ -28,16 +28,7 @@
 
 class Rock: public Entity {
 public:
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to the image of the rock.
-     *  @param _xPos     X-position in pixels.
-     *  @param _yPos     Y-position in pixels.
-     *  @param _rockType Type of rock created.
-     */
-	Rock(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, const int _rockType);
+	Rock(TextureRegion* region, const float x, const float y, const int _rockType);
 
 
     /**

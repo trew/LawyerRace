@@ -20,22 +20,20 @@
 #include "Rock.hpp"
 #include "Log.hpp"
 
-Rock::Rock(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, const int _rockType)
-: Entity(renderer, _fileName, _xPos, _yPos, 0, config::R_VELOCITY[_rockType-1])
+Rock::Rock(TextureRegion* region, const float x, const float y, const int _rockType)
+	: Entity(region, x, y, config::R_WIDTH[_rockType - 1], config::R_HEIGHT[_rockType - 1])
 {
     if (_rockType < 1 || _rockType > 3) {
         LOG_ERROR << "Tried to create rock of unsupported type.\n";
         return;
     }
-
-    m_height = (float)config::R_HEIGHT[_rockType-1];
-    m_width = (float)config::R_WIDTH[_rockType-1];
+	setVelocity(0, config::R_VELOCITY[_rockType - 1]);
 }
 
 Rock::~Rock() {
 }
 
 void Rock::update(float timeStep) {
-	m_yPos += (getVelocityY() * timeStep);
-	if (m_yPos > config::W_HEIGHT) manager->remove(this);
+	setY(getY() + (getVelocityY() * timeStep));
+	if (getY() > config::W_HEIGHT) getManager()->remove(this);
 }

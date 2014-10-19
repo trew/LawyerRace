@@ -25,14 +25,14 @@
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
 enum Direction {
-    RIGHT  = 0,
-    LEFT = 1,
-    UP    = 2, 
-    DOWN  = 3,
+	UP = 0,
+	RIGHT = 1,
+	DOWN = 2,
+	LEFT = 3,
     UP_RIGHT = 4,
-    UP_LEFT = 5,
-    DOWN_LEFT = 6,
-    DOWN_RIGHT = 7,
+	DOWN_RIGHT = 5,
+	DOWN_LEFT = 6,
+	UP_LEFT = 7,
     STILL = 8
 };
 
@@ -60,16 +60,16 @@ namespace config
     extern const int MAXNUM_OF_PLAYERS; ///< Maximum amount of players that the game supports
     extern int NUM_OF_PLAYERS;
 
-    extern const int P_WIDTH;       ///<Size of Player sprite width
-    extern const int P_HEIGHT;  ///<Size of Player sprite height
+    extern const float P_WIDTH;       ///<Size of Player sprite width
+    extern const float P_HEIGHT;  ///<Size of Player sprite height
     extern const std::string P_SRC[4];
 
-    extern const int E_WIDTH;       ///<Size of Enemy sprite width
-    extern const int E_HEIGHT;  ///<Size of Enemy sprite height
+    extern const float E_WIDTH;       ///<Size of Enemy sprite width
+    extern const float E_HEIGHT;  ///<Size of Enemy sprite height
     extern const std::string E_SRC;
 
-    extern const int D_WIDTH;       ///<Size of Dollar sprite width
-    extern const int D_HEIGHT;  ///<Size of Dollar sprite height
+    extern const float D_WIDTH;       ///<Size of Dollar sprite width
+    extern const float D_HEIGHT;  ///<Size of Dollar sprite height
     extern const std::string D_SRC;
 
     extern const int MAX_R_WIDTH;

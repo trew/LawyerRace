@@ -26,9 +26,10 @@
 #include <SDL_image.h>
 
 #include "Texture.h"
+#include "TextureRegion.h"
 
-#include <list>
 #include <string>
+#include <vector>
 
 class Sprite {
 public:
@@ -179,14 +180,13 @@ public:
 	//////////////////////////////////////////////
 
 
-
 protected:
     float m_xPos;
     float m_yPos;
     float m_width;
     float m_height;
 
-	Texture* m_texture;
+	std::vector<TextureRegion*> m_regions;
 
     bool m_visible;
 };

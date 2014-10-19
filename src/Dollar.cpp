@@ -19,11 +19,8 @@
 
 #include "Dollar.hpp"
 
-Dollar::Dollar(SDL_Renderer* renderer, const std::string _fileName) : Dollar(renderer, _fileName, 0, 0) {
-}
-
-Dollar::Dollar(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos)
-    : Entity(renderer, _fileName, _xPos, _yPos)
+Dollar::Dollar(TextureRegion* region, const float x, const float y, const float w, const float h)
+    : Entity(region, x, y, w, h)
 {
 }
 

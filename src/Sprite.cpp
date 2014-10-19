@@ -63,7 +63,7 @@ Sprite::~Sprite() {
 
 void Sprite::render(SDL_Renderer* renderer, float x, float y) {
 	if (!isVisible()) return;
-
+	
 	SDL_Rect destRect;
 	destRect.x = (int)x;
 	destRect.y = (int)y;
@@ -76,7 +76,10 @@ void Sprite::render(SDL_Renderer* renderer, float x, float y) {
 	srcRect.w = m_texture->W();
 	srcRect.h = m_texture->H();
 
-	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
+	if (m_textureRegion != NULL)
+		SDL_RenderCopy(renderer, m_textureRegion->getTexture()->getTexture(), &m_textureRegion->getRect(), &destRect);
+	else
+		SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
 }
 
 void Sprite::render(SDL_Renderer* renderer) {

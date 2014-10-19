@@ -128,25 +128,25 @@ namespace config
     const int MAXNUM_OF_PLAYERS = 4; ///< Maximum amount of players that the game supports
     int NUM_OF_PLAYERS = 1;
 
-    const int P_WIDTH = 30;     ///<Size of Player sprite width
-    const int P_HEIGHT = 30;    ///<Size of Player sprite height
-    const std::string P_SRC[4] = {"img/player1x30.png", "img/player2x30.png",
-                                    "img/player3x30.png", "img/player4x30.png" };
+    const float P_WIDTH = 50;     ///<Size of Player sprite width
+    const float P_HEIGHT = 50;    ///<Size of Player sprite height
+    const std::string P_SRC[4] = {"player1", "player2",
+                                    "player3", "player4" };
 
-    const int E_WIDTH = 30;     ///<Size of Enemy sprite width
-    const int E_HEIGHT = 30;    ///<Size of Enemy sprite height
-    const std::string E_SRC = "img/enemyx30.png";
+    const float E_WIDTH = 30;     ///<Size of Enemy sprite width
+    const float E_HEIGHT = 30;    ///<Size of Enemy sprite height
+    const std::string E_SRC = "enemyx30";
 
-    const int D_WIDTH = 30;     ///<Size of Dollar sprite width
-    const int D_HEIGHT = 15;    ///<Size of Dollar sprite height
-    const std::string D_SRC = "img/dollar.png";
+    const float D_WIDTH = 30;     ///<Size of Dollar sprite width
+    const float D_HEIGHT = 15;    ///<Size of Dollar sprite height
+    const std::string D_SRC = "dollar";
 
     const int MAX_R_WIDTH = 58;
     const int MAX_R_HEIGHT = 49;
 
     const int R_WIDTH[3] = {17, 26, 58};
     const int R_HEIGHT[3] = {14, 25, 49};
-    const std::string R_SRC[3] = {"img/stone1-17x14.png", "img/stone2-26x25.png", "img/stone3-58x49.png"};
+    const std::string R_SRC[3] = {"stone1-17x14", "stone2-26x25", "stone3-58x49"};
 
     bool PLAYER_STOP_ENABLED = true;
     bool OLD_DIAGONAL_SPEED = false; //see enemy movement phase in Enemy.cpp

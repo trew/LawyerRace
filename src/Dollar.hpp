@@ -26,16 +26,7 @@
 
 class Dollar: public Entity {
 public:
-	Dollar(SDL_Renderer* renderer, const std::string _fileName);
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to image of dollar
-     *  @param _xPos     X-position for dollar in pixels
-     *  @param _yPos     Y-position for dollar in pixels
-     */
-	Dollar(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos);
+	Dollar(TextureRegion* region, const float x, const float y, const float w, const float h);
 
 public:
     /**

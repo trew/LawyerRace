@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AbstractState.cpp" />
-    <ClCompile Include="..\..\src\Button.cpp" />
     <ClCompile Include="..\..\src\Dollar.cpp" />
     <ClCompile Include="..\..\src\Enemy.cpp" />
     <ClCompile Include="..\..\src\Entity.cpp" />
@@ -27,13 +26,14 @@
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Rock.cpp" />
-    <ClCompile Include="..\..\src\Sprite.cpp" />
     <ClCompile Include="..\..\src\Text.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
+    <ClCompile Include="..\..\src\TextureAtlas.cpp" />
+    <ClCompile Include="..\..\src\TextureRegion.cpp" />
+    <ClCompile Include="..\..\src\TinyXML\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\AbstractState.hpp" />
-    <ClInclude Include="..\..\src\Button.hpp" />
     <ClInclude Include="..\..\src\Dollar.hpp" />
     <ClInclude Include="..\..\src\Enemy.hpp" />
     <ClInclude Include="..\..\src\Entity.hpp" />
@@ -63,10 +63,13 @@
     <ClInclude Include="..\..\src\LuaBridge\RefCountedObject.h" />
     <ClInclude Include="..\..\src\LuaBridge\RefCountedPtr.h" />
     <ClInclude Include="..\..\src\Player.hpp" />
+    <ClInclude Include="..\..\src\PositionHelper.h" />
     <ClInclude Include="..\..\src\Rock.hpp" />
-    <ClInclude Include="..\..\src\Sprite.hpp" />
     <ClInclude Include="..\..\src\Text.hpp" />
     <ClInclude Include="..\..\src\Texture.h" />
+    <ClInclude Include="..\..\src\TextureAtlas.h" />
+    <ClInclude Include="..\..\src\TextureRegion.h" />
+    <ClInclude Include="..\..\src\TinyXML\tinyxml2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A839CCB-B9A8-4CAA-ABFD-C9980DC3BB15}</ProjectGuid>

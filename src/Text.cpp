@@ -21,46 +21,24 @@
 #include <iostream>
 #include <sstream>
 #include "Log.hpp"
+#include <list>
+#include "GameEngine.hpp"
 
 std::map<int, TTF_Font*> Text::standard_font;
 std::list<Text*> Text::s_textList;
 
-Text::Text(SDL_Renderer* renderer, const int _number, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b)
-    : m_fontSize(_fontSize)
+Text::Text(const int _number, const int _fontSize, const float _x, const float _y, int r, int g, int b)
+    : Text(std::to_string(_number), _fontSize, _x, _y, r, g, b)
 {
-	m_renderer = renderer;
-	m_visible = true;
-    m_xPos = static_cast<float>(_xPos);
-    m_yPos = static_cast<float>(_yPos);
-
-    m_color.r = r;
-    m_color.g = g;
-    m_color.b = b;
-
-    std::string text = numberToText(_number);
-
-	SDL_Surface* surface = TTF_RenderText_Blended(standard_font[_fontSize], text.c_str(), m_color);
-	if (surface != NULL) {
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
-		if (texture != NULL) {
-			m_texture = new Texture(texture);
-		}
-		SDL_FreeSurface(surface);
-	}
-	if (m_texture == NULL)
-		LOG_ERROR << "Couldn't render text \"" << text << "\".\n"; //TODO: ERRORHANDLING
-	m_height = (float)m_texture->H();
-    m_width = (float)m_texture->W();
 }
 
 
-Text::Text(SDL_Renderer* renderer, std::string _text, const int _fontSize, const float _xPos, const float _yPos, int r, int g, int b)
+Text::Text(std::string _text, const int _fontSize, const float _x, const float _y, int r, int g, int b)
     : m_fontSize(_fontSize)
 {
-	m_renderer = renderer;
-    m_visible = true;
-    m_xPos = static_cast<float>(_xPos);
-    m_yPos = static_cast<float>(_yPos);
+	m_renderer = GameEngine::renderer;
+    m_x = static_cast<float>(_x);
+    m_y = static_cast<float>(_y);
 
     m_color.r = r;
     m_color.g = g;
@@ -97,8 +75,7 @@ void Text::render(SDL_Renderer* renderer) {
 }
 
 void Text::updateText(const int _number) {
-    std::string text = numberToText(_number);
-    updateText(text);
+	updateText(std::to_string(_number));
 }
 
 void Text::updateText(const std::string _newText) {
@@ -114,16 +91,40 @@ void Text::updateText(const std::string _newText) {
     m_width = (float)m_texture->W();
 }
 
-const std::string Text::numberToText(int _number)
-{
-    std::stringstream ss;
-    ss << _number;
-    return ss.str();
-}
-
 void Text::setColor(int r, int g, int b) {
     m_color.r = r;
     m_color.g = g;
     m_color.b = b;
 }
 
+float Text::getX() const {
+	return m_x;
+}
+
+float Text::getY() const {
+	return m_y;
+}
+
+void Text::setX(float x) {
+	m_x = x;
+}
+
+void Text::setY(float y) {
+	m_y = y;
+}
+
+float Text::getWidth() const {
+	return m_width;
+}
+
+float Text::getHeight() const {
+	return m_height;
+}
+
+bool Text::isVisible() const {
+	return m_visible;
+}
+
+void Text::setVisible(bool visible) {
+	m_visible = visible;
+}

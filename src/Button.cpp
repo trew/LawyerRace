@@ -35,24 +35,24 @@ Button::~Button() {
 
 void Button::render(SDL_Renderer* renderer) {
     if(!isVisible()) return;
+	if (m_regions.size() != 2) return;
+
+	TextureRegion* region = NULL;
 
     SDL_Rect destRect;
     destRect.x = static_cast<int>(m_xPos);
     destRect.y = static_cast<int>(m_yPos);
-    destRect.h = (int)(m_height / 2);
+    destRect.h = (int)(m_height);
     destRect.w = (int)(m_width);
 
-    SDL_Rect srcRect;
-    srcRect.x = 0;
     if(selected) {
-        srcRect.y = (int)(m_height / 2);
+		region = m_regions[0];
     } else {
-        srcRect.y = 0;
+		region = m_regions[1];
     }
-    srcRect.h = (int)(m_height / 2);
-    srcRect.w = (int)(m_width);
+	SDL_Rect srcRect = region->getRect();
 
-	SDL_RenderCopy(renderer, m_texture->getTexture(), &srcRect, &destRect);
+	SDL_RenderCopy(renderer, region->getTexture()->getTexture(), &srcRect, &destRect);
 }
 
 void Button::select() {

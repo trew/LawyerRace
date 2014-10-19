@@ -22,41 +22,21 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-#include "Sprite.hpp"
-#include "Gameconfig.hpp"
-#include <ctime>
-#include <string>
 #include "EntityManager.h"
+#include "TextureRegion.h"
+#include <string>
+#include <vector>
 
-class Entity: public Sprite {
+class Entity {
 friend class EntityManager;
 
 public:
-
-    /**
-     *  Constructor
-     */
     Entity();
-
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to the image of the entity
-     */
-    Entity(SDL_Renderer* renderer, const std::string _fileName);
-
-
-    /**
-     *  Constructor
-     *
-     *  @param _fileName Full path to the image of the entity
-     *  @param _xPos     X-position of the entity in pixels
-     *  @param _yPos     Y-position of the entity in pixels
-     */
-	Entity(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos);
-
-	Entity(SDL_Renderer* renderer, const std::string _fileName, const float _xPos, const float _yPos, const float _xVel, const float _yVel);
+	Entity(TextureRegion* region);
+	Entity(TextureRegion* region, const float x, const float y, const float w, const float h);
+	Entity(std::vector<TextureRegion*> regions);
+	Entity(std::vector<TextureRegion*> regions, const float x, const float y);
+	Entity(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h);
 
     /**
      *  Destructor
@@ -72,9 +52,21 @@ public:
      *  @param _entityB The second entity
      *  @return True if the entities intersect, False otherwise
      */
-    static bool collides(Entity* _entityA, Entity* _entityB);
+    static bool collides(Entity* const _entityA, Entity* const _entityB);
 
+	virtual void render(SDL_Renderer* renderer, float timeAlpha, unsigned int index);
 	virtual void render(SDL_Renderer* renderer, float timeAlpha);
+	virtual void update(float timeStep);
+
+	float getX() const;
+	float getY() const;
+	void setX(float x);
+	void setY(float y);
+
+	float getWidth() const;
+	float getHeight() const;
+	void setWidth(float w);
+	void setHeight(float h);
 
 	float getVelocityX() const;
 	float getVelocityY() const;
@@ -89,20 +81,31 @@ public:
 	bool isMoving() const;
 	void setMoving(bool moving);
 
+	bool isVisible() const;
+	void setVisible(bool visible);
+
 	float lerp(float start, float end, float alpha);
 
 protected:
-	EntityManager* const manager;
+	EntityManager* const getManager() const;
 
 private:
-	float m_xVel;
-	float m_yVel;
-	float m_prevX;
-	float m_prevY;
-	bool m_moving;
+	EntityManager* manager{ NULL };
+	std::vector<TextureRegion*> m_regions;
 
-	bool m_shouldBeRemoved;
+	bool m_visible{ true };
+	float m_x{ 0 };
+	float m_y{ 0 };
+	float m_width{ 0 };
+	float m_height{ 0 };
 
+	float m_xVel{ 0 };
+	float m_yVel{ 0 };
+	float m_prevX{ 0 };
+	float m_prevY{ 0 };
+	bool m_moving{ false };
+
+	bool m_shouldBeRemoved{ false };
 };
 
 #endif
