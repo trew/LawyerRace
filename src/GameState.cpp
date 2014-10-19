@@ -64,8 +64,7 @@ bool GameState::init() {
 	float ww = (float)config::W_WIDTH;
 	for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
 	{
-		std::string playerN = std::to_string(i + 1);
-		m_player[i] = entityManager->create<Player>(atlas->findRegions("player" + playerN), 0.f, 0.f, config::P_WIDTH, config::P_HEIGHT, config::KEYSET[i]);
+		m_player[i] = entityManager->create<Player>(atlas->findRegions(config::P_SRC[i]), 0.f, 0.f, config::P_WIDTH, config::P_HEIGHT, config::KEYSET[i]);
 		m_player[i]->setY(centerVertical(0, wh, m_player[i]->getHeight()));
 	}
 
@@ -271,7 +270,7 @@ void GameState::checkForCollision() {
 void GameState::createDollar() {
 	auto& dollarList = entityManager->getAll<Dollar>();
     while (dollarList.size() < unsigned(Player::alivePlayers)) {
-		Dollar* newDollar = entityManager->create<Dollar>(atlas->findRegion("dollar"), 0.f, 0.f, config::D_WIDTH, config::D_HEIGHT);
+		Dollar* newDollar = entityManager->create<Dollar>(atlas->findRegion(config::D_SRC), 0.f, 0.f, config::D_WIDTH, config::D_HEIGHT);
         int newDollar_xPos = 0;
         int newDollar_yPos = 0;
         bool valid = false;
@@ -330,7 +329,7 @@ void GameState::createEnemy() {
 		}
 
         //Finally, create new enemy
-		entityManager->create<Enemy>(atlas->findRegions("enemy"), (float)e_x, (float)e_y, config::E_WIDTH, config::E_HEIGHT, movingX, movingY);
+		entityManager->create<Enemy>(atlas->findRegions(config::E_SRC), (float)e_x, (float)e_y, config::E_WIDTH, config::E_HEIGHT, movingX, movingY);
     }
 
 }

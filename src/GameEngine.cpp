@@ -115,8 +115,10 @@ void GameEngine::run() {
 				exit();
 				break;
 			}
-			if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_k)
+			if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_k) {
 				config::ENABLE_LERP = !config::ENABLE_LERP;
+				LOG_DEBUG << "Interpolation is now " << (config::ENABLE_LERP ? "enabled." : "disabled.") << std::endl;
+			}
 
 			currentState->handleEvent(ev);
 		}
