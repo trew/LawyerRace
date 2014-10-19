@@ -128,8 +128,8 @@ namespace config
     const int MAXNUM_OF_PLAYERS = 4; ///< Maximum amount of players that the game supports
     int NUM_OF_PLAYERS = 1;
 
-    const float P_WIDTH = 50;     ///<Size of Player sprite width
-    const float P_HEIGHT = 50;    ///<Size of Player sprite height
+    const float P_WIDTH = 30;     ///<Size of Player sprite width
+    const float P_HEIGHT = 30;    ///<Size of Player sprite height
     const std::string P_SRC[4] = {"player1", "player2",
                                     "player3", "player4" };
 
