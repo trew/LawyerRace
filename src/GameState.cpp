@@ -18,7 +18,6 @@
 
 
 #include "GameState.hpp"
-#include <sstream>
 #include <iostream>
 #include "Log.hpp"
 #include "PositionHelper.h"
@@ -120,8 +119,19 @@ void GameState::cleanup() {
 
 /* GAMELOOP FUNCTIONS*/
 void GameState::handleEvent(SDL_Event &ev) {
+	if (m_paused) {
+		if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_PAUSE) {
+			resume();
+			return;
+		}
+	}
+
     if(currentInGameState == Play) {
         if (ev.type == SDL_KEYDOWN) {
+			if (ev.key.keysym.sym == SDLK_PAUSE) {
+				pause();
+				return;
+			}
             //Handle movement input
             //TODO: Also set speed to max available speed
 			for (auto& e : entityManager->getAll<Player>()) {
@@ -149,6 +159,10 @@ void GameState::copyDataForInterpolation() {
 }
 
 void GameState::update(float timeStep) {
+	if (m_paused) {
+		return;
+	}
+
 	entityManager->refresh();
 
 	if(currentInGameState == Play) {
@@ -183,12 +197,6 @@ void GameState::update(float timeStep) {
             }
         }
     }
-
-#ifdef WIN32
-    std::stringstream ss;
-    ss << config::WINDOW_TEXT << "    " << FPS::FPSControl.GetFPS();
-	SDL_SetWindowTitle(window, ss.str().c_str());
-#endif
 }
 
 
@@ -211,9 +219,11 @@ void GameState::render(float timeAlpha) {
 
 
 void GameState::pause() {
+	m_paused = true;
 }
 
 void GameState::resume() {
+	m_paused = false;
 }
 
 

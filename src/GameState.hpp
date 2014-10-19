@@ -173,6 +173,7 @@ private:
     Player* m_player[4];
 
     int countDown;
+	bool m_paused{ false };
     unsigned int countDown_compareTime;
     InGameState currentInGameState;
     Text* text_countDown;

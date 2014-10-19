@@ -19,6 +19,7 @@
 
 #include "GameEngine.hpp"
 #include "Log.hpp"
+#include <sstream>
 
 SDL_Window* GameEngine::window;
 SDL_Renderer* GameEngine::renderer;
@@ -81,6 +82,20 @@ void GameEngine::cleanup()
     SDL_Quit();
 }
 
+void GameEngine::handleEvent(SDL_Event& ev) {
+	if (ev.type == SDL_QUIT) {
+		exit();
+	}
+	else if (ev.type == SDL_KEYDOWN) {
+		if (ev.key.keysym.sym == SDLK_ESCAPE) {
+			exit();
+		} else if (ev.key.keysym.sym == SDLK_k) {
+			config::ENABLE_LERP = !config::ENABLE_LERP;
+			LOG_DEBUG << "Interpolation is now " << (config::ENABLE_LERP ? "enabled." : "disabled.") << std::endl;
+		}
+	}
+}
+
 void GameEngine::run() {
 	if (m_running) return;
 	m_running = true;
@@ -111,15 +126,7 @@ void GameEngine::run() {
 		///// EVENT HANDLING /////
 		AbstractState* currentState = states.back();
 		while (SDL_PollEvent(&ev)) {
-			if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)) {
-				exit();
-				break;
-			}
-			if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_k) {
-				config::ENABLE_LERP = !config::ENABLE_LERP;
-				LOG_DEBUG << "Interpolation is now " << (config::ENABLE_LERP ? "enabled." : "disabled.") << std::endl;
-			}
-
+			handleEvent(ev);
 			currentState->handleEvent(ev);
 		}
 		if (!m_running) break; // If any event handling made the game exit
@@ -128,6 +135,14 @@ void GameEngine::run() {
 
 
 		///// TICKING THE GAME /////
+		if (accumulator >= timeStep) {
+#ifdef WIN32
+			std::stringstream ss;
+			ss << config::WINDOW_TEXT << "    " << FPS::FPSControl.GetFPS();
+			SDL_SetWindowTitle(window, ss.str().c_str());
+#endif
+		}
+
 		int loops = 0;
 		while (accumulator >= timeStep && loops < config::MAX_FRAMESKIP) {
 			
@@ -159,9 +174,13 @@ void GameEngine::run() {
 
 		FPS::FPSControl.Update();
 
-		Uint32 ticks = SDL_GetTicks() - lastTime;
-		if (ticks < TICKS_PER_FRAME) {
-			SDL_Delay(TICKS_PER_FRAME - ticks);
+
+		// Cap frame rate if MAX_FPS is set
+		if (config::MAX_FPS > 0) {
+			Uint32 ticks = SDL_GetTicks() - lastTime;
+			if (ticks < TICKS_PER_FRAME) {
+				SDL_Delay(TICKS_PER_FRAME - ticks);
+			}
 		}
 	} // main loop
 

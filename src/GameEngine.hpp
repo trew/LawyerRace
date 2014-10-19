@@ -70,7 +70,7 @@ public:
      */
     bool init();
 
-
+	void handleEvent(SDL_Event&);
     /**
      *  Deletes instances and shut down
      */
