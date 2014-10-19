@@ -72,10 +72,10 @@ namespace config
     extern const float D_HEIGHT;  ///<Size of Dollar sprite height
     extern const std::string D_SRC;
 
-    extern const int MAX_R_WIDTH;
-    extern const int MAX_R_HEIGHT;
-    extern const int R_WIDTH[3];
-    extern const int R_HEIGHT[3];
+    extern const float MAX_R_WIDTH;
+    extern const float MAX_R_HEIGHT;
+    extern const float R_WIDTH[3];
+    extern const float R_HEIGHT[3];
     extern const std::string R_SRC[3];
 
     extern KeySet KEYSET[4];
@@ -94,5 +94,6 @@ namespace config
 
 	extern bool ENABLE_LERP;
 	extern int MAX_FRAMESKIP;
+	extern int MAX_FPS;
 }
 #endif

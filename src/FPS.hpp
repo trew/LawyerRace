@@ -58,10 +58,8 @@ public:
     static FPS FPSControl;
 
 private:
-    unsigned int oldTime;
-    unsigned int lastTime;
-    unsigned int numFrames;
-    unsigned int frames;
+	unsigned int oldTime{ 0 };
+	unsigned int frames{ 0 };
 };
 
 #endif

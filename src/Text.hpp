@@ -23,9 +23,9 @@
 #define _TEXT_H_
 
 #include <map>
-#include "Sprite.hpp"
 #include <SDL_ttf.h>
 #include <list>
+#include "Texture.h"
 
 class Text {
 public:

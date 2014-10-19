@@ -27,7 +27,6 @@
 #include <SDL.h>
 
 #include "Gameconfig.hpp"
-#include "Sprite.hpp"
 #include "Player.hpp"
 #include "Enemy.hpp"
 #include "Dollar.hpp"

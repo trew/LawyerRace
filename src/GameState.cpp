@@ -167,15 +167,15 @@ void GameState::update(float timeStep) {
             currentInGameState = GameOver;
 			Text* t = new Text("Press key to exit to menu", 48, 0, 0, 255, 255, 255);
 			Text::s_textList.push_back(t);
-			t->setX(centerHorizontal(0, config::W_WIDTH, t->getWidth()));
-			t->setY(bottomAlign(config::W_HEIGHT, 20, t->getHeight()));
+			t->setX(centerHorizontal(0, (float)config::W_WIDTH, t->getWidth()));
+			t->setY(bottomAlign((float)config::W_HEIGHT, 20, t->getHeight()));
         }
     }
     else if (currentInGameState == CountDown) {
         if(countDown_compareTime < SDL_GetTicks()) {
             text_countDown->updateText(countDown);
-			text_countDown->setX(centerHorizontal(0, config::W_WIDTH, text_countDown->getWidth()));
-			text_countDown->setY(centerVertical(0, config::W_HEIGHT / 2, text_countDown->getHeight()));
+			text_countDown->setX(centerHorizontal(0, (float)config::W_WIDTH, text_countDown->getWidth()));
+			text_countDown->setY(centerVertical(0, (float)config::W_HEIGHT / 2, text_countDown->getHeight()));
             countDown_compareTime += 1000;
             countDown--;
             if (countDown < 0) {
@@ -271,7 +271,7 @@ void GameState::checkForCollision() {
 void GameState::createDollar() {
 	auto& dollarList = entityManager->getAll<Dollar>();
     while (dollarList.size() < unsigned(Player::alivePlayers)) {
-		Dollar* newDollar = entityManager->create<Dollar>(atlas->findRegion("dollar"), 0, 0, config::D_WIDTH, config::D_HEIGHT);
+		Dollar* newDollar = entityManager->create<Dollar>(atlas->findRegion("dollar"), 0.f, 0.f, config::D_WIDTH, config::D_HEIGHT);
         int newDollar_xPos = 0;
         int newDollar_yPos = 0;
         bool valid = false;
@@ -303,22 +303,22 @@ void GameState::createEnemy() {
     unsigned int highestCurrentScore = getHighestCurrentScore();
 
     while( enemyList.size() < ((highestCurrentScore / 5) +1) ) {
-        int e_xPos;
-        int e_yPos;
+        float e_x;
+        float e_y;
         //Create enemy out of screen. Randomize up/down, left/right
         if ((rand() % 2) == 1) {
-            e_xPos = -config::E_WIDTH;
-            e_yPos = -config::E_HEIGHT;
+            e_x = -config::E_WIDTH;
+            e_y = -config::E_HEIGHT;
         } else {
-            e_xPos = config::W_WIDTH+1;
-            e_yPos = config::W_HEIGHT+1;
+            e_x = config::W_WIDTH+1.f;
+            e_y = config::W_HEIGHT+1.f;
         }
 
         //Randomize x and y-position.
         if ((rand() % 2) == 1)  {
-            e_xPos = (rand() % (int)(config::W_WIDTH - config::E_WIDTH));
+            e_x = (float)(rand() % (int)(config::W_WIDTH - config::E_WIDTH));
         } else {
-            e_yPos = (rand() % (int)(config::W_HEIGHT - config::E_HEIGHT));
+			e_y = (float)(rand() % (int)(config::W_HEIGHT - config::E_HEIGHT));
         }
 
 		bool movingX = true, movingY = true;
@@ -330,7 +330,7 @@ void GameState::createEnemy() {
 		}
 
         //Finally, create new enemy
-		entityManager->create<Enemy>(atlas->findRegions("enemy"), (float)e_xPos, (float)e_yPos, config::E_WIDTH, config::E_HEIGHT, movingX, movingY);
+		entityManager->create<Enemy>(atlas->findRegions("enemy"), (float)e_x, (float)e_y, config::E_WIDTH, config::E_HEIGHT, movingX, movingY);
     }
 
 }
@@ -344,20 +344,20 @@ void GameState::createRock() {
 	auto& rockList = entityManager->getAll<Rock>();
 
 	while ( rockList.size() < max_amount_of_rocks ) {
-        int r_yPos = -config::MAX_R_HEIGHT;
+        float y = -config::MAX_R_HEIGHT;
 
         int rockType = (rand() % 10 +1);
         if (rockType >= 7 && rockType <= 9) {
-            int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[1]));
-			entityManager->create<Rock>(atlas->findRegion(config::R_SRC[1]), (float)r_xPos, (float)r_yPos, 2);
+			float x = (float)(rand() % (int)(config::W_WIDTH - config::R_WIDTH[1]));
+			entityManager->create<Rock>(atlas->findRegion(config::R_SRC[1]), x, y, 2);
         }
         else if(rockType == 10) {
-            int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[2]));
-			entityManager->create<Rock>(atlas->findRegion(config::R_SRC[2]), (float)r_xPos, (float)r_yPos, 3);
+			float x = (float)(rand() % (int)(config::W_WIDTH - config::R_WIDTH[2]));
+			entityManager->create<Rock>(atlas->findRegion(config::R_SRC[2]), x, y, 3);
         }
         else {
-            int r_xPos = (rand() % (config::W_WIDTH - config::R_WIDTH[0]));
-			entityManager->create<Rock>(atlas->findRegion(config::R_SRC[0]), (float)r_xPos, (float)r_yPos, 1);
+			float x = (float)(rand() % (int)(config::W_WIDTH - config::R_WIDTH[0]));
+			entityManager->create<Rock>(atlas->findRegion(config::R_SRC[0]), x, y, 1);
         }
     }
 }

@@ -97,6 +97,7 @@ void GameEngine::run() {
 	SDL_Event ev;
 	long lastTime = SDL_GetTicks();
 
+	Uint32 TICKS_PER_FRAME = (Uint32)(1000 / (float)config::MAX_FPS);
 	while (m_running) {
 
 		float deltaTime = (SDL_GetTicks() - lastTime) / 1000.f;
@@ -153,7 +154,13 @@ void GameEngine::run() {
 			state->render(alpha);
 		});
 		/////////////////////
+
 		FPS::FPSControl.Update();
+
+		Uint32 ticks = SDL_GetTicks() - lastTime;
+		if (ticks < TICKS_PER_FRAME) {
+			SDL_Delay(TICKS_PER_FRAME - ticks);
+		}
 	} // main loop
 
 	cleanup();

@@ -128,24 +128,24 @@ namespace config
     const int MAXNUM_OF_PLAYERS = 4; ///< Maximum amount of players that the game supports
     int NUM_OF_PLAYERS = 1;
 
-    const float P_WIDTH = 30;     ///<Size of Player sprite width
-    const float P_HEIGHT = 30;    ///<Size of Player sprite height
+    const float P_WIDTH = 30.f;     ///<Size of Player sprite width
+    const float P_HEIGHT = 30.f;    ///<Size of Player sprite height
     const std::string P_SRC[4] = {"player1", "player2",
                                     "player3", "player4" };
 
-    const float E_WIDTH = 30;     ///<Size of Enemy sprite width
-    const float E_HEIGHT = 30;    ///<Size of Enemy sprite height
-    const std::string E_SRC = "enemyx30";
+    const float E_WIDTH = 30.f;     ///<Size of Enemy sprite width
+    const float E_HEIGHT = 30.f;    ///<Size of Enemy sprite height
+    const std::string E_SRC = "enemy";
 
-    const float D_WIDTH = 30;     ///<Size of Dollar sprite width
-    const float D_HEIGHT = 15;    ///<Size of Dollar sprite height
+    const float D_WIDTH = 30.f;     ///<Size of Dollar sprite width
+    const float D_HEIGHT = 15.f;    ///<Size of Dollar sprite height
     const std::string D_SRC = "dollar";
 
-    const int MAX_R_WIDTH = 58;
-    const int MAX_R_HEIGHT = 49;
+    const float MAX_R_WIDTH = 58.f;
+    const float MAX_R_HEIGHT = 49.f;
 
-    const int R_WIDTH[3] = {17, 26, 58};
-    const int R_HEIGHT[3] = {14, 25, 49};
+    const float R_WIDTH[3] = {17.f, 26.f, 58.f};
+    const float R_HEIGHT[3] = {14.f, 25.f, 49.f};
     const std::string R_SRC[3] = {"stone1-17x14", "stone2-26x25", "stone3-58x49"};
 
     bool PLAYER_STOP_ENABLED = true;
@@ -164,4 +164,5 @@ namespace config
 
 	bool ENABLE_LERP = true;
 	int MAX_FRAMESKIP = 10;
+	int MAX_FPS = 200;
 } //namespace config

@@ -135,25 +135,25 @@ void Player::updateScore() {
 	using namespace positionHelper;
     //Position text correctly
     if (config::NUM_OF_PLAYERS == 4) {
-        float newXPos = static_cast<float>((config::W_WIDTH / 4) * (playerNum-1) + 20);
+        float newXPos = static_cast<float>((config::W_WIDTH / 4.f) * (playerNum-1) + 20);
         score_text->setX(newXPos);
     }
     else if (config::NUM_OF_PLAYERS == 3) {
 		if (playerNum == 1)
 			score_text->setX(leftAlign(0, 10));
 		else if (playerNum == 2)
-			score_text->setX(centerHorizontal(0, config::W_WIDTH, score_text->getWidth()));
+			score_text->setX(centerHorizontal(0, (float)config::W_WIDTH, score_text->getWidth()));
 		else if (playerNum == 3)
-			score_text->setX(rightAlign(config::W_WIDTH, 10, score_text->getWidth()));
+			score_text->setX(rightAlign((float)config::W_WIDTH, 10, score_text->getWidth()));
     }
     else if (config::NUM_OF_PLAYERS == 2) {
 		if (playerNum == 1)
 			score_text->setX(leftAlign(0, 10));
 		else if (playerNum == 2)
-			score_text->setX(rightAlign(config::W_WIDTH, 10, score_text->getWidth()));
+			score_text->setX(rightAlign((float)config::W_WIDTH, 10, score_text->getWidth()));
     } 
     else if (config::NUM_OF_PLAYERS == 1) {
-		score_text->setX(centerHorizontal(0, config::W_WIDTH, score_text->getWidth()));
+		score_text->setX(centerHorizontal(0, (float)config::W_WIDTH, score_text->getWidth()));
     }
 }
 
