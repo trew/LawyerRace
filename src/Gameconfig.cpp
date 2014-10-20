@@ -116,7 +116,7 @@ namespace config
     }
 
     std::string path = ""; // reloaded during command line parsing
-    std::string config_file = "cfg/ez.lua"; //standard
+    std::string config_file = "cfg/med.lua"; //standard
     std::string keyset_file = "cfg/keysets.lua"; //standard
 
     const std::string WINDOW_TEXT = "Lawyer Race";
@@ -164,5 +164,5 @@ namespace config
 
 	bool ENABLE_LERP = true;
 	int MAX_FRAMESKIP = 10;
-	int MAX_FPS = -1;
+	int MAX_FPS = 200;
 } //namespace config
