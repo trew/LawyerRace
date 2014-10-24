@@ -46,7 +46,7 @@ bool GameState::init() {
 
 	LOG_DEBUG << "Loading textures\n";
 	{
-		atlas = new TextureAtlas("spritesheet");
+		atlas = new TextureAtlas(renderer, "spritesheet");
 	}
 
 	LOG_DEBUG << "Loading fonts...\n";
@@ -212,8 +212,6 @@ void GameState::render(float timeAlpha) {
     if(currentInGameState == GameOver) {
         //Render gameover screen here
     }
-
-	SDL_RenderPresent(renderer);
 }
 /* END GAMELOOP FUNCTIONS */
 

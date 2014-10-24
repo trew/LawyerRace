@@ -76,6 +76,7 @@ void GameEngine::cleanup()
 		state->cleanup();
 		delete state;
 	}
+	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
     TTF_Quit();
 	IMG_Quit();
@@ -170,6 +171,8 @@ void GameEngine::run() {
 		std::for_each(states.rbegin(), states.rend(), [&alpha](AbstractState* state) {
 			state->render(alpha);
 		});
+
+		SDL_RenderPresent(renderer);
 		/////////////////////
 
 		FPS::FPSControl.Update();

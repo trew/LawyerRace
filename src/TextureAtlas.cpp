@@ -15,7 +15,7 @@ std::string AtlasRegion::getName() const {
 	return name;
 }
 
-TextureAtlas::TextureAtlas(std::string _file) : m_fileName(_file) {
+TextureAtlas::TextureAtlas(SDL_Renderer* renderer, std::string _file) : renderer(renderer), m_fileName(_file) {
 	load();
 }
 
@@ -54,7 +54,7 @@ void TextureAtlas::load() {
 			XMLElement* root = doc.FirstChildElement();
 			std::string textureFileName = "img/" + std::string(root->Attribute("imagePath"));
 
-			std::unique_ptr<Texture> texture(Texture::createTexture(GameEngine::renderer, textureFileName));
+			std::unique_ptr<Texture> texture(Texture::createTexture(renderer, textureFileName));
 
 			Texture* texturePtr = texture.get(); // save the raw pointer for textureregion creation later
 			textures.push_back(std::move(texture));

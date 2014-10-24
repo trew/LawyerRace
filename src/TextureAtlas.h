@@ -18,13 +18,14 @@ private:
 	AtlasRegion(std::string name, int index, Texture* t, int x, int y, int w, int h);
 	std::string name;
 	int index;
+
 };
 
 
 
 class TextureAtlas {
 public:
-	TextureAtlas(std::string _file);
+	TextureAtlas(SDL_Renderer* renderer, std::string _file);
 	~TextureAtlas();
 
 	TextureRegion* findRegion(std::string name);
@@ -38,6 +39,7 @@ private:
 	std::string m_fileName;
 
 	void load();
+	SDL_Renderer* renderer{ NULL };
 };
 
 #endif
