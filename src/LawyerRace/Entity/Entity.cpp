@@ -68,7 +68,7 @@ void Entity::render(SDL_Renderer* renderer, float timeAlpha, unsigned int index)
 	destRect.h = (int)m_height;
 	destRect.w = (int)m_width;
 
-	SDL_RenderCopy(renderer, region->getTexture()->getTexture(), &region->getRect(), &destRect);
+	SDL_RenderCopy(renderer, region->getTexture()->getSDLTexture(), &region->getRect(), &destRect);
 }
 
 void Entity::render(SDL_Renderer* renderer, float timeAlpha) {

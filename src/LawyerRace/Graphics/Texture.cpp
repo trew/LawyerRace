@@ -2,26 +2,12 @@
 #include "LawyerRace/Utils/Log.hpp"
 #include <SDL_image.h>
 
-Texture::Texture() {
-}
-
 Texture::Texture(SDL_Texture* texture) : m_texture(texture) {
-	SDL_QueryTexture(m_texture, &format, &access, &w, &h);
+	SDL_QueryTexture(m_texture, &format, &access, &m_width, &m_height);
 }
 
 Texture::~Texture() {
-}
-
-int Texture::W() const {
-	return w;
-}
-
-int Texture::H() const {
-	return h;
-}
-
-SDL_Texture* Texture::getTexture() const {
-	return m_texture;
+	SDL_DestroyTexture(m_texture);
 }
 
 Texture* Texture::createTexture(SDL_Renderer* renderer, std::string path) {

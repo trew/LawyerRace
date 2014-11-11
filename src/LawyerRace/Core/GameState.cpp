@@ -27,7 +27,8 @@ bool GameState::init() {
 
 	LOG_DEBUG << "Loading textures\n";
 	{
-		atlas = new TextureAtlas(renderer, "spritesheet");
+		atlas = new TextureAtlas(renderer, filesys::getFile("img/spritesheet_0.xml").get());
+		if (!atlas->isLoaded()) return false;
 	}
 
 	LOG_DEBUG << "Loading fonts...\n";

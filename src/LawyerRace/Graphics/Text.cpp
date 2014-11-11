@@ -35,12 +35,13 @@ Text::Text(std::string _text, const int _fontSize, const float _x, const float _
 	}
 	if (m_texture == NULL)
         LOG_ERROR << "Couldn't render text \"" << _text << "\".\n"; //TODO: ERRORHANDLING
-    m_height = (float)m_texture->H();
-    m_width = (float)m_texture->W();
+    m_height = (float)m_texture->getHeight();
+    m_width = (float)m_texture->getWidth();
 }
 
 Text::~Text()
 {
+	delete m_texture;
 }
 
 void Text::render(SDL_Renderer* renderer) {
@@ -49,10 +50,10 @@ void Text::render(SDL_Renderer* renderer) {
     SDL_Rect destRect;
     destRect.x = (int)(getX());
     destRect.y = (int)(getY());
-	destRect.w = m_texture->W();
-	destRect.h = m_texture->H();
+	destRect.w = m_texture->getWidth();
+	destRect.h = m_texture->getHeight();
 
-	SDL_RenderCopy(renderer, m_texture->getTexture(), NULL, &destRect);
+	SDL_RenderCopy(renderer, m_texture->getSDLTexture(), NULL, &destRect);
 }
 
 void Text::updateText(const int _number) {
@@ -64,12 +65,13 @@ void Text::updateText(const std::string _newText) {
 	if (surface != NULL) {
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(textRenderer, surface);
 		if (texture != NULL) {
+			delete m_texture;
 			m_texture = new Texture(texture);
 		}
 		SDL_FreeSurface(surface);
 	}
-    m_height = (float)m_texture->H();
-    m_width = (float)m_texture->W();
+    m_height = (float)m_texture->getHeight();
+    m_width = (float)m_texture->getWidth();
 }
 
 void Text::setColor(int r, int g, int b) {

@@ -7,19 +7,20 @@
 
 class Texture {
 public:
+	/** if the texture is managed the underlying SDL texture is not destroyed when deleted */
 	Texture(SDL_Texture* texture);
 	~Texture();
 
-	static Texture* createTexture(SDL_Renderer* renderer, std::string path);
+	int getWidth() const { return m_width; }
+	int getHeight() const { return m_height; }
 
-	int W() const;
-	int H() const;
+	SDL_Texture* getSDLTexture() const { return m_texture; }
 
-	SDL_Texture* getTexture() const;
+	static Texture* createTexture(SDL_Renderer* renderer, std::string fileName);
 private:
-	Texture();
+	int m_width;
+	int m_height;
 
-	int w, h;
 	int access;
 	Uint32 format;
 

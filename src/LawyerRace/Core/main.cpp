@@ -51,7 +51,7 @@ Allowed options:
 	if (path.isSet()) {
 		config::path = config::validatePath(path.getValue());
 	} else {
-		config::path = config::validatePath(filesys::cwd());
+		config::path = config::validatePath(filesys::cwd().getPath());
 	}
 
 	if (settingsFile.isSet()) {

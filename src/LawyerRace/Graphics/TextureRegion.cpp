@@ -7,7 +7,7 @@ TextureRegion::TextureRegion(TextureRegion const& region) : m_texture(region.m_t
 	setRegion(region.x, region.y, region.regionWidth, region.regionHeight);
 }
 
-TextureRegion::TextureRegion(Texture* const texture) : TextureRegion(texture, texture->W(), texture->H()) {
+TextureRegion::TextureRegion(Texture* const texture) : TextureRegion(texture, texture->getWidth(), texture->getHeight()) {
 }
 
 TextureRegion::TextureRegion(Texture* const texture, int width, int height) : TextureRegion(texture, 0, 0, width, height) {
@@ -21,7 +21,7 @@ TextureRegion::~TextureRegion() {
 }
 
 void TextureRegion::setRegion(Texture* const texture) {
-	setRegion(0, 0, texture->W(), texture->H());
+	setRegion(0, 0, texture->getWidth(), texture->getHeight());
 }
 
 void TextureRegion::setRegion(TextureRegion* const textureRegion) {

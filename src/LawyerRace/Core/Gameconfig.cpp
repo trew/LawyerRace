@@ -88,7 +88,7 @@ namespace config
             path = _path;
             LOG_DEBUG << "Using path: " << path << "\n";
         } else {
-            path = filesys::cwd();
+            path = filesys::cwd().getPath();
             LOG_ERROR << "Loading Path. \"" << _path << "\". Using \"" << path << "\".\n";
         }
         if (*path.rbegin() != '/')

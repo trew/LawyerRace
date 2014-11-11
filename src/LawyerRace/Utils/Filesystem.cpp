@@ -11,10 +11,26 @@
 #include <libgen.h>
 #endif /* !_WIN32 */
 
+#include <memory>
+
+Path::Path(std::string filePath) {
+	path = filePath;
+}
+
+File::File(Path path, std::string fileName) {
+	m_path = path;
+	m_fileName = fileName;
+}
+
 namespace filesys
 {
 
-std::string cwd()
+std::unique_ptr<File> getFile(std::string fileName) {
+	Path path = cwd();
+	return std::unique_ptr<File>(new File(path, fileName));
+}
+
+Path cwd()
 {
     char buf[1024];
 #ifdef _WIN32
@@ -27,13 +43,13 @@ std::string cwd()
 #ifdef _WIN32
         std::replace(str.begin(),str.end(),'\\','/');
 #endif
-        return str;
+        return Path(str);
     } else { // res == NULL
-        return "";
+        return Path("");
     }
 }
 
-std::string executionDirectory()
+Path executionDirectory()
 {
 #ifndef _WIN32
     char buf[1024];
@@ -50,12 +66,12 @@ std::string executionDirectory()
 bool fileExists(const std::string& name)
 {
 #ifdef _WIN32
-        struct stat st;
-        return (::stat(name.c_str(), &st) == 0);
+    struct stat st;
+    return (::stat(name.c_str(), &st) == 0);
 #else
     struct stat st;
     return (::stat(name.c_str(), &st) != -1);
 #endif
 }
 
-}
+} // namespace filesys
