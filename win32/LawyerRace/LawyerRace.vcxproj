@@ -11,65 +11,65 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\AbstractState.cpp" />
-    <ClCompile Include="..\..\src\Dollar.cpp" />
-    <ClCompile Include="..\..\src\Enemy.cpp" />
-    <ClCompile Include="..\..\src\Entity.cpp" />
-    <ClCompile Include="..\..\src\EntityManager.cpp" />
-    <ClCompile Include="..\..\src\Filesystem.cpp" />
-    <ClCompile Include="..\..\src\FPS.cpp" />
-    <ClCompile Include="..\..\src\GameEngine.cpp" />
-    <ClCompile Include="..\..\src\Gameconfig.cpp" />
-    <ClCompile Include="..\..\src\GameState.cpp" />
-    <ClCompile Include="..\..\src\KeySet.cpp" />
-    <ClCompile Include="..\..\src\Log.cpp" />
-    <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\Player.cpp" />
-    <ClCompile Include="..\..\src\Rock.cpp" />
-    <ClCompile Include="..\..\src\Text.cpp" />
-    <ClCompile Include="..\..\src\Texture.cpp" />
-    <ClCompile Include="..\..\src\TextureAtlas.cpp" />
-    <ClCompile Include="..\..\src\TextureRegion.cpp" />
-    <ClCompile Include="..\..\src\TinyXML\tinyxml2.cpp" />
+    <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\AbstractState.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\Gameconfig.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\GameEngine.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\KeySet.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Entity\Dollar.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Entity\Enemy.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Entity\Entity.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Entity\EntityManager.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Entity\Player.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Entity\Rock.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Graphics\Text.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Graphics\Texture.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Graphics\TextureAtlas.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Graphics\TextureRegion.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Utils\Filesystem.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Utils\FPS.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Utils\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\AbstractState.hpp" />
-    <ClInclude Include="..\..\src\Dollar.hpp" />
-    <ClInclude Include="..\..\src\Enemy.hpp" />
-    <ClInclude Include="..\..\src\Entity.hpp" />
-    <ClInclude Include="..\..\src\EntityManager.h" />
-    <ClInclude Include="..\..\src\Filesystem.hpp" />
-    <ClInclude Include="..\..\src\FPS.hpp" />
-    <ClInclude Include="..\..\src\GameEngine.hpp" />
-    <ClInclude Include="..\..\src\Gameconfig.hpp" />
-    <ClInclude Include="..\..\src\GameState.hpp" />
-    <ClInclude Include="..\..\src\KeySet.hpp" />
-    <ClInclude Include="..\..\src\Log.hpp" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\CFunctions.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\ClassInfo.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\Constructor.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\dump.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\FuncTraits.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\Iterator.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\LuaException.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\LuaHelpers.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\LuaRef.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\Namespace.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\Stack.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\TypeList.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\TypeTraits.h" />
-    <ClInclude Include="..\..\src\LuaBridge\detail\Userdata.h" />
-    <ClInclude Include="..\..\src\LuaBridge\LuaBridge.h" />
-    <ClInclude Include="..\..\src\LuaBridge\RefCountedObject.h" />
-    <ClInclude Include="..\..\src\LuaBridge\RefCountedPtr.h" />
-    <ClInclude Include="..\..\src\Player.hpp" />
-    <ClInclude Include="..\..\src\PositionHelper.h" />
-    <ClInclude Include="..\..\src\Rock.hpp" />
-    <ClInclude Include="..\..\src\Text.hpp" />
-    <ClInclude Include="..\..\src\Texture.h" />
-    <ClInclude Include="..\..\src\TextureAtlas.h" />
-    <ClInclude Include="..\..\src\TextureRegion.h" />
-    <ClInclude Include="..\..\src\TinyXML\tinyxml2.h" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\Gameconfig.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\GameEngine.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\KeySet.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Entity\Dollar.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Entity\Enemy.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Entity\Entity.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Entity\EntityManager.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Entity\Player.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Entity\Rock.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Graphics\Text.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Graphics\Texture.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Graphics\TextureAtlas.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Graphics\TextureRegion.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Utils\Filesystem.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Utils\FPS.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Utils\Log.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\CFunctions.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\ClassInfo.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\Constructor.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\dump.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\FuncTraits.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\Iterator.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\LuaException.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\LuaHelpers.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\LuaRef.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\Namespace.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\Stack.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\TypeList.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\TypeTraits.h" />
+    <ClInclude Include="..\..\include\LuaBridge\detail\Userdata.h" />
+    <ClInclude Include="..\..\include\LuaBridge\LuaBridge.h" />
+    <ClInclude Include="..\..\include\LuaBridge\RefCountedObject.h" />
+    <ClInclude Include="..\..\include\LuaBridge\RefCountedPtr.h" />
+    <ClInclude Include="..\..\include\TinyXML\tinyxml2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A839CCB-B9A8-4CAA-ABFD-C9980DC3BB15}</ProjectGuid>
@@ -103,7 +103,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <SourcePath>$(ProjectDir)..\..\src;$(SourcePath)</SourcePath>
-    <IncludePath>$(ProjectDir)..\..\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -125,7 +125,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(LUA_PATH)\include;$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LUA_PATH)\include;$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include;$(SolutionDir)\..\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
