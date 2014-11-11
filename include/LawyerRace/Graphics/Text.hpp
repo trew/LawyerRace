@@ -9,7 +9,9 @@
 #include <list>
 
 class Text {
+	friend class GameEngine;
 public:
+
 	Text(const int number, const int fontSize, const float x, const float y, int r, int g, int b);
 	Text(std::string text, const int fontSize, const float x, const float y, int r, int g, int b);
 
@@ -40,6 +42,8 @@ public:
 	void setVisible(bool visible);
 
 private:
+	static SDL_Renderer* textRenderer;
+
 	float m_x{ 0 };
 	float m_y{ 0 };
 	float m_width{ 0 };
@@ -50,7 +54,6 @@ private:
 	Texture* m_texture{ NULL };
     SDL_Color m_color;
 	int m_fontSize{ 0 };
-	SDL_Renderer* m_renderer{ NULL };
 public:
     static std::map<int, TTF_Font*> standard_font;
     static std::list<Text*> s_textList;

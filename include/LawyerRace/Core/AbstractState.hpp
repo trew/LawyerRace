@@ -6,6 +6,8 @@
 class GameEngine;
 
 class AbstractState {
+	friend class GameEngine;
+
 public:
 	virtual ~AbstractState();
     virtual bool init()=0;
@@ -22,7 +24,7 @@ public:
 
 	GameEngine* getEngine();
 protected:
-	AbstractState(GameEngine* engine);
+	AbstractState();
 
 private:
 	GameEngine* m_engine;

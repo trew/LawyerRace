@@ -20,24 +20,28 @@ public:
 	GameEngine();
 	virtual ~GameEngine();
 
-	static lua_State* LuaState;
+	static lua_State* LuaState; // TODO: change to non-static
 
-    static SDL_Window* window;
-	static SDL_Renderer* renderer;
+	SDL_Window* const getWindow() { return m_window; }
+	SDL_Renderer* const getRenderer() { return m_renderer; }
+
+	int getWindowWidth() const { int w; SDL_GetWindowSize(m_window, &w, NULL); return w; }
+	int getWindowHeight() const { int h; SDL_GetWindowSize(m_window, NULL, &h); return h; }
 
 	bool init();
 	void cleanup();
 
-	void handleEvent(SDL_Event&);
+	bool handleEvent(SDL_Event&);
 
 	void changeState(AbstractState* state);
-	void pushState(AbstractState* state);
-	void popState();
 
-	void run();
+	int run();
 	void exit();
 
 private:
+	SDL_Window* m_window;
+	SDL_Renderer* m_renderer;
+
 	std::vector<AbstractState*> states;
 
 	FPS fps;

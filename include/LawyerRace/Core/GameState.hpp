@@ -28,7 +28,7 @@ enum InGameState {
 
 class GameState: public AbstractState {
 public:
-    GameState(GameEngine*);
+    GameState();
     virtual ~GameState();
 
     SDL_Window* window;

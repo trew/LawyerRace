@@ -7,6 +7,7 @@
 
 std::map<int, TTF_Font*> Text::standard_font;
 std::list<Text*> Text::s_textList;
+SDL_Renderer* Text::textRenderer;
 
 Text::Text(const int _number, const int _fontSize, const float _x, const float _y, int r, int g, int b)
     : Text(std::to_string(_number), _fontSize, _x, _y, r, g, b)
@@ -17,7 +18,6 @@ Text::Text(const int _number, const int _fontSize, const float _x, const float _
 Text::Text(std::string _text, const int _fontSize, const float _x, const float _y, int r, int g, int b)
     : m_fontSize(_fontSize)
 {
-	m_renderer = GameEngine::renderer;
     m_x = static_cast<float>(_x);
     m_y = static_cast<float>(_y);
 
@@ -27,7 +27,7 @@ Text::Text(std::string _text, const int _fontSize, const float _x, const float _
 
 	SDL_Surface* surface = TTF_RenderText_Blended(standard_font[_fontSize], _text.c_str(), m_color);
 	if (surface != NULL) {
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(textRenderer, surface);
 		if (texture != NULL) {
 			m_texture = new Texture(texture);
 		}
@@ -62,7 +62,7 @@ void Text::updateText(const int _number) {
 void Text::updateText(const std::string _newText) {
 	SDL_Surface* surface = TTF_RenderText_Blended(standard_font[m_fontSize], _newText.c_str(), m_color);
 	if (surface != NULL) {
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(textRenderer, surface);
 		if (texture != NULL) {
 			m_texture = new Texture(texture);
 		}

@@ -1,11 +1,5 @@
 #include "LawyerRace/Utils/FPS.hpp"
 
-FPS::FPS() {
-}
-
-FPS::~FPS() {
-}
-
 void FPS::Update() {
     if (oldTime + 1000 < SDL_GetTicks()) {
         oldTime = SDL_GetTicks();

@@ -69,9 +69,9 @@ namespace config
 
     std::string validateConfigFile(std::string _file)
     {
-		if (filesys::file_exists(config::path + _file)) {
+		if (filesys::fileExists(config::path + _file)) {
 			LOG_DEBUG << "Using config: " << _file << "\n";
-		} else if (filesys::file_exists(config::path + "cfg/" + _file)) {
+		} else if (filesys::fileExists(config::path + "cfg/" + _file)) {
 			_file = "cfg/" + _file;
 			LOG_DEBUG << "Using config: " << _file << "\n";
 		} else {
@@ -83,12 +83,12 @@ namespace config
 
     std::string validatePath(std::string _path) {
         std::string path;
-        if (filesys::file_exists(_path))
+        if (filesys::fileExists(_path))
         {
             path = _path;
             LOG_DEBUG << "Using path: " << path << "\n";
         } else {
-            path = filesys::get_cwd();
+            path = filesys::cwd();
             LOG_ERROR << "Loading Path. \"" << _path << "\". Using \"" << path << "\".\n";
         }
         if (*path.rbegin() != '/')

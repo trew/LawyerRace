@@ -1,6 +1,6 @@
 #include "LawyerRace/Core/AbstractState.hpp"
 
-AbstractState::AbstractState(GameEngine* engine) : m_engine(engine) {
+AbstractState::AbstractState() {
 }
 
 AbstractState::~AbstractState() {

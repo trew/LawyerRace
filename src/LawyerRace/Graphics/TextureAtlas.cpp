@@ -36,7 +36,7 @@ void TextureAtlas::load() {
 		std::string indexS = std::to_string(i);
 		std::string fileName = "img/" + m_fileName + "_" + indexS + ".xml";
 
-		if (!filesys::file_exists(fileName))
+		if (!filesys::fileExists(fileName))
 			break;
 
 		files.push_back(fileName);

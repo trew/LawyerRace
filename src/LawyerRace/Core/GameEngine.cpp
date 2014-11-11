@@ -3,8 +3,6 @@
 #include <SDL_image.h>
 #include <sstream>
 
-SDL_Window* GameEngine::window;
-SDL_Renderer* GameEngine::renderer;
 lua_State* GameEngine::LuaState = NULL;
 
 GameEngine::GameEngine()
@@ -23,32 +21,46 @@ bool GameEngine::init()
 {
     if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 ) return false;
 
-	window = SDL_CreateWindow(config::WINDOW_TEXT.c_str(),
+	m_window = SDL_CreateWindow(config::WINDOW_TEXT.c_str(),
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		config::W_WIDTH, config::W_HEIGHT,
 		SDL_WINDOW_OPENGL);
 
-	renderer = SDL_CreateRenderer(window, -1, 0);
+	if (m_window == NULL) return false;
 
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
+	if ((m_renderer = SDL_CreateRenderer(m_window, -1, 0)) == NULL) return false;
+	Text::textRenderer = m_renderer;
 
-	TTF_Init();
-	IMG_Init(IMG_INIT_PNG);
+	// make the scaled rendering look smoother.
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  
+
+	if (TTF_Init() == -1) return false;
+	if (IMG_Init(IMG_INIT_PNG) == 0) return false;
 
     return true;
 }
 
 void GameEngine::changeState(AbstractState* state) {
+	state->m_engine = this;
+
+	// try initializing the new state
+	if (!state->init()) {
+		LOG_ERROR << "State couldn't be initialized." << std::endl;
+		state->cleanup();
+		if (states.empty()) {
+			exit();
+		}
+		return;
+	}
+
 	// cleanup the current state
 	if (!states.empty()) {
 		states.back()->cleanup();
+		states.back()->m_engine = NULL;
 		states.pop_back();
 	}
-
-	// store and init the new state
 	states.push_back(state);
-	states.back()->init();
 }
 
 void GameEngine::cleanup()
@@ -58,34 +70,39 @@ void GameEngine::cleanup()
 		state->cleanup();
 		delete state;
 	}
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(m_renderer);
     TTF_Quit();
 	IMG_Quit();
-    SDL_Quit();
+	
+	SDL_DestroyWindow(m_window);
+	SDL_Quit();
 }
 
-void GameEngine::handleEvent(SDL_Event& ev) {
+bool GameEngine::handleEvent(SDL_Event& ev) {
 	if (ev.type == SDL_QUIT) {
 		exit();
+		return true;
 	}
 	else if (ev.type == SDL_KEYDOWN) {
 		if (ev.key.keysym.sym == SDLK_ESCAPE) {
 			exit();
+			return true;
 		} else if (ev.key.keysym.sym == SDLK_k) {
 			config::ENABLE_LERP = !config::ENABLE_LERP;
 			LOG_DEBUG << "Interpolation is now " << (config::ENABLE_LERP ? "enabled." : "disabled.") << std::endl;
+			return true;
 		}
 	}
+	return false;
 }
 
-void GameEngine::run() {
-	if (m_running) return;
+int GameEngine::run() {
+	if (m_running) return -1;
 	m_running = true;
 
-	if (!init()) return;
+	if (!init()) return -1;
 
-	GameState* gameState = new GameState(this);
+	GameState* gameState = new GameState();
 	changeState(gameState);
 	
 	// TODO: Move this to config?
@@ -109,8 +126,8 @@ void GameEngine::run() {
 		///// EVENT HANDLING /////
 		AbstractState* currentState = states.back();
 		while (SDL_PollEvent(&ev)) {
-			handleEvent(ev);
-			currentState->handleEvent(ev);
+			if (!handleEvent(ev))
+				currentState->handleEvent(ev);
 		}
 		if (!m_running) break; // If any event handling made the game exit
 		//////////////////////////
@@ -122,7 +139,7 @@ void GameEngine::run() {
 #ifdef WIN32
 			std::stringstream ss;
 			ss << config::WINDOW_TEXT << "    " << fps.GetFPS();
-			SDL_SetWindowTitle(window, ss.str().c_str());
+			SDL_SetWindowTitle(m_window, ss.str().c_str());
 #endif
 		}
 
@@ -143,8 +160,8 @@ void GameEngine::run() {
 
 		///// RENDERING /////
 		// clear the screen before rendering
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		SDL_RenderClear(renderer);
+		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
+		SDL_RenderClear(m_renderer);
 
 		// for rendering interpolation
 		float alpha = accumulator / timeStep;
@@ -154,7 +171,7 @@ void GameEngine::run() {
 			state->render(alpha);
 		});
 
-		SDL_RenderPresent(renderer);
+		SDL_RenderPresent(m_renderer);
 		/////////////////////
 
 		fps.Update();
@@ -171,7 +188,7 @@ void GameEngine::run() {
 
 	cleanup();
 
-	return;
+	return 0;
 }
 
 void GameEngine::exit() {

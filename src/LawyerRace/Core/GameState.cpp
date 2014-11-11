@@ -5,7 +5,7 @@
 
 using namespace positionHelper;
 
-GameState::GameState(GameEngine* engine) : AbstractState(engine), entityManager(new EntityManager()) {
+GameState::GameState() : entityManager(new EntityManager()) {
     m_player[0] = NULL;
     m_player[1] = NULL;
     m_player[2] = NULL;
@@ -22,8 +22,8 @@ GameState::~GameState() {
 bool GameState::init() {
 	///Initialize all
 
-	window = GameEngine::window;
-	renderer = GameEngine::renderer;
+	window = getEngine()->getWindow();
+	renderer = getEngine()->getRenderer();
 
 	LOG_DEBUG << "Loading textures\n";
 	{

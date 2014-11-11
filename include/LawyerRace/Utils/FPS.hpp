@@ -6,8 +6,8 @@
 
 class FPS {
 public:
-    FPS();
-    virtual ~FPS();
+	FPS() {}
+	virtual ~FPS() {}
     void Update();
     int GetFPS();
 

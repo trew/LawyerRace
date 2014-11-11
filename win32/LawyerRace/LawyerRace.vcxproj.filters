@@ -47,9 +47,6 @@
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp">
       <Filter>TinyXML</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Core\AbstractState.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\Gameconfig.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -103,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Utils\Log.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LawyerRace\Core\AbstractState.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

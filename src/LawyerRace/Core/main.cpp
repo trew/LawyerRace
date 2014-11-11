@@ -51,7 +51,7 @@ Allowed options:
 	if (path.isSet()) {
 		config::path = config::validatePath(path.getValue());
 	} else {
-		config::path = config::validatePath(filesys::get_cwd());
+		config::path = config::validatePath(filesys::cwd());
 	}
 
 	if (settingsFile.isSet()) {
@@ -60,9 +60,9 @@ Allowed options:
 	config::parseConfigFile(config::path + config::config_file);
 
 	if (keysetFile.isSet()) {
-		if (filesys::file_exists(config::path + keysetFile.getValue())) {
+		if (filesys::fileExists(config::path + keysetFile.getValue())) {
 			config::keyset_file = keysetFile.getValue();
-		} else if (filesys::file_exists(config::path + "cfg/" + keysetFile.getValue())) {
+		} else if (filesys::fileExists(config::path + "cfg/" + keysetFile.getValue())) {
 			config::keyset_file = "cfg/" + keysetFile.getValue();
 		} else {
 		    LOG_ERROR << "Error loading " << keysetFile.getValue() << "\n";
