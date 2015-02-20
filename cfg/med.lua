@@ -18,5 +18,6 @@ config = {
   system = {
     resolution_width = 1024,
 	resolution_height = 768
-  }
+  },
+  skip_menu = true
 }

@@ -1,4 +1,5 @@
 #include "LawyerRace/Core/GameEngine.hpp"
+#include "LawyerRace/Core/MenuState.hpp"
 #include "LawyerRace/Utils/Log.hpp"
 #include <SDL_image.h>
 #include <sstream>
@@ -102,8 +103,13 @@ int GameEngine::run() {
 
 	if (!init()) return -1;
 
-	GameState* gameState = new GameState();
-	changeState(gameState);
+	if (config::SKIP_MENU) {
+		GameState* gameState = new GameState();
+		changeState(gameState);
+	} else {
+		MenuState* menuState = new MenuState();
+		changeState(menuState);
+	}
 	
 	// TODO: Move this to config?
 	float timeStep = 1 / 60.f; //60 updates per second

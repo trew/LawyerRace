@@ -15,6 +15,7 @@ namespace config
         LOG_DEBUG << "---PARSING CONFIG---\n";
 
 		lua_State* L = GameEngine::LuaState;
+		LOG_DEBUG << "Reading \"" + _file + "\"" << std::endl;
 		if (luaL_loadfile(L, _file.c_str())) {
 			LOG_ERROR << "Couldn't read config file " << _file << std::endl;
 			return false;
@@ -62,6 +63,9 @@ namespace config
 					config::W_HEIGHT = system["resolution_height"].cast<int>();
 				}
 			}
+
+			if (config["skip_menu"].isBool())
+				config::SKIP_MENU = config["skip_menu"].cast<bool>();
 		}
 		LOG_DEBUG << "---PARSING CONFIG DONE!---\n";
         return true;
@@ -146,4 +150,6 @@ namespace config
 	bool ENABLE_LERP = true;
 	int MAX_FRAMESKIP = 10;
 	int MAX_FPS = 200;
+
+	bool SKIP_MENU = false;
 } //namespace config

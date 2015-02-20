@@ -104,6 +104,9 @@
     <ClCompile Include="..\..\src\LawyerRace\Core\AbstractState.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LawyerRace\Core\MenuState.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\TinyXML\tinyxml2.h">
@@ -216,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Core\MenuState.hpp">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

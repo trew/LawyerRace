@@ -1,4 +1,5 @@
 #include "LawyerRace/Core/GameState.hpp"
+#include "LawyerRace/Core/MenuState.hpp"
 #include <iostream>
 #include "LawyerRace/Utils/Log.hpp"
 #include "LawyerRace/Utils/PositionHelper.hpp"
@@ -128,7 +129,7 @@ void GameState::handleEvent(SDL_Event &ev) {
                 std::cout << "Player " << c << ": " <<  p->getScore() << std::endl;
                 c++;
             }
-			getEngine()->exit();
+			getEngine()->changeState(new MenuState());
         }
     }
 }

@@ -76,5 +76,7 @@ namespace config
 	extern bool ENABLE_LERP;
 	extern int MAX_FRAMESKIP;
 	extern int MAX_FPS;
+
+	extern bool SKIP_MENU;
 }
 #endif
