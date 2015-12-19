@@ -12,47 +12,32 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Core\AbstractState.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\Gameconfig.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Core\GameEngine.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\KeySet.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\MenuState.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Dollar.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Enemy.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Entity\Entity.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Entity\EntityManager.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Entity\AbstractEntity.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Player.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Rock.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\Text.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\Texture.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\TextureAtlas.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\TextureRegion.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Utils\Filesystem.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Utils\FPS.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Utils\Log.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Graphics\LawyerText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\Gameconfig.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Core\GameEngine.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\KeySet.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\MenuState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Dollar.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Enemy.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Entity\Entity.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Entity\EntityManager.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Entity\AbstractEntity.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Player.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Rock.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\Text.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\Texture.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\TextureAtlas.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\TextureRegion.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Utils\Filesystem.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Utils\FPS.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Utils\Log.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Graphics\LawyerText.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp" />
     <ClInclude Include="..\..\include\LuaBridge\detail\CFunctions.h" />
     <ClInclude Include="..\..\include\LuaBridge\detail\ClassInfo.h" />
@@ -127,14 +112,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include;$(SolutionDir)\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LW_PATH)\include;$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(LUA_PATH);$(SDL2_PATH)\lib\x86;$(SDL2_TTF_PATH)\lib\x86;$(SDL2_IMAGE_PATH)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LW_PATH)\lib;$(LUA_PATH);$(SDL2_PATH)\lib\x86;$(SDL2_TTF_PATH)\lib\x86;$(SDL2_IMAGE_PATH)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;lua52.lib;LawyerEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -150,13 +135,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include;$(SolutionDir)\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LW_PATH)\include;$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(LUA_PATH);$(SDL2_PATH)\lib\x86;$(SDL2_TTF_PATH)\lib\x86;$(SDL2_IMAGE_PATH)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LW_PATH)\lib;$(LUA_PATH);$(SDL2_PATH)\lib\x86;$(SDL2_TTF_PATH)\lib\x86;$(SDL2_IMAGE_PATH)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;lua52.lib;LawyerEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>

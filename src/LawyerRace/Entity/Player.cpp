@@ -1,39 +1,39 @@
-#include "LawyerRace/Entity/Player.hpp"
+#include <LawyerRace/Entity/Player.hpp>
 #include <iostream>
 #include <sstream>
-#include "LawyerRace/Utils/PositionHelper.hpp"
+#include <LawyerRace/Utils/PositionHelper.hpp>
 
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
-Player::Player(std::vector<TextureRegion*> _regions, KeySet keySet)
-: Entity(_regions, 0, 0, config::P_WIDTH, config::P_HEIGHT)
+Player::Player(std::vector<lwe::TextureRegion*> _regions, KeySet keySet)
+: AbstractEntity(_regions, 0, 0, config::P_WIDTH, config::P_HEIGHT)
 {
     currentPlayerNum++;
     alivePlayers++;
     playerNum = currentPlayerNum;
 
-	if (playerNum == 1) score_text = new Text(" ", 12, 0, 0, 30, 30, 255);
-	else if (playerNum == 2) score_text = new Text(" ", 12, 0, 0, 230, 0, 0);
-	else if (playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0, 230, 0);
-	else if (playerNum == 4) score_text = new Text(" ", 12, 0, 0, 230, 230, 0);
+	if (playerNum == 1) score_text = new LawyerText(" ", 12, 0, 0, 30, 30, 255);
+	else if (playerNum == 2) score_text = new LawyerText(" ", 12, 0, 0, 230, 0, 0);
+	else if (playerNum == 3) score_text = new LawyerText(" ", 12, 0, 0, 0, 230, 0);
+	else if (playerNum == 4) score_text = new LawyerText(" ", 12, 0, 0, 230, 230, 0);
     updateScore();
     loadKeySet(keySet);
 
 	setVelocity(config::P_VELOCITY, config::P_VELOCITY);
 }
 
-Player::Player(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, KeySet keySet)
-: Entity(regions, x, y, w, h)
+Player::Player(std::vector<lwe::TextureRegion*> regions, const float x, const float y, const float w, const float h, KeySet keySet)
+: AbstractEntity(regions, x, y, w, h)
 {
     currentPlayerNum++;
     alivePlayers++;
     playerNum = currentPlayerNum;
 
-    if(playerNum == 1) score_text = new Text(" ", 12, 0, 0, 30, 30, 255);
-	else if (playerNum == 2) score_text = new Text(" ", 12, 0, 0, 230, 0, 0);
-	else if (playerNum == 3) score_text = new Text(" ", 12, 0, 0, 0, 230, 0);
-	else if (playerNum == 4) score_text = new Text(" ", 12, 0, 0, 230, 230, 0);
+    if(playerNum == 1) score_text = new LawyerText(" ", 12, 0, 0, 30, 30, 255);
+	else if (playerNum == 2) score_text = new LawyerText(" ", 12, 0, 0, 230, 0, 0);
+	else if (playerNum == 3) score_text = new LawyerText(" ", 12, 0, 0, 0, 230, 0);
+	else if (playerNum == 4) score_text = new LawyerText(" ", 12, 0, 0, 230, 230, 0);
     updateScore();
     loadKeySet(keySet);
 
@@ -41,6 +41,7 @@ Player::Player(std::vector<TextureRegion*> regions, const float x, const float y
 }
 
 Player::~Player() {
+  delete score_text;
 }
 
 void Player::loadKeySet(const KeySet &set)
@@ -48,35 +49,51 @@ void Player::loadKeySet(const KeySet &set)
     m_keySet = set;
 }
 
-void Player::render(SDL_Renderer* renderer, float timeAlpha) {
-	Entity::render(renderer, timeAlpha, dead ? 4 : m_direction);
-    score_text->render(renderer);
+void Player::render(SDL_Renderer* const renderer, float timeAlpha) {
+	AbstractEntity::render(renderer, timeAlpha, dead ? 4 : m_direction);
+  score_text->render();
 }
 
-void Player::handleEvent(SDL_Event& ev) {
-    if (dead) return;
-    if(ev.type == SDL_KEYDOWN) {
-        if (ev.key.keysym.sym == m_keySet.K_LEFT) {
+bool Player::handleEvent(const SDL_Event& ev)
+{
+  if (dead) return false;
+  if(ev.type == SDL_KEYDOWN)
+  {
+    if (ev.key.keysym.sym == m_keySet.K_LEFT)
+    {
 			setMoving(true);
-            setDirection(LEFT);
-        }
-        else if (ev.key.keysym.sym == m_keySet.K_RIGHT) {
+      setDirection(LEFT);
+      return true;
+    }
+    else if (ev.key.keysym.sym == m_keySet.K_RIGHT)
+    {
 			setMoving(true);
-            setDirection(RIGHT);
-        }
-        else if (ev.key.keysym.sym == m_keySet.K_UP) {
+      setDirection(RIGHT);
+      return true;
+    }
+    else if (ev.key.keysym.sym == m_keySet.K_UP)
+    {
 			setMoving(true);
 			setDirection(UP);
-        }
-        else if (ev.key.keysym.sym == m_keySet.K_DOWN) {
+      return true;
+    }
+    else if (ev.key.keysym.sym == m_keySet.K_DOWN)
+    {
 			setMoving(true);
 			setDirection(DOWN);
-        }
-        else if (ev.key.keysym.sym == m_keySet.K_STOP) {
-            if (config::PLAYER_STOP_ENABLED)
-				setMoving(!isMoving());
-        }
+      return true;
     }
+    else if (ev.key.keysym.sym == m_keySet.K_STOP)
+    {
+      if (config::PLAYER_STOP_ENABLED)
+      {
+				setMoving(!isMoving());
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 

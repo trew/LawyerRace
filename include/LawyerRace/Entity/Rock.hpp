@@ -1,11 +1,11 @@
 #ifndef LWR_ROCK_HPP
 #define LWR_ROCK_HPP
 
-#include "LawyerRace/Entity/Entity.hpp"
+#include <LawyerRace/Entity/AbstractEntity.hpp>
 
-class Rock: public Entity {
+class Rock: public AbstractEntity {
 public:
-	Rock(TextureRegion* region, const float x, const float y, const int _rockType);
+	Rock(lwe::TextureRegion* const region, float x, float y, int _rockType);
     virtual ~Rock();
 
     void update(float timeStep) override;

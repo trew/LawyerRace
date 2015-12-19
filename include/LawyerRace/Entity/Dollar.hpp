@@ -1,17 +1,13 @@
 #ifndef LWR_DOLLAR_HPP
 #define LWR_DOLLAR_HPP
 
-#include "LawyerRace/Entity/Entity.hpp"
+#include <LawyerRace/Entity/AbstractEntity.hpp>
 
-class Dollar: public Entity {
+class Dollar: public AbstractEntity
+{
 public:
-	Dollar(TextureRegion* region, const float x, const float y, const float w, const float h);
-
-public:
-    /**
-     *  Destructor
-     */
-    virtual ~Dollar();
+	Dollar(lwe::TextureRegion* region, float x, float y, float w, float h);
+  virtual ~Dollar();
 };
 
 #endif

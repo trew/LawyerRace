@@ -34,13 +34,7 @@
       <UniqueIdentifier>{d0b24e95-1ead-461a-8fd0-dd86b0a4a08b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{3ad01333-c60d-4089-a25e-b6f53e602758}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utils">
-      <UniqueIdentifier>{93643d28-5407-4411-800a-47ee5ec2b7ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Assets">
-      <UniqueIdentifier>{17bdc8f8-da6b-440d-8950-ee4b0fac2e0a}</UniqueIdentifier>
+      <UniqueIdentifier>{c72e9af5-b323-4dba-9078-d70a97569ed5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,9 +42,6 @@
       <Filter>TinyXML</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\Gameconfig.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Core\GameEngine.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp">
@@ -68,43 +59,22 @@
     <ClCompile Include="..\..\src\LawyerRace\Entity\Enemy.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Entity\Entity.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Entity\EntityManager.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Entity\Player.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Entity\Rock.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\Text.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\Texture.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\TextureAtlas.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\TextureRegion.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Utils\Filesystem.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Utils\FPS.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Utils\Log.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Core\AbstractState.cpp">
+    <ClCompile Include="..\..\src\LawyerRace\Core\MenuState.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Core\MenuState.cpp">
+    <ClCompile Include="..\..\src\LawyerRace\Entity\AbstractEntity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LawyerRace\Graphics\LawyerText.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -163,13 +133,7 @@
     <ClInclude Include="..\..\include\LuaBridge\RefCountedPtr.h">
       <Filter>LuaBridge</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\Gameconfig.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Core\GameEngine.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp">
@@ -184,43 +148,28 @@
     <ClInclude Include="..\..\include\LawyerRace\Entity\Enemy.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Entity\Entity.hpp">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Entity\EntityManager.hpp">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Entity\Player.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Entity\Rock.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\Text.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\Texture.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\TextureAtlas.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\TextureRegion.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Utils\Filesystem.hpp">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Utils\FPS.hpp">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Utils\Log.hpp">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\MenuState.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Entity\AbstractEntity.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Graphics\LawyerText.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

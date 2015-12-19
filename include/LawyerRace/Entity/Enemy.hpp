@@ -1,18 +1,18 @@
 #ifndef LWR_ENEMY_HPP
 #define LWR_ENEMY_HPP
 
-#include "LawyerRace/Entity/Entity.hpp"
-#include "LawyerRace/Entity/Player.hpp"
+#include <LawyerRace/Entity/AbstractEntity.hpp>
+#include <LawyerRace/Entity/Player.hpp>
 
 class Player;
-class Enemy: public Entity {
+class Enemy: public AbstractEntity {
 
 public:
-	Enemy(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, bool movingX, bool movingY);
+	Enemy(std::vector<lwe::TextureRegion*> regions, float x, float y, float w, float h, bool movingX, bool movingY);
     virtual ~Enemy();
 
-    void update(float timeStep) override;
-	void render(SDL_Renderer* renderer, float alphaTime);
+  void update(float timeStep) override;
+	void render(SDL_Renderer* const renderer, float alphaTime) override;
 
     void updateMovement(float timeStep);
 

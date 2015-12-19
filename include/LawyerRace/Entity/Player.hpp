@@ -1,23 +1,22 @@
 #ifndef LWR_PLAYER_HPP
 #define LWR_PLAYER_HPP
 
-#include "LawyerRace/Core/Gameconfig.hpp"
-#include "LawyerRace/Entity/Entity.hpp"
-#include "LawyerRace/Entity/Enemy.hpp"
-#include "LawyerRace/Utils/FPS.hpp"
-#include "LawyerRace/Graphics/Text.hpp"
-#include "LawyerRace/Core/KeySet.hpp"
-#include "LawyerRace/Graphics/TextureRegion.hpp"
+#include <LawyerRace/Core/Gameconfig.hpp>
+#include <LawyerRace/Entity/Enemy.hpp>
+#include <LawyerRace/Core/KeySet.hpp>
+#include <LawyerRace/Graphics/LawyerText.hpp>
+
+#include <LawyerEngine/LawyerEngine.hpp>
 
 #include <string>
 
-class Player: public Entity {
+class Player: public AbstractEntity {
 public:
-    Player();
-	Player(std::vector<TextureRegion*> regions, KeySet keySet);
-	Player(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, KeySet keySet);
+  Player();
+	Player(std::vector<lwe::TextureRegion*> regions, KeySet keySet);
+	Player(std::vector<lwe::TextureRegion*> regions, float x, float y, float w, float h, KeySet keySet);
 
-    virtual ~Player();
+  virtual ~Player();
 
 
     /**
@@ -27,8 +26,8 @@ public:
     void loadKeySet(const KeySet &set);
 
 	void update(float timeStep) override;
-	virtual void render(SDL_Renderer* renderer, float timeAlpha) override;
-    void handleEvent(SDL_Event& ev);
+	virtual void render(SDL_Renderer* const renderer, float timeAlpha) override;
+  bool handleEvent(const SDL_Event& ev);
 
 
     /**
@@ -48,7 +47,7 @@ public:
 private:
 	Direction m_direction{ DOWN };
 	int m_score{ 0 };
-	Text* score_text{ NULL };
+	LawyerText* score_text{ NULL };
 	bool dead{ false };
 	int playerNum{ 0 };
 

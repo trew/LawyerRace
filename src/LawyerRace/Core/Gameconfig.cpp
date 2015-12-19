@@ -1,27 +1,31 @@
-#include "LawyerRace/Core/Gameconfig.hpp"
-#include "LawyerRace/Core/KeySet.hpp"
-#include "LawyerRace/Utils/Filesystem.hpp"
+#include <LawyerEngine/LawyerEngine.hpp>
+#include <LawyerRace/Core/LawyerRace.hpp>
+#include <LawyerRace/Core/Gameconfig.hpp>
+#include <LawyerRace/Core/KeySet.hpp>
 #include <iostream>
 #include <fstream>
-#include "LawyerRace/Utils/Log.hpp"
 
-#include "LawyerRace/Core/GameEngine.hpp"
+extern "C" {
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+}
 
-#include "LuaBridge/LuaBridge.h"
+#include <LuaBridge/LuaBridge.h>
 
 namespace config
 {
     bool parseConfigFile(std::string _file) {
-        LOG_DEBUG << "---PARSING CONFIG---\n";
+    LOG_DEBUG("---PARSING CONFIG---");
 
-		lua_State* L = GameEngine::LuaState;
-		LOG_DEBUG << "Reading \"" + _file + "\"" << std::endl;
+		lua_State* L = LawyerRace::LuaState;
+		LOG_DEBUG("Reading \"%s\"", _file);
 		if (luaL_loadfile(L, _file.c_str())) {
-			LOG_ERROR << "Couldn't read config file " << _file << std::endl;
+			LOG_ERROR("Couldn't read config file %s", _file);
 			return false;
 		}
 		if (lua_pcall(L, 0, 0, 0)) {
-			LOG_ERROR << "Error calling config file " << _file << std::endl;
+			LOG_ERROR("Error calling config file %s", _file);
 		}
 
 		using namespace luabridge;
@@ -67,19 +71,19 @@ namespace config
 			if (config["skip_menu"].isBool())
 				config::SKIP_MENU = config["skip_menu"].cast<bool>();
 		}
-		LOG_DEBUG << "---PARSING CONFIG DONE!---\n";
+		LOG_DEBUG("---PARSING CONFIG DONE!---");
         return true;
     }
 
     std::string validateConfigFile(std::string _file)
     {
-		if (filesys::fileExists(config::path + _file)) {
-			LOG_DEBUG << "Using config: " << _file << "\n";
-		} else if (filesys::fileExists(config::path + "cfg/" + _file)) {
+		if (lwe::filesys::fileExists(config::path + _file)) {
+			LOG_DEBUG("Using config: %s", _file.c_str());
+		} else if (lwe::filesys::fileExists(config::path + "cfg/" + _file)) {
 			_file = "cfg/" + _file;
-			LOG_DEBUG << "Using config: " << _file << "\n";
+			LOG_DEBUG("Using config: %s",_file.c_str());
 		} else {
-            LOG_ERROR << "Error finding config: \"" << _file << "\". Instead using \"" << config::config_file << "\".\n";
+            LOG_ERROR("Error finding config: [%s]. Instead using [%s].", _file.c_str(), config::config_file.c_str());
             return config::config_file;
         }
         return _file;
@@ -87,13 +91,13 @@ namespace config
 
     std::string validatePath(std::string _path) {
         std::string path;
-        if (filesys::fileExists(_path))
+        if (lwe::filesys::fileExists(_path))
         {
             path = _path;
-            LOG_DEBUG << "Using path: " << path << "\n";
+            LOG_DEBUG("Using path: %s", path.c_str());
         } else {
-            path = filesys::cwd();
-            LOG_ERROR << "Loading Path. \"" << _path << "\". Using \"" << path << "\".\n";
+            path = lwe::filesys::cwd();
+            LOG_ERROR("Loading Path [%s] failed. Using [%s].", _path.c_str(), path.c_str());
         }
         if (*path.rbegin() != '/')
             path.append("/");

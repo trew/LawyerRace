@@ -1,10 +1,10 @@
-#include "LawyerRace/Core/KeySet.hpp"
-#include "LawyerRace/Core/Gameconfig.hpp"
-#include "LawyerRace/Utils/Log.hpp"
+#include <LawyerEngine/LawyerEngine.hpp>
+#include <LawyerRace/Core/LawyerRace.hpp>
+#include <LawyerRace/Core/KeySet.hpp>
+#include <LawyerRace/Core/Gameconfig.hpp>
 #include <fstream>
-#include "LawyerRace/Core/GameEngine.hpp"
 
-#include "LuaBridge/LuaBridge.h"
+#include <LuaBridge/LuaBridge.h>
 
 
 std::map<std::string, SDL_Keycode> KeySet::__keymap;
@@ -12,7 +12,7 @@ bool KeySet::keymap_setup = false;
 
 void KeySet::SetupKeymap()
 {
-    LOG_DEBUG << "Setting up keymap...\n";
+    LOG_DEBUG("Setting up keymap...");
     __keymap["up"] = SDLK_UP;
     __keymap["down"] = SDLK_DOWN;
     __keymap["left"] = SDLK_LEFT;
@@ -74,7 +74,7 @@ void KeySet::setKey(SDL_Keycode& key, std::string _referencekey, std::string _ke
         key = SDLK_UNKNOWN; // == 0
     }
     if (key == SDLK_UNKNOWN)
-        LOG_ERROR << "Warning: " << _referencekey << " was not set.\n";
+        LOG_ERROR("Warning: %s was not set.", _referencekey.c_str());
 }
 
 void KeySet::setKeysForPlayer(int playerNumber, KeySet* _ks, luabridge::LuaRef table) {
@@ -99,14 +99,14 @@ bool KeySet::LoadKeysetFromFile(KeySet* _ks, std::string _file)
 {
     if (!keymap_setup) SetupKeymap(); //make sure keymap is filled.
 
-    LOG_DEBUG << "---PARSING KEYSET FILE---\n";
+    LOG_DEBUG("---PARSING KEYSET FILE---");
 	_file = config::path + _file;
-	lua_State* L = GameEngine::LuaState;
+	lua_State* L = LawyerRace::LuaState;
 	if (luaL_loadfile(L, _file.c_str())) {
-		LOG_ERROR << "Couldn't read keysets from file " << _file << std::endl;
+		LOG_ERROR("Couldn't read keysets from file %s", _file.c_str());
 	}
 	if (lua_pcall(L, 0, 0, 0)) {
-		LOG_ERROR << "Error calling keysets file" << std::endl;
+		LOG_ERROR("Error calling keysets file");
 	}
 
 	using namespace luabridge;

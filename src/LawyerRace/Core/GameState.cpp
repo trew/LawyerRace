@@ -1,45 +1,38 @@
-#include "LawyerRace/Core/GameState.hpp"
+#include <LawyerEngine/LawyerEngine.hpp>
+#include <LawyerRace/Core/GameState.hpp>
 #include "LawyerRace/Core/MenuState.hpp"
 #include <iostream>
-#include "LawyerRace/Utils/Log.hpp"
 #include "LawyerRace/Utils/PositionHelper.hpp"
 
 using namespace positionHelper;
 
-GameState::GameState() : entityManager(new EntityManager()) {
-    m_player[0] = NULL;
-    m_player[1] = NULL;
-    m_player[2] = NULL;
-    m_player[3] = NULL;
+GameState::GameState()
+{
+  entityManager = std::make_unique<lwe::EntityManager>();
+  m_player[0] = NULL;
+  m_player[1] = NULL;
+  m_player[2] = NULL;
+  m_player[3] = NULL;
 }
-
-GameState::~GameState() {
-	delete entityManager;
-}
-
 
 /* RUN ONCE FUNCTIONS */
 
 bool GameState::init() {
 	///Initialize all
 
-	window = getEngine()->getWindow();
-	renderer = getEngine()->getRenderer();
-
-	LOG_DEBUG << "Loading textures\n";
+	LOG_DEBUG("Loading textures");
 	{
-		atlas = new TextureAtlas(renderer, "spritesheet");
+		atlas = new lwe::TextureAtlas(getEngine()->getRenderer(), config::path + "img/spritesheet_0");
 	}
 
-	LOG_DEBUG << "Loading fonts...\n";
-	if ((Text::standard_font[12] = TTF_OpenFont((config::path + "font/VeraMono.ttf").c_str(), 12)) == NULL)
-		LOG_ERROR << "Loading \"" << config::path << "font/VeraMono.ttf\" failed.\n";
-	if ((Text::standard_font[48] = TTF_OpenFont((config::path + "font/VeraMono.ttf").c_str(), 48)) == NULL)
-		LOG_ERROR << "Loading \"" << config::path << "font/VeraMono.ttf\" failed.\n";
-	if ((Text::standard_font[72] = TTF_OpenFont((config::path + "font/VeraMono.ttf").c_str(), 72)) == NULL)
-		LOG_ERROR << "Loading \"" << config::path << "font/VeraMono.ttf\" failed.\n";
+	LOG_DEBUG("Loading fonts...");
+  LawyerText::standardFont = new lwe::Font();
+  LawyerText::standardFont->loadFromFile(config::path + "font/VeraMono.ttf");
+  LawyerText::standardFont->getTTF_Font(12);
+  LawyerText::standardFont->getTTF_Font(48);
+  LawyerText::standardFont->getTTF_Font(72);
 
-	LOG_DEBUG << "Loading players...\n";
+	LOG_DEBUG("Loading players...");
 
 	float wh = (float)config::W_HEIGHT;
 	float ww = (float)config::W_WIDTH;
@@ -69,10 +62,10 @@ bool GameState::init() {
 	}
 
 	countDown = 3;
-	text_countDown = new Text(3, 72, 0, 0, 255, 255, 255);
+	text_countDown = new LawyerText(3, 72, 0, 0, 255, 255, 255);
 	text_countDown->setX(centerHorizontal(0, ww, text_countDown->getWidth()));
 	text_countDown->setY(centerVertical(0, wh / 2, text_countDown->getHeight()));
-	Text::s_textList.push_back(text_countDown);
+	LawyerText::s_textList.push_back(text_countDown);
 
 	currentInGameState = CountDown;
 	countDown_compareTime = SDL_GetTicks();
@@ -80,46 +73,44 @@ bool GameState::init() {
 }
 
 void GameState::cleanup() {
-    std::map<int, TTF_Font*>::iterator it_font = Text::standard_font.begin();
-    while(it_font != Text::standard_font.end()) {
-        TTF_CloseFont((*it_font).second);
-        it_font++;
-    }
+  delete LawyerText::standardFont;
 
-	for (Text* text : Text::s_textList) {
+	for (LawyerText* text : LawyerText::s_textList) {
 		delete text;
 	}
 
 	if (atlas != NULL) delete atlas;
     Player::currentPlayerNum = 0;
 	entityManager->clear();
-    Text::s_textList.clear();
+    LawyerText::s_textList.clear();
 }
 /* END RUN ONCE FUNCTIONS */
 
 
 
 /* GAMELOOP FUNCTIONS*/
-void GameState::handleEvent(SDL_Event &ev) {
+bool GameState::handleEvent(const SDL_Event &ev)
+{
 	if (m_paused) {
 		if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_PAUSE) {
 			resume();
-			return;
+			return true;
 		}
 	}
 
-    if(currentInGameState == Play) {
-        if (ev.type == SDL_KEYDOWN) {
-			if (ev.key.keysym.sym == SDLK_PAUSE) {
-				pause();
-				return;
-			}
-            //Handle movement input
-            //TODO: Also set speed to max available speed
-			for (auto& e : entityManager->getAll<Player>()) {
-				Player* p = reinterpret_cast<Player*>(e);
-				p->handleEvent(ev);
-			}
+  if(currentInGameState == Play) {
+      if (ev.type == SDL_KEYDOWN) {
+		if (ev.key.keysym.sym == SDLK_PAUSE) {
+			pause();
+			return true;
+		}
+    //Handle movement input
+    //TODO: Also set speed to max available speed
+		for (auto& e : entityManager->getAll<Player>())
+    {
+			Player* p = reinterpret_cast<Player*>(e);
+			p->handleEvent(ev);
+		}
         }
     } else if (currentInGameState == GameOver) {
         if (ev.type == SDL_KEYDOWN) {
@@ -129,9 +120,10 @@ void GameState::handleEvent(SDL_Event &ev) {
                 std::cout << "Player " << c << ": " <<  p->getScore() << std::endl;
                 c++;
             }
-			getEngine()->changeState(new MenuState());
+			getEngine()->setState(new MenuState());
         }
     }
+  return false;
 }
 
 void GameState::copyDataForInterpolation() {
@@ -147,62 +139,74 @@ void GameState::update(float timeStep) {
 
 	entityManager->refresh();
 
-	if(currentInGameState == Play) {
-		for (auto& e : entityManager->getAllEntities()) {
+	if (currentInGameState == Play)
+  {
+		for (auto& e : entityManager->getAllEntities())
+    {
 			e->update(timeStep);
 		}
-        checkForCollision();
+    checkForCollision();
 
-        createDollar();
-        createEnemy();
-        createRock();
+    createDollar();
+    createEnemy();
+    createRock();
 
-        if(isGameOver() && currentInGameState != GameOver) {
-            //ALL PLAYERS DIED!
-            currentInGameState = GameOver;
-			Text* t = new Text("Press key to exit to menu", 48, 0, 0, 255, 255, 255);
-			Text::s_textList.push_back(t);
+    if(isGameOver() && currentInGameState != GameOver)
+    {
+      //ALL PLAYERS DIED!
+      currentInGameState = GameOver;
+			LawyerText* t = new LawyerText("Press key to exit to menu", 48, 0, 0, 255, 255, 255);
+			LawyerText::s_textList.push_back(t);
 			t->setX(centerHorizontal(0, (float)config::W_WIDTH, t->getWidth()));
 			t->setY(bottomAlign((float)config::W_HEIGHT, 20, t->getHeight()));
-        }
     }
-    else if (currentInGameState == CountDown) {
-        if(countDown_compareTime < SDL_GetTicks()) {
-            text_countDown->updateText(countDown);
+  }
+  else if (currentInGameState == CountDown)
+  {
+    if(countDown_compareTime < SDL_GetTicks())
+    {
+      text_countDown->updateText(countDown);
 			text_countDown->setX(centerHorizontal(0, (float)config::W_WIDTH, text_countDown->getWidth()));
 			text_countDown->setY(centerVertical(0, (float)config::W_HEIGHT / 2, text_countDown->getHeight()));
-            countDown_compareTime += 1000;
-            countDown--;
-            if (countDown < 0) {
-                Text::s_textList.remove(text_countDown);
-                currentInGameState = Play;
-            }
-        }
+      countDown_compareTime += 1000;
+      countDown--;
+      if (countDown < 0)
+      {
+        LawyerText::s_textList.remove(text_countDown);
+        delete text_countDown;
+        text_countDown = nullptr;
+        currentInGameState = Play;
+      }
     }
+  }
 }
 
 
-void GameState::render(float timeAlpha) {
-	for (auto& e : entityManager->getAllEntities()) {
+void GameState::render(SDL_Renderer* const renderer, float timeAlpha) {
+	for (auto& e : entityManager->getAllEntities())
+  {
 		e->render(renderer, timeAlpha);
 	}
 
-	for (Text* text : Text::s_textList) {
-		text->render(renderer);
-    }
+	for (LawyerText* text : LawyerText::s_textList)
+  {
+		text->render();
+  }
 
-    if(currentInGameState == GameOver) {
-        //Render gameover screen here
-    }
+  if(currentInGameState == GameOver) {
+      //Render gameover screen here
+  }
 }
 /* END GAMELOOP FUNCTIONS */
 
 
-void GameState::pause() {
+void GameState::pause()
+{
 	m_paused = true;
 }
 
-void GameState::resume() {
+void GameState::resume()
+{
 	m_paused = false;
 }
 
@@ -211,40 +215,47 @@ void GameState::resume() {
 
 void GameState::checkForCollision() {
 
-	for (auto& e : entityManager->getAll<Player>()) {
+	for (auto& e : entityManager->getAll<Player>())
+  {
 		Player* p = reinterpret_cast<Player*>(e);
-        if (p->isDead()) {
-            continue;
-        }
+    if (p->isDead()) {
+        continue;
+    }
 
-        //Check collision with dollar
-		for (auto& e : entityManager->getAll<Dollar>()) {
-			Dollar* d = reinterpret_cast<Dollar*>(e);
+    //Check collision with dollar
+		for (auto& e : entityManager->getAll<Dollar>())
+    {
+  		Dollar* d = reinterpret_cast<Dollar*>(e);
 			// TODO: check if dollar is scheduled for removal!
 
-			if (Entity::collides(p, d)) {
+			if (AbstractEntity::collides(p, d))
+      {
 				p->incScore(1);
 				
 				// this doesn't actually remove the dollar until next loop, so two players CAN fetch
 				// the same dollar at the same update and both players will have their scores incremented
 				entityManager->remove(d); 
-			}
-        }
+      }
+    }
 
         //Check collision with enemy
-		for (auto& e : entityManager->getAll<Enemy>()) {
+		for (auto& e : entityManager->getAll<Enemy>())
+    {
 			Enemy* en = reinterpret_cast<Enemy*>(e);
-            if(Entity::collides(p, en)) {
-                //Player collides with enemy
+      if(AbstractEntity::collides(p, en))
+      {
+        //Player collides with enemy
 				p->kill();
 				goto continueOuterLoop;
-            }
-        }
+      }
+    }
 
 		//Check collision with rocks
-		for (auto& e : entityManager->getAll<Rock>()) {
+		for (auto& e : entityManager->getAll<Rock>())
+    {
 			Rock* r = reinterpret_cast<Rock*>(e);
-			if (Entity::collides(p, r)) {
+			if (AbstractEntity::collides(p, r))
+      {
 				//Player collides with rock
 				entityManager->remove(r);
 				p->kill();
@@ -273,7 +284,7 @@ void GameState::createDollar() {
 
 			for (auto& e : entityManager->getAll<Player>()) {
 				Player* p = reinterpret_cast<Player*>(e);
-				if (Entity::collides(p, newDollar)) {
+				if (AbstractEntity::collides(p, newDollar)) {
                     valid = false;
                     break;
                 }

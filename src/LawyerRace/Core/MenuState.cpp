@@ -1,6 +1,7 @@
-#include "LawyerRace/Core/MenuState.hpp"
+#include <LawyerRace/Core/MenuState.hpp>
+#include <LawyerRace/Core/GameState.hpp>
+
 #include <iostream>
-#include "LawyerRace/Utils/Log.hpp"
 
 MenuState::MenuState() {
 }
@@ -14,9 +15,6 @@ MenuState::~MenuState() {
 bool MenuState::init() {
 	///Initialize all
 
-	window = getEngine()->getWindow();
-	renderer = getEngine()->getRenderer();
-
 	return true;
 }
 
@@ -27,10 +25,13 @@ void MenuState::cleanup() {
 
 
 /* GAMELOOP FUNCTIONS*/
-void MenuState::handleEvent(SDL_Event &ev) {
+bool MenuState::handleEvent(const SDL_Event &ev) {
     if (ev.type == SDL_KEYDOWN) {
-		getEngine()->changeState(new GameState());
+		getEngine()->setState(new GameState());
+    return true;
     }
+
+    return false;
 }
 
 void MenuState::copyDataForInterpolation() {
@@ -40,9 +41,9 @@ void MenuState::update(float timeStep) {
 }
 
 
-void MenuState::render(float timeAlpha) {
-	for (Text* text : Text::s_textList) {
-		text->render(renderer);
+void MenuState::render(SDL_Renderer* const renderer, float timeAlpha) {
+	for (LawyerText* text : LawyerText::s_textList) {
+		text->render();
     }
 }
 /* END GAMELOOP FUNCTIONS */

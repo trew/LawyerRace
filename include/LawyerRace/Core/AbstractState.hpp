@@ -2,33 +2,25 @@
 #define LWR_ABSTRACTSTATE_HPP
 
 #include <SDL.h>
+#include <LawyerEngine/LawyerEngine.hpp>
 
-class GameEngine;
-
-class AbstractState {
-	friend class GameEngine;
-
+class AbstractState : public lwe::State
+{
 public:
-	virtual ~AbstractState();
-    virtual bool init()=0;
-
-	virtual void cleanup() = 0;
+  virtual ~AbstractState() {}
+  virtual bool init() override { return true; }
+  virtual void cleanup() override {}
 	
-	virtual void pause();
-	virtual void resume();
+  virtual void pause() override {}
+  virtual void resume() override {}
 
-	virtual void handleEvent(SDL_Event &ev) = 0;
-	virtual void copyDataForInterpolation();
-	virtual void update(float timeStep) = 0;
-	virtual void render(float timeAlpha) = 0;
+  virtual bool handleEvent(const SDL_Event &ev) override { return false; }
+  virtual void copyDataForInterpolation() override {}
+  virtual void update(const float timeStep) override {}
+  virtual void render(SDL_Renderer* const renderer, const float timeAlpha) override {}
 
-	GameEngine* getEngine();
 protected:
-	AbstractState();
-
-private:
-	GameEngine* m_engine;
-
+	AbstractState() : lwe::State() {}
 };
 
 #endif

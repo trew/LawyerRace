@@ -2,22 +2,25 @@
 #include <iostream>
 #include <sstream>
 
-Enemy::Enemy(std::vector<TextureRegion*> regions, const float x, const float y, const float w, const float h, bool movingX, bool movingY)
-	: Entity(regions, x, y, w, h), m_movingX(movingX), m_movingY(movingY)
+Enemy::Enemy(std::vector<lwe::TextureRegion*> regions, float x, float y, float w, float h, bool movingX, bool movingY)
+	: AbstractEntity(regions, x, y, w, h), m_movingX(movingX), m_movingY(movingY)
 {
-    m_diagonalSensitivity = (rand() % 6 +3);
+  m_diagonalSensitivity = (rand() % 6 +3);
 	setVelocity(config::E_VELOCITY, config::E_VELOCITY);
 }
 
-Enemy::~Enemy() {
+Enemy::~Enemy()
+{
 }
 
-void Enemy::render(SDL_Renderer* renderer, float timeAlpha) {
-	Entity::render(renderer, timeAlpha, m_direction);
+void Enemy::render(SDL_Renderer* renderer, float timeAlpha)
+{
+	AbstractEntity::render(renderer, timeAlpha, m_direction);
 }
 
 
-void Enemy::update(float timeStep) {
+void Enemy::update(float timeStep)
+{
 	setMoving(false);
 	for (auto& e : getManager()->getAll<Player>()) {
 		Player* p = reinterpret_cast<Player*>(e);
