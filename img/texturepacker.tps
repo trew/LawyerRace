@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>3.6.0</string>
+        <string>4.0.1</string>
         <key>fileName</key>
         <string>D:/Programmering/Git/LawyerRace/img/texturepacker.tps</string>
         <key>autoSDSettings</key>
@@ -43,6 +43,8 @@
         <false/>
         <key>pvrCompressionQuality</key>
         <enum type="SettingsBase::PvrCompressionQuality">PVR_QUALITY_NORMAL</enum>
+        <key>atfCompressData</key>
+        <false/>
         <key>mipMapMinSize</key>
         <uint>32768</uint>
         <key>etc1CompressionQuality</key>
@@ -159,7 +161,7 @@
             </struct>
         </map>
         <key>multiPack</key>
-        <true/>
+        <false/>
         <key>forceIdenticalLayout</key>
         <false/>
         <key>outputFormat</key>
@@ -170,7 +172,7 @@
             <string></string>
         </struct>
         <key>autoAliasEnabled</key>
-        <true/>
+        <false/>
         <key>trimSpriteNames</key>
         <false/>
         <key>prependSmartFolderName</key>
@@ -183,14 +185,16 @@
             <double>1</double>
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
-            <key>innerPadding</key>
-            <uint>0</uint>
             <key>extrude</key>
             <uint>0</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
+            <key>trimMargin</key>
+            <uint>1</uint>
             <key>trimMode</key>
             <enum type="SpriteSettings::TrimMode">None</enum>
+            <key>tracerTolerance</key>
+            <int>200</int>
             <key>heuristicMask</key>
             <false/>
             <key>pivotPoint</key>
@@ -230,6 +234,16 @@
             <filename>src/stone1-17x14.png</filename>
             <filename>src/stone2-26x25.png</filename>
             <filename>src/stone3-58x49.png</filename>
+            <filename>mainmenu-menuframe-453x469.png</filename>
+            <filename>menu-title.png</filename>
+            <filename>1-player.png</filename>
+            <filename>2-players.png</filename>
+            <filename>3-players.png</filename>
+            <filename>4-players.png</filename>
+            <filename>button-exit.png</filename>
+            <filename>button-highscores.png</filename>
+            <filename>button-play-109x59.png</filename>
+            <filename>button-settings.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
@@ -241,5 +255,15 @@
         <uint>1</uint>
         <key>commonDivisorY</key>
         <uint>1</uint>
+        <key>packNormalMaps</key>
+        <false/>
+        <key>autodetectNormalMaps</key>
+        <true/>
+        <key>normalMapFilter</key>
+        <string></string>
+        <key>normalMapSuffix</key>
+        <string></string>
+        <key>normalMapSheetFileName</key>
+        <filename></filename>
     </struct>
 </data>
