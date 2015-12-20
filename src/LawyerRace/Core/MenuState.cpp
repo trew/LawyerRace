@@ -53,11 +53,3 @@ void MenuState::render(SDL_Renderer* const renderer, float timeAlpha)
   }
 }
 /* END GAMELOOP FUNCTIONS */
-
-void MenuState::pause()
-{
-}
-
-void MenuState::resume()
-{
-}

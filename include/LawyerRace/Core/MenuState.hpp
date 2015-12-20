@@ -16,12 +16,9 @@ public:
 
   void copyDataForInterpolation() override;
 
-  void update(const float timeStep) override;
+  void update(float timeStep) override;
   bool handleEvent(const SDL_Event &ev) override;
-  void render(SDL_Renderer* const renderer, const float timeAlpha) override;
-
-  void pause() override;
-  void resume() override;
+  void render(SDL_Renderer* renderer, float timeAlpha) override;
 };
 
 #endif

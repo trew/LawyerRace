@@ -100,7 +100,7 @@ bool GameState::handleEvent(const SDL_Event &ev)
   {
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_PAUSE)
     {
-      resume();
+      onResume();
       return true;
     }
   }
@@ -111,7 +111,7 @@ bool GameState::handleEvent(const SDL_Event &ev)
     {
       if (ev.key.keysym.sym == SDLK_PAUSE)
       {
-        pause();
+        onPause();
         return true;
       }
       //Handle movement input
@@ -219,12 +219,12 @@ void GameState::render(SDL_Renderer* const renderer, float timeAlpha)
 }
 /* END GAMELOOP FUNCTIONS */
 
-void GameState::pause()
+void GameState::onPause()
 {
   m_paused = true;
 }
 
-void GameState::resume()
+void GameState::onResume()
 {
   m_paused = false;
 }

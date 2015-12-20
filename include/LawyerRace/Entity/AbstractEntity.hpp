@@ -19,7 +19,7 @@ public:
 
   virtual void render(SDL_Renderer* renderer, float timeAlpha, unsigned int index);
 
-  virtual void render(SDL_Renderer* const renderer, float timeAlpha) override;
+  virtual void render(SDL_Renderer* renderer, float timeAlpha) override;
   virtual void update(float timeStep) override;
 
 private:

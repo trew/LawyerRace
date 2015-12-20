@@ -14,7 +14,7 @@ public:
   virtual ~Enemy();
 
   void update(float timeStep) override;
-  void render(SDL_Renderer* const renderer, float alphaTime) override;
+  void render(SDL_Renderer* renderer, float alphaTime) override;
 
   void updateMovement(float timeStep);
 
