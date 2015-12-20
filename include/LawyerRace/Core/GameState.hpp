@@ -5,52 +5,53 @@
 
 #include <SDL.h>
 
-#include "LawyerRace/Core/Gameconfig.hpp"
-#include "LawyerRace/Entity/Player.hpp"
-#include "LawyerRace/Entity/Enemy.hpp"
-#include "LawyerRace/Entity/Dollar.hpp"
-#include "LawyerRace/Entity/Rock.hpp"
+#include <LawyerRace/Core/Config.hpp>
+#include <LawyerRace/Entity/Player.hpp>
+#include <LawyerRace/Entity/Enemy.hpp>
+#include <LawyerRace/Entity/Dollar.hpp>
+#include <LawyerRace/Entity/Rock.hpp>
 
-#include "LawyerRace/Core/AbstractState.hpp"
+#include <LawyerRace/Core/AbstractState.hpp>
 
 #include <LawyerEngine/LawyerEngine.hpp>
 
-enum InGameState {
-    Play = 0,
-    CountDown,
-    Paused,
-    GameOver
+enum InGameState
+{
+  Play = 0,
+  CountDown,
+  Paused,
+  GameOver
 };
 
-class GameState: public lwe::State {
+class GameState: public lwe::State
+{
 public:
   GameState();
   virtual ~GameState() {}
 
 public:
 
-    /* STATE FUNCTIONS */
+  /* STATE FUNCTIONS */
 
   bool init() override;
   void cleanup() override;
 
-	void copyDataForInterpolation() override;
+  void copyDataForInterpolation() override;
 
-	void update(const float timeStep) override;
+  void update(const float timeStep) override;
   bool handleEvent(const SDL_Event &ev) override;
   void render(SDL_Renderer* const renderer, const float timeAlpha) override;
 
-	void pause() override;
-	void resume() override;
+  void pause() override;
+  void resume() override;
 
   /* !STATE FUNCTIONS */
 
   /* SUPPORTIVE FUNCTIONS */
-	void checkForCollision();
-	
+  void checkForCollision();
+
   /** Creates a dollar and places it randomly on the screen. */
   void createDollar();
-
 
   /**
    * Creates new enemies
@@ -59,7 +60,6 @@ public:
    * Example: 2 Players with 9 and 15 points ->( 15 / 5 = -- 3 Enemies --
    */
   void createEnemy();
-
 
   /**
    * Creates and removes rocks
@@ -70,13 +70,11 @@ public:
    */
   void createRock();
 
-
   /**
    *  Checks if all players are dead.
    *  @return True if all players are dead, False otherwise.
    */
   bool isGameOver();
-
 
   /**
    *  Checks the score of all players and retrieves the highest of them.
@@ -84,25 +82,23 @@ public:
    */
   int getHighestCurrentScore();
 
-
   /**
    *  Gets a list of all players which has the highest score.
    *  @return a list of player pointers which all has the highest score.
    */
   std::list<Player*> getWinners();
 
-
 private:
   std::unique_ptr<lwe::EntityManager> entityManager;
   Player* m_player[4];
 
   int countDown;
-	bool m_paused{ false };
+  bool m_paused{ false };
   unsigned int countDown_compareTime;
   InGameState currentInGameState;
   LawyerText* text_countDown;
 
-	lwe::TextureAtlas* atlas{ NULL };
+  lwe::TextureAtlas* atlas{ NULL };
 };
 
 #endif

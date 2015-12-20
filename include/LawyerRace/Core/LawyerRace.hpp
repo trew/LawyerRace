@@ -3,12 +3,12 @@
 
 #include <LawyerEngine/LawyerEngine.hpp>
 
-extern "C" {
+extern "C"
+{
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
 }
-
 
 class LawyerRace : public lwe::Game
 {

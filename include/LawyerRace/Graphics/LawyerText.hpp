@@ -3,18 +3,18 @@
 
 #include <LawyerEngine/LawyerEngine.hpp>
 
-#include <map>
 #include <list>
 
-class LawyerText : public lwe::Text {
+class LawyerText : public lwe::Text
+{
 public:
 
-	LawyerText(int number, int fontSize, float x, float y, int r, int g, int b);
-	LawyerText(std::string text, int fontSize, float x, float y, int r, int g, int b);
+  LawyerText(int number, int fontSize, float x, float y, int r, int g, int b);
+  LawyerText(std::string text, int fontSize, float x, float y, int r, int g, int b);
 
   virtual ~LawyerText() {}
 
-	static SDL_Renderer* textRenderer;
+  static SDL_Renderer* textRenderer;
 
   static lwe::Font* standardFont;
   static std::list<LawyerText*> s_textList;

@@ -3,12 +3,13 @@
 
 #include <LawyerRace/Entity/AbstractEntity.hpp>
 
-class Rock: public AbstractEntity {
+class Rock: public AbstractEntity
+{
 public:
-	Rock(lwe::TextureRegion* const region, float x, float y, int _rockType);
-    virtual ~Rock();
+  Rock(lwe::TextureRegion* const region, float x, float y, int _rockType);
+  virtual ~Rock();
 
-    void update(float timeStep) override;
+  void update(float timeStep) override;
 };
 
 #endif

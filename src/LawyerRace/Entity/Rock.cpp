@@ -1,6 +1,6 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Entity/Rock.hpp>
-#include <LawyerRace/Core/Gameconfig.hpp>
+#include <LawyerRace/Core/Config.hpp>
 
 Rock::Rock(lwe::TextureRegion* region, const float x, const float y, const int _rockType)
 	: AbstractEntity(region, x, y, config::R_WIDTH[_rockType - 1], config::R_HEIGHT[_rockType - 1])

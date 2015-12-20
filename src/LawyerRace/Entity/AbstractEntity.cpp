@@ -1,5 +1,5 @@
 #include <LawyerRace/Entity/AbstractEntity.hpp>
-#include <LawyerRace/Core/Gameconfig.hpp>
+#include <LawyerRace/Core/Config.hpp>
 #include <iostream>
 
 

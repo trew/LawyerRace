@@ -41,9 +41,6 @@
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp">
       <Filter>TinyXML</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Core\Gameconfig.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -75,6 +72,9 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LawyerRace\Core\Config.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -133,9 +133,6 @@
     <ClInclude Include="..\..\include\LuaBridge\RefCountedPtr.h">
       <Filter>LuaBridge</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Core\Gameconfig.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -170,6 +167,9 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

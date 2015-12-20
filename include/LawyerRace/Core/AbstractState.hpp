@@ -10,7 +10,7 @@ public:
   virtual ~AbstractState() {}
   virtual bool init() override { return true; }
   virtual void cleanup() override {}
-	
+
   virtual void pause() override {}
   virtual void resume() override {}
 
@@ -20,7 +20,7 @@ public:
   virtual void render(SDL_Renderer* const renderer, const float timeAlpha) override {}
 
 protected:
-	AbstractState() : lwe::State() {}
+  AbstractState() : lwe::State() {}
 };
 
 #endif

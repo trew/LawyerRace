@@ -6,7 +6,7 @@
 class Dollar: public AbstractEntity
 {
 public:
-	Dollar(lwe::TextureRegion* region, float x, float y, float w, float h);
+  Dollar(lwe::TextureRegion* region, float x, float y, float w, float h);
   virtual ~Dollar();
 };
 

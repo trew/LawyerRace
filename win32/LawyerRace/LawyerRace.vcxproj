@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Core\Gameconfig.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\Config.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\KeySet.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp" />
@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Core\Gameconfig.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\KeySet.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp" />
@@ -89,12 +89,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <SourcePath>$(ProjectDir)..\..\src;$(SourcePath)</SourcePath>
+    <SourcePath>$(ProjectDir)..\..\src;$(VS_SourcePath)</SourcePath>
     <IncludePath>$(ProjectDir)..\..\include;$(LUA_PATH)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <SourcePath>$(ProjectDir)..\..\src;$(SourcePath)</SourcePath>
+    <SourcePath>$(ProjectDir)..\..\src;$(VS_SourcePath)</SourcePath>
     <IncludePath>$(ProjectDir)..\..\include;$(LUA_PATH)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -111,7 +111,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(LW_PATH)\include;$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -136,6 +136,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(LW_PATH)\include;$(SDL2_PATH)\include;$(SDL2_IMAGE_PATH)\include;$(SDL2_TTF_PATH)\include;$(TCLAP_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
