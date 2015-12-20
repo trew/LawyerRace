@@ -19,9 +19,16 @@ GameState::GameState()
 
 bool GameState::init()
 {
+  
   LOG_DEBUG("Loading textures");
   {
-    atlas = new lwe::TextureAtlas(getEngine()->getRenderer(), config::path + "img/spritesheet_0");
+    if (!getEngine()->getAssetManager()->load<lwe::TextureAtlas>(config::path + "img/spritesheet_0"))
+    {
+      LOG_ERROR("Error loading texture atlas: %s", (config::path + "img/spritesheet_0").c_str());
+      return false;
+    }
+
+    atlas = getEngine()->getAssetManager()->get<lwe::TextureAtlas>(config::path + "img/spritesheet_0");
   }
 
   LOG_DEBUG("Loading fonts...");
@@ -85,8 +92,7 @@ void GameState::cleanup()
   }
   LawyerText::s_textList.clear();
 
-  if (atlas != NULL) delete atlas;
-  Player::currentPlayerNum = 0;
+  Player::setPlayerCount(0);
   entityManager->clear();
 }
 /* END RUN ONCE FUNCTIONS */
@@ -289,7 +295,7 @@ void GameState::checkForCollision()
 void GameState::createDollar()
 {
   auto& dollarList = entityManager->getAll<Dollar>();
-  while (dollarList.size() < unsigned(Player::alivePlayers))
+  while (dollarList.size() < unsigned(Player::getAlivePlayerCount()))
   {
     Dollar* newDollar = entityManager->create<Dollar>(atlas->findRegion(config::D_SRC), 0.f, 0.f, config::D_WIDTH, config::D_HEIGHT);
     int newDollar_xPos = 0;

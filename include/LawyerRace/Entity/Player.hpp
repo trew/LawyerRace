@@ -43,16 +43,19 @@ public:
   bool isDead() const;
   int getScore() const;
 
+  static int getAlivePlayerCount() { return alivePlayers; }
+  static int getPlayerCount() { return currentPlayerNum; }
+  static void setPlayerCount(int c) { currentPlayerNum = c; }
+
 private:
-  Direction m_direction{ DOWN };
-  int m_score{ 0 };
-  LawyerText* score_text{ NULL };
-  bool dead{ false };
-  int playerNum{ 0 };
+  Direction m_direction { DOWN };
+  int m_score { 0 };
+  LawyerText* score_text { NULL };
+  bool dead { false };
+  int playerNum { 0 };
 
   KeySet m_keySet;
 
-public: // TODO public
   static int alivePlayers;
   static int currentPlayerNum;
 };
