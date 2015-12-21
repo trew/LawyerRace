@@ -9,16 +9,16 @@ int Player::currentPlayerNum = 0;
 Player::Player(std::vector<lwe::TextureRegion*> _regions, KeySet keySet)
 : AbstractEntity(_regions, 0, 0, config::P_WIDTH, config::P_HEIGHT)
 {
-    currentPlayerNum++;
-    alivePlayers++;
-    playerNum = currentPlayerNum;
+  currentPlayerNum++;
+  alivePlayers++;
+  playerNum = currentPlayerNum;
 
 	if (playerNum == 1) score_text = new LawyerText(" ", 12, 0, 0, 30, 30, 255);
 	else if (playerNum == 2) score_text = new LawyerText(" ", 12, 0, 0, 230, 0, 0);
 	else if (playerNum == 3) score_text = new LawyerText(" ", 12, 0, 0, 0, 230, 0);
 	else if (playerNum == 4) score_text = new LawyerText(" ", 12, 0, 0, 230, 230, 0);
-    updateScore();
-    loadKeySet(keySet);
+  updateScore();
+  loadKeySet(keySet);
 
 	setVelocity(config::P_VELOCITY, config::P_VELOCITY);
 }
@@ -26,16 +26,16 @@ Player::Player(std::vector<lwe::TextureRegion*> _regions, KeySet keySet)
 Player::Player(std::vector<lwe::TextureRegion*> regions, const float x, const float y, const float w, const float h, KeySet keySet)
 : AbstractEntity(regions, x, y, w, h)
 {
-    currentPlayerNum++;
-    alivePlayers++;
-    playerNum = currentPlayerNum;
+  currentPlayerNum++;
+  alivePlayers++;
+  playerNum = currentPlayerNum;
 
-    if(playerNum == 1) score_text = new LawyerText(" ", 12, 0, 0, 30, 30, 255);
+  if(playerNum == 1) score_text = new LawyerText(" ", 12, 0, 0, 30, 30, 255);
 	else if (playerNum == 2) score_text = new LawyerText(" ", 12, 0, 0, 230, 0, 0);
 	else if (playerNum == 3) score_text = new LawyerText(" ", 12, 0, 0, 0, 230, 0);
 	else if (playerNum == 4) score_text = new LawyerText(" ", 12, 0, 0, 230, 230, 0);
-    updateScore();
-    loadKeySet(keySet);
+  updateScore();
+  loadKeySet(keySet);
 
 	setVelocity(config::P_VELOCITY, config::P_VELOCITY);
 }
@@ -46,7 +46,7 @@ Player::~Player() {
 
 void Player::loadKeySet(const KeySet &set)
 {
-    m_keySet = set;
+  m_keySet = set;
 }
 
 void Player::render(SDL_Renderer* const renderer, float timeAlpha) {
@@ -130,6 +130,7 @@ void Player::updateScore() {
         ss << "Player " << playerNum << ": " << m_score;
     }
     score_text->updateText(ss.str());
+    score_text->ensureTextUpdated();
 	using namespace positionHelper;
     //Position text correctly
     if (config::NUM_OF_PLAYERS == 4) {
