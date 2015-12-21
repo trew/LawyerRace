@@ -16,8 +16,6 @@ public:
 
   static SDL_Renderer* textRenderer;
 
-  static lwe::Font* standardFont;
-  static std::list<LawyerText*> s_textList;
 };
 
 #endif 

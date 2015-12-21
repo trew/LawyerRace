@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:fc4526f1349ddddfdc6a769ed4769eb8:e55cd784589b90bfdbc12c985ea6a29e:6e3d49a3bc18650dcbb33f59568af605$ -->
+<!-- $TexturePacker:SmartUpdate:1afdfe911a90fa1cb4d43420fef64b7f:c4db7f802ec13655d8f04ea4209724f4:6e3d49a3bc18650dcbb33f59568af605$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -20,46 +20,54 @@ verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 <TextureAtlas imagePath="spritesheet_0.png" width="1024" height="1024">
-    <sprite n="1-player.png" x="2" y="2" w="223" h="120" pX="0.5" pY="0.5"/>
-    <sprite n="2-players.png" x="227" y="2" w="223" h="120" pX="0.5" pY="0.5"/>
-    <sprite n="3-players.png" x="452" y="2" w="223" h="120" pX="0.5" pY="0.5"/>
-    <sprite n="4-players.png" x="677" y="2" w="223" h="120" pX="0.5" pY="0.5"/>
-    <sprite n="button-exit.png" x="902" y="2" w="96" h="108" pX="0.5" pY="0.5"/>
-    <sprite n="button-highscores.png" x="2" y="124" w="263" h="124" pX="0.5" pY="0.5"/>
-    <sprite n="button-play-109x59.png" x="267" y="124" w="109" h="118" pX="0.5" pY="0.5"/>
-    <sprite n="button-settings.png" x="378" y="124" w="205" h="124" pX="0.5" pY="0.5"/>
-    <sprite n="dollar.png" x="585" y="124" w="30" h="15" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_0.png" x="617" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_1.png" x="649" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_2.png" x="681" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_3.png" x="713" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_4.png" x="745" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_5.png" x="777" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_6.png" x="809" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_7.png" x="841" y="124" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="mainmenu-menuframe-453x469.png" x="2" y="250" w="453" h="469" pX="0.5" pY="0.5"/>
-    <sprite n="menu-title.png" x="2" y="721" w="732" h="110" pX="0.5" pY="0.5"/>
-    <sprite n="player1_0.png" x="736" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player1_1.png" x="768" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player1_2.png" x="800" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player1_3.png" x="832" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player1_4.png" x="864" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player2_0.png" x="896" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player2_1.png" x="928" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player2_2.png" x="960" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player2_3.png" x="992" y="721" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player2_4.png" x="2" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player3_0.png" x="34" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player3_1.png" x="66" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player3_2.png" x="98" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player3_3.png" x="130" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player3_4.png" x="162" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player4_0.png" x="194" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player4_1.png" x="226" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player4_2.png" x="258" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player4_3.png" x="290" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="player4_4.png" x="322" y="833" w="30" h="30" pX="0.5" pY="0.5"/>
-    <sprite n="stone1-17x14.png" x="354" y="833" w="17" h="14" pX="0.5" pY="0.5"/>
-    <sprite n="stone2-26x25.png" x="373" y="833" w="26" h="25" pX="0.5" pY="0.5"/>
-    <sprite n="stone3-58x49.png" x="401" y="833" w="58" h="49" pX="0.5" pY="0.5"/>
+    <sprite n="button-1-players_0.png" x="2" y="2" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-1-players_1.png" x="227" y="2" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-2-players_0.png" x="452" y="2" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-2-players_1.png" x="677" y="2" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-3-players_0.png" x="2" y="64" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-3-players_1.png" x="227" y="64" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-4-players_0.png" x="452" y="64" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-4-players_1.png" x="677" y="64" w="223" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="button-exit_0.png" x="902" y="64" w="96" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="button-exit_1.png" x="2" y="126" w="96" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="button-highscores_0.png" x="100" y="126" w="263" h="62" pX="0.5" pY="0.5"/>
+    <sprite n="button-highscores_1.png" x="365" y="126" w="263" h="62" pX="0.5" pY="0.5"/>
+    <sprite n="button-play_0.png" x="630" y="126" w="109" h="59" pX="0.5" pY="0.5"/>
+    <sprite n="button-play_1.png" x="741" y="126" w="109" h="59" pX="0.5" pY="0.5"/>
+    <sprite n="button-settings_0.png" x="2" y="190" w="205" h="62" pX="0.5" pY="0.5"/>
+    <sprite n="button-settings_1.png" x="209" y="190" w="205" h="62" pX="0.5" pY="0.5"/>
+    <sprite n="dollar.png" x="416" y="190" w="30" h="15" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_0.png" x="448" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_1.png" x="480" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_2.png" x="512" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_3.png" x="544" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_4.png" x="576" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_5.png" x="608" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_6.png" x="640" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_7.png" x="672" y="190" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="mainmenu-menuframe-453x469.png" x="2" y="254" w="453" h="469" pX="0.5" pY="0.5"/>
+    <sprite n="menu-title.png" x="2" y="725" w="732" h="110" pX="0.5" pY="0.5"/>
+    <sprite n="player1_0.png" x="736" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player1_1.png" x="768" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player1_2.png" x="800" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player1_3.png" x="832" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player1_4.png" x="864" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player2_0.png" x="896" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player2_1.png" x="928" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player2_2.png" x="960" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player2_3.png" x="992" y="725" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player2_4.png" x="2" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player3_0.png" x="34" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player3_1.png" x="66" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player3_2.png" x="98" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player3_3.png" x="130" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player3_4.png" x="162" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player4_0.png" x="194" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player4_1.png" x="226" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player4_2.png" x="258" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player4_3.png" x="290" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="player4_4.png" x="322" y="837" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="stone1-17x14.png" x="354" y="837" w="17" h="14" pX="0.5" pY="0.5"/>
+    <sprite n="stone2-26x25.png" x="373" y="837" w="26" h="25" pX="0.5" pY="0.5"/>
+    <sprite n="stone3-58x49.png" x="401" y="837" w="58" h="49" pX="0.5" pY="0.5"/>
 </TextureAtlas>

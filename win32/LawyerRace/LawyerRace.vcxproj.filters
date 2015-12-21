@@ -172,5 +172,8 @@
     <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Graphics\Sprite.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

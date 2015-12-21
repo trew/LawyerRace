@@ -22,21 +22,8 @@ bool GameState::init()
   
   LOG_DEBUG("Loading textures");
   {
-    if (!getEngine()->getAssetManager()->load<lwe::TextureAtlas>(config::path + "img/spritesheet_0"))
-    {
-      LOG_ERROR("Error loading texture atlas: %s", (config::path + "img/spritesheet_0").c_str());
-      return false;
-    }
-
     atlas = getEngine()->getAssetManager()->get<lwe::TextureAtlas>(config::path + "img/spritesheet_0");
   }
-
-  LOG_DEBUG("Loading fonts...");
-  LawyerText::standardFont = new lwe::Font();
-  LawyerText::standardFont->loadFromFile(config::path + "font/VeraMono.ttf");
-  LawyerText::standardFont->getTTF_Font(12);
-  LawyerText::standardFont->getTTF_Font(48);
-  LawyerText::standardFont->getTTF_Font(72);
 
   LOG_DEBUG("Loading players...");
 
@@ -72,10 +59,10 @@ bool GameState::init()
   }
 
   countDown = 3;
-  text_countDown = new LawyerText(3, 72, 0, 0, 255, 255, 255);
+  text_countDown = std::make_shared<LawyerText>(3, 72, 0.f, 0.f, 255, 255, 255);
   text_countDown->setX(centerHorizontal(0, ww, text_countDown->getWidth()));
   text_countDown->setY(centerVertical(0, wh / 2, text_countDown->getHeight()));
-  LawyerText::s_textList.push_back(text_countDown);
+  textList.push_back(text_countDown);
 
   currentInGameState = CountDown;
   countDown_compareTime = SDL_GetTicks();
@@ -84,13 +71,7 @@ bool GameState::init()
 
 void GameState::cleanup()
 {
-  delete LawyerText::standardFont;
-
-  for (LawyerText* text : LawyerText::s_textList)
-  {
-    delete text;
-  }
-  LawyerText::s_textList.clear();
+  textList.clear();
 
   Player::setPlayerCount(0);
   entityManager->clear();
@@ -180,8 +161,8 @@ void GameState::update(float timeStep)
     {
       //ALL PLAYERS DIED!
       currentInGameState = GameOver;
-      LawyerText* t = new LawyerText("Press key to exit to menu", 48, 0, 0, 255, 255, 255);
-      LawyerText::s_textList.push_back(t);
+      std::shared_ptr<LawyerText> t = std::make_shared<LawyerText>("Press key to exit to menu", 48, 0.f, 0.f, 255, 255, 255);
+      textList.push_back(t);
       t->setX(centerHorizontal(0, (float)config::W_WIDTH, t->getWidth()));
       t->setY(bottomAlign((float)config::W_HEIGHT, 20, t->getHeight()));
     }
@@ -197,9 +178,7 @@ void GameState::update(float timeStep)
       countDown--;
       if (countDown < 0)
       {
-        LawyerText::s_textList.remove(text_countDown);
-        delete text_countDown;
-        text_countDown = nullptr;
+        textList.remove(text_countDown);
         currentInGameState = Play;
       }
     }
@@ -213,7 +192,7 @@ void GameState::render(SDL_Renderer* const renderer, float timeAlpha)
     e->render(renderer, timeAlpha);
   }
 
-  for (LawyerText* text : LawyerText::s_textList)
+  for (std::shared_ptr<LawyerText> text : textList)
   {
     text->render();
   }

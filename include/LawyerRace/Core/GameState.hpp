@@ -1,10 +1,6 @@
 #ifndef LWR_GAMESTATE_HPP
 #define LWR_GAMESTATE_HPP
 
-#include <list>
-
-#include <SDL.h>
-
 #include <LawyerRace/Core/Config.hpp>
 #include <LawyerRace/Entity/Player.hpp>
 #include <LawyerRace/Entity/Enemy.hpp>
@@ -14,6 +10,8 @@
 #include <LawyerRace/Core/AbstractState.hpp>
 
 #include <LawyerEngine/LawyerEngine.hpp>
+
+#include <list>
 
 enum InGameState
 {
@@ -96,7 +94,8 @@ private:
   bool m_paused{ false };
   unsigned int countDown_compareTime;
   InGameState currentInGameState;
-  LawyerText* text_countDown;
+  std::shared_ptr<LawyerText> text_countDown;
+  std::list<std::shared_ptr<LawyerText>> textList;
 
   lwe::TextureAtlas* atlas{ NULL };
 };

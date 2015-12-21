@@ -234,16 +234,24 @@
             <filename>src/stone1-17x14.png</filename>
             <filename>src/stone2-26x25.png</filename>
             <filename>src/stone3-58x49.png</filename>
-            <filename>mainmenu-menuframe-453x469.png</filename>
-            <filename>menu-title.png</filename>
-            <filename>1-player.png</filename>
-            <filename>2-players.png</filename>
-            <filename>3-players.png</filename>
-            <filename>4-players.png</filename>
-            <filename>button-exit.png</filename>
-            <filename>button-highscores.png</filename>
-            <filename>button-play-109x59.png</filename>
-            <filename>button-settings.png</filename>
+            <filename>src/button-1-players_0.png</filename>
+            <filename>src/button-1-players_1.png</filename>
+            <filename>src/button-2-players_0.png</filename>
+            <filename>src/button-2-players_1.png</filename>
+            <filename>src/button-3-players_0.png</filename>
+            <filename>src/button-3-players_1.png</filename>
+            <filename>src/button-4-players_0.png</filename>
+            <filename>src/button-4-players_1.png</filename>
+            <filename>src/button-exit_0.png</filename>
+            <filename>src/button-exit_1.png</filename>
+            <filename>src/button-highscores_0.png</filename>
+            <filename>src/button-highscores_1.png</filename>
+            <filename>src/button-play_0.png</filename>
+            <filename>src/button-play_1.png</filename>
+            <filename>src/button-settings_0.png</filename>
+            <filename>src/button-settings_1.png</filename>
+            <filename>src/mainmenu-menuframe-453x469.png</filename>
+            <filename>src/menu-title.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
