@@ -12,15 +12,15 @@ AbstractEntity::AbstractEntity(lwe::TextureRegion* region, float x, float y, flo
 	m_regions.push_back(region);
 }
 
-AbstractEntity::AbstractEntity(std::vector<lwe::TextureRegion*> regions) : AbstractEntity(regions, 0, 0)
+AbstractEntity::AbstractEntity(const std::vector<lwe::TextureRegion*>& regions) : AbstractEntity(regions, 0, 0)
 {
 }
 
-AbstractEntity::AbstractEntity(std::vector<lwe::TextureRegion*> regions, float x, float y) : AbstractEntity(regions, x, y, (float)regions.front()->getRegionWidth(), (float)regions.front()->getRegionHeight())
+AbstractEntity::AbstractEntity(const std::vector<lwe::TextureRegion*>& regions, float x, float y) : AbstractEntity(regions, x, y, (float)regions.front()->getRegionWidth(), (float)regions.front()->getRegionHeight())
 {
 }
 
-AbstractEntity::AbstractEntity(std::vector<lwe::TextureRegion*> regions, float x, float y, float w, float h) : lwe::Entity(x, y, w, h)
+AbstractEntity::AbstractEntity(const std::vector<lwe::TextureRegion*>& regions, float x, float y, float w, float h) : lwe::Entity(x, y, w, h)
 {
 	m_regions.insert(m_regions.end(), regions.begin(), regions.end());
 }

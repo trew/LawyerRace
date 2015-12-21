@@ -14,8 +14,8 @@ class Player: public AbstractEntity
 {
 public:
   Player();
-  Player(std::vector<lwe::TextureRegion*> regions, KeySet keySet);
-  Player(std::vector<lwe::TextureRegion*> regions, float x, float y, float w, float h, KeySet keySet);
+  Player(const std::vector<lwe::TextureRegion*>& regions, KeySet keySet);
+  Player(const std::vector<lwe::TextureRegion*>& regions, float x, float y, float w, float h, KeySet keySet);
 
   virtual ~Player();
 
@@ -24,7 +24,7 @@ public:
    * Loads a keyset to the player
    * @param set The KeySet instance from which we load keydata.
    */
-  void loadKeySet(const KeySet &set);
+  void loadKeySet(KeySet set);
 
   void update(float timeStep) override;
   virtual void render(SDL_Renderer* renderer, float timeAlpha) override;
@@ -50,7 +50,7 @@ public:
 private:
   Direction m_direction { DOWN };
   int m_score { 0 };
-  LawyerText* score_text { NULL };
+  std::shared_ptr<LawyerText> scoreText;
   bool dead { false };
   int playerNum { 0 };
 

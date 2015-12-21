@@ -11,9 +11,9 @@ public:
   AbstractEntity();
   AbstractEntity(lwe::TextureRegion* region);
   AbstractEntity(lwe::TextureRegion* region, float x, float y, float w, float h);
-  AbstractEntity(std::vector<lwe::TextureRegion*> regions);
-  AbstractEntity(std::vector<lwe::TextureRegion*> regions, float x, float y);
-  AbstractEntity(std::vector<lwe::TextureRegion*> regions, float x, float y, float w, float h);
+  AbstractEntity(const std::vector<lwe::TextureRegion*>& regions);
+  AbstractEntity(const std::vector<lwe::TextureRegion*>& regions, float x, float y);
+  AbstractEntity(const std::vector<lwe::TextureRegion*>& regions, float x, float y, float w, float h);
 
   virtual ~AbstractEntity();
 
