@@ -13,3 +13,4 @@ ipch/
 Debug/
 Release/
 *.sdf
+build/*.exe
