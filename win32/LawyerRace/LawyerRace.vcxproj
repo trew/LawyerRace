@@ -23,7 +23,6 @@
     <ClCompile Include="..\..\src\LawyerRace\Entity\AbstractEntity.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Player.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Rock.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\LawyerText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
@@ -37,7 +36,6 @@
     <ClInclude Include="..\..\include\LawyerRace\Entity\AbstractEntity.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Player.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Rock.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\LawyerText.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Graphics\Sprite.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp" />
     <ClInclude Include="..\..\include\LuaBridge\detail\CFunctions.h" />

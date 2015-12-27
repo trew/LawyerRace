@@ -1,8 +1,9 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Core/GameState.hpp>
-#include "LawyerRace/Core/MenuState.hpp"
+#include <LawyerRace/Core/MenuState.hpp>
 #include <iostream>
-#include "LawyerRace/Utils/PositionHelper.hpp"
+#include <LawyerRace/Utils/PositionHelper.hpp>
+#include <LawyerRace/Core/LawyerRace.hpp>
 
 using namespace positionHelper;
 
@@ -31,7 +32,7 @@ bool GameState::init()
   float ww = (float)config::W_WIDTH;
   for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
   {
-    m_player[i] = entityManager->create<Player>(atlas->findRegions(config::P_SRC[i]), 0.f, 0.f, config::P_WIDTH, config::P_HEIGHT, config::KEYSET[i]);
+    m_player[i] = entityManager->create<Player>(atlas->findRegions(config::P_SRC[i]), getEngine()->getRenderer(), 0.f, 0.f, config::P_WIDTH, config::P_HEIGHT, config::KEYSET[i]);
     m_player[i]->setY(centerVertical(0, wh, m_player[i]->getHeight()));
   }
 
@@ -59,7 +60,7 @@ bool GameState::init()
   }
 
   countDown = 3;
-  text_countDown = std::make_shared<LawyerText>(3, 72, 0.f, 0.f, 255, 255, 255);
+  text_countDown = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), std::to_string(3), 72, 0.f, 0.f, 255, 255, 255);
   text_countDown->setX(centerHorizontal(0, ww, text_countDown->getWidth()));
   text_countDown->setY(centerVertical(0, wh / 2, text_countDown->getHeight()));
   textList.push_back(text_countDown);
@@ -161,7 +162,7 @@ void GameState::update(float timeStep)
     {
       //ALL PLAYERS DIED!
       currentInGameState = GameOver;
-      std::shared_ptr<LawyerText> t = std::make_shared<LawyerText>("Press key to exit to menu", 48, 0.f, 0.f, 255, 255, 255);
+      std::shared_ptr<lwe::Text> t = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Press key to exit to menu", 48, 0.f, 0.f, 255, 255, 255);
       textList.push_back(t);
       t->setX(centerHorizontal(0, (float)config::W_WIDTH, t->getWidth()));
       t->setY(bottomAlign((float)config::W_HEIGHT, 20, t->getHeight()));
@@ -192,7 +193,7 @@ void GameState::render(SDL_Renderer* const renderer, float timeAlpha)
     e->render(renderer, timeAlpha);
   }
 
-  for (std::shared_ptr<LawyerText> text : textList)
+  for (std::shared_ptr<lwe::Text> text : textList)
   {
     text->render();
   }

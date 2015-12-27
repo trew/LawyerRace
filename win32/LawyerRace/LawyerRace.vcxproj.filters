@@ -33,9 +33,6 @@
     <Filter Include="Source Files\Entity">
       <UniqueIdentifier>{d0b24e95-1ead-461a-8fd0-dd86b0a4a08b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{c72e9af5-b323-4dba-9078-d70a97569ed5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp">
@@ -67,9 +64,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Entity\AbstractEntity.cpp">
       <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Graphics\LawyerText.cpp">
-      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp">
       <Filter>Source Files\Core</Filter>
@@ -159,9 +153,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Entity\AbstractEntity.hpp">
       <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\LawyerText.hpp">
-      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp">
       <Filter>Header Files\Core</Filter>

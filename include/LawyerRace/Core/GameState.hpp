@@ -94,8 +94,8 @@ private:
   bool m_paused{ false };
   unsigned int countDown_compareTime;
   InGameState currentInGameState;
-  std::shared_ptr<LawyerText> text_countDown;
-  std::list<std::shared_ptr<LawyerText>> textList;
+  std::shared_ptr<lwe::Text> text_countDown;
+  std::list<std::shared_ptr<lwe::Text>> textList;
 
   lwe::TextureAtlas* atlas{ NULL };
 };

@@ -2,17 +2,18 @@
 #include <iostream>
 #include <sstream>
 #include <LawyerRace/Utils/PositionHelper.hpp>
+#include <LawyerRace/Core/LawyerRace.hpp>
 
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
-Player::Player(const std::vector<lwe::TextureRegion*>& regions, KeySet keySet)
-  : Player(regions, 0, 0, config::P_WIDTH, config::P_HEIGHT, keySet)
+Player::Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* const renderer, KeySet keySet)
+  : Player(regions, renderer, 0, 0, config::P_WIDTH, config::P_HEIGHT, keySet)
 {
 }
 
-Player::Player(const std::vector<lwe::TextureRegion*>& regions, const float x, const float y, const float w, const float h, KeySet keySet)
-  : AbstractEntity(regions, x, y, w, h)
+Player::Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* const renderer, const float x, const float y, const float w, const float h, KeySet keySet)
+  : AbstractEntity(regions, x, y, w, h), renderer(renderer)
 {
   currentPlayerNum++;
   alivePlayers++;
@@ -20,19 +21,19 @@ Player::Player(const std::vector<lwe::TextureRegion*>& regions, const float x, c
 
   if(playerNum == 1)
   {
-    scoreText = std::make_shared<LawyerText>(" ", 12, 0.f, 0.f, 70, 70, 230);
+    scoreText = std::make_shared<lwe::Text>(renderer, LawyerRace::standardFont.get(), " ", 12, 0.f, 0.f, 70, 70, 230);
   }
   else if (playerNum == 2)
   {
-    scoreText = std::make_shared<LawyerText>(" ", 12, 0.f, 0.f, 230, 0, 0);
+    scoreText = std::make_shared<lwe::Text>(renderer, LawyerRace::standardFont.get(), " ", 12, 0.f, 0.f, 230, 0, 0);
   }
   else if (playerNum == 3)
   {
-    scoreText = std::make_shared<LawyerText>(" ", 12, 0.f, 0.f, 0, 230, 0);
+    scoreText = std::make_shared<lwe::Text>(renderer, LawyerRace::standardFont.get(), " ", 12, 0.f, 0.f, 0, 230, 0);
   }
   else if (playerNum == 4)
   {
-    scoreText = std::make_shared<LawyerText>(" ", 12, 0.f, 0.f, 230, 230, 0);
+    scoreText = std::make_shared<lwe::Text>(renderer, LawyerRace::standardFont.get(), " ", 12, 0.f, 0.f, 230, 230, 0);
   }
   updateScore();
   loadKeySet(keySet);

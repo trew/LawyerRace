@@ -6,7 +6,6 @@
 #include <LawyerRace/Core/Config.hpp>
 #include <LawyerRace/Entity/Enemy.hpp>
 #include <LawyerRace/Core/KeySet.hpp>
-#include <LawyerRace/Graphics/LawyerText.hpp>
 
 #include <string>
 
@@ -14,8 +13,8 @@ class Player: public AbstractEntity
 {
 public:
   Player();
-  Player(const std::vector<lwe::TextureRegion*>& regions, KeySet keySet);
-  Player(const std::vector<lwe::TextureRegion*>& regions, float x, float y, float w, float h, KeySet keySet);
+  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, KeySet keySet);
+  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, float x, float y, float w, float h, KeySet keySet);
 
   virtual ~Player();
 
@@ -50,11 +49,12 @@ public:
 private:
   Direction m_direction { DOWN };
   int m_score { 0 };
-  std::shared_ptr<LawyerText> scoreText;
+  std::shared_ptr<lwe::Text> scoreText;
   bool dead { false };
   int playerNum { 0 };
 
   KeySet m_keySet;
+  SDL_Renderer* renderer;
 
   static int alivePlayers;
   static int currentPlayerNum;

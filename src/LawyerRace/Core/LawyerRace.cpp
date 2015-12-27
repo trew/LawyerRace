@@ -53,6 +53,5 @@ void LawyerRace::init()
     LOG_ERROR("Error loading texture atlas: %s", (config::path + "img/spritesheet_0").c_str());
   }
 
-  LawyerText::textRenderer = getEngine()->getRenderer();
   getEngine()->setState(menuState.get());
 }
