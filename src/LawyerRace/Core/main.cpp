@@ -136,9 +136,7 @@ int main(int argc, char* argv[])
   settings.MaxFrameSkip = config::MAX_FRAMESKIP;
   settings.EntityInterpolationEnabled = config::ENABLE_LERP;
 
-  lwe::GameEngine engine(settings);
-
-  LawyerRace* lawyerRace = new LawyerRace();
+  lwe::GameEngine engine(settings, new LawyerRace());
 
   if (!parseCommandLine(argc, argv))
   {
@@ -150,7 +148,7 @@ int main(int argc, char* argv[])
 
   try
   {
-    engine.run(lawyerRace);
+    engine.run();
   }
   catch (const char* c)
   {

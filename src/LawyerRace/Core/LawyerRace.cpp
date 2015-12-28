@@ -22,7 +22,8 @@ LawyerRace::~LawyerRace()
     LuaState = nullptr;
   }
 
-  standardFont.release();
+  // must be deleted before the engine is destroyed
+  standardFont.reset();
 }
 
 GameState* LawyerRace::getGameState() const
