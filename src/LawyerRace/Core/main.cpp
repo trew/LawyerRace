@@ -128,15 +128,8 @@ int main(int argc, char* argv[])
   lwe::Log::getLogger().setLoggingLevel(lwe::LEVEL_INFO);
 #endif
 
-  lwe::GameSettings settings;
-  settings.WindowWidth = config::W_WIDTH;
-  settings.WindowHeight = config::W_HEIGHT;
-  settings.WindowTitle = config::WINDOW_TEXT;
-  settings.MaxFPS = config::MAX_FPS;
-  settings.MaxFrameSkip = config::MAX_FRAMESKIP;
-  settings.EntityInterpolationEnabled = config::ENABLE_LERP;
-
-  lwe::GameEngine engine(settings, new LawyerRace());
+  // This class needs to be created before before parsing commandline so lua is initialized.
+  LawyerRace* lr = new LawyerRace();
 
   if (!parseCommandLine(argc, argv))
   {
@@ -145,6 +138,16 @@ int main(int argc, char* argv[])
 #endif
     return 0;
   }
+
+  lwe::GameSettings settings;
+  settings.WindowWidth = config::W_WIDTH;
+  settings.WindowHeight = config::W_HEIGHT;
+  settings.WindowTitle = config::WINDOW_TEXT;
+  settings.MaxFPS = config::MAX_FPS;
+  settings.MaxFrameSkip = config::MAX_FRAMESKIP;
+  settings.EntityInterpolationEnabled = config::ENABLE_LERP;
+
+  lwe::GameEngine engine(settings, lr);
 
   try
   {
