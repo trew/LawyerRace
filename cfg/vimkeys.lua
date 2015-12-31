@@ -1,6 +1,6 @@
 --Keyset file for Lawyer Race
 
-keysets = {
+controls = {
 player1 = {
     down = "j",
     up = "k",

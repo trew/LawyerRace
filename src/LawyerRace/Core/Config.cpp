@@ -1,7 +1,6 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Core/LawyerRace.hpp>
 #include <LawyerRace/Core/Config.hpp>
-#include <LawyerRace/Core/KeySet.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -167,7 +166,7 @@ namespace config
 
   float R_VELOCITY[3] = { 250.f, 187.f, 125.f }; //Rock velocities
 
-  KeySet KEYSET[4];
+  PlayerControls CONTROLS[4];
 
   bool ENABLE_LERP = true;
   int MAX_FRAMESKIP = 10;

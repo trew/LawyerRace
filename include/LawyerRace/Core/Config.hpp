@@ -2,7 +2,7 @@
 #define LWR_CONFIG_HPP
 
 #include <string>
-#include <LawyerRace/Core/KeySet.hpp>
+#include <LawyerRace/Core/PlayerControls.hpp>
 
 ///Direction for enemies and player (player uses only DOWN - LEFT)
 enum Direction {
@@ -59,8 +59,6 @@ namespace config
   extern const float R_HEIGHT[3];
   extern const std::string R_SRC[3];
 
-  extern KeySet KEYSET[4];
-
   extern bool PLAYER_STOP_ENABLED;
   extern bool OLD_DIAGONAL_SPEED;
 
@@ -72,6 +70,8 @@ namespace config
   extern float P_VELOCITY;        ///< Player velocity
   extern float E_VELOCITY;        ///< Enemy velocity
   extern float R_VELOCITY[3];     ///< Rock velocities
+
+  extern PlayerControls CONTROLS[4];
 
   extern bool ENABLE_LERP;
   extern int MAX_FRAMESKIP;

@@ -5,7 +5,8 @@
 
 #include <LawyerRace/Core/Config.hpp>
 #include <LawyerRace/Entity/Enemy.hpp>
-#include <LawyerRace/Core/KeySet.hpp>
+#include <LawyerRace/Core/PlayerControls.hpp>
+#include <LawyerRace/Event/EventCondition.hpp>
 
 #include <string>
 
@@ -13,17 +14,10 @@ class Player: public AbstractEntity
 {
 public:
   Player();
-  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, KeySet keySet);
-  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, float x, float y, float w, float h, KeySet keySet);
+  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, const PlayerControls& controls);
+  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, float x, float y, float w, float h, const PlayerControls& controls);
 
   virtual ~Player();
-
-
-  /**
-   * Loads a keyset to the player
-   * @param set The KeySet instance from which we load keydata.
-   */
-  void loadKeySet(KeySet set);
 
   void update(float timeStep) override;
   virtual void render(SDL_Renderer* renderer, float timeAlpha) override;
@@ -47,13 +41,14 @@ public:
   static void setPlayerCount(int c) { currentPlayerNum = c; }
 
 private:
+  PlayerControls controls;
+
   Direction m_direction { DOWN };
   int m_score { 0 };
   std::shared_ptr<lwe::Text> scoreText;
   bool dead { false };
   int playerNum { 0 };
 
-  KeySet m_keySet;
   SDL_Renderer* renderer;
 
   static int alivePlayers;

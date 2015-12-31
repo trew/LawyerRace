@@ -14,7 +14,7 @@
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\Config.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Core\KeySet.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\PlayerControls.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\MenuState.cpp" />
@@ -23,12 +23,15 @@
     <ClCompile Include="..\..\src\LawyerRace\Entity\AbstractEntity.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Player.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Rock.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Event\EventCondition.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Event\KeyboardTrigger.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Event\Trigger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Core\KeySet.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\PlayerControls.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\MenuState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Dollar.hpp" />
@@ -36,6 +39,8 @@
     <ClInclude Include="..\..\include\LawyerRace\Entity\AbstractEntity.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Player.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Rock.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Event\EventCondition.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Event\Trigger.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Graphics\Sprite.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp" />
     <ClInclude Include="..\..\include\LuaBridge\detail\CFunctions.h" />

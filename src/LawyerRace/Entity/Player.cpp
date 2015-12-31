@@ -7,12 +7,18 @@
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
-Player::Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* const renderer, KeySet keySet)
-  : Player(regions, renderer, 0, 0, config::P_WIDTH, config::P_HEIGHT, keySet)
+Player::Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* const renderer, const PlayerControls& controls)
+  : Player(regions, renderer, 0, 0, config::P_WIDTH, config::P_HEIGHT, controls)
 {
 }
 
-Player::Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* const renderer, const float x, const float y, const float w, const float h, KeySet keySet)
+Player::Player(const std::vector<lwe::TextureRegion*>& regions,
+               SDL_Renderer* const renderer,
+               const float x,
+               const float y,
+               const float w,
+               const float h,
+               const PlayerControls& controls)
   : AbstractEntity(regions, x, y, w, h), renderer(renderer)
 {
   currentPlayerNum++;
@@ -36,18 +42,13 @@ Player::Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* co
     scoreText = std::make_shared<lwe::Text>(renderer, LawyerRace::standardFont.get(), " ", 12, 0.f, 0.f, 230, 230, 0);
   }
   updateScore();
-  loadKeySet(keySet);
+  this->controls = controls;
 
   setVelocity(config::P_VELOCITY, config::P_VELOCITY);
 }
 
 Player::~Player()
 {
-}
-
-void Player::loadKeySet(KeySet set)
-{
-  m_keySet = set;
 }
 
 void Player::render(SDL_Renderer* const renderer, float timeAlpha)
@@ -63,39 +64,36 @@ bool Player::handleEvent(const SDL_Event& ev)
     return false;
   }
 
-  if(ev.type == SDL_KEYDOWN)
+  if (controls.getUp().isTriggered(ev))
   {
-    if (ev.key.keysym.sym == m_keySet.K_LEFT)
+    setMoving(true);
+    setDirection(UP);
+    return true;
+  }
+  else if (controls.getDown().isTriggered(ev))
+  {
+    setMoving(true);
+    setDirection(DOWN);
+    return true;
+  }
+  else if (controls.getLeft().isTriggered(ev))
+  {
+    setMoving(true);
+    setDirection(LEFT);
+    return true;
+  }
+  else if (controls.getRight().isTriggered(ev))
+  {
+    setMoving(true);
+    setDirection(RIGHT);
+    return true;
+  }
+  else if (controls.getStop().isTriggered(ev))
+  {
+    if (config::PLAYER_STOP_ENABLED)
     {
-      setMoving(true);
-      setDirection(LEFT);
+      setMoving(!isMoving());
       return true;
-    }
-    else if (ev.key.keysym.sym == m_keySet.K_RIGHT)
-    {
-      setMoving(true);
-      setDirection(RIGHT);
-      return true;
-    }
-    else if (ev.key.keysym.sym == m_keySet.K_UP)
-    {
-      setMoving(true);
-      setDirection(UP);
-      return true;
-    }
-    else if (ev.key.keysym.sym == m_keySet.K_DOWN)
-    {
-      setMoving(true);
-      setDirection(DOWN);
-      return true;
-    }
-    else if (ev.key.keysym.sym == m_keySet.K_STOP)
-    {
-      if (config::PLAYER_STOP_ENABLED)
-      {
-        setMoving(!isMoving());
-        return true;
-      }
     }
   }
 

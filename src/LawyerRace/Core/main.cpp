@@ -84,7 +84,7 @@ bool parseCommandLine(int argc, char* argv[])
   }
   LOG_DEBUG("Using keysets from %s", config::keyset_file.c_str());
   LOG_DEBUG("Loading keysets...");
-  KeySet::LoadKeysetFromFile(config::KEYSET, config::keyset_file);
+  PlayerControls::loadControlsFromFile(config::CONTROLS, config::keyset_file);
 
   /* Continue and override any variables that were provided in command line; they are more important than the config file */
   if (disableStop.getValue())

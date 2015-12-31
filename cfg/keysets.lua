@@ -1,39 +1,39 @@
 -- Keyset file for Lawyer Race
 
-keysets = {
+controls = {
 player1 = {
-    down = "down",
-    up = "up",
-    right = "right",
-    left = "left",
-    stop = "rctrl",
+    down = {"down"},
+    up = {"up"},
+    right = {"right"},
+    left = {"left"},
+    stop = {"rctrl"},
     one = {
-        stop = "space"
+        stop = {"space"}
     }
 },
 
 player2 = {
-    down = "s",
-    up = "w",
-    right = "d",
-    left = "a",
-    stop = "lctrl"
+    down = {"s"},
+    up = {"w"},
+    right = {"d"},
+    left = {"a"},
+    stop = {"lctrl"}
 },
 
 player3 = {
-    down = "k",
-    up = "i",
-    right = "l",
-    left = "j",
-    stop = "space"
+    down = {"k"},
+    up = {"i"},
+    right = {"l"},
+    left = {"j"},
+    stop = {"space"}
 },
 
 player4 = {
-    down = "num_5",
-    up = "num_8",
-    right = "num_6",
-    left = "num_4",
-    stop = "num_0"
+    down = {"num_5"},
+    up = {"num_8"},
+    right = {"num_6"},
+    left = {"num_4"},
+    stop = {"num_0"}
 }
 } --  keysets
 

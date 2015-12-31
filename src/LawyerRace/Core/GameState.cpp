@@ -32,7 +32,13 @@ bool GameState::init()
   float ww = (float)config::W_WIDTH;
   for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
   {
-    m_player[i] = entityManager->create<Player>(atlas->findRegions(config::P_SRC[i]), getEngine()->getRenderer(), 0.f, 0.f, config::P_WIDTH, config::P_HEIGHT, config::KEYSET[i]);
+    m_player[i] = entityManager->create<Player>(atlas->findRegions(config::P_SRC[i]),
+                                                getEngine()->getRenderer(),
+                                                0.f,
+                                                0.f,
+                                                config::P_WIDTH,
+                                                config::P_HEIGHT,
+                                                config::CONTROLS[i]);
     m_player[i]->setY(centerVertical(0, wh, m_player[i]->getHeight()));
   }
 
