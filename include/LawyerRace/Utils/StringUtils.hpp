@@ -7,31 +7,12 @@ namespace StringUtils
 {
   bool startsWith(const std::string& str, const std::string& start)
   {
-    if (str.size() < start.size())
+    if (str.size() >= start.size())
     {
-      return false;
+      return str.find(start) == 0;
     }
 
-    std::string::const_iterator itStr = str.cbegin();
-    std::string::const_iterator itStart = start.cbegin();
-
-    while (itStart != start.cend())
-    {
-      if (itStr == str.cend())
-      {
-        return false;
-      }
-
-      if ((*itStart) != (*itStr))
-      {
-        return false;
-      }
-
-      itStart++;
-      itStr++;
-    }
-
-    return true;
+    return false;
   }
 }
 
