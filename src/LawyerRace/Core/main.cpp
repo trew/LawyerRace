@@ -133,9 +133,6 @@ int main(int argc, char* argv[])
 
   if (!parseCommandLine(argc, argv))
   {
-#ifdef _WIN32
-    std::cin.ignore(); // wait for keypress
-#endif
     return 0;
   }
 

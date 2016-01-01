@@ -2,11 +2,13 @@
 #include <LawyerRace/Core/LawyerRace.hpp>
 #include <LawyerRace/Core/PlayerControls.hpp>
 #include <LawyerRace/Core/Config.hpp>
+#include <LawyerRace/Utils/StringUtils.hpp>
 #include <fstream>
 
 #include <LuaBridge/LuaBridge.h>
 
 std::map<std::string, SDL_Keycode> PlayerControls::__keymap;
+std::map<std::string, SDL_GameControllerButton> PlayerControls::__gameControllerMap;
 bool PlayerControls::keyMapInitialized = false;
 
 PlayerControls::PlayerControls()
@@ -50,6 +52,20 @@ void PlayerControls::initializeKeyMap()
   __keymap["backspace"] = SDLK_BACKSPACE;
   __keymap["return"] = SDLK_RETURN;
   __keymap["space"] = SDLK_SPACE;
+
+  __gameControllerMap["a"] = SDL_CONTROLLER_BUTTON_A;
+  __gameControllerMap["b"] = SDL_CONTROLLER_BUTTON_B;
+  __gameControllerMap["x"] = SDL_CONTROLLER_BUTTON_X;
+  __gameControllerMap["y"] = SDL_CONTROLLER_BUTTON_Y;
+  __gameControllerMap["up"] = SDL_CONTROLLER_BUTTON_DPAD_UP;
+  __gameControllerMap["down"] = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+  __gameControllerMap["left"] = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+  __gameControllerMap["right"] = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+  __gameControllerMap["l1"] = SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
+  __gameControllerMap["r1"] = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+  __gameControllerMap["back"] = SDL_CONTROLLER_BUTTON_BACK;
+  __gameControllerMap["guide"] = SDL_CONTROLLER_BUTTON_GUIDE;
+  __gameControllerMap["start"] = SDL_CONTROLLER_BUTTON_START;
   keyMapInitialized = true;
 }
 
@@ -80,8 +96,15 @@ inline bool in(int x, int list[])
  * Defaults to SDLK_UNKNOWN if no key found in keymap or in Ascii table
  * Referencekey is used for debugging
  */
-void PlayerControls::setControl(EventCondition& condition, std::string referencekey, std::string keyname)
+void PlayerControls::setControl(lwe::EventCondition& condition, std::string referencekey, std::string keyname)
 {
+  std::string controllerKeyName = "";
+  if (StringUtils::startsWith(keyname, "controller_"))
+  {
+    controllerKeyName = keyname.substr(11, keyname.size());
+    LOG_DEBUG("Controller Key name: %s", controllerKeyName.c_str());
+  }
+
   if (keyname.length() == 1)
   {
     /* Ascii? if so, ez convert to SDL_Keysym instantly.
@@ -92,12 +115,16 @@ void PlayerControls::setControl(EventCondition& condition, std::string reference
     int customvalues[6] = {8,9,12,13,19,27};
     if (inrange(comparekey,91,127) || inrange(comparekey, 32, 64) || in(comparekey, customvalues))
     { //if valid ascii
-      condition.addTrigger(new KeyboardTrigger(comparekey));
+      condition.addTrigger(new lwe::KeyboardTrigger(comparekey, true));
     }
   }
   else if (__keymap.find(keyname) != __keymap.end())
   {
-    condition.addTrigger(new KeyboardTrigger(__keymap[keyname]));
+    condition.addTrigger(new lwe::KeyboardTrigger(__keymap[keyname], true));
+  }
+  else if (__gameControllerMap.find(controllerKeyName) != __gameControllerMap.end())
+  {
+    condition.addTrigger(new lwe::GameControllerButtonTrigger(__gameControllerMap[controllerKeyName], true));
   }
 
   if (!condition.hasTriggers())
@@ -106,7 +133,7 @@ void PlayerControls::setControl(EventCondition& condition, std::string reference
   }
 }
 
-void PlayerControls::setControlsFromLuaTable(const luabridge::LuaRef& table, std::string action, std::string playerNum, EventCondition& condition)
+void PlayerControls::setControlsFromLuaTable(const luabridge::LuaRef& table, std::string action, std::string playerNum, lwe::EventCondition& condition)
 {
   if (table[action].isString())
   {
@@ -205,27 +232,27 @@ bool PlayerControls::loadControlsFromFile(PlayerControls controls[], std::string
   return true;
 }
 
-const EventCondition& PlayerControls::getUp() const
+const lwe::EventCondition& PlayerControls::getUp() const
 {
   return up;
 }
 
-const EventCondition& PlayerControls::getDown() const
+const lwe::EventCondition& PlayerControls::getDown() const
 {
   return down;
 }
 
-const EventCondition& PlayerControls::getLeft() const
+const lwe::EventCondition& PlayerControls::getLeft() const
 {
   return left;
 }
 
-const EventCondition& PlayerControls::getRight() const
+const lwe::EventCondition& PlayerControls::getRight() const
 {
   return right;
 }
 
-const EventCondition& PlayerControls::getStop() const
+const lwe::EventCondition& PlayerControls::getStop() const
 {
   return stop;
 }

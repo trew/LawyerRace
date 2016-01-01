@@ -5,6 +5,8 @@
 
 MenuState::MenuState()
 {
+  back.addTrigger(new lwe::KeyboardTrigger(SDLK_ESCAPE));
+  back.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_B));
 }
 
 MenuState::~MenuState()
@@ -15,6 +17,7 @@ MenuState::~MenuState()
 
 bool MenuState::init()
 {
+  internalState = NORMAL;
   int menuPosition[] = { 300, 390, 480, 570 };
 
   lwe::AssetManager* assetManager = getEngine()->getAssetManager();
@@ -49,17 +52,7 @@ bool MenuState::init()
     getEngine()->setState(((LawyerRace*)getGame())->getGameState());
   }));
 
-  playersButtons[0]->setNext(playersButtons[1].get());
-  playersButtons[0]->setPrevious(playersButtons[3].get());
-
-  playersButtons[1]->setNext(playersButtons[2].get());
-  playersButtons[1]->setPrevious(playersButtons[0].get());
-
-  playersButtons[2]->setNext(playersButtons[3].get());
-  playersButtons[2]->setPrevious(playersButtons[1].get());
-
-  playersButtons[3]->setNext(playersButtons[0].get());
-  playersButtons[3]->setPrevious(playersButtons[2].get());
+  lwe::Button::createButtonGroup({playersButtons[0].get(), playersButtons[1].get(), playersButtons[2].get(), playersButtons[3].get()});
 
   lwe::TextureRegion* menuBorderRegion = atlas->findRegion("mainmenu-menuframe-453x469");
   lwe::TextureRegion* titleRegion = atlas->findRegion("menu-title");
@@ -98,17 +91,7 @@ bool MenuState::init()
     getEngine()->exit();
   }));
 
-  menuButtons[0]->setNext(menuButtons[1].get());
-  menuButtons[0]->setPrevious(menuButtons[3].get());
-
-  menuButtons[1]->setNext(menuButtons[2].get());
-  menuButtons[1]->setPrevious(menuButtons[0].get());
-
-  menuButtons[2]->setNext(menuButtons[3].get());
-  menuButtons[2]->setPrevious(menuButtons[1].get());
-
-  menuButtons[3]->setNext(menuButtons[0].get());
-  menuButtons[3]->setPrevious(menuButtons[2].get());
+  lwe::Button::createButtonGroup({menuButtons[0].get(), menuButtons[1].get(), menuButtons[2].get(), menuButtons[3].get()});
 
   rockRegion[0] = atlas->findRegion("stone1-17x14");
   rockRegion[1] = atlas->findRegion("stone2-26x25");
@@ -120,6 +103,8 @@ bool MenuState::init()
 
 void MenuState::cleanup()
 {
+  playersButtons.clear();
+  menuButtons.clear();
 }
 /* END RUN ONCE FUNCTIONS */
 
@@ -140,9 +125,13 @@ bool MenuState::handleEvent(const SDL_Event &ev)
   }
   else if (internalState == SELECT_PLAYERS)
   {
-    if (ev.key.type == SDL_KEYUP && ev.key.keysym.sym == SDLK_ESCAPE)
+    bool result = false;
+    if (back(ev, &result)) // if event is consumed
     {
-      internalState = NORMAL;
+      if (result) // if condition is met
+      {
+        internalState = NORMAL;
+      }
       return true;
     }
 

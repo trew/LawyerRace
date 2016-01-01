@@ -2,13 +2,13 @@
 
 controls = {
 player1 = {
-    down = {"down"},
-    up = {"up"},
-    right = {"right"},
-    left = {"left"},
-    stop = {"rctrl"},
+    down = {"down", "controller_down"},
+    up = {"up", "controller_up"},
+    right = {"right", "controller_right"},
+    left = {"left", "controller_left"},
+    stop = {"rctrl", "controller_a"},
     one = {
-        stop = {"space"}
+        stop = {"space", "controller_a"}
     }
 },
 

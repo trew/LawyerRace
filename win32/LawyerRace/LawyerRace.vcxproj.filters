@@ -33,21 +33,12 @@
     <Filter Include="Source Files\Entity">
       <UniqueIdentifier>{d0b24e95-1ead-461a-8fd0-dd86b0a4a08b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Event">
-      <UniqueIdentifier>{27492668-7d26-4851-91ac-7dfbff84e31f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Event">
-      <UniqueIdentifier>{bc796124-34e2-446b-b4f5-3e3507b45665}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp">
       <Filter>TinyXML</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Entity\Dollar.cpp">
@@ -74,17 +65,11 @@
     <ClCompile Include="..\..\src\LawyerRace\Core\Config.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Event\EventCondition.cpp">
-      <Filter>Source Files\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Event\Trigger.cpp">
-      <Filter>Source Files\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Event\KeyboardTrigger.cpp">
-      <Filter>Source Files\Event</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LawyerRace\Core\PlayerControls.cpp">
       <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -178,14 +163,11 @@
     <ClInclude Include="..\..\include\LawyerRace\Graphics\Sprite.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Event\EventCondition.hpp">
-      <Filter>Header Files\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Event\Trigger.hpp">
-      <Filter>Header Files\Event</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\PlayerControls.hpp">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Utils\StringUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,6 @@
 #include <LawyerRace/Core/Config.hpp>
 #include <LawyerRace/Entity/Enemy.hpp>
 #include <LawyerRace/Core/PlayerControls.hpp>
-#include <LawyerRace/Event/EventCondition.hpp>
 
 #include <string>
 
@@ -37,6 +36,7 @@ public:
   int getScore() const;
 
   static int getAlivePlayerCount() { return alivePlayers; }
+  static void setAlivePlayerCount(int c) { alivePlayers = c; }
   static int getPlayerCount() { return currentPlayerNum; }
   static void setPlayerCount(int c) { currentPlayerNum = c; }
 

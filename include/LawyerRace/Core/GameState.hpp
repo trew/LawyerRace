@@ -90,11 +90,15 @@ private:
   std::unique_ptr<lwe::EntityManager> entityManager;
   Player* m_player[4];
 
+  lwe::EventCondition pausedExitToMainMenuCondition;
+  lwe::EventCondition gameOverExitToMainMenuCondition;
+  lwe::EventCondition pauseCondition;
   int countDown;
   bool m_paused{ false };
   unsigned int countDown_compareTime;
   InGameState currentInGameState;
   std::shared_ptr<lwe::Text> text_countDown;
+  std::shared_ptr<lwe::Text> pausedText;
   std::list<std::shared_ptr<lwe::Text>> textList;
 
   lwe::TextureAtlas* atlas{ NULL };

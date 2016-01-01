@@ -64,31 +64,31 @@ bool Player::handleEvent(const SDL_Event& ev)
     return false;
   }
 
-  if (controls.getUp().isTriggered(ev))
+  if (controls.getUp()(ev))
   {
     setMoving(true);
     setDirection(UP);
     return true;
   }
-  else if (controls.getDown().isTriggered(ev))
+  else if (controls.getDown()(ev))
   {
     setMoving(true);
     setDirection(DOWN);
     return true;
   }
-  else if (controls.getLeft().isTriggered(ev))
+  else if (controls.getLeft()(ev))
   {
     setMoving(true);
     setDirection(LEFT);
     return true;
   }
-  else if (controls.getRight().isTriggered(ev))
+  else if (controls.getRight()(ev))
   {
     setMoving(true);
     setDirection(RIGHT);
     return true;
   }
-  else if (controls.getStop().isTriggered(ev))
+  else if (controls.getStop()(ev))
   {
     if (config::PLAYER_STOP_ENABLED)
     {

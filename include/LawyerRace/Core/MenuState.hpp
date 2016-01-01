@@ -1,6 +1,8 @@
 #ifndef LWR_MENUSTATE_HPP
 #define LWR_MENUSTATE_HPP
 
+#include <LawyerEngine/Event/EventCondition.hpp>
+
 #include <LawyerRace/Core/AbstractState.hpp>
 #include <LawyerRace/Entity/AbstractEntity.hpp>
 #include <LawyerRace/Entity/Rock.hpp>
@@ -25,6 +27,8 @@ private:
   const static int NORMAL = 1;
   const static int SELECT_PLAYERS = 2;
   int internalState { NORMAL };
+
+  lwe::EventCondition back;
 
   std::shared_ptr<AbstractEntity> menuBorder;
   std::shared_ptr<AbstractEntity> title;

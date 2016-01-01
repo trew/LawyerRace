@@ -14,6 +14,14 @@ GameState::GameState()
   m_player[1] = NULL;
   m_player[2] = NULL;
   m_player[3] = NULL;
+
+  pausedExitToMainMenuCondition.addTrigger(new lwe::KeyboardTrigger(SDLK_ESCAPE));
+  pausedExitToMainMenuCondition.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_B));
+
+  gameOverExitToMainMenuCondition.addTrigger(new lwe::KeyboardTrigger(SDLK_RETURN));
+  gameOverExitToMainMenuCondition.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_A));
+  pauseCondition.addTrigger(new lwe::KeyboardTrigger(SDLK_PAUSE, true));
+  pauseCondition.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_START, true));
 }
 
 /* RUN ONCE FUNCTIONS */
@@ -71,6 +79,10 @@ bool GameState::init()
   text_countDown->setY(centerVertical(0, wh / 2, text_countDown->getHeight()));
   textList.push_back(text_countDown);
 
+  pausedText = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Game Paused", 72, 0.f, 0.f, 255, 255, 255);
+  pausedText->setX(centerHorizontal(0, ww, pausedText->getWidth()));
+  pausedText->setY(centerHorizontal(0, wh, pausedText->getHeight()));
+
   currentInGameState = CountDown;
   countDown_compareTime = SDL_GetTicks();
   return true;
@@ -81,6 +93,7 @@ void GameState::cleanup()
   textList.clear();
 
   Player::setPlayerCount(0);
+  Player::setAlivePlayerCount(0);
   entityManager->clear();
 }
 /* END RUN ONCE FUNCTIONS */
@@ -92,34 +105,44 @@ bool GameState::handleEvent(const SDL_Event &ev)
 {
   if (m_paused)
   {
-    if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_PAUSE)
+    if (pauseCondition(ev))
     {
       onResume();
       return true;
     }
+
+    if (pausedExitToMainMenuCondition(ev))
+    {
+      onResume();
+      getEngine()->setState(((LawyerRace*)getGame())->getMenuState());
+      return true;
+    }
+
+    return false;
   }
 
   if(currentInGameState == Play)
   {
-    if (ev.type == SDL_KEYDOWN)
+    if (pauseCondition(ev))
     {
-      if (ev.key.keysym.sym == SDLK_PAUSE)
+      onPause();
+      return true;
+    }
+
+    //Handle movement input
+    //TODO: Also set speed to max available speed
+    for (auto& e : entityManager->getAll<Player>())
+    {
+      Player* p = reinterpret_cast<Player*>(e);
+      if (p->handleEvent(ev))
       {
-        onPause();
         return true;
-      }
-      //Handle movement input
-      //TODO: Also set speed to max available speed
-      for (auto& e : entityManager->getAll<Player>())
-      {
-        Player* p = reinterpret_cast<Player*>(e);
-        p->handleEvent(ev);
       }
     }
   }
   else if (currentInGameState == GameOver)
   {
-    if (ev.type == SDL_KEYDOWN)
+    if (gameOverExitToMainMenuCondition(ev))
     {
       int c = 1;
       for (auto& e : entityManager->getAll<Player>())
@@ -128,7 +151,8 @@ bool GameState::handleEvent(const SDL_Event &ev)
         LOG_DEBUG("Player %i: %i", c, p->getScore());
         c++;
       }
-      getEngine()->setState(new MenuState());
+      getEngine()->setState(((LawyerRace*)getGame())->getMenuState());
+      return true;
     }
   }
 
@@ -168,7 +192,7 @@ void GameState::update(float timeStep)
     {
       //ALL PLAYERS DIED!
       currentInGameState = GameOver;
-      std::shared_ptr<lwe::Text> t = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Press key to exit to menu", 48, 0.f, 0.f, 255, 255, 255);
+      std::shared_ptr<lwe::Text> t = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Press enter to exit to menu", 48, 0.f, 0.f, 255, 255, 255);
       textList.push_back(t);
       t->setX(centerHorizontal(0, (float)config::W_WIDTH, t->getWidth()));
       t->setY(bottomAlign((float)config::W_HEIGHT, 20, t->getHeight()));
@@ -202,6 +226,11 @@ void GameState::render(SDL_Renderer* const renderer, float timeAlpha)
   for (std::shared_ptr<lwe::Text> text : textList)
   {
     text->render();
+  }
+
+  if (m_paused)
+  {
+    pausedText->render();
   }
 
   if(currentInGameState == GameOver)
