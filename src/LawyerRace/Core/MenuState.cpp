@@ -90,7 +90,7 @@ bool MenuState::init()
   regions = atlas->findRegions("button-settings");
   menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2], [this](lwe::Button*) -> void
   {
-    // TODO enter settings state
+    getEngine()->setState(getGame<LawyerRace>()->getSettingsState());
   }));
   regions = atlas->findRegions("button-exit");
   menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3], [this](lwe::Button*) -> void

@@ -36,10 +36,16 @@ MenuState* LawyerRace::getMenuState() const
   return menuState.get();
 }
 
+SettingsState* LawyerRace::getSettingsState() const
+{
+  return settingsState.get();
+}
+
 void LawyerRace::init()
 {
   menuState = std::make_shared<MenuState>();
   gameState = std::make_shared<GameState>();
+  settingsState = std::make_shared<SettingsState>();
 
   LOG_DEBUG("Loading fonts...");
   LawyerRace::standardFont = std::make_unique<lwe::Font>();

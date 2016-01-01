@@ -4,6 +4,7 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Core/MenuState.hpp>
 #include <LawyerRace/Core/GameState.hpp>
+#include <LawyerRace/Core/SettingsState.hpp>
 #include <memory>
 
 extern "C"
@@ -24,10 +25,12 @@ public:
 
   MenuState* getMenuState() const;
   GameState* getGameState() const;
+  SettingsState* getSettingsState() const;
 
 private:
   std::shared_ptr<MenuState> menuState;
   std::shared_ptr<GameState> gameState;
+  std::shared_ptr<SettingsState> settingsState;
 
 public:
   static lua_State* LuaState; // TODO: change to non-static

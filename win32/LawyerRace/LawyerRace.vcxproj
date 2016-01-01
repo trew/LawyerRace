@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\MenuState.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\SettingsState.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Dollar.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\Enemy.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Entity\AbstractEntity.cpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="..\..\include\LawyerRace\Core\PlayerControls.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\MenuState.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\SettingsState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Dollar.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Enemy.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\AbstractEntity.hpp" />
