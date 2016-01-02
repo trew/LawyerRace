@@ -114,7 +114,7 @@ bool GameState::handleEvent(const SDL_Event &ev)
     if (pausedExitToMainMenuCondition(ev))
     {
       onResume();
-      getEngine()->setState(((LawyerRace*)getGame())->getMenuState());
+      getEngine()->setState(getGame<LawyerRace>()->getMenuState());
       return true;
     }
 
@@ -151,7 +151,7 @@ bool GameState::handleEvent(const SDL_Event &ev)
         LOG_DEBUG("Player %i: %i", c, p->getScore());
         c++;
       }
-      getEngine()->setState(((LawyerRace*)getGame())->getMenuState());
+      getEngine()->setState(getGame<LawyerRace>()->getMenuState());
       return true;
     }
   }

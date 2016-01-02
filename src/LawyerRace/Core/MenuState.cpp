@@ -1,6 +1,7 @@
 #include <LawyerRace/Core/MenuState.hpp>
 #include <LawyerRace/Core/GameState.hpp>
 #include <LawyerRace/Core/LawyerRace.hpp>
+#include <LawyerRace/Utils/PositionHelper.hpp>
 #include <iostream>
 
 MenuState::MenuState()
@@ -18,41 +19,46 @@ MenuState::~MenuState()
 bool MenuState::init()
 {
   internalState = NORMAL;
-  int menuPosition[] = { 300, 390, 480, 570 };
+  int menuPosition[] = { 272, 362, 452, 542 };
 
   lwe::AssetManager* assetManager = getEngine()->getAssetManager();
   lwe::TextureAtlas* atlas = assetManager->get<lwe::TextureAtlas>(config::path + "img/spritesheet_0");
   std::vector<lwe::TextureRegion*> regions = atlas->findRegions("button-1-players");
 
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[0], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[0], [this](lwe::Button* btn) -> void
   {
     config::NUM_OF_PLAYERS = 1;
-    getEngine()->setState(((LawyerRace*)getGame())->getGameState());
+    getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
   playersButtons.front()->setSelected(true);
 
   regions = atlas->findRegions("button-2-players");
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[1], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[1], [this](lwe::Button* btn) -> void
   {
     config::NUM_OF_PLAYERS = 2;
-    getEngine()->setState(((LawyerRace*)getGame())->getGameState());
+    getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
 
   regions = atlas->findRegions("button-3-players");
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[2], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2], [this](lwe::Button* btn) -> void
   {
     config::NUM_OF_PLAYERS = 3;
-    getEngine()->setState(((LawyerRace*)getGame())->getGameState());
+    getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
 
   regions = atlas->findRegions("button-4-players");
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[3], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3], [this](lwe::Button* btn) -> void
   {
     config::NUM_OF_PLAYERS = 4;
-    getEngine()->setState(((LawyerRace*)getGame())->getGameState());
+    getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
 
-  lwe::Button::createButtonGroup({playersButtons[0].get(), playersButtons[1].get(), playersButtons[2].get(), playersButtons[3].get()});
+  playersButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[0]->getWidth()));
+  playersButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[1]->getWidth()));
+  playersButtons[2]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[2]->getWidth()));
+  playersButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[3]->getWidth()));
+
+  lwe::Button::createVerticalButtonGroup({playersButtons[0].get(), playersButtons[1].get(), playersButtons[2].get(), playersButtons[3].get()});
 
   lwe::TextureRegion* menuBorderRegion = atlas->findRegion("mainmenu-menuframe-453x469");
   lwe::TextureRegion* titleRegion = atlas->findRegion("menu-title");
@@ -70,28 +76,35 @@ bool MenuState::init()
   title->setPreviousY(title->getY());
 
   regions = atlas->findRegions("button-play");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[0], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[0], [this](lwe::Button*) -> void
   {
     internalState = SELECT_PLAYERS;
   }));
   menuButtons.front()->setSelected(true);
   regions = atlas->findRegions("button-highscores");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[1], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[1], [this](lwe::Button*) -> void
   {
     // TODO enter highscores state
   }));
+
   regions = atlas->findRegions("button-settings");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[2], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2], [this](lwe::Button*) -> void
   {
     // TODO enter settings state
   }));
   regions = atlas->findRegions("button-exit");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], config::W_WIDTH / 2, menuPosition[3], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3], [this](lwe::Button*) -> void
   {
     getEngine()->exit();
   }));
 
-  lwe::Button::createButtonGroup({menuButtons[0].get(), menuButtons[1].get(), menuButtons[2].get(), menuButtons[3].get()});
+  menuButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[0]->getWidth()));
+  menuButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[1]->getWidth()));
+  menuButtons[2]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[2]->getWidth()));
+  menuButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[3]->getWidth()));
+
+
+  lwe::Button::createVerticalButtonGroup({menuButtons[0].get(), menuButtons[1].get(), menuButtons[2].get(), menuButtons[3].get()});
 
   rockRegion[0] = atlas->findRegion("stone1-17x14");
   rockRegion[1] = atlas->findRegion("stone2-26x25");
