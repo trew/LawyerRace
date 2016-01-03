@@ -47,17 +47,19 @@ void LawyerRace::init()
   gameState = std::make_shared<GameState>();
   settingsState = std::make_shared<SettingsState>();
 
+  Config& config = Config::getInstance();
+
   LOG_DEBUG("Loading fonts...");
   LawyerRace::standardFont = std::make_unique<lwe::Font>();
-  LawyerRace::standardFont->loadFromFile(config::path + "font/VeraMono.ttf");
+  LawyerRace::standardFont->loadFromFile(config.getFile("font/VeraMono.ttf"));
   LawyerRace::standardFont->getTTF_Font(12);
   LawyerRace::standardFont->getTTF_Font(48);
   LawyerRace::standardFont->getTTF_Font(72);
 
   LOG_DEBUG("Loading texture atlas...");
-  if (!getEngine()->getAssetManager()->load<lwe::TextureAtlas>(config::path + "img/spritesheet_0"))
+  if (!getEngine()->getAssetManager()->load<lwe::TextureAtlas>(config.getFile("img/spritesheet_0")))
   {
-    LOG_ERROR("Error loading texture atlas: %s", (config::path + "img/spritesheet_0").c_str());
+    LOG_ERROR("Error loading texture atlas: %s", (config.getFile("img/spritesheet_0")).c_str());
   }
 
   getEngine()->setState(menuState.get());

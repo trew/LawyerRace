@@ -188,7 +188,7 @@ bool PlayerControls::loadControlsFromFile(PlayerControls controls[], std::string
   if (!keyMapInitialized) initializeKeyMap(); //make sure keymap is filled.
 
   LOG_DEBUG("---PARSING KEYSET FILE---");
-  _file = config::path + _file;
+  _file = Config::getInstance().getFile(_file);
   lua_State* L = LawyerRace::LuaState;
 
   if (luaL_loadfile(L, _file.c_str()))
@@ -212,7 +212,7 @@ bool PlayerControls::loadControlsFromFile(PlayerControls controls[], std::string
     setControlsForPlayer(4, controls[3], keysets["player4"]);
 
     // ultraexception for player 1
-    if (config::NUM_OF_PLAYERS == 1)
+    if (Config::getInstance().getPlayerCount() == 1)
     {
       LuaRef p1 = keysets["player1"];
       if (p1.isTable())

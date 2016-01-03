@@ -20,63 +20,142 @@ enum Direction {
 #define MAX(a, b) ((a > b) ? a : b)
 #define MIN(a, b) ((a < b) ? a : b)
 
-namespace config
+class Config
 {
+public:
+  static Config& getInstance()
+  {
+    static Config instance;
+    return instance;
+  }
 
-  bool parseConfigFile(std::string _file);
-  std::string validateConfigFile(std::string _file);
-  std::string validatePath(std::string _path);
+  const std::string& getPath() const;
+  void setPath(const std::string& path);
 
-  extern std::string path;
-  extern std::string config_file;
-  extern std::string keyset_file;
+  void setConfigFile(const std::string& file);
+  bool loadConfigFile();
 
-  extern const std::string WINDOW_TEXT;
+  std::string getFile(const std::string& fileName);
 
-  extern int W_WIDTH; ///<Window Width
-  extern int W_HEIGHT;    ///<Window Height
+  int getWindowWidth() const;
+  int getWindowHeight() const;
 
-  extern const int W_BPP;     ///<Window Depth
+  int getGameWidth() const;
+  int getGameHeight() const;
 
-  extern const int MAXNUM_OF_PLAYERS; ///< Maximum amount of players that the game supports
-  extern int NUM_OF_PLAYERS;
+  const std::string& getWindowText() const;
+  int getMaximumPlayerCount() const;
+  int getPlayerCount() const;
+  void setPlayerCount(int count);
 
-  extern const float P_WIDTH;       ///<Size of Player sprite width
-  extern const float P_HEIGHT;  ///<Size of Player sprite height
-  extern const std::string P_SRC[4];
+  float getPlayerWidth() const;
+  float getPlayerHeight() const;
 
-  extern const float E_WIDTH;       ///<Size of Enemy sprite width
-  extern const float E_HEIGHT;  ///<Size of Enemy sprite height
-  extern const std::string E_SRC;
+  float getEnemyWidth() const;
+  float getEnemyHeight() const;
 
-  extern const float D_WIDTH;       ///<Size of Dollar sprite width
-  extern const float D_HEIGHT;  ///<Size of Dollar sprite height
-  extern const std::string D_SRC;
+  float getDollarWidth() const;
+  float getDollarHeight() const;
 
-  extern const float MAX_R_WIDTH;
-  extern const float MAX_R_HEIGHT;
-  extern const float R_WIDTH[3];
-  extern const float R_HEIGHT[3];
-  extern const std::string R_SRC[3];
+  float getMaxRockWidth() const;
+  float getMaxRockHeight() const;
+  float getRockWidth(int type) const;
+  float getRockHeight(int type) const;
 
-  extern bool PLAYER_STOP_ENABLED;
-  extern bool OLD_DIAGONAL_SPEED;
+  bool isPlayerStopEnabled() const;
+  void setPlayerStopEnabled(bool enabled);
+  bool isOldDiagonalSpeedEnabled() const;
+  void setOldDiagonalSpeedEnabled(bool enabled);
 
-  extern int MAX_ENEMIES;
-  extern int ENEMIES_BEFORE_ROCK;
-  extern int MAX_ROCKS;
+  int getMaxEnemyCount() const;
+  int getEnemyCountBeforeRocks() const;
+  int getMaxRockCount() const;
 
-  extern float GAME_SPEED;
-  extern float P_VELOCITY;        ///< Player velocity
-  extern float E_VELOCITY;        ///< Enemy velocity
-  extern float R_VELOCITY[3];     ///< Rock velocities
+  float getGameSpeed() const;
+  float getPlayerVelocity() const;
+  float getEnemyVelocity() const;
+  float getRockVelocity(int type) const;
 
-  extern PlayerControls CONTROLS[4];
+  PlayerControls* getPlayerControls();
+  const PlayerControls& getPlayerControls(int player) const;
+  const std::string& getControlsFile() const;
+  void setControlsFile(const std::string& file);
 
-  extern bool ENABLE_LERP;
-  extern int MAX_FRAMESKIP;
-  extern int MAX_FPS;
+  bool isLinearInterpolationEnabled() const;
+  int getMaxFrameSkip() const;
+  int getMaxFPS() const;
 
-  extern bool SKIP_MENU;
-}
+  bool isSkipMenu() const;
+
+  const std::string& getDollarRegion() const;
+  const std::string& getPlayerRegion(int player) const;
+  const std::string& getEnemyRegion() const;
+  const std::string& getRockRegion(int type) const;
+
+private:
+  bool initialized { false };
+
+  Config();
+  ~Config();
+
+  std::string validateConfigFile(const std::string& file);
+  std::string validatePath(const std::string& path);
+
+private:
+  std::string path;
+  std::string configFile { "cfg/med.lua" };
+  std::string controlsFile { "cfg/keysets.lua" };
+
+  std::string windowText { "Lawyer Race" };
+
+  int maxPlayerCount { 4 };
+  int playerCount { 1 };
+
+  int windowWidth { 1024 };
+  int windowHeight { 768 };
+
+  int gameWidth { 1024 };
+  int gameHeight { 768 };
+
+  float playerWidth { 30.f };
+  float playerHeight { 30.f };
+
+  float enemyWidth { 30.f };
+  float enemyHeight { 30.f };
+
+  float dollarWidth { 30.f };
+  float dollarHeight { 15.f };
+
+  float maxRockWidth { 58.f };
+  float maxRockHeight { 49.f };
+  float rockWidth[3];
+  float rockHeight[3];
+
+  bool playerStopEnabled { true };
+  bool oldDiagonalSpeed { false };
+
+  int maxEnemyCount { 5 };
+  int enemyCountBeforeRocks { 3 };
+  int maxRockCount { 10 };
+
+  float gameSpeed { 1.f };
+
+  float playerVelocity { 250.f };
+  float enemyVelocity { 100.f };
+  float rockVelocity[3];
+
+  std::string dollarRegion { "dollar" };
+  std::string playerRegion[4];
+  std::string enemyRegion { "enemy" };
+  std::string rockRegion[3];
+
+  PlayerControls controls[4];
+
+  bool enableLinearInterpolation { true };
+  int maxFrameSkip { 10 };
+  int maxFps { 200 };
+
+  bool skipMenu { false };
+};
+
 #endif

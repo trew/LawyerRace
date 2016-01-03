@@ -35,7 +35,10 @@ bool parseCommandLine(int argc, char* argv[])
   TCLAP::ValueArg<std::string> keysetFile("k", "keyset-file", "use keysets from this file", false, "", "string", cmd);
   TCLAP::SwitchArg disableStop("", "disable-stop", "disallows players to stop", cmd);
   TCLAP::SwitchArg oldDiagonalspeed("", "old-diagonalspeed", "use the old diagonal speed. (instead of modifying by 0.7~)", cmd);
-    
+   
+
+  Config& config = Config::getInstance();
+
   try
   {
     cmd.parse(argc, argv);
@@ -54,48 +57,49 @@ bool parseCommandLine(int argc, char* argv[])
   /* First load path and config file */
   if (path.isSet())
   {
-    config::path = config::validatePath(path.getValue());
+    config.setPath(path.getValue());
   }
   else
   {
-    config::path = config::validatePath(std::string(lwe::filesys::cwd()));
+    config.setPath(std::string(lwe::filesys::cwd()));
   }
 
   if (settingsFile.isSet())
   {
-    config::config_file = config::validateConfigFile(settingsFile.getValue());
+    config.setConfigFile(settingsFile.getValue());
   }
-  config::parseConfigFile(config::path + config::config_file);
+
+  config.loadConfigFile();
 
   if (keysetFile.isSet())
   {
-    if (lwe::filesys::fileExists(config::path + keysetFile.getValue()))
+    if (lwe::filesys::fileExists(config.getFile(keysetFile.getValue())))
     {
-      config::keyset_file = keysetFile.getValue();
+      config.setControlsFile(keysetFile.getValue());
     }
-    else if (lwe::filesys::fileExists(config::path + "cfg/" + keysetFile.getValue()))
+    else if (lwe::filesys::fileExists(config.getFile("cfg/" + keysetFile.getValue())))
     {
-      config::keyset_file = "cfg/" + keysetFile.getValue();
+      config.setControlsFile("cfg/" + keysetFile.getValue());
     }
     else
     {
       LOG_ERROR("Error loading %s", keysetFile.getValue().c_str());
     }
   }
-  LOG_DEBUG("Using keysets from %s", config::keyset_file.c_str());
+  LOG_DEBUG("Using keysets from %s", config.getControlsFile().c_str());
   LOG_DEBUG("Loading keysets...");
-  PlayerControls::loadControlsFromFile(config::CONTROLS, config::keyset_file);
+  PlayerControls::loadControlsFromFile(config.getPlayerControls(), config.getControlsFile());
 
   /* Continue and override any variables that were provided in command line; they are more important than the config file */
   if (disableStop.getValue())
   {
-    config::PLAYER_STOP_ENABLED = false;
+    config.setPlayerStopEnabled(false);
     LOG_DEBUG("CMDLINE: Disabling player stop");
   }
 
   if (oldDiagonalspeed.getValue())
   {
-    config::OLD_DIAGONAL_SPEED = true;
+    config.setOldDiagonalSpeedEnabled(true);
     LOG_DEBUG("CMDLINE: Enforcing old diagonal speed...");
   }
 
@@ -104,13 +108,13 @@ bool parseCommandLine(int argc, char* argv[])
     int playerCount = players.getValue();
     if (playerCount < 5 && playerCount > 0)
     {
-      config::NUM_OF_PLAYERS = playerCount;
-      LOG_DEBUG("CMDLINE: Setting number of players to: ", config::NUM_OF_PLAYERS);
+      config.setPlayerCount(playerCount);
+      LOG_DEBUG("CMDLINE: Setting number of players to: ", config.getPlayerCount());
     }
     else
     {
       LOG_ERROR("Wrong number of players");
-      config::NUM_OF_PLAYERS = 1;
+      config.setPlayerCount(1);
     }
   }
 
@@ -136,13 +140,17 @@ int main(int argc, char* argv[])
     return 0;
   }
 
+  Config& config = Config::getInstance();
+
   lwe::GameSettings settings;
-  settings.WindowWidth = config::W_WIDTH;
-  settings.WindowHeight = config::W_HEIGHT;
-  settings.WindowTitle = config::WINDOW_TEXT;
-  settings.MaxFPS = config::MAX_FPS;
-  settings.MaxFrameSkip = config::MAX_FRAMESKIP;
-  settings.EntityInterpolationEnabled = config::ENABLE_LERP;
+  settings.WindowWidth = 800;//config::W_WIDTH;
+  settings.WindowHeight = 600;//config::W_HEIGHT;
+  settings.LogicalWidth = 1024;
+  settings.LogicalHeight = 768;
+  settings.WindowTitle = config.getWindowText();
+  settings.MaxFPS = config.getMaxFPS();
+  settings.MaxFrameSkip = config.getMaxFrameSkip();
+  settings.EntityInterpolationEnabled = config.isLinearInterpolationEnabled();
 
   lwe::GameEngine engine(settings, lr);
 

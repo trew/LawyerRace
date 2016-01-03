@@ -21,13 +21,14 @@ bool MenuState::init()
   internalState = NORMAL;
   int menuPosition[] = { 272, 362, 452, 542 };
 
+  Config& config = Config::getInstance();
   lwe::AssetManager* assetManager = getEngine()->getAssetManager();
-  lwe::TextureAtlas* atlas = assetManager->get<lwe::TextureAtlas>(config::path + "img/spritesheet_0");
+  lwe::TextureAtlas* atlas = assetManager->get<lwe::TextureAtlas>(config.getFile("img/spritesheet_0"));
   std::vector<lwe::TextureRegion*> regions = atlas->findRegions("button-1-players");
 
   playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[0], [this](lwe::Button* btn) -> void
   {
-    config::NUM_OF_PLAYERS = 1;
+    Config::getInstance().setPlayerCount(1);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
   playersButtons.front()->setSelected(true);
@@ -35,28 +36,28 @@ bool MenuState::init()
   regions = atlas->findRegions("button-2-players");
   playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[1], [this](lwe::Button* btn) -> void
   {
-    config::NUM_OF_PLAYERS = 2;
+    Config::getInstance().setPlayerCount(2);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
 
   regions = atlas->findRegions("button-3-players");
   playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2], [this](lwe::Button* btn) -> void
   {
-    config::NUM_OF_PLAYERS = 3;
+    Config::getInstance().setPlayerCount(3);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
 
   regions = atlas->findRegions("button-4-players");
   playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3], [this](lwe::Button* btn) -> void
   {
-    config::NUM_OF_PLAYERS = 4;
+    Config::getInstance().setPlayerCount(4);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
   }));
 
-  playersButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[0]->getWidth()));
-  playersButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[1]->getWidth()));
-  playersButtons[2]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[2]->getWidth()));
-  playersButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, playersButtons[3]->getWidth()));
+  playersButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[0]->getWidth()));
+  playersButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[1]->getWidth()));
+  playersButtons[2]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[2]->getWidth()));
+  playersButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[3]->getWidth()));
 
   lwe::Button::createVerticalButtonGroup({playersButtons[0].get(), playersButtons[1].get(), playersButtons[2].get(), playersButtons[3].get()});
 
@@ -64,13 +65,13 @@ bool MenuState::init()
   lwe::TextureRegion* titleRegion = atlas->findRegion("menu-title");
 
   menuBorder = std::make_shared<AbstractEntity>(menuBorderRegion);
-  menuBorder->setX(config::W_WIDTH / 2.f - menuBorder->getWidth() / 2.f);
+  menuBorder->setX(config.getGameWidth() / 2.f - menuBorder->getWidth() / 2.f);
   menuBorder->setY(200.f);
   menuBorder->setPreviousX(menuBorder->getX());
   menuBorder->setPreviousY(menuBorder->getY());
 
   title = std::make_shared<AbstractEntity>(titleRegion);
-  title->setX(config::W_WIDTH / 2.f - title->getWidth() / 2.f);
+  title->setX(config.getGameWidth() / 2.f - title->getWidth() / 2.f);
   title->setY(40);
   title->setPreviousX(title->getX());
   title->setPreviousY(title->getY());
@@ -98,10 +99,10 @@ bool MenuState::init()
     getEngine()->exit();
   }));
 
-  menuButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[0]->getWidth()));
-  menuButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[1]->getWidth()));
-  menuButtons[2]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[2]->getWidth()));
-  menuButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config::W_WIDTH, menuButtons[3]->getWidth()));
+  menuButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), menuButtons[0]->getWidth()));
+  menuButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), menuButtons[1]->getWidth()));
+  menuButtons[2]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), menuButtons[2]->getWidth()));
+  menuButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), menuButtons[3]->getWidth()));
 
 
   lwe::Button::createVerticalButtonGroup({menuButtons[0].get(), menuButtons[1].get(), menuButtons[2].get(), menuButtons[3].get()});
@@ -169,11 +170,12 @@ void MenuState::copyDataForInterpolation()
 
 void MenuState::update(float timeStep)
 {
+  Config& config = Config::getInstance();
   for (auto& it = rocks.begin(); it != rocks.end(); )
   {
     (*it)->update(timeStep);
 
-    if ((*it)->getY() + (*it)->getHeight() > config::W_HEIGHT)
+    if ((*it)->getY() + (*it)->getHeight() > config.getGameHeight())
     {
       it = rocks.erase(it);
     }
@@ -185,8 +187,8 @@ void MenuState::update(float timeStep)
   
   while (rocks.size() < 5)
   {
-    float y = -config::MAX_R_HEIGHT;
-    float x = (float)(rand() % (int)(config::W_WIDTH));
+    float y = -config.getMaxRockHeight();
+    float x = (float)(rand() % (int)(config.getGameWidth()));
     int rockType = (rand() % 10 + 1);
 
     if (rockType >= 5 && rockType <= 8)

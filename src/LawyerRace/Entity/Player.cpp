@@ -7,8 +7,16 @@
 int Player::alivePlayers = 0;
 int Player::currentPlayerNum = 0;
 
-Player::Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* const renderer, const PlayerControls& controls)
-  : Player(regions, renderer, 0, 0, config::P_WIDTH, config::P_HEIGHT, controls)
+Player::Player(const std::vector<lwe::TextureRegion*>& regions,
+               SDL_Renderer* const renderer,
+               const PlayerControls& controls)
+  : Player(regions,
+           renderer,
+           0,
+           0,
+           Config::getInstance().getPlayerWidth(),
+           Config::getInstance().getPlayerHeight(),
+           controls)
 {
 }
 
@@ -44,7 +52,7 @@ Player::Player(const std::vector<lwe::TextureRegion*>& regions,
   updateScore();
   this->controls = controls;
 
-  setVelocity(config::P_VELOCITY, config::P_VELOCITY);
+  setVelocity(Config::getInstance().getPlayerVelocity(), Config::getInstance().getPlayerVelocity());
 }
 
 Player::~Player()
@@ -90,7 +98,7 @@ bool Player::handleEvent(const SDL_Event& ev)
   }
   else if (controls.getStop()(ev))
   {
-    if (config::PLAYER_STOP_ENABLED)
+    if (Config::getInstance().isPlayerStopEnabled())
     {
       setMoving(!isMoving());
       return true;
@@ -119,9 +127,10 @@ void Player::update(float timeStep)
   else if (m_direction == DOWN)
   {
     setY(getY() + (getVelocityY() * timeStep));
-    if (getY() + getHeight() > config::W_HEIGHT)
+    if (getY() + getHeight() > 768) // TODO magic number
     {
-      setY(static_cast<float>(config::W_HEIGHT - getHeight())); //Prevent from going out of screen
+       // TODO magic number
+      setY(static_cast<float>(768 - getHeight())); //Prevent from going out of screen
     }
   }
 
@@ -136,9 +145,9 @@ void Player::update(float timeStep)
   else if (m_direction == RIGHT)
   {
     setX(getX() + (getVelocityX() * timeStep));
-    if (getX() + getWidth() > config::W_WIDTH)
+    if (getX() + getWidth() > 1024)  // TODO magic number
     {
-      setX(static_cast<float>(config::W_WIDTH - getWidth())); //Prevent from going out of screen
+      setX(static_cast<float>(1024 - getWidth())); //Prevent from going out of screen
     }
   }
 }
@@ -159,12 +168,14 @@ void Player::updateScore()
 
   using namespace positionHelper;
   //Position text correctly
-  if (config::NUM_OF_PLAYERS == 4)
+  Config& config = Config::getInstance();
+  if (config.getPlayerCount() == 4)
   {
-    float newXPos = (float)((config::W_WIDTH / 4.f) * (playerNum-1) + 20);
+     // TODO magic number
+    float newXPos = (float)((1024 / 4.f) * (playerNum-1) + 20);
     scoreText->setX(newXPos);
   }
-  else if (config::NUM_OF_PLAYERS == 3)
+  else if (config.getPlayerCount() == 3)
   {
     if (playerNum == 1)
     {
@@ -172,14 +183,16 @@ void Player::updateScore()
     }
     else if (playerNum == 2)
     {
-      scoreText->setX(centerHorizontal(0, (float)config::W_WIDTH, scoreText->getWidth()));
+       // TODO magic number
+      scoreText->setX(centerHorizontal(0, (float)1024, scoreText->getWidth()));
     }
     else if (playerNum == 3)
     {
-      scoreText->setX(rightAlign((float)config::W_WIDTH, 10, scoreText->getWidth()));
+       // TODO magic number
+      scoreText->setX(rightAlign((float)1024, 10, scoreText->getWidth()));
     }
   }
-  else if (config::NUM_OF_PLAYERS == 2)
+  else if (config.getPlayerCount() == 2)
   {
     if (playerNum == 1)
     {
@@ -187,12 +200,14 @@ void Player::updateScore()
     }
     else if (playerNum == 2)
     {
-      scoreText->setX(rightAlign((float)config::W_WIDTH, 10, scoreText->getWidth()));
+       // TODO magic number
+      scoreText->setX(rightAlign((float)1024, 10, scoreText->getWidth()));
     }
   } 
-  else if (config::NUM_OF_PLAYERS == 1)
+  else if (config.getPlayerCount() == 1)
   {
-    scoreText->setX(centerHorizontal(0, (float)config::W_WIDTH, scoreText->getWidth()));
+     // TODO magic number
+    scoreText->setX(centerHorizontal(0, (float)1024, scoreText->getWidth()));
   }
 }
 

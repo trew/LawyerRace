@@ -28,44 +28,44 @@ GameState::GameState()
 
 bool GameState::init()
 {
-  
+  Config& config = Config::getInstance();
   LOG_DEBUG("Loading textures");
   {
-    atlas = getEngine()->getAssetManager()->get<lwe::TextureAtlas>(config::path + "img/spritesheet_0");
+    atlas = getEngine()->getAssetManager()->get<lwe::TextureAtlas>(config.getFile("img/spritesheet_0"));
   }
 
   LOG_DEBUG("Loading players...");
 
-  float wh = (float)config::W_HEIGHT;
-  float ww = (float)config::W_WIDTH;
-  for (int i = 0; i < config::NUM_OF_PLAYERS; i++)
+  float wh = (float)config.getGameHeight();
+  float ww = (float)config.getGameWidth();
+  for (int i = 0; i < config.getPlayerCount(); i++)
   {
-    m_player[i] = entityManager->create<Player>(atlas->findRegions(config::P_SRC[i]),
+    m_player[i] = entityManager->create<Player>(atlas->findRegions(config.getPlayerRegion(i)),
                                                 getEngine()->getRenderer(),
                                                 0.f,
                                                 0.f,
-                                                config::P_WIDTH,
-                                                config::P_HEIGHT,
-                                                config::CONTROLS[i]);
+                                                config.getPlayerWidth(),
+                                                config.getPlayerHeight(),
+                                                config.getPlayerControls(i));
     m_player[i]->setY(centerVertical(0, wh, m_player[i]->getHeight()));
   }
 
-  if (config::NUM_OF_PLAYERS == 1)
+  if (config.getPlayerCount() == 1)
   {
     m_player[0]->setX(centerHorizontal(0, ww, m_player[0]->getWidth()));
   }
-  else if (config::NUM_OF_PLAYERS == 2)
+  else if (config.getPlayerCount() == 2)
   {
     m_player[0]->setX(centerHorizontal(0, ww - (m_player[0]->getWidth() * 3), m_player[0]->getWidth()));
     m_player[1]->setX(centerHorizontal(m_player[1]->getWidth() * 3, ww, m_player[1]->getWidth()));
   }
-  else if (config::NUM_OF_PLAYERS == 3)
+  else if (config.getPlayerCount() == 3)
   {
     m_player[0]->setX(centerHorizontal(0, ww - (m_player[0]->getWidth() * 6), m_player[0]->getWidth()));
     m_player[1]->setX(centerHorizontal(0, ww, m_player[1]->getWidth()));
     m_player[2]->setX(centerHorizontal((m_player[0]->getWidth() * 6), ww, m_player[2]->getWidth()));
   }
-  else if (config::NUM_OF_PLAYERS == 4)
+  else if (config.getPlayerCount() == 4)
   {
     m_player[0]->setX(centerHorizontal(0, ww - (m_player[0]->getWidth() * 9), m_player[0]->getWidth()));
     m_player[1]->setX(centerHorizontal(0, ww - (m_player[1]->getWidth() * 3), m_player[1]->getWidth()));
@@ -176,6 +176,8 @@ void GameState::update(float timeStep)
 
   entityManager->refresh();
 
+  Config& config = Config::getInstance();
+
   if (currentInGameState == Play)
   {
     for (auto& e : entityManager->getAllEntities())
@@ -194,8 +196,8 @@ void GameState::update(float timeStep)
       currentInGameState = GameOver;
       std::shared_ptr<lwe::Text> t = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Press enter to exit to menu", 48, 0.f, 0.f, 255, 255, 255);
       textList.push_back(t);
-      t->setX(centerHorizontal(0, (float)config::W_WIDTH, t->getWidth()));
-      t->setY(bottomAlign((float)config::W_HEIGHT, 20, t->getHeight()));
+      t->setX(centerHorizontal(0, (float)config.getGameWidth(), t->getWidth()));
+      t->setY(bottomAlign((float)config.getGameHeight(), 20, t->getHeight()));
     }
   }
   else if (currentInGameState == CountDown)
@@ -203,8 +205,8 @@ void GameState::update(float timeStep)
     if(countDown_compareTime < SDL_GetTicks())
     {
       text_countDown->updateText(countDown);
-      text_countDown->setX(centerHorizontal(0, (float)config::W_WIDTH, text_countDown->getWidth()));
-      text_countDown->setY(centerVertical(0, (float)config::W_HEIGHT / 2, text_countDown->getHeight()));
+      text_countDown->setX(centerHorizontal(0, (float)config.getGameWidth(), text_countDown->getWidth()));
+      text_countDown->setY(centerVertical(0, (float)config.getGameHeight() / 2, text_countDown->getHeight()));
       countDown_compareTime += 1000;
       countDown--;
       if (countDown < 0)
@@ -310,17 +312,22 @@ void GameState::checkForCollision()
 void GameState::createDollar()
 {
   auto& dollarList = entityManager->getAll<Dollar>();
+  Config& config = Config::getInstance();
   while (dollarList.size() < unsigned(Player::getAlivePlayerCount()))
   {
-    Dollar* newDollar = entityManager->create<Dollar>(atlas->findRegion(config::D_SRC), 0.f, 0.f, config::D_WIDTH, config::D_HEIGHT);
+    Dollar* newDollar = entityManager->create<Dollar>(atlas->findRegion(config.getDollarRegion()),
+                                                      0.f,
+                                                      0.f,
+                                                      config.getDollarWidth(),
+                                                      config.getDollarHeight());
     int newDollar_xPos = 0;
     int newDollar_yPos = 0;
     bool valid = false;
     while (!valid)
     { //Loop until valid pos is found
       valid = true;
-      newDollar_xPos = rand() % (config::W_WIDTH - (int)newDollar->getWidth())   ;
-      newDollar_yPos = rand() % (config::W_HEIGHT - (int)newDollar->getHeight()) ;
+      newDollar_xPos = rand() % (config.getGameWidth() - (int)newDollar->getWidth())   ;
+      newDollar_yPos = rand() % (config.getGameHeight() - (int)newDollar->getHeight()) ;
       newDollar->setX(static_cast<float>(newDollar_xPos));
       newDollar->setY(static_cast<float>(newDollar_yPos));
 
@@ -344,7 +351,8 @@ void GameState::createDollar()
 void GameState::createEnemy()
 {
   auto& enemyList = entityManager->getAll<Enemy>();
-  if(enemyList.size() >= static_cast<unsigned int>(config::MAX_ENEMIES)) return;
+  Config& config = Config::getInstance();
+  if(enemyList.size() >= static_cast<unsigned int>(config.getMaxEnemyCount())) return;
 
   unsigned int highestCurrentScore = getHighestCurrentScore();
 
@@ -355,23 +363,23 @@ void GameState::createEnemy()
     //Create enemy out of screen. Randomize up/down, left/right
     if ((rand() % 2) == 1)
     {
-      e_x = -config::E_WIDTH;
-      e_y = -config::E_HEIGHT;
+      e_x = -config.getEnemyWidth();
+      e_y = -config.getEnemyHeight();
     }
     else
     {
-      e_x = config::W_WIDTH+1.f;
-      e_y = config::W_HEIGHT+1.f;
+      e_x = config.getGameWidth() + 1.f;
+      e_y = config.getGameHeight() + 1.f;
     }
 
     //Randomize x and y-position.
     if ((rand() % 2) == 1)
     {
-      e_x = (float)(rand() % (int)(config::W_WIDTH - config::E_WIDTH));
+      e_x = (float)(rand() % (int)(config.getGameWidth() - config.getEnemyWidth()));
     }
     else
     {
-      e_y = (float)(rand() % (int)(config::W_HEIGHT - config::E_HEIGHT));
+      e_y = (float)(rand() % (int)(config.getGameHeight() - config.getEnemyHeight()));
     }
 
     bool movingX = true, movingY = true;
@@ -386,14 +394,21 @@ void GameState::createEnemy()
     }
 
     //Finally, create new enemy
-    entityManager->create<Enemy>(atlas->findRegions(config::E_SRC), (float)e_x, (float)e_y, config::E_WIDTH, config::E_HEIGHT, movingX, movingY);
+    entityManager->create<Enemy>(atlas->findRegions(config.getEnemyRegion()),
+                                 (float)e_x,
+                                 (float)e_y,
+                                 config.getEnemyWidth(),
+                                 config.getEnemyHeight(),
+                                 movingX,
+                                 movingY);
   }
 }
 
 void GameState::createRock()
 {
   // this function must be called right after entityManager->refresh() is called
-  int highestCurrentScore = getHighestCurrentScore() - ((config::ENEMIES_BEFORE_ROCK -1) * 5);
+  Config& config = Config::getInstance();
+  int highestCurrentScore = getHighestCurrentScore() - ((config.getEnemyCountBeforeRocks() - 1) * 5);
   if(highestCurrentScore < 0)
   {
     highestCurrentScore = 0;
@@ -401,32 +416,32 @@ void GameState::createRock()
 
   std::size_t max_amount_of_rocks = std::size_t(highestCurrentScore / 5);
 
-  if (max_amount_of_rocks > std::size_t(config::MAX_ROCKS))
+  if (max_amount_of_rocks > std::size_t(config.getMaxRockCount()))
   {
-    max_amount_of_rocks = std::size_t(config::MAX_ROCKS);
+    max_amount_of_rocks = std::size_t(config.getMaxRockCount());
   }
 
   auto& rockList = entityManager->getAll<Rock>();
 
   while ( rockList.size() < max_amount_of_rocks )
   {
-    float y = -config::MAX_R_HEIGHT;
+    float y = -config.getMaxRockHeight();
 
     int rockType = (rand() % 10 +1);
     if (rockType >= 7 && rockType <= 9)
     {
-      float x = (float)(rand() % (int)(config::W_WIDTH - config::R_WIDTH[1]));
-      entityManager->create<Rock>(atlas->findRegion(config::R_SRC[1]), x, y, 2);
+      float x = (float)(rand() % (int)(config.getGameWidth() - config.getRockWidth(1)));
+      entityManager->create<Rock>(atlas->findRegion(config.getRockRegion(1)), x, y, 2);
     }
     else if(rockType == 10)
     {
-      float x = (float)(rand() % (int)(config::W_WIDTH - config::R_WIDTH[2]));
-      entityManager->create<Rock>(atlas->findRegion(config::R_SRC[2]), x, y, 3);
+      float x = (float)(rand() % (int)(config.getGameWidth() - config.getRockWidth(2)));
+      entityManager->create<Rock>(atlas->findRegion(config.getRockRegion(2)), x, y, 3);
     }
     else
     {
-      float x = (float)(rand() % (int)(config::W_WIDTH - config::R_WIDTH[0]));
-      entityManager->create<Rock>(atlas->findRegion(config::R_SRC[0]), x, y, 1);
+      float x = (float)(rand() % (int)(config.getGameWidth() - config.getRockWidth(0)));
+      entityManager->create<Rock>(atlas->findRegion(config.getRockRegion(0)), x, y, 1);
     }
   }
 }
