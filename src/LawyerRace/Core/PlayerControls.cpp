@@ -69,7 +69,7 @@ void PlayerControls::initializeKeyMap()
   keyMapInitialized = true;
 }
 
-inline bool inrange(int x,int a,int b)
+inline bool inrange(int x, int a, int b)
 {
   return (a <= x && x <= b);
 } 
@@ -165,7 +165,7 @@ void PlayerControls::setControlsForPlayer(int playerNumber, PlayerControls& cont
   if (playerNumber < 1 || playerNumber > 4)
   {
     LOG_ERROR("Setting keys for player %i is not supported.", playerNumber);
-    return; // TODO log?
+    return;
   }
 
   using namespace luabridge;
@@ -185,7 +185,10 @@ void PlayerControls::setControlsForPlayer(int playerNumber, PlayerControls& cont
 
 bool PlayerControls::loadControlsFromFile(PlayerControls controls[], std::string _file)
 {
-  if (!keyMapInitialized) initializeKeyMap(); //make sure keymap is filled.
+  if (!keyMapInitialized)
+  {
+    initializeKeyMap(); //make sure keymap is filled.
+  }
 
   LOG_DEBUG("---PARSING KEYSET FILE---");
   _file = Config::getInstance().getFile(_file);

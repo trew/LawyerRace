@@ -24,8 +24,6 @@ GameState::GameState()
   pauseCondition.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_START, true));
 }
 
-/* RUN ONCE FUNCTIONS */
-
 bool GameState::init()
 {
   Config& config = Config::getInstance();
@@ -96,11 +94,7 @@ void GameState::cleanup()
   Player::setAlivePlayerCount(0);
   entityManager->clear();
 }
-/* END RUN ONCE FUNCTIONS */
 
-
-
-/* GAMELOOP FUNCTIONS*/
 bool GameState::handleEvent(const SDL_Event &ev)
 {
   if (m_paused)
@@ -240,7 +234,6 @@ void GameState::render(SDL_Renderer* const renderer, float timeAlpha)
     //Render gameover screen here
   }
 }
-/* END GAMELOOP FUNCTIONS */
 
 void GameState::onPause()
 {
@@ -251,8 +244,6 @@ void GameState::onResume()
 {
   m_paused = false;
 }
-
-/* SUPPORTIVE FUNCTIONS */
 
 void GameState::checkForCollision()
 {
@@ -326,10 +317,10 @@ void GameState::createDollar()
     while (!valid)
     { //Loop until valid pos is found
       valid = true;
-      newDollar_xPos = rand() % (config.getGameWidth() - (int)newDollar->getWidth())   ;
-      newDollar_yPos = rand() % (config.getGameHeight() - (int)newDollar->getHeight()) ;
-      newDollar->setX(static_cast<float>(newDollar_xPos));
-      newDollar->setY(static_cast<float>(newDollar_yPos));
+      newDollar_xPos = rand() % (config.getGameWidth() - (int)newDollar->getWidth());
+      newDollar_yPos = rand() % (config.getGameHeight() - (int)newDollar->getHeight());
+      newDollar->setX((float)newDollar_xPos);
+      newDollar->setY((float)newDollar_yPos);
 
       for (auto& e : entityManager->getAll<Player>())
       {
@@ -342,8 +333,8 @@ void GameState::createDollar()
       }
     }
 
-    newDollar->setX(static_cast<float>(newDollar_xPos));
-    newDollar->setY(static_cast<float>(newDollar_yPos));
+    newDollar->setX((float)newDollar_xPos);
+    newDollar->setY((float)newDollar_yPos);
     newDollar->copyDataForInterpolation();
   }
 }
@@ -352,11 +343,14 @@ void GameState::createEnemy()
 {
   auto& enemyList = entityManager->getAll<Enemy>();
   Config& config = Config::getInstance();
-  if(enemyList.size() >= static_cast<unsigned int>(config.getMaxEnemyCount())) return;
+  if (enemyList.size() >= (unsigned int)config.getMaxEnemyCount())
+  {
+    return;
+  }
 
   unsigned int highestCurrentScore = getHighestCurrentScore();
 
-  while( enemyList.size() < ((highestCurrentScore / 5) +1) )
+  while (enemyList.size() < ((highestCurrentScore / 5) + 1))
   {
     float e_x;
     float e_y;
@@ -388,9 +382,13 @@ void GameState::createEnemy()
     if (enemyListSize > 0)
     {
       if (enemyListSize % 2 == 1)
+      {
         movingX = false;
+      }
       else
+      {
         movingY = false;
+      }
     }
 
     //Finally, create new enemy
@@ -409,21 +407,21 @@ void GameState::createRock()
   // this function must be called right after entityManager->refresh() is called
   Config& config = Config::getInstance();
   int highestCurrentScore = getHighestCurrentScore() - ((config.getEnemyCountBeforeRocks() - 1) * 5);
-  if(highestCurrentScore < 0)
+  if (highestCurrentScore < 0)
   {
     highestCurrentScore = 0;
   }
 
-  std::size_t max_amount_of_rocks = std::size_t(highestCurrentScore / 5);
+  int maxAmountOfRocks = highestCurrentScore / 5;
 
-  if (max_amount_of_rocks > std::size_t(config.getMaxRockCount()))
+  if (maxAmountOfRocks > config.getMaxRockCount())
   {
-    max_amount_of_rocks = std::size_t(config.getMaxRockCount());
+    maxAmountOfRocks = config.getMaxRockCount();
   }
 
   auto& rockList = entityManager->getAll<Rock>();
 
-  while ( rockList.size() < max_amount_of_rocks )
+  while (rockList.size() < (unsigned int)maxAmountOfRocks)
   {
     float y = -config.getMaxRockHeight();
 
@@ -433,7 +431,7 @@ void GameState::createRock()
       float x = (float)(rand() % (int)(config.getGameWidth() - config.getRockWidth(1)));
       entityManager->create<Rock>(atlas->findRegion(config.getRockRegion(1)), x, y, 2);
     }
-    else if(rockType == 10)
+    else if (rockType == 10)
     {
       float x = (float)(rand() % (int)(config.getGameWidth() - config.getRockWidth(2)));
       entityManager->create<Rock>(atlas->findRegion(config.getRockRegion(2)), x, y, 3);
@@ -451,7 +449,7 @@ bool GameState::isGameOver()
   for (auto& e : entityManager->getAll<Player>())
   {
     Player* p = reinterpret_cast<Player*>(e);
-    if (!(p->isDead()))
+    if (!p->isDead())
     {
       return false;
     }
@@ -490,4 +488,3 @@ std::list<Player*> GameState::getWinners()
 
   return returnList;
 }
-/* END SUPPORTIVE FUNCTIONS */

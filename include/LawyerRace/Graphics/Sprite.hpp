@@ -9,8 +9,6 @@ public:
   Sprite(TextureRegion* region, float x, float y);
   virtual ~Sprite();
 
-
-
 private:
   float x { 0.f };
   float y { 0.f };

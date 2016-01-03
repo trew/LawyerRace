@@ -59,7 +59,7 @@ Player::~Player()
 {
 }
 
-void Player::render(SDL_Renderer* const renderer, float timeAlpha)
+void Player::render(SDL_Renderer* const renderer, const float timeAlpha)
 {
   AbstractEntity::render(renderer, timeAlpha, dead ? 4 : m_direction);
   scoreText->render();
@@ -109,7 +109,7 @@ bool Player::handleEvent(const SDL_Event& ev)
 }
 
 
-void Player::update(float timeStep)
+void Player::update(const float timeStep)
 {
   if (!isMoving() || dead)
   {
@@ -171,8 +171,7 @@ void Player::updateScore()
   Config& config = Config::getInstance();
   if (config.getPlayerCount() == 4)
   {
-     // TODO magic number
-    float newXPos = (float)((1024 / 4.f) * (playerNum-1) + 20);
+    float newXPos = (float)((config.getGameWidth() / 4.f) * (playerNum-1) + 20);
     scoreText->setX(newXPos);
   }
   else if (config.getPlayerCount() == 3)
@@ -183,13 +182,11 @@ void Player::updateScore()
     }
     else if (playerNum == 2)
     {
-       // TODO magic number
-      scoreText->setX(centerHorizontal(0, (float)1024, scoreText->getWidth()));
+      scoreText->setX(centerHorizontal(0, (float)config.getGameWidth(), scoreText->getWidth()));
     }
     else if (playerNum == 3)
     {
-       // TODO magic number
-      scoreText->setX(rightAlign((float)1024, 10, scoreText->getWidth()));
+      scoreText->setX(rightAlign((float)config.getGameWidth(), 10, scoreText->getWidth()));
     }
   }
   else if (config.getPlayerCount() == 2)
@@ -200,38 +197,41 @@ void Player::updateScore()
     }
     else if (playerNum == 2)
     {
-       // TODO magic number
-      scoreText->setX(rightAlign((float)1024, 10, scoreText->getWidth()));
+      scoreText->setX(rightAlign((float)config.getGameWidth(), 10, scoreText->getWidth()));
     }
   } 
   else if (config.getPlayerCount() == 1)
   {
-     // TODO magic number
-    scoreText->setX(centerHorizontal(0, (float)1024, scoreText->getWidth()));
+    scoreText->setX(centerHorizontal(0, (float)config.getGameWidth(), scoreText->getWidth()));
   }
 }
 
-void Player::incScore(int _score) {
+void Player::incScore(const int _score)
+{
   m_score += _score;
   updateScore();
 }
 
-void Player::kill() {
+void Player::kill()
+{
   dead = true;
   setMoving(false);
   alivePlayers--;
   updateScore();
 }
 
-bool Player::isDead() const{
+bool Player::isDead() const
+{
   return dead;
 }
 
-int Player::getScore() const {
+int Player::getScore() const
+{
   return m_score;
 }
 
 
-void Player::setDirection(Direction newDir) {
+void Player::setDirection(const Direction newDir)
+{
   m_direction = newDir;
 }

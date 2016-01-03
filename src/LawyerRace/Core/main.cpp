@@ -35,7 +35,6 @@ bool parseCommandLine(int argc, char* argv[])
   TCLAP::ValueArg<std::string> keysetFile("k", "keyset-file", "use keysets from this file", false, "", "string", cmd);
   TCLAP::SwitchArg disableStop("", "disable-stop", "disallows players to stop", cmd);
   TCLAP::SwitchArg oldDiagonalspeed("", "old-diagonalspeed", "use the old diagonal speed. (instead of modifying by 0.7~)", cmd);
-   
 
   Config& config = Config::getInstance();
 
@@ -86,8 +85,8 @@ bool parseCommandLine(int argc, char* argv[])
       LOG_ERROR("Error loading %s", keysetFile.getValue().c_str());
     }
   }
-  LOG_DEBUG("Using keysets from %s", config.getControlsFile().c_str());
-  LOG_DEBUG("Loading keysets...");
+  LOG_DEBUG("Using controls from %s", config.getControlsFile().c_str());
+  LOG_DEBUG("Loading control configuration...");
   PlayerControls::loadControlsFromFile(config.getPlayerControls(), config.getControlsFile());
 
   /* Continue and override any variables that were provided in command line; they are more important than the config file */
@@ -124,7 +123,7 @@ bool parseCommandLine(int argc, char* argv[])
 
 int main(int argc, char* argv[])
 {
-  srand(static_cast<unsigned int>(time(NULL)));
+  srand((unsigned int)(time(NULL)));
 
 #ifdef DEBUG
   lwe::Log::getLogger().setLoggingLevel(lwe::LEVEL_DEBUG);
@@ -143,10 +142,10 @@ int main(int argc, char* argv[])
   Config& config = Config::getInstance();
 
   lwe::GameSettings settings;
-  settings.WindowWidth = 800;//config::W_WIDTH;
-  settings.WindowHeight = 600;//config::W_HEIGHT;
-  settings.LogicalWidth = 1024;
-  settings.LogicalHeight = 768;
+  settings.WindowWidth = config.getWindowWidth();
+  settings.WindowHeight = config.getWindowHeight();
+  settings.LogicalWidth = config.getGameWidth();
+  settings.LogicalHeight = config.getGameHeight();
   settings.WindowTitle = config.getWindowText();
   settings.MaxFPS = config.getMaxFPS();
   settings.MaxFrameSkip = config.getMaxFrameSkip();
@@ -161,6 +160,7 @@ int main(int argc, char* argv[])
   catch (const char* c)
   {
     LOG_ERROR("Error: %s", c);
+    return -1;
   }
 
   return 0;
