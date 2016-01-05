@@ -4,6 +4,7 @@
 #include <iostream>
 #include <LawyerRace/Utils/PositionHelper.hpp>
 #include <LawyerRace/Core/LawyerRace.hpp>
+#include <LawyerEngine/Utils/Utils.hpp>
 
 using namespace positionHelper;
 
@@ -26,6 +27,8 @@ GameState::GameState()
 
 bool GameState::init()
 {
+  getEngine()->setBackgroundColor({0, 0, 0, 255});
+
   Config& config = Config::getInstance();
   LOG_DEBUG("Loading textures");
   {
@@ -72,12 +75,29 @@ bool GameState::init()
   }
 
   countDown = 3;
-  text_countDown = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), std::to_string(3), 72, 0.f, 0.f, 255, 255, 255);
+  const SDL_Color& fontColor = lwe::Utils::getContrastColor(getEngine()->getBackgroundColor());
+  text_countDown = std::make_shared<lwe::Text>(getEngine()->getRenderer(),
+                                               LawyerRace::standardFont.get(),
+                                               std::to_string(3),
+                                               72,
+                                               0.f,
+                                               0.f,
+                                               fontColor.r,
+                                               fontColor.g,
+                                               fontColor.b);
   text_countDown->setX(centerHorizontal(0, ww, text_countDown->getWidth()));
   text_countDown->setY(centerVertical(0, wh / 2, text_countDown->getHeight()));
   textList.push_back(text_countDown);
 
-  pausedText = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Game Paused", 72, 0.f, 0.f, 255, 255, 255);
+  pausedText = std::make_shared<lwe::Text>(getEngine()->getRenderer(),
+                                           LawyerRace::standardFont.get(),
+                                           "Game Paused",
+                                           72,
+                                           0.f,
+                                           0.f,
+                                           fontColor.r,
+                                           fontColor.g,
+                                           fontColor.b);
   pausedText->setX(centerHorizontal(0, ww, pausedText->getWidth()));
   pausedText->setY(centerHorizontal(0, wh, pausedText->getHeight()));
 
@@ -188,7 +208,8 @@ void GameState::update(float timeStep)
     {
       //ALL PLAYERS DIED!
       currentInGameState = GameOver;
-      std::shared_ptr<lwe::Text> t = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Press enter to exit to menu", 48, 0.f, 0.f, 255, 255, 255);
+      const SDL_Color& fontColor = lwe::Utils::getContrastColor(getEngine()->getBackgroundColor());
+      std::shared_ptr<lwe::Text> t = std::make_shared<lwe::Text>(getEngine()->getRenderer(), LawyerRace::standardFont.get(), "Press enter to exit to menu", 48, 0.f, 0.f, fontColor.r, fontColor.g, fontColor.b);
       textList.push_back(t);
       t->setX(centerHorizontal(0, (float)config.getGameWidth(), t->getWidth()));
       t->setY(bottomAlign((float)config.getGameHeight(), 20, t->getHeight()));

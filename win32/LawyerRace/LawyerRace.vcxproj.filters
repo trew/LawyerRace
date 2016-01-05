@@ -169,9 +169,6 @@
     <ClInclude Include="..\..\include\LawyerRace\Core\PlayerControls.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Utils\StringUtils.hpp">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\SettingsState.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>

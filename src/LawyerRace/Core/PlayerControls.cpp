@@ -2,7 +2,6 @@
 #include <LawyerRace/Core/LawyerRace.hpp>
 #include <LawyerRace/Core/PlayerControls.hpp>
 #include <LawyerRace/Core/Config.hpp>
-#include <LawyerRace/Utils/StringUtils.hpp>
 #include <fstream>
 
 #include <LuaBridge/LuaBridge.h>
@@ -99,7 +98,7 @@ inline bool in(int x, int list[])
 void PlayerControls::setControl(lwe::EventCondition& condition, std::string referencekey, std::string keyname)
 {
   std::string controllerKeyName = "";
-  if (StringUtils::startsWith(keyname, "controller_"))
+  if (lwe::Utils::startsWith(keyname, "controller_"))
   {
     controllerKeyName = keyname.substr(11, keyname.size());
     LOG_DEBUG("Controller Key name: %s", controllerKeyName.c_str());

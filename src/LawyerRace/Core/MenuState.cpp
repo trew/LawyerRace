@@ -18,6 +18,8 @@ MenuState::~MenuState()
 
 bool MenuState::init()
 {
+  getEngine()->setBackgroundColor({0, 0, 0, 255});
+
   internalState = NORMAL;
   int menuPosition[] = { 272, 362, 452, 542 };
 
@@ -26,33 +28,37 @@ bool MenuState::init()
   lwe::TextureAtlas* atlas = assetManager->get<lwe::TextureAtlas>(config.getFile("img/spritesheet_0"));
   std::vector<lwe::TextureRegion*> regions = atlas->findRegions("button-1-players");
 
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[0], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[0]));
+  playersButtons.back()->setAction([this](lwe::Button* btn) -> void
   {
     Config::getInstance().setPlayerCount(1);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
-  }));
+  });
   playersButtons.front()->setSelected(true);
 
   regions = atlas->findRegions("button-2-players");
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[1], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[1]));
+  playersButtons.back()->setAction([this](lwe::Button* btn) -> void
   {
     Config::getInstance().setPlayerCount(2);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
-  }));
+  });
 
   regions = atlas->findRegions("button-3-players");
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2]));
+  playersButtons.back()->setAction([this](lwe::Button* btn) -> void
   {
     Config::getInstance().setPlayerCount(3);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
-  }));
+  });
 
   regions = atlas->findRegions("button-4-players");
-  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3], [this](lwe::Button* btn) -> void
+  playersButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3]));
+  playersButtons.back()->setAction([this](lwe::Button* btn) -> void
   {
     Config::getInstance().setPlayerCount(4);
     getEngine()->setState(getGame<LawyerRace>()->getGameState());
-  }));
+  });
 
   playersButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[0]->getWidth()));
   playersButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[1]->getWidth()));
@@ -77,27 +83,32 @@ bool MenuState::init()
   title->setPreviousY(title->getY());
 
   regions = atlas->findRegions("button-play");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[0], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[0]));
+  menuButtons.back()->setAction([this](lwe::Button*) -> void
   {
     internalState = SELECT_PLAYERS;
-  }));
+  });
   menuButtons.front()->setSelected(true);
   regions = atlas->findRegions("button-highscores");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[1], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[1]));
+  menuButtons.back()->setAction([this](lwe::Button*) -> void
   {
     // TODO enter highscores state
-  }));
+  });
 
   regions = atlas->findRegions("button-settings");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[2]));
+  menuButtons.back()->setAction([this](lwe::Button*) -> void
   {
     getEngine()->setState(getGame<LawyerRace>()->getSettingsState());
-  }));
+  });
+
   regions = atlas->findRegions("button-exit");
-  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3], [this](lwe::Button*) -> void
+  menuButtons.push_back(std::make_shared<lwe::Button>(regions[0], regions[1], regions[1], 0, menuPosition[3]));
+  menuButtons.back()->setAction([this](lwe::Button*) -> void
   {
     getEngine()->exit();
-  }));
+  });
 
   menuButtons[0]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), menuButtons[0]->getWidth()));
   menuButtons[1]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), menuButtons[1]->getWidth()));
