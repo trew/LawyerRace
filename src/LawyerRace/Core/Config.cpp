@@ -67,25 +67,29 @@ bool Config::loadConfigFile()
   LuaRef config = getGlobal(L, "config");
   if (config.isTable())
   {
-    if (config["max_enemies"].isNumber())
+    if (config["maxEnemyCount"].isNumber())
     {
-      maxEnemyCount = config["max_enemies"].cast<int>();
+      maxEnemyCount = config["maxEnemyCount"].cast<int>();
     }
-    if (config["enemies_before_rock"].isNumber())
+    if (config["enemyCountBeforeRocks"].isNumber())
     {
-      enemyCountBeforeRocks = config["enemies_before_rock"].cast<int>();
+      enemyCountBeforeRocks = config["enemyCountBeforeRocks"].cast<int>();
     }
-    if (config["max_rocks"].isNumber())
+    if (config["maxRocks"].isNumber())
     {
-      maxRockCount = config["max_rocks"].cast<int>();
+      maxRockCount = config["maxRocks"].cast<int>();
+    }
+    if (config["disableStop"].isBool())
+    {
+      playerStopEnabled = !config["disableStop"].cast<bool>();
     }
 
     LuaRef velocity = config["velocity"];
     if (velocity.isTable())
     {
-      if (velocity["gamespeed"].isNumber())
+      if (velocity["gameSpeed"].isNumber())
       {
-        gameSpeed = velocity["gamespeed"].cast<float>();
+        gameSpeed = velocity["gameSpeed"].cast<float>();
       }
       if (velocity["player"].isNumber())
       {
@@ -140,10 +144,14 @@ bool Config::loadConfigFile()
     LuaRef system = config["system"];
     if (system.isTable())
     {
-      if (system["resolution_width"].isNumber() && system["resolution_height"].isNumber())
+      LuaRef res = system["resolution"];
+      if (res.isTable())
       {
-        windowWidth = system["resolution_width"].cast<int>();
-        windowHeight = system["resolution_height"].cast<int>();
+        if (res["width"].isNumber()&& res["height"].isNumber())
+        {
+          windowWidth = res["width"].cast<int>();
+          windowHeight = res["height"].cast<int>();
+        }
       }
     }
   }

@@ -122,7 +122,6 @@ bool MenuState::init()
   rockRegion[1] = atlas->findRegion("stone2-26x25");
   rockRegion[2] = atlas->findRegion("stone3-58x49");
 
-  LOG_INFO("Rock size: %i", rocks.size());
   return true;
 }
 

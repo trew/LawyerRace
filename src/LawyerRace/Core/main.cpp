@@ -18,23 +18,18 @@ bool parseCommandLine(int argc, char* argv[])
 /*
   Allowed options:
   -h [ --help ]              produce help message
-  -n [ --players ] arg       sets number of players
   -p [ --path ] arg          use this folder as base path
-  -f [ --settings-file ] arg use this config file(using path)
-  --disable-stop             disallows players to stop
-  --old-diagonalspeed        use the old diagonal speed. (instead of modifying by 0.7~)
+  -f [ --config-file ] arg   use this config file
+  -c [ --controls-file ] arg use controls from this file
 */
-  LOG_DEBUG("---PARSING COMMAND LINE!---");
+  LOG_DEBUG("Parsing command line...");
 
   TCLAP::CmdLine cmd("Allowed options", ' ', "1.0");
   cmd.setExceptionHandling(false);
 
-  TCLAP::ValueArg<int> players("n", "players", "sets number of players", false, 1, "integer", cmd);
   TCLAP::ValueArg<std::string> path("p", "path", "use this folder as base path", false, "", "string", cmd);
-  TCLAP::ValueArg<std::string> settingsFile("f", "settings-file", "use this config file", false, "", "string", cmd);
-  TCLAP::ValueArg<std::string> keysetFile("k", "keyset-file", "use keysets from this file", false, "", "string", cmd);
-  TCLAP::SwitchArg disableStop("", "disable-stop", "disallows players to stop", cmd);
-  TCLAP::SwitchArg oldDiagonalspeed("", "old-diagonalspeed", "use the old diagonal speed. (instead of modifying by 0.7~)", cmd);
+  TCLAP::ValueArg<std::string> settingsFile("f", "config-file", "use this config file", false, "", "string", cmd);
+  TCLAP::ValueArg<std::string> controlsFile("c", "controls-file", "use controls from this file", false, "", "string", cmd);
 
   Config& config = Config::getInstance();
 
@@ -42,12 +37,12 @@ bool parseCommandLine(int argc, char* argv[])
   {
     cmd.parse(argc, argv);
   }
-  catch (TCLAP::ExitException)
+  catch (TCLAP::ExitException& )
   {
     // happens when arguments like --help or --version is provided
     return false;
   }
-  catch (TCLAP::ArgException &e)
+  catch (TCLAP::ArgException& e)
   {
     LOG_ERROR("Error: %s for argument %s", e.error().c_str(), e.argId().c_str());
     return false;
@@ -68,55 +63,31 @@ bool parseCommandLine(int argc, char* argv[])
     config.setConfigFile(settingsFile.getValue());
   }
 
-  config.loadConfigFile();
-
-  if (keysetFile.isSet())
+  if (!config.loadConfigFile())
   {
-    if (lwe::filesys::fileExists(config.getFile(keysetFile.getValue())))
+    return false;
+  }
+
+  if (controlsFile.isSet())
+  {
+    const std::string& file = controlsFile.getValue();
+    if (lwe::filesys::fileExists(config.getFile(file)))
     {
-      config.setControlsFile(keysetFile.getValue());
+      config.setControlsFile(file);
     }
-    else if (lwe::filesys::fileExists(config.getFile("cfg/" + keysetFile.getValue())))
+    else if (lwe::filesys::fileExists(config.getFile("cfg/" + file)))
     {
-      config.setControlsFile("cfg/" + keysetFile.getValue());
+      config.setControlsFile("cfg/" + file);
     }
     else
     {
-      LOG_ERROR("Error loading %s", keysetFile.getValue().c_str());
+      LOG_ERROR("Error loading %s", file.c_str());
     }
   }
+
   LOG_DEBUG("Using controls from %s", config.getControlsFile().c_str());
   PlayerControls::initialize();
 
-  /* Continue and override any variables that were provided in command line; they are more important than the config file */
-  if (disableStop.getValue())
-  {
-    config.setPlayerStopEnabled(false);
-    LOG_DEBUG("CMDLINE: Disabling player stop");
-  }
-
-  if (oldDiagonalspeed.getValue())
-  {
-    config.setOldDiagonalSpeedEnabled(true);
-    LOG_DEBUG("CMDLINE: Enforcing old diagonal speed...");
-  }
-
-  if (players.isSet())
-  {
-    int playerCount = players.getValue();
-    if (playerCount < 5 && playerCount > 0)
-    {
-      config.setPlayerCount(playerCount);
-      LOG_DEBUG("CMDLINE: Setting number of players to: ", config.getPlayerCount());
-    }
-    else
-    {
-      LOG_ERROR("Wrong number of players");
-      config.setPlayerCount(1);
-    }
-  }
-
-  LOG_DEBUG("---COMMANDLINE PARSING DONE!---");
   return true;
 }
 
@@ -135,7 +106,7 @@ int main(int argc, char* argv[])
 
   if (!parseCommandLine(argc, argv))
   {
-    return 0;
+    return -1;
   }
 
   Config& config = Config::getInstance();
@@ -159,6 +130,11 @@ int main(int argc, char* argv[])
   catch (const char* c)
   {
     LOG_ERROR("Error: %s", c);
+    return -1;
+  }
+  catch (std::exception& e)
+  {
+    LOG_ERROR("Error: %s", e.what());
     return -1;
   }
 
