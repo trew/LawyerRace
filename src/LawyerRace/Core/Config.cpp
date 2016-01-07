@@ -36,10 +36,17 @@ Config::Config()
   rockRegion[0] = "stone1-17x14";
   rockRegion[1] = "stone2-26x25";
   rockRegion[2] = "stone3-58x49";
+
+  backgroundColor = {0, 0, 0, 255};
 }
 
 Config::~Config()
 {
+}
+
+Uint8 getValueIfBetweenOrDefault(Uint8 value, Uint8 low, Uint8 high, Uint8 def)
+{
+  return (value >= low && value <= high) ? value : def;
 }
 
 bool Config::loadConfigFile()
@@ -107,6 +114,29 @@ bool Config::loadConfigFile()
       }
     }
 
+    LuaRef bg = config["backgroundColor"];
+    if (bg.isTable())
+    {
+      luabridge::LuaRef r = bg[1];
+      luabridge::LuaRef g = bg[2];
+      luabridge::LuaRef b = bg[3];
+
+      if (r.isNumber())
+      {
+        backgroundColor.r = getValueIfBetweenOrDefault(r.cast<int>(), 0, 255, backgroundColor.r);
+      }
+
+      if (g.isNumber())
+      {
+        backgroundColor.g = getValueIfBetweenOrDefault(g.cast<int>(), 0, 255, backgroundColor.g);
+      }
+
+      if (b.isNumber())
+      {
+        backgroundColor.b = getValueIfBetweenOrDefault(b.cast<int>(), 0, 255, backgroundColor.b);
+      }
+    }
+
     LuaRef system = config["system"];
     if (system.isTable())
     {
@@ -115,11 +145,6 @@ bool Config::loadConfigFile()
         windowWidth = system["resolution_width"].cast<int>();
         windowHeight = system["resolution_height"].cast<int>();
       }
-    }
-
-    if (config["skip_menu"].isBool())
-    {
-      skipMenu = config["skip_menu"].cast<bool>();
     }
   }
   LOG_DEBUG("---PARSING CONFIG DONE!---");
@@ -359,11 +384,6 @@ int Config::getMaxFPS() const
   return maxFps;
 }
 
-bool Config::isSkipMenu() const
-{
-  return skipMenu;
-}
-
 const std::string& Config::getDollarRegion() const
 {
   return dollarRegion;
@@ -382,4 +402,14 @@ const std::string& Config::getEnemyRegion() const
 const std::string& Config::getRockRegion(int type) const
 {
   return rockRegion[type];
+}
+
+const SDL_Color& Config::getBackgroundColor() const
+{
+  return backgroundColor;
+}
+
+void Config::setBackgroundColor(const SDL_Color& color)
+{
+  backgroundColor = color;
 }

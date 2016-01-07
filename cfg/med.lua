@@ -15,9 +15,11 @@ config = {
       large = 125
     }
   },
+  backgroundColor = {
+    0,0,0 -- rgb 0-255
+  },
   system = {
     resolution_width = 960,
     resolution_height = 690
   },
-  skip_menu = true
 }

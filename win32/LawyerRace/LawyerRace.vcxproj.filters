@@ -21,9 +21,6 @@
     <Filter Include="Header Files\Entity">
       <UniqueIdentifier>{06470432-120c-426e-a8cd-a01ab4d4615a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics">
-      <UniqueIdentifier>{0c52f808-1d4f-4fd1-b9a0-df5e0aa6346d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{629b9a18-1ba1-44a0-a0f2-e1f4fe33d3aa}</UniqueIdentifier>
     </Filter>
@@ -165,9 +162,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp">
       <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\Sprite.hpp">
-      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\PlayerControls.hpp">
       <Filter>Header Files\Core</Filter>

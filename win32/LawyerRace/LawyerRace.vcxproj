@@ -40,7 +40,6 @@
     <ClInclude Include="..\..\include\LawyerRace\Entity\AbstractEntity.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Player.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Rock.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Graphics\Sprite.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp" />
     <ClInclude Include="..\..\include\LuaBridge\detail\CFunctions.h" />
     <ClInclude Include="..\..\include\LuaBridge\detail\ClassInfo.h" />

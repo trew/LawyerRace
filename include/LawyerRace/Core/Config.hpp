@@ -83,12 +83,13 @@ public:
   int getMaxFrameSkip() const;
   int getMaxFPS() const;
 
-  bool isSkipMenu() const;
-
   const std::string& getDollarRegion() const;
   const std::string& getPlayerRegion(int player) const;
   const std::string& getEnemyRegion() const;
   const std::string& getRockRegion(int type) const;
+
+  const SDL_Color& getBackgroundColor() const;
+  void setBackgroundColor(const SDL_Color& color);
 
 private:
   bool initialized { false };
@@ -151,7 +152,7 @@ private:
   int maxFrameSkip { 10 };
   int maxFps { 200 };
 
-  bool skipMenu { false };
+  SDL_Color backgroundColor;
 };
 
 #endif

@@ -2,7 +2,7 @@
 
 --  keysets
 
-useVimkeys = true
+useVimkeys = false
 
 function getControls(numOfPlayers, player, controllers)
   lwr.debug("getControls(" .. numOfPlayers .. ", " .. player .. ", " .. controllers .. ")")
@@ -64,6 +64,7 @@ function getControls(numOfPlayers, player, controllers)
   if numOfPlayers == 1 then
     lwr.debug("both controller and keyboard accepted")
     controls[1] = keyControls[1]
+    controls[1]["stop"][1] = "space"
     --accept both controller and keyboard
     controls[1]["up"][2] = "controller_up"
     controls[1]["left"][2] = "controller_left"

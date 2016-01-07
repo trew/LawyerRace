@@ -27,9 +27,10 @@ GameState::GameState()
 
 bool GameState::init()
 {
-  getEngine()->setBackgroundColor({0, 0, 0, 255});
-
   Config& config = Config::getInstance();
+
+  getEngine()->setBackgroundColor(config.getBackgroundColor());
+
   LOG_DEBUG("Loading textures");
   {
     atlas = getEngine()->getAssetManager()->get<lwe::TextureAtlas>(config.getFile("img/spritesheet_0"));
