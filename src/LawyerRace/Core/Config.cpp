@@ -1,6 +1,7 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Core/LawyerRace.hpp>
 #include <LawyerRace/Core/Config.hpp>
+#include <LawyerRace/Core/LuaHelper.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -46,15 +47,12 @@ bool Config::loadConfigFile()
   LOG_DEBUG("---PARSING CONFIG---");
   const std::string& _file = this->configFile;
 
-  lua_State* L = LawyerRace::LuaState;
+  lua_State* L = LuaHelper::getInstance().getState();
   LOG_DEBUG("Reading \"%s\"", _file.c_str());
-  if (luaL_loadfile(L, _file.c_str())) {
+  if (!LuaHelper::getInstance().load(_file))
+  {
     LOG_ERROR("Couldn't read config file %s", _file);
     return false;
-  }
-  if (lua_pcall(L, 0, 0, 0))
-  {
-    LOG_ERROR("Error calling config file %s", _file);
   }
 
   using namespace luabridge;
@@ -334,16 +332,6 @@ float Config::getEnemyVelocity() const
 float Config::getRockVelocity(const int type) const
 {
   return rockVelocity[type];
-}
-
-PlayerControls* Config::getPlayerControls()
-{
-  return controls;
-}
-
-const PlayerControls& Config::getPlayerControls(int player) const
-{
-  return controls[player];
 }
 
 const std::string& Config::getControlsFile() const

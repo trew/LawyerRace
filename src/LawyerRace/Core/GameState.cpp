@@ -47,7 +47,7 @@ bool GameState::init()
                                                 0.f,
                                                 config.getPlayerWidth(),
                                                 config.getPlayerHeight(),
-                                                config.getPlayerControls(i));
+                                                PlayerControls::getControls(i, getEngine()));
     m_player[i]->setY(centerVertical(0, wh, m_player[i]->getHeight()));
   }
 

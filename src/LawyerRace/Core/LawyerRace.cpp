@@ -2,26 +2,14 @@
 #include <LawyerRace/Core/GameState.hpp>
 #include <LawyerRace/Core/MenuState.hpp>
 
-lua_State* LawyerRace::LuaState { nullptr }; // TODO: change to non-static
 std::unique_ptr<lwe::Font> LawyerRace::standardFont;
 
 LawyerRace::LawyerRace()
 {
-  if (LuaState == nullptr)
-  {
-    LuaState = luaL_newstate();
-    luaL_openlibs(LuaState);
-  }
 }
 
 LawyerRace::~LawyerRace()
 {
-  if (LuaState != nullptr)
-  {
-    lua_close(LuaState);
-    LuaState = nullptr;
-  }
-
   // must be deleted before the engine is destroyed
   standardFont.reset();
 }
@@ -43,9 +31,9 @@ SettingsState* LawyerRace::getSettingsState() const
 
 void LawyerRace::init()
 {
-  menuState = std::make_shared<MenuState>();
-  gameState = std::make_shared<GameState>();
-  settingsState = std::make_shared<SettingsState>();
+  menuState = std::make_unique<MenuState>();
+  gameState = std::make_unique<GameState>();
+  settingsState = std::make_unique<SettingsState>();
 
   Config& config = Config::getInstance();
 

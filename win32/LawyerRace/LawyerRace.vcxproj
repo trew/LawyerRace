@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\Config.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp" />
+    <ClCompile Include="..\..\src\LawyerRace\Core\LuaHelper.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\PlayerControls.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp" />
+    <ClInclude Include="..\..\include\LawyerRace\Core\LuaHelper.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\PlayerControls.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\MenuState.hpp" />

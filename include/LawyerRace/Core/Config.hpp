@@ -76,8 +76,6 @@ public:
   float getEnemyVelocity() const;
   float getRockVelocity(int type) const;
 
-  PlayerControls* getPlayerControls();
-  const PlayerControls& getPlayerControls(int player) const;
   const std::string& getControlsFile() const;
   void setControlsFile(const std::string& file);
 
@@ -148,8 +146,6 @@ private:
   std::string playerRegion[4];
   std::string enemyRegion { "enemy" };
   std::string rockRegion[3];
-
-  PlayerControls controls[4];
 
   bool enableLinearInterpolation { true };
   int maxFrameSkip { 10 };

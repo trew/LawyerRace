@@ -86,8 +86,7 @@ bool parseCommandLine(int argc, char* argv[])
     }
   }
   LOG_DEBUG("Using controls from %s", config.getControlsFile().c_str());
-  LOG_DEBUG("Loading control configuration...");
-  PlayerControls::loadControlsFromFile(config.getPlayerControls(), config.getControlsFile());
+  PlayerControls::initialize();
 
   /* Continue and override any variables that were provided in command line; they are more important than the config file */
   if (disableStop.getValue())

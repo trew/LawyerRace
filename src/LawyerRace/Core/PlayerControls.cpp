@@ -1,6 +1,7 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Core/LawyerRace.hpp>
 #include <LawyerRace/Core/PlayerControls.hpp>
+#include <LawyerRace/Core/LuaHelper.hpp>
 #include <LawyerRace/Core/Config.hpp>
 #include <fstream>
 
@@ -8,7 +9,7 @@
 
 std::map<std::string, SDL_Keycode> PlayerControls::__keymap;
 std::map<std::string, SDL_GameControllerButton> PlayerControls::__gameControllerMap;
-bool PlayerControls::keyMapInitialized = false;
+bool PlayerControls::initialized = false;
 
 PlayerControls::PlayerControls()
 {
@@ -18,8 +19,13 @@ PlayerControls::~PlayerControls()
 {
 }
 
-void PlayerControls::initializeKeyMap()
+void PlayerControls::initialize()
 {
+  if (initialized)
+  {
+    return;
+  }
+
   LOG_DEBUG("Setting up keymap...");
   __keymap["up"] = SDLK_UP;
   __keymap["down"] = SDLK_DOWN;
@@ -65,7 +71,9 @@ void PlayerControls::initializeKeyMap()
   __gameControllerMap["back"] = SDL_CONTROLLER_BUTTON_BACK;
   __gameControllerMap["guide"] = SDL_CONTROLLER_BUTTON_GUIDE;
   __gameControllerMap["start"] = SDL_CONTROLLER_BUTTON_START;
-  keyMapInitialized = true;
+
+  loadControlsLuaMethodFromFile(Config::getInstance().getControlsFile());
+  initialized = true;
 }
 
 inline bool inrange(int x, int a, int b)
@@ -95,13 +103,14 @@ inline bool in(int x, int list[])
  * Defaults to SDLK_UNKNOWN if no key found in keymap or in Ascii table
  * Referencekey is used for debugging
  */
-void PlayerControls::setControl(lwe::EventCondition& condition, std::string referencekey, std::string keyname)
+void PlayerControls::setControl(lwe::EventCondition& condition,
+                                const std::string& referencekey,
+                                const std::string& keyname)
 {
   std::string controllerKeyName = "";
   if (lwe::Utils::startsWith(keyname, "controller_"))
   {
     controllerKeyName = keyname.substr(11, keyname.size());
-    LOG_DEBUG("Controller Key name: %s", controllerKeyName.c_str());
   }
 
   if (keyname.length() == 1)
@@ -132,103 +141,56 @@ void PlayerControls::setControl(lwe::EventCondition& condition, std::string refe
   }
 }
 
-void PlayerControls::setControlsFromLuaTable(const luabridge::LuaRef& table, std::string action, std::string playerNum, lwe::EventCondition& condition)
+const PlayerControls PlayerControls::getControls(const int player, const lwe::GameEngine* lwe)
 {
-  if (table[action].isString())
-  {
-    setControl(condition, "player" + playerNum + "." + action, table[action].cast<std::string>());
-  }
-  else if (table[action].isTable())
+  lua_State* L = LuaHelper::getInstance().getState();
+  luabridge::LuaRef getControls = luabridge::getGlobal(L, "getControls");
+
+  PlayerControls controls;
+
+  int controllers = (int)lwe->getControllers().size();
+  luabridge::LuaRef table = getControls(Config::getInstance().getPlayerCount(), player + 1, controllers);
+
+  setControlsFromLuaTable(table, "up", player, controls.up);
+  setControlsFromLuaTable(table, "left", player, controls.left);
+  setControlsFromLuaTable(table, "down", player, controls.down);
+  setControlsFromLuaTable(table, "right", player, controls.right);
+  setControlsFromLuaTable(table, "stop", player, controls.stop);
+
+  return controls;
+}
+
+void PlayerControls::setControlsFromLuaTable(const luabridge::LuaRef& table,
+                                             const std::string& action,
+                                             const int playerNum,
+                                             lwe::EventCondition& condition)
+{
+  if (table[action].isTable())
   {
     luabridge::LuaRef actionTable = table[action];
     luabridge::LuaRef ref = actionTable[1];
-    if (ref.isNil())
-    {
-      LOG_ERROR("WTF");
-    }
+
     for (int i = 2; !ref.isNil(); i++)
     {
       if (ref.isString())
       {
-        setControl(condition, "player" + playerNum + "." + action, ref.cast<std::string>());
+        setControl(condition, "player" + std::to_string(playerNum) + "." + action, ref.cast<std::string>());
       }
 
       ref = actionTable[i];
     }
   }
-  
 }
 
-void PlayerControls::setControlsForPlayer(int playerNumber, PlayerControls& controls, luabridge::LuaRef table)
+bool PlayerControls::loadControlsLuaMethodFromFile(const std::string& _file)
 {
-  if (playerNumber < 1 || playerNumber > 4)
-  {
-    LOG_ERROR("Setting keys for player %i is not supported.", playerNumber);
-    return;
-  }
-
-  using namespace luabridge;
-
-  if (!table.isTable())
-  {
-    return;
-  }
-
-  std::string n = std::to_string(playerNumber);
-  setControlsFromLuaTable(table, "down", n, controls.down);
-  setControlsFromLuaTable(table, "up", n, controls.up);
-  setControlsFromLuaTable(table, "right", n, controls.right);
-  setControlsFromLuaTable(table, "left", n, controls.left);
-  setControlsFromLuaTable(table, "stop", n, controls.stop);
-}
-
-bool PlayerControls::loadControlsFromFile(PlayerControls controls[], std::string _file)
-{
-  if (!keyMapInitialized)
-  {
-    initializeKeyMap(); //make sure keymap is filled.
-  }
-
   LOG_DEBUG("---PARSING KEYSET FILE---");
-  _file = Config::getInstance().getFile(_file);
-  lua_State* L = LawyerRace::LuaState;
+  std::string file = Config::getInstance().getFile(_file);
 
-  if (luaL_loadfile(L, _file.c_str()))
+  if (!LuaHelper::getInstance().load(file))
   {
-    LOG_ERROR("Couldn't read keysets from file %s", _file.c_str());
-  }
-
-  if (lua_pcall(L, 0, 0, 0))
-  {
-    LOG_ERROR("Error calling keysets file");
-  }
-
-  using namespace luabridge;
-
-  LuaRef keysets = getGlobal(L, "controls");
-  if (keysets.isTable())
-  {
-    setControlsForPlayer(1, controls[0], keysets["player1"]);
-    setControlsForPlayer(2, controls[1], keysets["player2"]);
-    setControlsForPlayer(3, controls[2], keysets["player3"]);
-    setControlsForPlayer(4, controls[3], keysets["player4"]);
-
-    // ultraexception for player 1
-    if (Config::getInstance().getPlayerCount() == 1)
-    {
-      LuaRef p1 = keysets["player1"];
-      if (p1.isTable())
-      {
-        if (p1["one"].isTable())
-        {
-          LuaRef ref = p1["one"];
-          if (ref.isTable())
-          {
-            setControlsFromLuaTable(ref, "stop", "1", controls[0].stop);
-          }
-        }
-      }
-    }
+    LOG_ERROR("Error loading Lua file: %s", file.c_str());
+    return false;
   }
 
   return true;

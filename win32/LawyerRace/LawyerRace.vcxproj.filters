@@ -74,6 +74,9 @@
     <ClCompile Include="..\..\src\LawyerRace\Core\SettingsState.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LawyerRace\Core\LuaHelper.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\TinyXML\tinyxml2.h">
@@ -170,6 +173,9 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\SettingsState.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LawyerRace\Core\LuaHelper.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,12 +28,11 @@ public:
   SettingsState* getSettingsState() const;
 
 private:
-  std::shared_ptr<MenuState> menuState;
-  std::shared_ptr<GameState> gameState;
-  std::shared_ptr<SettingsState> settingsState;
+  std::unique_ptr<MenuState> menuState;
+  std::unique_ptr<GameState> gameState;
+  std::unique_ptr<SettingsState> settingsState;
 
 public:
-  static lua_State* LuaState; // TODO: change to non-static
   static std::unique_ptr<lwe::Font> standardFont;
 };
 

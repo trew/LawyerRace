@@ -19,13 +19,14 @@ public:
   PlayerControls();
   virtual ~PlayerControls();
 
-  static bool loadControlsFromFile(PlayerControls controls[], std::string file); 
-
   const lwe::EventCondition& getUp() const;
   const lwe::EventCondition& getDown() const;
   const lwe::EventCondition& getLeft() const;
   const lwe::EventCondition& getRight() const;
   const lwe::EventCondition& getStop() const;
+
+  static void initialize();
+  static const PlayerControls getControls(int player, const lwe::GameEngine*);
 
 private:
   lwe::EventCondition up;
@@ -34,15 +35,18 @@ private:
   lwe::EventCondition right;
   lwe::EventCondition stop;
 
-  PlayerControls(const PlayerControls& copy) = delete;
-
 private:
-  static void setControlsFromLuaTable(const luabridge::LuaRef& ref, std::string action, std::string playerNum, lwe::EventCondition& condition);
-  static void setControlsForPlayer(int playerNumber, PlayerControls&, luabridge::LuaRef table);
-  static void setControl(lwe::EventCondition&, std::string referencekey, std::string keyname);
+  static bool loadControlsLuaMethodFromFile(const std::string& file); 
 
-  static void initializeKeyMap();
-  static bool keyMapInitialized;
+  static void setControlsFromLuaTable(const luabridge::LuaRef& ref,
+                                      const std::string& action,
+                                      int playerNum,
+                                      lwe::EventCondition& condition);
+  static void setControl(lwe::EventCondition&,
+                         const std::string& referencekey,
+                         const std::string& keyname);
+
+  static bool initialized;
   static std::map<std::string, SDL_Keycode> __keymap;
   static std::map<std::string, SDL_GameControllerButton> __gameControllerMap;
 };
