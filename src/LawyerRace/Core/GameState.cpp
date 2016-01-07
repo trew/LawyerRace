@@ -111,7 +111,6 @@ void GameState::cleanup()
 {
   textList.clear();
 
-  Player::setPlayerCount(0);
   Player::setAlivePlayerCount(0);
   entityManager->clear();
 }
@@ -285,7 +284,7 @@ void GameState::checkForCollision()
 
       if (AbstractEntity::collides(p, d))
       {
-        p->incScore(1);
+        p->setScore(p->getScore() + 1);
 
         // this doesn't actually remove the dollar until next loop, so two players CAN fetch
         // the same dollar at the same update and both players will have their scores incremented
@@ -300,7 +299,7 @@ void GameState::checkForCollision()
       if(AbstractEntity::collides(p, en))
       {
         //Player collides with enemy
-        p->kill();
+        p->setDead(true);
         goto continueOuterLoop;
       }
     }
@@ -313,7 +312,7 @@ void GameState::checkForCollision()
       {
         //Player collides with rock
         entityManager->remove(r);
-        p->kill();
+        p->setDead(true);
         goto continueOuterLoop;
       }
     }

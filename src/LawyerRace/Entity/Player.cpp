@@ -113,8 +113,13 @@ void Player::update(const float timeStep)
 {
   if (!isMoving() || dead)
   {
-    return;    //Return if no movement
+    return; //Return if no movement
   }
+
+  Config& config = Config::getInstance();
+
+  const int ww = config.getGameWidth();
+  const int wh = config.getGameHeight();
 
   if (m_direction == UP)
   {
@@ -122,15 +127,16 @@ void Player::update(const float timeStep)
     if (getY() < 0)
     {
       setY(0); //Prevent from going out of screen
+      setMoving(false);
     }
   }
   else if (m_direction == DOWN)
   {
     setY(getY() + (getVelocityY() * timeStep));
-    if (getY() + getHeight() > 768) // TODO magic number
+    if (getY() + getHeight() > wh)
     {
-       // TODO magic number
-      setY(static_cast<float>(768 - getHeight())); //Prevent from going out of screen
+      setY((float)wh - getHeight()); //Prevent from going out of screen
+      setMoving(false);
     }
   }
 
@@ -140,14 +146,16 @@ void Player::update(const float timeStep)
     if (getX() < 0)
     {
       setX(0); //Prevent from going out of screen
+      setMoving(false);
     }
   }
   else if (m_direction == RIGHT)
   {
     setX(getX() + (getVelocityX() * timeStep));
-    if (getX() + getWidth() > 1024)  // TODO magic number
+    if (getX() + getWidth() > ww)
     {
-      setX(static_cast<float>(1024 - getWidth())); //Prevent from going out of screen
+      setX((float)ww - getWidth()); //Prevent from going out of screen
+      setMoving(false);
     }
   }
 }
@@ -157,21 +165,23 @@ void Player::updateScore()
   std::stringstream ss;
   if (dead)
   {
-    ss << "Player " << playerNum << ": " << m_score << " DEAD!";
+    ss << "Player " << playerNum << ": " << getScore() << " DEAD!";
   }
   else
   {
-    ss << "Player " << playerNum << ": " << m_score;
+    ss << "Player " << playerNum << ": " << getScore();
   }
   scoreText->updateText(ss.str());
   scoreText->ensureTextUpdated();
 
+  // Position text correctly
   using namespace positionHelper;
-  //Position text correctly
+
   Config& config = Config::getInstance();
+
   if (config.getPlayerCount() == 4)
   {
-    float newXPos = (float)((config.getGameWidth() / 4.f) * (playerNum-1) + 20);
+    float newXPos = (float)((config.getGameWidth() / 4.f) * (playerNum - 1) + 20);
     scoreText->setX(newXPos);
   }
   else if (config.getPlayerCount() == 3)
@@ -206,30 +216,45 @@ void Player::updateScore()
   }
 }
 
-void Player::incScore(const int _score)
+int Player::getScore() const
 {
-  m_score += _score;
-  updateScore();
+  return score;
 }
 
-void Player::kill()
+void Player::setScore(const int s)
 {
-  dead = true;
-  setMoving(false);
-  alivePlayers--;
-  updateScore();
+  if (score != s)
+  {
+    score = s;
+    updateScore();
+  }
+}
+
+void Player::setDead(const bool d)
+{
+  if (dead == d)
+  {
+    return;
+  }
+
+  dead = d;
+  if (d)
+  {
+    setMoving(false);
+    alivePlayers--;
+    updateScore();
+  }
+  else
+  {
+    alivePlayers++;
+    updateScore();
+  }
 }
 
 bool Player::isDead() const
 {
   return dead;
 }
-
-int Player::getScore() const
-{
-  return m_score;
-}
-
 
 void Player::setDirection(const Direction newDir)
 {

@@ -22,8 +22,12 @@ public:
   virtual void render(SDL_Renderer* renderer, float timeAlpha) override;
   virtual void update(float timeStep) override;
 
+  Uint8 getAlpha() const;
+  void setAlpha(Uint8 alpha);
+
 private:
   std::vector<lwe::TextureRegion*> m_regions;
+  Uint8 alpha { 255 };
 };
 
 #endif

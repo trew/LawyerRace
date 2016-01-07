@@ -30,21 +30,21 @@ public:
 
   /** Updates the score text and positions it on the screen. */
   void updateScore();
-  void incScore(int _score);
-  void kill();
-  bool isDead() const;
+
   int getScore() const;
+  void setScore(int score);
+
+  void setDead(bool dead);
+  bool isDead() const;
 
   static int getAlivePlayerCount() { return alivePlayers; }
   static void setAlivePlayerCount(int c) { alivePlayers = c; }
-  static int getPlayerCount() { return currentPlayerNum; }
-  static void setPlayerCount(int c) { currentPlayerNum = c; }
 
 private:
   PlayerControls controls;
 
   Direction m_direction { DOWN };
-  int m_score { 0 };
+  int score { 0 };
   std::shared_ptr<lwe::Text> scoreText;
   bool dead { false };
   int playerNum { 0 };

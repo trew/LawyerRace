@@ -73,6 +73,7 @@ void AbstractEntity::render(SDL_Renderer* const renderer, const float timeAlpha,
   destRect.h = (int)getHeight();
   destRect.w = (int)getWidth();
 
+  SDL_SetTextureAlphaMod(region->getTexture()->getSDLTexture(), alpha);
   SDL_RenderCopy(renderer, region->getTexture()->getSDLTexture(), &region->getRect(), &destRect);
 }
 
@@ -83,4 +84,14 @@ void AbstractEntity::render(SDL_Renderer* const renderer, const float timeAlpha)
 
 void AbstractEntity::update(const float timeStep)
 {
+}
+
+Uint8 AbstractEntity::getAlpha() const
+{
+  return alpha;
+}
+
+void AbstractEntity::setAlpha(const Uint8 a)
+{
+  alpha = a;
 }
