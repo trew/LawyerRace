@@ -5,12 +5,13 @@
 #include <LawyerRace/Core/LawyerRace.hpp>
 
 int Player::alivePlayers = 0;
-int Player::currentPlayerNum = 0;
 
-Player::Player(const std::vector<lwe::TextureRegion*>& regions,
+Player::Player(const int player,
+               const std::vector<lwe::TextureRegion*>& regions,
                SDL_Renderer* const renderer,
                const PlayerControls& controls)
-  : Player(regions,
+  : Player(player,
+           regions,
            renderer,
            0,
            0,
@@ -20,7 +21,8 @@ Player::Player(const std::vector<lwe::TextureRegion*>& regions,
 {
 }
 
-Player::Player(const std::vector<lwe::TextureRegion*>& regions,
+Player::Player(const int player,
+               const std::vector<lwe::TextureRegion*>& regions,
                SDL_Renderer* const renderer,
                const float x,
                const float y,
@@ -29,9 +31,8 @@ Player::Player(const std::vector<lwe::TextureRegion*>& regions,
                const PlayerControls& controls)
   : AbstractEntity(regions, x, y, w, h), renderer(renderer)
 {
-  currentPlayerNum++;
   alivePlayers++;
-  playerNum = currentPlayerNum;
+  playerNum = player;
 
   if(playerNum == 1)
   {

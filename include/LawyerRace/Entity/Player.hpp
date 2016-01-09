@@ -13,8 +13,17 @@ class Player: public AbstractEntity
 {
 public:
   Player();
-  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, const PlayerControls& controls);
-  Player(const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer, float x, float y, float w, float h, const PlayerControls& controls);
+  Player(int player,
+         const std::vector<lwe::TextureRegion*>& regions, SDL_Renderer* renderer,
+         const PlayerControls& controls);
+  Player(int player,
+         const std::vector<lwe::TextureRegion*>& regions,
+         SDL_Renderer* renderer,
+         float x,
+         float y,
+         float w,
+         float h,
+         const PlayerControls& controls);
 
   virtual ~Player();
 
@@ -52,7 +61,6 @@ private:
   SDL_Renderer* renderer;
 
   static int alivePlayers;
-  static int currentPlayerNum;
 };
 
 #endif

@@ -42,7 +42,8 @@ bool GameState::init()
   float ww = (float)config.getGameWidth();
   for (int i = 0; i < config.getPlayerCount(); i++)
   {
-    m_player[i] = entityManager->create<Player>(atlas->findRegions(config.getPlayerRegion(i)),
+    m_player[i] = entityManager->create<Player>(i + 1,
+                                                atlas->findRegions(config.getPlayerRegion(i)),
                                                 getEngine()->getRenderer(),
                                                 0.f,
                                                 0.f,
@@ -112,6 +113,7 @@ void GameState::cleanup()
   textList.clear();
 
   Player::setAlivePlayerCount(0);
+  Config::getInstance().setPlayerCount(0);
   entityManager->clear();
 }
 

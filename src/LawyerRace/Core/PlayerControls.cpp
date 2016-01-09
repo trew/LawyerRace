@@ -103,7 +103,9 @@ inline bool in(int x, int list[])
  * Defaults to SDLK_UNKNOWN if no key found in keymap or in Ascii table
  * Referencekey is used for debugging
  */
-void PlayerControls::setControl(lwe::EventCondition& condition,
+void PlayerControls::setControl(const int player,
+                                const lwe::GameEngine* engine,
+                                lwe::EventCondition& condition,
                                 const std::string& referencekey,
                                 const std::string& keyname)
 {
@@ -132,7 +134,16 @@ void PlayerControls::setControl(lwe::EventCondition& condition,
   }
   else if (__gameControllerMap.find(controllerKeyName) != __gameControllerMap.end())
   {
-    condition.addTrigger(new lwe::GameControllerButtonTrigger(__gameControllerMap[controllerKeyName], true));
+    auto it = engine->getControllers().begin();
+    for (int i = 0; i < player; ++i)
+    {
+      it++;
+    }
+
+    auto controller = (*it);
+    
+    int device = engine->getControllerDeviceID(controller);
+    condition.addTrigger(new lwe::GameControllerButtonTrigger(device, __gameControllerMap[controllerKeyName], true));
   }
 
   if (!condition.hasTriggers())
@@ -151,16 +162,17 @@ const PlayerControls PlayerControls::getControls(const int player, const lwe::Ga
   int controllers = (int)lwe->getControllers().size();
   luabridge::LuaRef table = getControls(Config::getInstance().getPlayerCount(), player + 1, controllers);
 
-  setControlsFromLuaTable(table, "up", player, controls.up);
-  setControlsFromLuaTable(table, "left", player, controls.left);
-  setControlsFromLuaTable(table, "down", player, controls.down);
-  setControlsFromLuaTable(table, "right", player, controls.right);
-  setControlsFromLuaTable(table, "stop", player, controls.stop);
+  setControlsFromLuaTable(table, lwe, "up", player, controls.up);
+  setControlsFromLuaTable(table, lwe, "left", player, controls.left);
+  setControlsFromLuaTable(table, lwe, "down", player, controls.down);
+  setControlsFromLuaTable(table, lwe, "right", player, controls.right);
+  setControlsFromLuaTable(table, lwe, "stop", player, controls.stop);
 
   return controls;
 }
 
 void PlayerControls::setControlsFromLuaTable(const luabridge::LuaRef& table,
+                                             const lwe::GameEngine* lwe,
                                              const std::string& action,
                                              const int playerNum,
                                              lwe::EventCondition& condition)
@@ -174,7 +186,7 @@ void PlayerControls::setControlsFromLuaTable(const luabridge::LuaRef& table,
     {
       if (ref.isString())
       {
-        setControl(condition, "player" + std::to_string(playerNum) + "." + action, ref.cast<std::string>());
+        setControl(playerNum, lwe, condition, "player" + std::to_string(playerNum) + "." + action, ref.cast<std::string>());
       }
 
       ref = actionTable[i];

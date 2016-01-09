@@ -39,10 +39,13 @@ private:
   static bool loadControlsLuaMethodFromFile(const std::string& file); 
 
   static void setControlsFromLuaTable(const luabridge::LuaRef& ref,
+                                      const lwe::GameEngine* lwe,
                                       const std::string& action,
                                       int playerNum,
                                       lwe::EventCondition& condition);
-  static void setControl(lwe::EventCondition&,
+  static void setControl(int player,
+                         const lwe::GameEngine*,
+                         lwe::EventCondition&,
                          const std::string& referencekey,
                          const std::string& keyname);
 

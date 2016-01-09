@@ -71,27 +71,17 @@ function getControls(numOfPlayers, player, controllers)
     controls[1]["down"][2] = "controller_down"
     controls[1]["right"][2] = "controller_right"
     controls[1]["stop"][2] = "controller_a"
-  elseif numOfPlayers == 2 then
-    if controllers > 0 then
-      controls[1] = controllerControls
-      controls[2] = keyControls[1]
-      controls[2]["stop"] = {"space"} -- exception
-    else
-      controls[1] = keyControls[1]
-      controls[2] = keyControls[2]
+  elseif numOfPlayers > 1 then
+    for i=1,controllers do
+      controls[i] = controllerControls
     end
-  elseif numOfPlayers > 2 then
-    if controllers > 0 then
-      controls[1] = controllerControls
-      controls[2] = keyControls[1]
-      controls[3] = keyControls[2]
-      controls[4] = keyControls[3]
-    else
-      controls[1] = keyControls[1]
-      controls[2] = keyControls[2]
-      controls[3] = keyControls[3]
-      controls[4] = keyControls[4]
+    for i=controllers+1,4 do
+      controls[i] = keyControls[i - controllers]
     end
+  end
+  
+  if numOfPlayers > 1 and numOfPlayers - controllers == 1 then
+    controls[controllers + 1]["stop"] = {"space"} -- exception
   end
 
   lwr.debug("Returning controls for player " .. player)
