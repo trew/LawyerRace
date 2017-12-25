@@ -14,6 +14,8 @@ extern "C"
 
 #include <LuaBridge/LuaBridge.h>
 
+#include <json/json.hpp>
+
 Config::Config()
 {
   rockWidth[0] = 17.f;
@@ -51,112 +53,114 @@ Uint8 getValueIfBetweenOrDefault(Uint8 value, Uint8 low, Uint8 high, Uint8 def)
 
 bool Config::loadConfigFile()
 {
-  LOG_DEBUG("---PARSING CONFIG---");
-  const std::string& _file = this->configFile;
+	const std::string& configFileName = this->configFile;
 
-  lua_State* L = LuaHelper::getInstance().getState();
-  LOG_DEBUG("Reading \"%s\"", _file.c_str());
-  if (!LuaHelper::getInstance().load(_file))
-  {
-    LOG_ERROR("Couldn't read config file %s", _file);
-    return false;
-  }
+	LOG_DEBUG("Parsing Config file %s", configFileName.c_str());
 
-  using namespace luabridge;
+	std::ifstream i(configFileName.c_str());
 
-  LuaRef config = getGlobal(L, "config");
-  if (config.isTable())
-  {
-    if (config["maxEnemyCount"].isNumber())
-    {
-      maxEnemyCount = config["maxEnemyCount"].cast<int>();
-    }
-    if (config["enemyCountBeforeRocks"].isNumber())
-    {
-      enemyCountBeforeRocks = config["enemyCountBeforeRocks"].cast<int>();
-    }
-    if (config["maxRocks"].isNumber())
-    {
-      maxRockCount = config["maxRocks"].cast<int>();
-    }
-    if (config["disableStop"].isBool())
-    {
-      playerStopEnabled = !config["disableStop"].cast<bool>();
-    }
+	// load the json
+	nlohmann::json config;
+	try
+	{
+		i >> config;
+	}
+	catch (const nlohmann::detail::parse_error& e)
+	{
+		LOG_ERROR("Error parsing config file: %s", e.what());
+		return false;
+	}
 
-    LuaRef velocity = config["velocity"];
-    if (velocity.isTable())
-    {
-      if (velocity["gameSpeed"].isNumber())
-      {
-        gameSpeed = velocity["gameSpeed"].cast<float>();
-      }
-      if (velocity["player"].isNumber())
-      {
-        playerVelocity = velocity["player"].cast<float>();
-      }
-      if (velocity["enemy"].isNumber())
-      {
-        enemyVelocity = velocity["enemy"].cast<float>();
-      }
+	if (config["maxEnemy"].is_number())
+	{
+		maxEnemyCount = config["maxEnemy"].get<int>();
+	}
+	if (config["enemyCountBeforeRocks"].is_number())
+	{
+		enemyCountBeforeRocks = config["enemyCountBeforeRocks"].get<int>();
+	}
+	if (config["maxRocks"].is_number())
+	{
+		maxRockCount = config["maxRocks"].get<int>();
+	}
+	if (config["disableStop"].is_boolean())
+	{
+		playerStopEnabled = !config["disableStop"].get<bool>();
+	}
 
-      LuaRef rocks = velocity["rocks"];
-      if (rocks.isTable())
-      {
-        if (rocks["small"].isNumber())
-        {
-          rockVelocity[0] = rocks["small"].cast<float>();
-        }
-        if (rocks["medium"].isNumber())
-        {
-          rockVelocity[1] = rocks["medium"].cast<float>();
-        }
-        if (rocks["large"].isNumber())
-        {
-          rockVelocity[2] = rocks["large"].cast<float>();
-        }
-      }
-    }
+	nlohmann::json velocity = config["velocity"];
+	if (velocity.is_object())
+	{
+		if (velocity["gameSpeed"].is_number())
+		{
+			gameSpeed = velocity["gameSpeed"].get<float>();
+		}
+		if (velocity["player"].is_number())
+		{
+			playerVelocity = velocity["player"].get<float>();
+		}
+		if (velocity["enemy"].is_number())
+		{
+			enemyVelocity = velocity["enemy"].get<float>();
+		}
 
-    LuaRef bg = config["backgroundColor"];
-    if (bg.isTable())
-    {
-      luabridge::LuaRef r = bg[1];
-      luabridge::LuaRef g = bg[2];
-      luabridge::LuaRef b = bg[3];
+		nlohmann::json rocks = velocity["rocks"];
+		if (rocks.is_object())
+		{
+			if (rocks["small"].is_number())
+			{
+				rockVelocity[0] = rocks["small"].get<float>();
+			}
+			if (rocks["medium"].is_number())
+			{
+				rockVelocity[1] = rocks["medium"].get<float>();
+			}
+			if (rocks["large"].is_number())
+			{
+				rockVelocity[2] = rocks["large"].get<float>();
+			}
+		}
+	}
 
-      if (r.isNumber())
-      {
-        backgroundColor.r = getValueIfBetweenOrDefault(r.cast<int>(), 0, 255, backgroundColor.r);
-      }
+	nlohmann::json bg = config["backgroundColor"];
+	if (bg.is_array())
+	{
+		nlohmann::json r = bg[0];
+		nlohmann::json g = bg[1];
+		nlohmann::json b = bg[2];
 
-      if (g.isNumber())
-      {
-        backgroundColor.g = getValueIfBetweenOrDefault(g.cast<int>(), 0, 255, backgroundColor.g);
-      }
+		if (r.is_number())
+		{
+			backgroundColor.r = getValueIfBetweenOrDefault(r.get<int>(), 0, 255, backgroundColor.r);
+		}
 
-      if (b.isNumber())
-      {
-        backgroundColor.b = getValueIfBetweenOrDefault(b.cast<int>(), 0, 255, backgroundColor.b);
-      }
-    }
+		if (g.is_number())
+		{
+			backgroundColor.g = getValueIfBetweenOrDefault(g.get<int>(), 0, 255, backgroundColor.g);
+		}
 
-    LuaRef system = config["system"];
-    if (system.isTable())
-    {
-      LuaRef res = system["resolution"];
-      if (res.isTable())
-      {
-        if (res["width"].isNumber()&& res["height"].isNumber())
-        {
-          windowWidth = res["width"].cast<int>();
-          windowHeight = res["height"].cast<int>();
-        }
-      }
-    }
-  }
-  LOG_DEBUG("---PARSING CONFIG DONE!---");
-  return true;
+		if (b.is_number())
+		{
+			backgroundColor.b = getValueIfBetweenOrDefault(b.get<int>(), 0, 255, backgroundColor.b);
+		}
+	}
+
+
+	nlohmann::json system = config["system"];
+	if (system.is_object())
+	{
+		nlohmann::json res = system["resolution"];
+		if (res.is_object())
+		{
+			if (res["width"].is_number() && res["height"].is_number())
+			{
+				windowWidth = res["width"].get<int>();
+				windowHeight = res["height"].get<int>();
+			}
+		}
+	}
+
+	return true;
 }
 
 std::string Config::validateConfigFile(const std::string& _file)

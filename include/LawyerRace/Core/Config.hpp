@@ -102,7 +102,7 @@ private:
 
 private:
   std::string path;
-  std::string configFile { "cfg/med.lua" };
+  std::string configFile { "cfg/config.json" };
   std::string controlsFile { "cfg/controls.lua" };
 
   std::string windowText { "Lawyer Race" };
