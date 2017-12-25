@@ -85,9 +85,6 @@ bool parseCommandLine(int argc, char* argv[])
     }
   }
 
-  LOG_DEBUG("Using controls from %s", config.getControlsFile().c_str());
-  PlayerControls::initialize();
-
   return true;
 }
 
@@ -122,6 +119,9 @@ int main(int argc, char* argv[])
   settings.EntityInterpolationEnabled = config.isLinearInterpolationEnabled();
 
   lwe::GameEngine engine(settings, lr);
+
+  LOG_DEBUG("Using controls from %s", config.getControlsFile().c_str());
+  PlayerControls::initialize(&engine);
 
   try
   {

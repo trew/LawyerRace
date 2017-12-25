@@ -8,6 +8,8 @@
 #include <string>
 #include <map>
 
+#include <json/json.hpp>
+
 namespace luabridge
 {
   class LuaRef;
@@ -25,8 +27,8 @@ public:
   const lwe::EventCondition& getRight() const;
   const lwe::EventCondition& getStop() const;
 
-  static void initialize();
-  static const PlayerControls getControls(int player, const lwe::GameEngine*);
+  static void initialize(const lwe::GameEngine* engine);
+  static const PlayerControls& getControls(int player, const lwe::GameEngine*);
 
 private:
   lwe::EventCondition up;
@@ -36,22 +38,25 @@ private:
   lwe::EventCondition stop;
 
 private:
-  static bool loadControlsLuaMethodFromFile(const std::string& file); 
+  static std::vector<PlayerControls> loadControlsFromJsonFile(const std::string& _file, const std::list<SDL_GameController*>& controllers, const std::map<SDL_GameController*, int>& controllerToDeviceId);
 
-  static void setControlsFromLuaTable(const luabridge::LuaRef& ref,
-                                      const lwe::GameEngine* lwe,
-                                      const std::string& action,
-                                      int playerNum,
-                                      lwe::EventCondition& condition);
+  static void setControl(const nlohmann::json& entry,
+                         const std::string& key,
+                         const int& player,
+                         lwe::EventCondition& condition,
+                         const std::list<SDL_GameController*>& controllers,
+                         const std::map<SDL_GameController*, int>& controllerToDeviceId);
+  
   static void setControl(int player,
-                         const lwe::GameEngine*,
-                         lwe::EventCondition&,
-                         const std::string& referencekey,
+                         const std::list<SDL_GameController*>& controllers,
+                         const std::map<SDL_GameController*, int>& controllerToDeviceId,
+                         lwe::EventCondition& condition,
                          const std::string& keyname);
 
-  static bool initialized;
+
   static std::map<std::string, SDL_Keycode> __keymap;
   static std::map<std::string, SDL_GameControllerButton> __gameControllerMap;
+  static std::vector<PlayerControls> __controls;
 };
 
 #endif

@@ -1,15 +1,14 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Core/LawyerRace.hpp>
 #include <LawyerRace/Core/PlayerControls.hpp>
-#include <LawyerRace/Core/LuaHelper.hpp>
 #include <LawyerRace/Core/Config.hpp>
 #include <fstream>
 
-#include <LuaBridge/LuaBridge.h>
+#include <json/json.hpp>
 
 std::map<std::string, SDL_Keycode> PlayerControls::__keymap;
 std::map<std::string, SDL_GameControllerButton> PlayerControls::__gameControllerMap;
-bool PlayerControls::initialized = false;
+std::vector<PlayerControls> PlayerControls::__controls;
 
 PlayerControls::PlayerControls()
 {
@@ -19,13 +18,8 @@ PlayerControls::~PlayerControls()
 {
 }
 
-void PlayerControls::initialize()
+void PlayerControls::initialize(const lwe::GameEngine* const engine)
 {
-  if (initialized)
-  {
-    return;
-  }
-
   LOG_DEBUG("Setting up keymap...");
   __keymap["up"] = SDLK_UP;
   __keymap["down"] = SDLK_DOWN;
@@ -72,8 +66,12 @@ void PlayerControls::initialize()
   __gameControllerMap["guide"] = SDL_CONTROLLER_BUTTON_GUIDE;
   __gameControllerMap["start"] = SDL_CONTROLLER_BUTTON_START;
 
-  loadControlsLuaMethodFromFile(Config::getInstance().getControlsFile());
-  initialized = true;
+  std::map<SDL_GameController*, Sint32> deviceToId;
+  for (SDL_GameController* controller : engine->getControllers())
+  {
+    deviceToId[controller] = engine->getControllerDeviceID(controller);
+  }
+  __controls = loadControlsFromJsonFile(Config::getInstance().getControlsFile(), engine->getControllers(), deviceToId);
 }
 
 inline bool inrange(int x, int a, int b)
@@ -104,9 +102,9 @@ inline bool in(int x, int list[])
  * Referencekey is used for debugging
  */
 void PlayerControls::setControl(const int player,
-                                const lwe::GameEngine* engine,
+                                const std::list<SDL_GameController*>& controllers,
+                                const std::map<SDL_GameController*, Sint32>& controllerToDeviceId,
                                 lwe::EventCondition& condition,
-                                const std::string& referencekey,
                                 const std::string& keyname)
 {
   std::string controllerKeyName = "";
@@ -121,6 +119,7 @@ void PlayerControls::setControl(const int player,
      * see SDL_keysym.h for values mapped to SDL keys.
     */
 
+    // TODO make this an "isValidAscii" method
     int comparekey = keyname[0];
     int customvalues[6] = {8,9,12,13,19,27};
     if (inrange(comparekey,91,127) || inrange(comparekey, 32, 64) || in(comparekey, customvalues))
@@ -134,7 +133,7 @@ void PlayerControls::setControl(const int player,
   }
   else if (__gameControllerMap.find(controllerKeyName) != __gameControllerMap.end())
   {
-    auto it = engine->getControllers().begin();
+    auto it = controllers.begin();
     for (int i = 0; i < player; ++i)
     {
       it++;
@@ -142,70 +141,95 @@ void PlayerControls::setControl(const int player,
 
     auto controller = (*it);
     
-    int device = engine->getControllerDeviceID(controller);
+    int device = controllerToDeviceId.at(controller);
     condition.addTrigger(std::make_shared<lwe::GameControllerButtonTrigger>(device, __gameControllerMap[controllerKeyName], true));
   }
 
   if (!condition.hasTriggers())
   {
-    LOG_ERROR("%s was not set.", referencekey.c_str());
+    LOG_ERROR("%s was not set.", keyname.c_str());
   }
 }
 
-const PlayerControls PlayerControls::getControls(const int player, const lwe::GameEngine* lwe)
+const PlayerControls& PlayerControls::getControls(const int player, const lwe::GameEngine* lwe)
 {
-  lua_State* L = LuaHelper::getInstance().getState();
-  luabridge::LuaRef getControls = luabridge::getGlobal(L, "getControls");
-
-  PlayerControls controls;
-
-  int controllers = (int)lwe->getControllers().size();
-  luabridge::LuaRef table = getControls(Config::getInstance().getPlayerCount(), player + 1, controllers);
-
-  setControlsFromLuaTable(table, lwe, "up", player, controls.up);
-  setControlsFromLuaTable(table, lwe, "left", player, controls.left);
-  setControlsFromLuaTable(table, lwe, "down", player, controls.down);
-  setControlsFromLuaTable(table, lwe, "right", player, controls.right);
-  setControlsFromLuaTable(table, lwe, "stop", player, controls.stop);
-
-  return controls;
+  return PlayerControls::__controls.at(player);
 }
 
-void PlayerControls::setControlsFromLuaTable(const luabridge::LuaRef& table,
-                                             const lwe::GameEngine* lwe,
-                                             const std::string& action,
-                                             const int playerNum,
-                                             lwe::EventCondition& condition)
+void PlayerControls::setControl(const nlohmann::json& entry,
+                                const std::string& key,
+                                const int& player,
+                                lwe::EventCondition& condition,
+                                const std::list<SDL_GameController*>& controllers,
+                                const std::map<SDL_GameController*, int>& controllerToDeviceId)
 {
-  if (table[action].isTable())
+  if (entry[key].is_string())
   {
-    luabridge::LuaRef actionTable = table[action];
-    luabridge::LuaRef ref = actionTable[1];
-
-    for (int i = 2; !ref.isNil(); i++)
+    setControl(player, controllers, controllerToDeviceId, condition, entry[key].get<std::string>());
+  }
+  else
+  {
+    if (entry[key].is_null())
     {
-      if (ref.isString())
-      {
-        setControl(playerNum, lwe, condition, "player" + std::to_string(playerNum) + "." + action, ref.cast<std::string>());
-      }
-
-      ref = actionTable[i];
+      LOG_ERROR("%s is not present", key);
+    }
+    else
+    {
+      LOG_ERROR("%s is not a string", key);
     }
   }
 }
 
-bool PlayerControls::loadControlsLuaMethodFromFile(const std::string& _file)
+std::vector<PlayerControls> PlayerControls::loadControlsFromJsonFile(const std::string& _file,
+                                                                     const std::list<SDL_GameController*>& controllers,
+                                                                     const std::map<SDL_GameController*, int>& controllerToDeviceId)
 {
-  LOG_DEBUG("---PARSING KEYSET FILE---");
-  std::string file = Config::getInstance().getFile(_file);
+	std::string file = Config::getInstance().getFile(_file);
 
-  if (!LuaHelper::getInstance().load(file))
+	using json = nlohmann::json;
+
+	std::vector<PlayerControls> controlsVector;
+	json j;
+	try
+	{
+		std::ifstream i(file);
+		i >> j;
+	}
+	catch (const nlohmann::detail::parse_error& e)
+	{
+		LOG_ERROR("Error parsing controls json: %s", e.what());
+		return controlsVector;
+	}
+
+  if (j.is_array())
   {
-    LOG_ERROR("Error loading Lua file: %s", file.c_str());
-    return false;
+    for (const json& entry : j)
+    {
+      int player = controlsVector.size();
+      if (entry.is_object())
+      {
+        PlayerControls controls;
+
+        setControl(entry, "up", player, controls.up, controllers, controllerToDeviceId);
+        setControl(entry, "left", player, controls.left, controllers, controllerToDeviceId);
+        setControl(entry, "down", player, controls.down, controllers, controllerToDeviceId);
+        setControl(entry, "right", player, controls.right, controllers, controllerToDeviceId);
+        setControl(entry, "stop", player, controls.stop, controllers, controllerToDeviceId);
+
+        controlsVector.push_back(controls);
+      }
+      else
+      {
+        LOG_ERROR("Entry in controls array must be a json object.");
+      }
+    }
+  }
+  else
+  {
+    LOG_ERROR("Controls configuration is not an array.");
   }
 
-  return true;
+	return controlsVector;
 }
 
 const lwe::EventCondition& PlayerControls::getUp() const
