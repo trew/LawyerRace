@@ -125,12 +125,12 @@ void PlayerControls::setControl(const int player,
     int customvalues[6] = {8,9,12,13,19,27};
     if (inrange(comparekey,91,127) || inrange(comparekey, 32, 64) || in(comparekey, customvalues))
     { //if valid ascii
-      condition.addTrigger(new lwe::KeyboardTrigger(comparekey, true));
+      condition.addTrigger(std::make_shared<lwe::KeyboardTrigger>(comparekey, true));
     }
   }
   else if (__keymap.find(keyname) != __keymap.end())
   {
-    condition.addTrigger(new lwe::KeyboardTrigger(__keymap[keyname], true));
+    condition.addTrigger(std::make_shared<lwe::KeyboardTrigger>(__keymap[keyname], true));
   }
   else if (__gameControllerMap.find(controllerKeyName) != __gameControllerMap.end())
   {
@@ -143,7 +143,7 @@ void PlayerControls::setControl(const int player,
     auto controller = (*it);
     
     int device = engine->getControllerDeviceID(controller);
-    condition.addTrigger(new lwe::GameControllerButtonTrigger(device, __gameControllerMap[controllerKeyName], true));
+    condition.addTrigger(std::make_shared<lwe::GameControllerButtonTrigger>(device, __gameControllerMap[controllerKeyName], true));
   }
 
   if (!condition.hasTriggers())

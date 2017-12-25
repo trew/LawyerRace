@@ -16,13 +16,13 @@ GameState::GameState()
   m_player[2] = NULL;
   m_player[3] = NULL;
 
-  pausedExitToMainMenuCondition.addTrigger(new lwe::KeyboardTrigger(SDLK_ESCAPE));
-  pausedExitToMainMenuCondition.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_B));
+  pausedExitToMainMenuCondition.addTrigger(std::make_shared<lwe::KeyboardTrigger>(SDLK_ESCAPE));
+  pausedExitToMainMenuCondition.addTrigger(std::make_shared<lwe::GameControllerButtonTrigger>(SDL_CONTROLLER_BUTTON_B));
 
-  gameOverExitToMainMenuCondition.addTrigger(new lwe::KeyboardTrigger(SDLK_RETURN));
-  gameOverExitToMainMenuCondition.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_A));
-  pauseCondition.addTrigger(new lwe::KeyboardTrigger(SDLK_PAUSE, true));
-  pauseCondition.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_START, true));
+  gameOverExitToMainMenuCondition.addTrigger(std::make_shared<lwe::KeyboardTrigger>(SDLK_RETURN));
+  gameOverExitToMainMenuCondition.addTrigger(std::make_shared<lwe::GameControllerButtonTrigger>(SDL_CONTROLLER_BUTTON_A));
+  pauseCondition.addTrigger(std::make_shared<lwe::KeyboardTrigger>(SDLK_PAUSE, true));
+  pauseCondition.addTrigger(std::make_shared<lwe::GameControllerButtonTrigger>(SDL_CONTROLLER_BUTTON_START, true));
 }
 
 bool GameState::init()

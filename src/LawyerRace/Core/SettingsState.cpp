@@ -3,8 +3,8 @@
 
 SettingsState::SettingsState()
 {
-  back.addTrigger(new lwe::KeyboardTrigger(SDLK_ESCAPE));
-  back.addTrigger(new lwe::GameControllerButtonTrigger(SDL_CONTROLLER_BUTTON_B));
+  back.addTrigger(std::make_shared<lwe::KeyboardTrigger>(SDLK_ESCAPE));
+  back.addTrigger(std::make_shared<lwe::GameControllerButtonTrigger>(SDL_CONTROLLER_BUTTON_B));
 }
 
 SettingsState::~SettingsState()
