@@ -1,18 +1,8 @@
 #include <LawyerEngine/LawyerEngine.hpp>
 #include <LawyerRace/Core/LawyerRace.hpp>
 #include <LawyerRace/Core/Config.hpp>
-#include <LawyerRace/Core/LuaHelper.hpp>
 #include <iostream>
 #include <fstream>
-
-extern "C"
-{
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
-#include <LuaBridge/LuaBridge.h>
 
 #include <json/json.hpp>
 

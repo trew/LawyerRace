@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="LuaBridge">
-      <UniqueIdentifier>{c8ff9fdd-8980-4cdc-9119-9516ef9d3d75}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TinyXML">
       <UniqueIdentifier>{128361a0-5c5d-45aa-888b-2d60e453e898}</UniqueIdentifier>
     </Filter>
@@ -74,64 +71,10 @@
     <ClCompile Include="..\..\src\LawyerRace\Core\SettingsState.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LawyerRace\Core\LuaHelper.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\TinyXML\tinyxml2.h">
       <Filter>TinyXML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\CFunctions.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\ClassInfo.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\Constructor.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\dump.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\FuncTraits.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\Iterator.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\LuaException.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\LuaHelpers.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\LuaRef.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\Namespace.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\Stack.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\TypeList.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\TypeTraits.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\detail\Userdata.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\LuaBridge.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\RefCountedObject.h">
-      <Filter>LuaBridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LuaBridge\RefCountedPtr.h">
-      <Filter>LuaBridge</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp">
       <Filter>Header Files\Core</Filter>
@@ -170,9 +113,6 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\LawyerRace\Core\SettingsState.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\LawyerRace\Core\LuaHelper.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\json\json.hpp">

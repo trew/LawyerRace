@@ -7,14 +7,6 @@
 #include <LawyerRace/Core/SettingsState.hpp>
 #include <memory>
 
-extern "C"
-{
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
-
 class LawyerRace : public lwe::Game
 {
 public:

@@ -14,7 +14,6 @@
     <ClCompile Include="..\..\include\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\Config.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\GameState.cpp" />
-    <ClCompile Include="..\..\src\LawyerRace\Core\LuaHelper.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\PlayerControls.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\LawyerRace.cpp" />
     <ClCompile Include="..\..\src\LawyerRace\Core\main.cpp" />
@@ -31,7 +30,6 @@
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp" />
-    <ClInclude Include="..\..\include\LawyerRace\Core\LuaHelper.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\PlayerControls.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\LawyerRace.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\MenuState.hpp" />
@@ -42,23 +40,6 @@
     <ClInclude Include="..\..\include\LawyerRace\Entity\Player.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Entity\Rock.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Utils\PositionHelper.hpp" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\CFunctions.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\ClassInfo.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\Constructor.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\dump.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\FuncTraits.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\Iterator.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\LuaException.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\LuaHelpers.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\LuaRef.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\Namespace.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\Stack.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\TypeList.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\TypeTraits.h" />
-    <ClInclude Include="..\..\include\LuaBridge\detail\Userdata.h" />
-    <ClInclude Include="..\..\include\LuaBridge\LuaBridge.h" />
-    <ClInclude Include="..\..\include\LuaBridge\RefCountedObject.h" />
-    <ClInclude Include="..\..\include\LuaBridge\RefCountedPtr.h" />
     <ClInclude Include="..\..\include\TinyXML\tinyxml2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -94,7 +75,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <SourcePath>$(ProjectDir)..\..\src;$(VS_SourcePath)</SourcePath>
-    <IncludePath>$(ProjectDir)..\..\include;$(LUA_PATH)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -122,8 +103,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(LWE_PATH)\lib\;$(LUA_PATH)\;$(SDL2_PATH)\lib\x86\;$(SDL2_TTF_PATH)\lib\x86\;$(SDL2_IMAGE_PATH)\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;lua52.lib;LawyerEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LWE_PATH)\lib\;$(SDL2_PATH)\lib\x86\;$(SDL2_TTF_PATH)\lib\x86\;$(SDL2_IMAGE_PATH)\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;LawyerEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>
