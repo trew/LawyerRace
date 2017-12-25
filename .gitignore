@@ -14,3 +14,4 @@ Debug/
 Release/
 *.sdf
 build/*.exe
+.vs/
