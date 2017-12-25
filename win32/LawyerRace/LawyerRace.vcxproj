@@ -27,6 +27,7 @@
     <ClCompile Include="..\..\src\LawyerRace\Entity\Rock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\json\json.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\AbstractState.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\Config.hpp" />
     <ClInclude Include="..\..\include\LawyerRace\Core\GameState.hpp" />
