@@ -65,7 +65,7 @@ bool MenuState::init()
   playersButtons[2]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[2]->getWidth()));
   playersButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), playersButtons[3]->getWidth()));
 
-  lwe::Button::createVerticalButtonGroup({playersButtons[0].get(), playersButtons[1].get(), playersButtons[2].get(), playersButtons[3].get()});
+  lwe::Button::createVerticalButtonGroup({playersButtons[0], playersButtons[1], playersButtons[2], playersButtons[3]});
 
   lwe::TextureRegion* menuBorderRegion = atlas->findRegion("mainmenu-menuframe-453x469");
   lwe::TextureRegion* titleRegion = atlas->findRegion("menu-title");
@@ -116,7 +116,7 @@ bool MenuState::init()
   menuButtons[3]->setX(positionHelper::centerHorizontal(0.f, (float)config.getGameWidth(), menuButtons[3]->getWidth()));
 
 
-  lwe::Button::createVerticalButtonGroup({menuButtons[0].get(), menuButtons[1].get(), menuButtons[2].get(), menuButtons[3].get()});
+  lwe::Button::createVerticalButtonGroup({menuButtons[0], menuButtons[1], menuButtons[2], menuButtons[3]});
 
   rockRegion[0] = atlas->findRegion("stone1-17x14");
   rockRegion[1] = atlas->findRegion("stone2-26x25");
