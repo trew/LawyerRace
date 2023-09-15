@@ -171,11 +171,11 @@ void PlayerControls::setControl(const nlohmann::json& entry,
   {
     if (entry[key].is_null())
     {
-      LOG_ERROR("%s is not present", key);
+      LOG_ERROR("%s is not present", key.c_str());
     }
     else
     {
-      LOG_ERROR("%s is not a string", key);
+      LOG_ERROR("%s is not a string", key.c_str());
     }
   }
 }

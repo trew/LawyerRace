@@ -11,7 +11,7 @@
 #define TCLAP_FLAGSTARTSTRING "/"
 #endif
 
-#include <tclap\CmdLine.h>
+#include <tclap/CmdLine.h>
 
 bool parseCommandLine(int argc, char* argv[])
 {

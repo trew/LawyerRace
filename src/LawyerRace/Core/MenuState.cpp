@@ -181,7 +181,7 @@ void MenuState::copyDataForInterpolation()
 void MenuState::update(float timeStep)
 {
   Config& config = Config::getInstance();
-  for (auto& it = rocks.begin(); it != rocks.end(); )
+  for (auto it = rocks.begin(); it != rocks.end(); )
   {
     (*it)->update(timeStep);
 

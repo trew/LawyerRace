@@ -13,5 +13,7 @@ ipch/
 Debug/
 Release/
 *.sdf
-build/*.exe
 .vs/
+
+build/
+CMakeUserPresets.json
